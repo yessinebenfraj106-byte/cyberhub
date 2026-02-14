@@ -7,7 +7,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         :root { --primary: #00a8ff; --dark: #050a12; --card: #0d141f; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding-bottom: 50px; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding-bottom: 80px; }
         .navbar { padding: 30px; text-align: center; border-bottom: 1px solid #1e293b; }
         .logo { width: 100px; height: auto; margin-bottom: 10px; }
         .container { max-width: 500px; margin: auto; padding: 0 15px; }
@@ -20,6 +20,8 @@
         .modal-content { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--primary); text-align: center; }
         input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #1e293b; background: #050a12; color: white; box-sizing: border-box; }
         .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .contact-btn { display: block; background: #bc1888; color: white; text-align: center; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 30px; transition: 0.3s; }
+        .contact-btn:hover { background: #e1306c; }
         #successMessage { display: none; }
     </style>
 </head>
@@ -31,22 +33,17 @@
 
     <div class="container">
         <div class="intro-box">
-            Choisissez un service et nous vous contacterons sur Instagram pour finaliser le paiement et la livraison.
+            Choisissez un service et nous vous contacterons pour finaliser votre commande.
         </div>
 
         <div class="section-title">🎮 Gaming Top-Ups</div>
         <div class="product-card" onclick="openModal('Fortnite 1000 V-Bucks', '35 DT')"><span>Fortnite 1000 V-Bucks</span><span class="price">35 DT</span></div>
-        <div class="product-card" onclick="openModal('Rocket League 1000 Credits', '34 DT')"><span>Rocket League 1000 Credits</span><span class="price">34 DT</span></div>
         <div class="product-card" onclick="openModal('FC 26 Points 1050', '50 DT')"><span>FC 26 Points (1050 PC)</span><span class="price">50 DT</span></div>
-        <div class="product-card" onclick="openModal('Free Fire 110 Diamonds', '9 DT')"><span>Free Fire 110 Diamonds</span><span class="price">9 DT</span></div>
 
         <div class="section-title">🤖 AI Premium Accounts</div>
         <div class="product-card" onclick="openModal('Gemini AI Pro 1 Mois', '25 DT')"><span>Gemini AI Pro (1 Mois)</span><span class="price">25 DT</span></div>
-        <div class="product-card" onclick="openModal('ChatGPT Plus 1 Mois', '25 DT')"><span>ChatGPT Plus (1 Mois)</span><span class="price">25 DT</span></div>
 
-        <div class="section-title">🎬 Creative & Editing</div>
-        <div class="product-card" onclick="openModal('Adobe Creative Cloud 12 Mois', '70 DT')"><span>Adobe Creative Cloud (12 Mois)</span><span class="price">70 DT</span></div>
-        <div class="product-card" onclick="openModal('Capcut Pro 1 Mois', '23 DT')"><span>Capcut Pro (1 Mois)</span><span class="price">23 DT</span></div>
+        <a href="https://instagram.com/__cyber__hub__" class="contact-btn">Contact us on Instagram 📸</a>
     </div>
 
     <div id="orderModal">
@@ -61,11 +58,10 @@
                     <button type="button" onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:10px; cursor:pointer; width:100%">Annuler</button>
                 </form>
             </div>
-            
             <div id="successMessage">
                 <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
                 <h3>Commande Reçue !</h3>
-                <p style="color: #8b949e;">Merci ! Nous allons vous contacter très bientôt sur Instagram pour finaliser votre achat.</p>
+                <p style="color: #8b949e;">Nous allons vous contacter très bientôt sur Instagram.</p>
                 <button onclick="closeModal()" class="submit-btn">Fermer</button>
             </div>
         </div>
@@ -73,7 +69,6 @@
 
     <script>
         (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); 
-
         function openModal(n, p) { 
             document.getElementById('formContainer').style.display = 'block';
             document.getElementById('successMessage').style.display = 'none';
@@ -81,15 +76,9 @@
             document.getElementById('pName').value = n + " (" + p + ")";
             document.getElementById('orderModal').style.display = 'flex'; 
         }
-
         function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
-
         document.getElementById('orderForm').onsubmit = function(e) {
             e.preventDefault();
-            const submitBtn = e.target.querySelector('.submit-btn');
-            submitBtn.innerText = "Envoi en cours...";
-            submitBtn.disabled = true;
-
             emailjs.send("service_default", "template_r8b7yaf", { 
                 product_name: document.getElementById('pName').value,
                 customer_phone: document.getElementById('uPhone').value,
@@ -97,11 +86,6 @@
             }).then(() => {
                 document.getElementById('formContainer').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
-                submitBtn.innerText = "Confirmer la Commande";
-                submitBtn.disabled = false;
-            }, (error) => {
-                alert("Erreur lors de l'envoi. Veuillez réessayer.");
-                submitBtn.disabled = false;
             });
         };
     </script>
