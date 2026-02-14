@@ -11,15 +11,16 @@
         .navbar { padding: 30px; text-align: center; border-bottom: 1px solid #1e293b; }
         .logo { width: 100px; height: auto; margin-bottom: 10px; }
         .container { max-width: 500px; margin: auto; padding: 0 15px; }
-        .payment-box { background: rgba(0,168,255,0.1); border: 2px dashed var(--primary); border-radius: 15px; padding: 20px; text-align: center; margin: 20px 0; }
+        .intro-box { background: rgba(0,168,255,0.1); border: 1px solid var(--primary); border-radius: 15px; padding: 15px; text-align: center; margin: 20px 0; font-size: 0.9rem; color: #8b949e; }
         .section-title { color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 10px; border-bottom: 1px solid #1e293b; padding-bottom: 5px; }
         .product-card { background: var(--card); border: 1px solid #1e293b; border-radius: 12px; padding: 12px 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
         .product-card:hover { border-color: var(--primary); transform: translateX(5px); }
         .price { color: var(--primary); font-weight: bold; }
         #orderModal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--primary); }
+        .modal-content { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--primary); text-align: center; }
         input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #1e293b; background: #050a12; color: white; box-sizing: border-box; }
         .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        #successMessage { display: none; }
     </style>
 </head>
 <body>
@@ -29,10 +30,8 @@
     </div>
 
     <div class="container">
-        <div class="payment-box">
-            <div style="background:#e91e63; display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:bold;">D17 WALLET</div>
-            <div style="font-size: 1.6rem; font-weight: bold; margin: 10px 0;">21 357 058</div>
-            <p style="font-size: 0.8rem; color: #8b949e;">Envoyez le paiement et le screenshot à <b>@__cyber__hub__</b></p>
+        <div class="intro-box">
+            Choisissez un service et nous vous contacterons sur Instagram pour finaliser le paiement et la livraison.
         </div>
 
         <div class="section-title">🎮 Gaming Top-Ups</div>
@@ -44,27 +43,31 @@
         <div class="section-title">🤖 AI Premium Accounts</div>
         <div class="product-card" onclick="openModal('Gemini AI Pro 1 Mois', '25 DT')"><span>Gemini AI Pro (1 Mois)</span><span class="price">25 DT</span></div>
         <div class="product-card" onclick="openModal('ChatGPT Plus 1 Mois', '25 DT')"><span>ChatGPT Plus (1 Mois)</span><span class="price">25 DT</span></div>
-        <div class="product-card" onclick="openModal('ChatGPT GO 1 Mois', '22 DT')"><span>ChatGPT GO (1 Mois)</span><span class="price">22 DT</span></div>
 
         <div class="section-title">🎬 Creative & Editing</div>
         <div class="product-card" onclick="openModal('Adobe Creative Cloud 12 Mois', '70 DT')"><span>Adobe Creative Cloud (12 Mois)</span><span class="price">70 DT</span></div>
         <div class="product-card" onclick="openModal('Capcut Pro 1 Mois', '23 DT')"><span>Capcut Pro (1 Mois)</span><span class="price">23 DT</span></div>
-
-        <div class="section-title">💳 Cards & Payments</div>
-        <div class="product-card" onclick="openModal('Visa/MasterCard International + 0$', '25 DT')"><span>Virtual Card Activation</span><span class="price">25 DT</span></div>
     </div>
 
     <div id="orderModal">
         <div class="modal-content">
-            <h3 id="modalProduct" style="margin-top:0">Order Item</h3>
-            <form id="orderForm">
-                <input type="hidden" id="pName">
-                <input type="email" id="uEmail" placeholder="Votre Email" required>
-                <input type="tel" id="uPhone" placeholder="Numéro de Téléphone" required>
-                <input type="text" id="uInsta" placeholder="Lien Profil Instagram" required>
-                <button type="submit" class="submit-btn">Confirmer la Commande</button>
-                <button type="button" onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:10px; cursor:pointer; width:100%">Annuler</button>
-            </form>
+            <div id="formContainer">
+                <h3 id="modalProduct" style="margin-top:0; color: var(--primary);">Order Item</h3>
+                <form id="orderForm">
+                    <input type="hidden" id="pName">
+                    <input type="tel" id="uPhone" placeholder="Numéro de Téléphone" required>
+                    <input type="text" id="uInsta" placeholder="Lien Profil Instagram" required>
+                    <button type="submit" class="submit-btn">Confirmer la Commande</button>
+                    <button type="button" onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:10px; cursor:pointer; width:100%">Annuler</button>
+                </form>
+            </div>
+            
+            <div id="successMessage">
+                <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
+                <h3>Commande Reçue !</h3>
+                <p style="color: #8b949e;">Merci ! Nous allons vous contacter très bientôt sur Instagram pour finaliser votre achat.</p>
+                <button onclick="closeModal()" class="submit-btn">Fermer</button>
+            </div>
         </div>
     </div>
 
@@ -72,6 +75,8 @@
         (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); 
 
         function openModal(n, p) { 
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
             document.getElementById('modalProduct').innerText = n; 
             document.getElementById('pName').value = n + " (" + p + ")";
             document.getElementById('orderModal').style.display = 'flex'; 
@@ -81,20 +86,22 @@
 
         document.getElementById('orderForm').onsubmit = function(e) {
             e.preventDefault();
-            const instaLink = document.getElementById('uInsta').value;
-            if (!instaLink.includes("instagram.com")) {
-                alert("Veuillez entrer un lien Instagram valide.");
-                return;
-            }
+            const submitBtn = e.target.querySelector('.submit-btn');
+            submitBtn.innerText = "Envoi en cours...";
+            submitBtn.disabled = true;
 
             emailjs.send("service_default", "template_r8b7yaf", { 
                 product_name: document.getElementById('pName').value,
-                customer_email: document.getElementById('uEmail').value,
                 customer_phone: document.getElementById('uPhone').value,
-                customer_instagram: instaLink
+                customer_instagram: document.getElementById('uInsta').value
             }).then(() => {
-                alert('Commande envoyée ! Payez via D17 au 21 357 058 et envoyez le screenshot sur @__cyber__hub__');
-                closeModal();
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                submitBtn.innerText = "Confirmer la Commande";
+                submitBtn.disabled = false;
+            }, (error) => {
+                alert("Erreur lors de l'envoi. Veuillez réessayer.");
+                submitBtn.disabled = false;
             });
         };
     </script>
