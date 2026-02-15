@@ -2,31 +2,36 @@
   "categories": [
     {
       "name": "Gaming",
-      "logo": "🎮",
+      "logo_url": "https://img.icons8.com/fluency/48/console.png",
       "subcategories": [
         {
-          "name": "Fortnite",
+          "name": "Fortnite (20% Cashback)",
           "items": [
             {"name": "1000 V-Bucks", "price": "35 DT"},
-            {"name": "2800 V-Bucks", "price": "70 DT"}
+            {"name": "2800 V-Bucks", "price": "70 DT"},
+            {"name": "5000 V-Bucks", "price": "105 DT"},
+            {"name": "13500 V-Bucks", "price": "200 DT"}
           ]
         },
         {
-          "name": "FC 26",
+          "name": "FC 26 (PC Only)",
           "items": [
-            {"name": "1050 Points (PC)", "price": "50 DT"}
+            {"name": "1050 points", "price": "50 DT"},
+            {"name": "2800 points", "price": "105 DT"}
           ]
         }
       ]
     },
     {
       "name": "AI Tools",
-      "logo": "🤖",
+      "logo_url": "https://img.icons8.com/fluency/48/artificial-intelligence.png",
       "subcategories": [
         {
-          "name": "ChatGPT",
+          "name": "ChatGPT & Gemini",
           "items": [
-            {"name": "ChatGPT Plus (1 Mo)", "price": "25 DT"}
+            {"name": "Gemini AI Pro (1 Mo)", "price": "25 DT"},
+            {"name": "ChatGPT Plus (1 Mo)", "price": "25 DT"},
+            {"name": "ChatGPT GO (1 Mo)", "price": "22 DT"}
           ]
         }
       ]
