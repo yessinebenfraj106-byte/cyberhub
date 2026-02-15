@@ -1,0 +1,24 @@
+{
+  "branding": {
+    "logo_url": "https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png",
+    "favicon": "https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png"
+  },
+  "category_icons": {
+    "games": "https://img.icons8.com/fluency/48/console.png",
+    "ai_tools": "https://img.icons8.com/fluency/48/artificial-intelligence.png",
+    "entertainment": "https://img.icons8.com/fluency/48/movie-beginning.png",
+    "social_media": "https://img.icons8.com/fluency/48/social-network.png",
+    "payments": "https://img.icons8.com/fluency/48/visa.png"
+  },
+  "app_icons": {
+    "fortnite": "https://img.icons8.com/color/48/fortnite.png",
+    "rocket_league": "https://img.icons8.com/color/48/rocket-league.png",
+    "fc26": "https://img.icons8.com/color/48/football--v1.png",
+    "free_fire": "https://img.icons8.com/color/48/garena-free-fire.png",
+    "chatgpt": "https://img.icons8.com/color/48/chatgpt.png",
+    "google": "https://img.icons8.com/color/48/google-logo.png",
+    "capcut": "https://img.icons8.com/color/48/video-editing.png",
+    "adobe": "https://img.icons8.com/color/48/adobe-creative-cloud.png",
+    "shein": "https://img.icons8.com/color/48/shopping-bag.png"
+  }
+}
