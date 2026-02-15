@@ -8,35 +8,39 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.8); --border: rgba(255,255,255,0.1); }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); --border: rgba(255,255,255,0.1); }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 60px; overflow-x: hidden; }
         
-        /* Particle Background */
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
-
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        
+        /* Header & Logo */
         .header { text-align: center; padding: 40px 0; }
         .logo { width: 110px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; }
         
-        /* Navigation & Cards */
+        /* Navigation */
         #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
         .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
+        .nav-card img { width: 45px; height: 45px; margin-bottom: 10px; }
         
-        /* Warnings */
-        .warning-box { background: rgba(234, 179, 8, 0.1); border: 1px solid #eab308; color: #fef08a; padding: 15px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 20px; line-height: 1.4; display: none; }
-
         /* Items */
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
         .price { color: var(--primary); font-weight: 800; }
         
-        /* Modal */
+        /* Warning Box */
+        .warning-box { background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; color: #fef08a; padding: 15px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; display: none; text-align: center; }
+
+        /* Modal & Form */
         #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; font-size: 1rem; outline: none; box-sizing: border-box;}
-        input:focus { border-color: var(--primary); }
-        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 10px; font-size: 1rem; }
+        
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; font-size: 1rem; outline: none; box-sizing: border-box; font-family: inherit; }
+        input:focus, select:focus { border-color: var(--primary); }
+        
+        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 1rem; }
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; }
     </style>
 </head>
 <body>
@@ -45,111 +49,104 @@
 
 <div class="container">
     <div class="header">
-        <img src="https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png" class="logo" alt="CyberHub">
+        <img src="" id="branding-logo" class="logo" alt="CyberHub">
         <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
     </div>
 
     <div id="view-title">Categories</div>
-    
     <div id="warning-area" class="warning-box"></div>
-
     <div id="content-area"></div>
 </div>
 
 <div id="modal">
     <div class="modal-content">
         <h3 id="modal-item-name" style="color: var(--primary); margin-top:0;">Product</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">Entrez vos infos pour commander.</p>
+        <p style="font-size: 0.85rem; color: #94a3b8;">Remplissez vos infos pour commander.</p>
         
         <div id="form-step">
-            <input type="tel" id="uPhone" placeholder="Numéro de Téléphone" required>
-            <input type="text" id="uInsta" placeholder="Username Instagram" required>
-            <button class="btn-action" onclick="processOrder()">Confirmer & Continuer</button>
+            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed Tounsi)" required>
+
+            <select id="contactMethod" onchange="updateContactPlaceholder()">
+                <option value="Instagram">Instagram 📸</option>
+                <option value="WhatsApp">WhatsApp 📞</option>
+                <option value="Facebook">Facebook 🔵</option>
+            </select>
+
+            <input type="text" id="uContact" placeholder="Votre Username Instagram (@...)" required>
+            
+            <button class="btn-action" onclick="processOrder()">Confirmer & Commander</button>
             <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
         </div>
 
         <div id="success-step" style="display:none">
             <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
-            <h3>Commande Envoyée !</h3>
-            <p style="color:#94a3b8; font-size: 0.9rem;">Le détail de votre commande a été copié.</p>
-            <p style="color:white; font-weight:bold;">Collez le message dans notre chat Instagram maintenant.</p>
-            <button class="btn-action" onclick="goToInsta()">Ouvrir Instagram</button>
+            <h3>Commande Prête !</h3>
+            <p style="color:#94a3b8; font-size: 0.9rem;">Le message de commande a été copié.</p>
+            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez ci-dessous pour nous l'envoyer :</p>
+            
+            <a href="#" id="final-link" class="social-btn" style="background: linear-gradient(45deg, #f09433, #bc1888);">Ouvrir Instagram</a>
+            
+            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Fermer</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Initialize EmailJS
-    (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();
-
-    // Initialize Particles
-    particlesJS("particles-js", {
-        "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "move": { "enable": true, "speed": 2 } },
-        "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }
-    });
+    (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); // Your Public Key
+    
+    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
     let productsData = {};
+    let assetsData = {};
     let currentSelection = "";
+    let currentPrice = "";
 
-    // Load Data
-    fetch('products.json')
-        .then(res => res.json())
-        .then(data => {
-            productsData = data;
-            showCategories();
-        });
+    async function init() {
+        const [pRes, aRes] = await Promise.all([ fetch('products.json'), fetch('assets.json') ]);
+        productsData = await pRes.json();
+        assetsData = await aRes.json();
+        document.getElementById('branding-logo').src = assetsData.branding.logo_url;
+        showCategories();
+    }
 
     function showCategories() {
         document.getElementById('view-title').innerText = "Categories";
         document.getElementById('warning-area').style.display = 'none';
-        
-        const area = document.getElementById('content-area');
-        area.innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.logo_url}">
-                <div>${c.name}</div>
+                <img src="${c.logo_url}"><div>${c.name}</div>
             </div>`).join('')}</div>`;
     }
 
     function showApps(catIdx) {
-        const category = productsData.categories[catIdx];
-        document.getElementById('view-title').innerText = category.name;
+        const cat = productsData.categories[catIdx];
+        document.getElementById('view-title').innerText = cat.name;
         
-        // Show Warning if it exists (for Virtual Cards)
+        // Show Warning
         const warnBox = document.getElementById('warning-area');
-        if(category.warning_note) {
-            warnBox.innerText = category.warning_note;
-            warnBox.style.display = 'block';
-        } else {
-            warnBox.style.display = 'none';
-        }
+        if(cat.warning_note) { warnBox.innerText = cat.warning_note; warnBox.style.display = 'block'; }
+        else { warnBox.style.display = 'none'; }
 
-        const area = document.getElementById('content-area');
-        area.innerHTML = `
+        document.getElementById('content-area').innerHTML = `
             <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
-            <div class="grid">${category.apps.map((a, i) => `
-                <div class="nav-card" onclick="showItems(${catIdx}, ${i})">
-                    <img src="${a.logo}">
-                    <div>${a.name}</div>
-                </div>`).join('')}</div>`;
+            <div class="grid">${cat.apps.map((a, i) => `
+                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}"><div>${a.name}</div></div>`).join('')}</div>`;
     }
 
     function showItems(catIdx, appIdx) {
         const app = productsData.categories[catIdx].apps[appIdx];
         document.getElementById('view-title').innerText = app.name;
-        
-        const area = document.getElementById('content-area');
-        area.innerHTML = `
+        document.getElementById('content-area').innerHTML = `
             <button onclick="showApps(${catIdx})" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
             ${app.items.map(item => `
-                <div class="item-row" onclick="openModal('${app.name} - ${item.name}')">
-                    <span>${item.name}</span>
-                    <span class="price">${item.price}</span>
+                <div class="item-row" onclick="openModal('${app.name} - ${item.name}', '${item.price}')">
+                    <span>${item.name}</span><span class="price">${item.price}</span>
                 </div>`).join('')}`;
     }
 
-    function openModal(name) {
+    function openModal(name, price) {
         currentSelection = name;
+        currentPrice = price;
         document.getElementById('modal-item-name').innerText = name;
         document.getElementById('form-step').style.display = 'block';
         document.getElementById('success-step').style.display = 'none';
@@ -158,37 +155,74 @@
 
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
+    function updateContactPlaceholder() {
+        const method = document.getElementById('contactMethod').value;
+        const input = document.getElementById('uContact');
+        if (method === "Instagram") input.placeholder = "Votre Username (@...)";
+        else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
+        else input.placeholder = "Nom profil Facebook";
+    }
+
     function processOrder() {
-        const phone = document.getElementById('uPhone').value;
-        const insta = document.getElementById('uInsta').value;
+        const name = document.getElementById('uName').value;
+        const contactMethod = document.getElementById('contactMethod').value;
+        const contactDetail = document.getElementById('uContact').value;
         const btn = document.querySelector('.btn-action');
 
-        if(!phone || !insta) { alert("Veuillez remplir tous les champs"); return; }
+        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs"); return; }
 
         btn.innerText = "Traitement...";
         btn.disabled = true;
 
-        // 1. Send Email to You (The "Sheet" Record)
+        // Structured Message for Sheets extraction
+        const fullMessage = `
+🛒 Commande CyberHub
+--------------------
+Article: ${currentSelection}
+Prix: ${currentPrice}
+Nom: ${name}
+Contact: ${contactMethod} - ${contactDetail}
+--------------------
+En attente de paiement D17.
+        `.trim();
+
+        // 1. Send Email (For Zapier -> Google Sheets)
         emailjs.send("service_default", "template_r8b7yaf", {
             product_name: currentSelection,
-            customer_phone: phone,
-            customer_instagram: insta
+            message_body: fullMessage // Ensure your EmailJS template uses {{message_body}}
         }).then(() => {
-            // 2. Copy Clean Message to Clipboard (No Payment Info)
-            const cleanMessage = `🛒 Commande CyberHub\nArticle: ${currentSelection}\n📱 Tel: ${phone}\n📸 Insta: ${insta}`;
-            
-            navigator.clipboard.writeText(cleanMessage).then(() => {
-                document.getElementById('form-step').style.display = 'none';
-                document.getElementById('success-step').style.display = 'block';
-                btn.innerText = "Confirmer & Continuer";
+            // 2. Copy to Clipboard
+            navigator.clipboard.writeText(fullMessage).then(() => {
+                showSuccess(contactMethod);
+                btn.innerText = "Confirmer & Commander";
                 btn.disabled = false;
             });
         });
     }
 
-    function goToInsta() {
-        window.location.href = "https://instagram.com/direct/t/__cyber__hub__";
+    function showSuccess(method) {
+        document.getElementById('form-step').style.display = 'none';
+        document.getElementById('success-step').style.display = 'block';
+        const linkBtn = document.getElementById('final-link');
+        
+        if (method === "Instagram") {
+            linkBtn.innerText = "Ouvrir Instagram";
+            linkBtn.href = "https://instagram.com/direct/t/__cyber__hub__";
+            linkBtn.style.background = "linear-gradient(45deg, #f09433, #bc1888)";
+        } else if (method === "WhatsApp") {
+            linkBtn.innerText = "Ouvrir WhatsApp";
+            // Replace with your WhatsApp number
+            linkBtn.href = "https://wa.me/21629895846?text=" + encodeURIComponent("Bonjour CyberHub, voici ma commande (copiée).");
+            linkBtn.style.background = "#25D366";
+        } else {
+            linkBtn.innerText = "Ouvrir Facebook";
+            // Replace with your FB Page link
+            linkBtn.href = "https://m.me/YOUR_FACEBOOK_PAGE_ID"; 
+            linkBtn.style.background = "#1877F2";
+        }
     }
+
+    init();
 </script>
 </body>
 </html>
