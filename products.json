@@ -1,0 +1,35 @@
+{
+  "categories": [
+    {
+      "name": "Gaming",
+      "logo": "🎮",
+      "subcategories": [
+        {
+          "name": "Fortnite",
+          "items": [
+            {"name": "1000 V-Bucks", "price": "35 DT"},
+            {"name": "2800 V-Bucks", "price": "70 DT"}
+          ]
+        },
+        {
+          "name": "FC 26",
+          "items": [
+            {"name": "1050 Points (PC)", "price": "50 DT"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AI Tools",
+      "logo": "🤖",
+      "subcategories": [
+        {
+          "name": "ChatGPT",
+          "items": [
+            {"name": "ChatGPT Plus (1 Mo)", "price": "25 DT"}
+          ]
+        }
+      ]
+    }
+  ]
+}
