@@ -3,58 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub | Digital Store</title>
+    <title>CyberHub | Digital Services</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00a8ff; --dark: #050a12; --card: #0d141f; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding-bottom: 80px; }
-        .navbar { padding: 30px; text-align: center; border-bottom: 1px solid #1e293b; }
-        .logo { width: 120px; height: auto; margin-bottom: 10px; }
-        .container { max-width: 500px; margin: auto; padding: 0 15px; }
-        .cat-header { display: flex; align-items: center; margin: 30px 0 10px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
-        .cat-logo { width: 30px; height: 30px; margin-right: 12px; }
-        .section-title { color: var(--primary); font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .sub-name { color: #8b949e; font-size: 0.8rem; margin: 15px 0 8px; font-weight: 600; }
-        .product-card { background: var(--card); border: 1px solid #1e293b; border-radius: 12px; padding: 12px 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-        .product-card:hover { border-color: var(--primary); background: #111a27; }
-        .price { color: var(--primary); font-weight: bold; }
-        .contact-btn { display: block; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; text-align: center; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 40px; }
-        #orderModal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--primary); text-align: center; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #1e293b; background: #050a12; color: white; box-sizing: border-box; }
-        .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        :root { --primary: #00a8ff; --dark: #020617; --glass: rgba(15, 23, 42, 0.8); --border: rgba(255, 255, 255, 0.1); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--dark); color: white; margin: 0; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
+        
+        /* Navbar & Branding */
+        .navbar { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, #0f172a, transparent); }
+        .logo { width: 100px; filter: drop-shadow(0 0 10px var(--primary)); margin-bottom: 15px; }
+        .brand-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 4px; color: white; text-transform: uppercase; }
+
+        .container { max-width: 500px; margin: auto; padding: 0 20px; }
+
+        /* Accordion UI */
+        .category-wrapper { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 12px; overflow: hidden; transition: 0.3s; }
+        .category-trigger { padding: 20px; display: flex; align-items: center; cursor: pointer; justify-content: space-between; }
+        .category-trigger:active { background: rgba(255,255,255,0.05); }
+        .cat-info { display: flex; align-items: center; gap: 15px; }
+        .cat-icon { width: 32px; height: 32px; }
+        .cat-name { font-weight: 700; font-size: 1rem; }
+        .chevron { width: 20px; transition: 0.3s; opacity: 0.5; }
+
+        /* Hidden Content */
+        .category-content { max-height: 0; transition: max-height 0.4s ease-out; background: rgba(0,0,0,0.2); }
+        .category-wrapper.active .category-content { max-height: 1000px; border-top: 1px solid var(--border); }
+        .category-wrapper.active .chevron { transform: rotate(180deg); }
+
+        .sub-section { padding: 15px 20px; }
+        .sub-title { font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; opacity: 0.8; }
+        
+        /* Product Cards */
+        .product-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+        .product-card:hover { border-color: var(--primary); background: rgba(0, 168, 255, 0.05); }
+        .price-tag { color: var(--primary); font-weight: 800; background: rgba(0, 168, 255, 0.1); padding: 4px 10px; border-radius: 8px; font-size: 0.85rem; }
+
+        /* Floating Contact Button */
+        .insta-fab { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; padding: 16px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 99; white-space: nowrap; }
+
+        /* Modal Styling */
+        #orderModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-body { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; border: 1px solid var(--primary); text-align: center; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--border); background: #020617; color: white; outline: none; box-sizing: border-box; }
+        input:focus { border-color: var(--primary); }
+        .confirm-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 800; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
+
     <div class="navbar">
-        <img src="https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png" class="logo" alt="CyberHub">
-        <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;">CYBERHUB</div>
+        <img src="https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png" class="logo">
+        <div class="brand-name">CyberHub</div>
     </div>
 
-    <div class="container" id="product-list">
+    <div class="container" id="main-catalog">
         </div>
 
-    <div class="container">
-        <a href="https://instagram.com/__cyber__hub__" class="contact-btn">Instagram Support 📸</a>
-    </div>
+    <a href="https://instagram.com/__cyber__hub__" class="insta-fab">Contact Support 📸</a>
 
     <div id="orderModal">
-        <div class="modal-content">
-            <div id="formContainer">
-                <h3 id="modalProduct" style="margin-top:0; color: var(--primary);">Order Item</h3>
-                <form id="orderForm">
-                    <input type="hidden" id="pName">
+        <div class="modal-body">
+            <div id="formFields">
+                <h2 id="selectedItem" style="margin-top:0; color: var(--primary);">Product</h2>
+                <form id="purchaseForm">
+                    <input type="hidden" id="hiddenProduct">
                     <input type="tel" id="uPhone" placeholder="Numéro de Téléphone" required>
                     <input type="text" id="uInsta" placeholder="Username Instagram" required>
-                    <button type="submit" class="submit-btn">Confirmer la Commande</button>
-                    <button type="button" onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:10px; cursor:pointer; width:100%">Annuler</button>
+                    <button type="submit" class="confirm-btn">Confirmer</button>
+                    <button type="button" onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
                 </form>
             </div>
-            <div id="successMessage" style="display:none">
-                <div style="font-size: 3rem;">✅</div>
-                <h3>Commande Envoyée !</h3>
-                <p style="color: #8b949e;">Nous vous contacterons sur Instagram très bientôt.</p>
-                <button onclick="closeModal()" class="submit-btn">Fermer</button>
+            <div id="successView" style="display:none">
+                <div style="font-size: 4rem;">✅</div>
+                <h3>Commande Reçue !</h3>
+                <p style="color: #94a3b8; line-height: 1.5;">On vous contacte sur Insta très vite.</p>
+                <button onclick="closeModal()" class="confirm-btn">Super !</button>
             </div>
         </div>
     </div>
@@ -65,46 +89,60 @@
         fetch('products.json')
             .then(res => res.json())
             .then(data => {
-                const list = document.getElementById('product-list');
-                data.categories.forEach(cat => {
-                    let html = `
-                        <div class="cat-header">
-                            <img src="${cat.logo_url}" class="cat-logo">
-                            <div class="section-title">${cat.name}</div>
-                        </div>`;
+                const catalog = document.getElementById('main-catalog');
+                data.categories.forEach((cat, index) => {
+                    let catHTML = `
+                        <div class="category-wrapper" id="cat-${index}">
+                            <div class="category-trigger" onclick="toggleCategory(${index})">
+                                <div class="cat-info">
+                                    <img src="${cat.logo_url}" class="cat-icon">
+                                    <span class="cat-name">${cat.name}</span>
+                                </div>
+                                <img src="https://img.icons8.com/ios-filled/50/ffffff/expand-arrow.png" class="chevron">
+                            </div>
+                            <div class="category-content">`;
+                    
                     cat.subcategories.forEach(sub => {
-                        html += `<div class="sub-name">${sub.name}</div>`;
+                        catHTML += `<div class="sub-section"><div class="sub-title">${sub.name}</div>`;
                         sub.items.forEach(item => {
-                            html += `
-                                <div class="product-card" onclick="openModal('${item.name}', '${item.price}')">
+                            catHTML += `
+                                <div class="product-card" onclick="openOrder('${item.name}', '${item.price}')">
                                     <span>${item.name}</span>
-                                    <span class="price">${item.price}</span>
+                                    <span class="price-tag">${item.price}</span>
                                 </div>`;
                         });
+                        catHTML += `</div>`;
                     });
-                    list.innerHTML += html;
+                    
+                    catHTML += `</div></div>`;
+                    catalog.innerHTML += catHTML;
                 });
             });
 
-        function openModal(n, p) { 
-            document.getElementById('formContainer').style.display = 'block';
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('modalProduct').innerText = n; 
-            document.getElementById('pName').value = n + " (" + p + ")";
-            document.getElementById('orderModal').style.display = 'flex'; 
+        function toggleCategory(index) {
+            const el = document.getElementById(`cat-${index}`);
+            el.classList.toggle('active');
+        }
+
+        function openOrder(name, price) {
+            document.getElementById('formFields').style.display = 'block';
+            document.getElementById('successView').style.display = 'none';
+            document.getElementById('selectedItem').innerText = name;
+            document.getElementById('hiddenProduct').value = name + " (" + price + ")";
+            document.getElementById('orderModal').style.display = 'flex';
         }
 
         function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
 
-        document.getElementById('orderForm').onsubmit = function(e) {
+        document.getElementById('purchaseForm').onsubmit = function(e) {
             e.preventDefault();
-            emailjs.send("service_default", "template_r8b7yaf", { 
-                product_name: document.getElementById('pName').value,
+            emailjs.send("service_default", "template_r8b7yaf", {
+                product_name: document.getElementById('hiddenProduct').value,
                 customer_phone: document.getElementById('uPhone').value,
                 customer_instagram: document.getElementById('uInsta').value
             }).then(() => {
-                document.getElementById('formContainer').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('formFields').style.display = 'none';
+                document.getElementById('successView').style.display = 'block';
             });
         };
     </script>
