@@ -3,99 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub | Digital Store</title>
+    <title>CyberHub | Digital Store Tunisia</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: #0f172a; --border: rgba(255,255,255,0.1); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 40px; }
+        :root { 
+            --primary: #00a8ff; 
+            --bg: #020617; 
+            --card: #0f172a; 
+            --border: rgba(255,255,255,0.1); 
+            --accent: #e91e63;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: white; 
+            margin: 0; 
+            padding-bottom: 60px; 
+            overflow-x: hidden;
+        }
+
         .container { max-width: 500px; margin: auto; padding: 20px; }
+
+        /* Branding & Header */
         .header { text-align: center; padding: 40px 0; }
-        .logo { width: 100px; filter: drop-shadow(0 0 15px var(--primary)); }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .cat-card, .app-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .cat-card img, .app-card img { width: 40px; margin-bottom: 10px; }
-        .cat-card:hover, .app-card:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .logo { 
+            width: 100px; 
+            height: auto;
+            filter: drop-shadow(0 0 15px var(--primary)); 
+            margin-bottom: 15px;
+        }
+        .brand-title { 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+        }
+
+        /* View Controllers */
+        #view-title { 
+            margin-bottom: 20px; 
+            font-weight: 800; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .back-btn { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--border); 
+            color: #94a3b8; 
+            padding: 10px 18px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Navigation Grids */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        .nav-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 25px 15px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0, 168, 255, 0.1);
+        }
+
+        .nav-card img { width: 45px; height: 45px; margin-bottom: 12px; }
+        .nav-card div { font-weight: 700; font-size: 0.95rem; }
+
+        /* Item List View */
+        .item-row { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 15px; 
+            padding: 18px; 
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .item-row:hover { border-color: var(--primary); background: rgba(255,255,255,0.03); }
+        .item-name { font-weight: 600; }
         .price { color: var(--primary); font-weight: 800; }
-        .back-btn { background: none; border: 1px solid var(--border); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:100; justify-content:center; align-items:center; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 24px; width: 90%; max-width: 350px; text-align: center; border: 1px solid var(--primary); }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; box-sizing: border-box; }
-        .btn-copy { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+
+        /* Modal Checkout */
+        #modal { 
+            display:none; 
+            position:fixed; 
+            inset:0; 
+            background:rgba(0,0,0,0.95); 
+            backdrop-filter:blur(15px); 
+            z-index:1000; 
+            justify-content:center; 
+            align-items:center; 
+        }
+
+        .modal-content { 
+            background: var(--card); 
+            padding: 35px; 
+            border-radius: 28px; 
+            width: 90%; 
+            max-width: 380px; 
+            text-align: center; 
+            border: 1px solid var(--primary); 
+        }
+
+        input { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 12px; 
+            border: 1px solid var(--border); 
+            background: var(--bg); 
+            color: white; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        .btn-action { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 18px; 
+            width: 100%; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            font-size: 1rem;
+        }
+
+        .insta-support {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #f09433, #bc1888);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header">
-        <img src="https://i.ibb.co/VvW0q4M/Cyber-Hub-Logo.png" class="logo">
-        <h1 style="letter-spacing: 3px; font-size: 1.5rem; margin-top: 15px;">CYBERHUB</h1>
+        <img src="" id="branding-logo" class="logo" alt="CyberHub Logo">
+        <div class="brand-title">CYBERHUB</div>
     </div>
-    <div id="view-title" style="margin-bottom: 15px; font-weight: 800; color: var(--primary); text-transform: uppercase;">Categories</div>
-    <div id="content-area"></div>
+
+    <div id="view-title">Categories</div>
+    <div id="content-area">
+        </div>
 </div>
+
+<a href="https://instagram.com/direct/t/__cyber__hub__" class="insta-support">Support Instagram 📸</a>
+
 <div id="modal">
     <div class="modal-content">
-        <h3 id="modal-item-name">Product Name</h3>
-        <input type="tel" id="uPhone" placeholder="Téléphone">
-        <input type="text" id="uInsta" placeholder="Username Instagram">
-        <button class="btn-copy" onclick="copyAndRedirect()">Copier & Instagram DM</button>
-        <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
+        <h3 id="modal-item-name" style="color: var(--primary); margin-top: 0;">Product</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px;">Entrez vos détails pour commander.</p>
+        
+        <div id="form-container">
+            <input type="tel" id="uPhone" placeholder="Numéro de Téléphone">
+            <input type="text" id="uInsta" placeholder="Username Instagram">
+            <button class="btn-action" onclick="finalizeOrder()">Copier & Instagram</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:20px; cursor:pointer; font-weight:600;">Annuler</button>
+        </div>
+
+        <div id="success-container" style="display:none">
+            <div style="font-size: 4rem; margin-bottom: 15px;">✅</div>
+            <h3 style="margin-bottom: 10px;">Message Copié !</h3>
+            <p style="color: #94a3b8; font-size: 0.9rem;">Collez maintenant le message dans le chat Instagram pour finaliser.</p>
+            <button class="btn-action" onclick="closeModal()">Terminé</button>
+        </div>
     </div>
 </div>
+
 <script>
-    let products = {};
-    let selectedItem = "";
-    async function loadData() {
-        const res = await fetch('products.json');
-        products = await res.json();
-        showCategories();
+    let productsData = {};
+    let assetsData = {};
+    let currentSelection = "";
+
+    async function init() {
+        try {
+            const [pRes, aRes] = await Promise.all([
+                fetch('products.json'),
+                fetch('assets.json')
+            ]);
+            productsData = await pRes.json();
+            assetsData = await aRes.json();
+            
+            // Apply logo from assets.json
+            document.getElementById('branding-logo').src = assetsData.branding.logo_url;
+            
+            renderCategories();
+        } catch (e) {
+            console.error("Error loading data files.");
+        }
     }
-    function showCategories() {
-        document.getElementById('view-title').innerText = "Categories";
+
+    function renderCategories() {
         const area = document.getElementById('content-area');
-        area.innerHTML = `<div class="grid">${products.categories.map((c, i) => `
-            <div class="cat-card" onclick="showApps(${i})">
+        document.getElementById('view-title').innerText = "Categories";
+        
+        area.innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+            <div class="nav-card" onclick="renderApps(${i})">
                 <img src="${c.logo_url}">
                 <div>${c.name}</div>
             </div>`).join('')}</div>`;
     }
-    function showApps(catIdx) {
-        document.getElementById('view-title').innerText = products.categories[catIdx].name;
+
+    function renderApps(catIdx) {
         const area = document.getElementById('content-area');
-        area.innerHTML = `<button class="back-btn" onclick="showCategories()">← Retour</button>
-        <div class="grid">${products.categories[catIdx].apps.map((a, i) => `
-            <div class="app-card" onclick="showItems(${catIdx}, ${i})">
-                <img src="${a.logo}">
-                <div>${a.name}</div>
-            </div>`).join('')}</div>`;
+        const category = productsData.categories[catIdx];
+        document.getElementById('view-title').innerText = category.name;
+
+        area.innerHTML = `
+            <button class="back-btn" onclick="renderCategories()">← Retour</button>
+            <div class="grid">${category.apps.map((a, i) => `
+                <div class="nav-card" onclick="renderItems(${catIdx}, ${i})">
+                    <img src="${a.logo}">
+                    <div>${a.name}</div>
+                </div>`).join('')}</div>`;
     }
-    function showItems(catIdx, appIdx) {
-        const app = products.categories[catIdx].apps[appIdx];
+
+    function renderItems(catIdx, appIdx) {
+        const area = document.getElementById('content-area');
+        const app = productsData.categories[catIdx].apps[appIdx];
         document.getElementById('view-title').innerText = app.name;
-        const area = document.getElementById('content-area');
-        area.innerHTML = `<button class="back-btn" onclick="showApps(${catIdx})">← Retour</button>
-        ${app.items.map(item => `
-            <div class="item-row" onclick="openModal('${app.name} - ${item.name}')">
-                <span>${item.name}</span>
-                <span class="price">${item.price}</span>
-            </div>`).join('')}`;
+
+        area.innerHTML = `
+            <button class="back-btn" onclick="renderApps(${catIdx})">← Retour</button>
+            ${app.items.map(item => `
+                <div class="item-row" onclick="openModal('${app.name} - ${item.name}')">
+                    <span class="item-name">${item.name}</span>
+                    <span class="price">${item.price}</span>
+                </div>`).join('')}`;
     }
+
     function openModal(name) {
-        selectedItem = name;
+        currentSelection = name;
         document.getElementById('modal-item-name').innerText = name;
+        document.getElementById('form-container').style.display = 'block';
+        document.getElementById('success-container').style.display = 'none';
         document.getElementById('modal').style.display = 'flex';
     }
+
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    function copyAndRedirect() {
+
+    function finalizeOrder() {
         const phone = document.getElementById('uPhone').value;
         const insta = document.getElementById('uInsta').value;
-        const message = `Hello CyberHub! Je souhaite acheter: ${selectedItem}.\n📞 Tel: ${phone}\n📸 Insta: ${insta}`;
-        navigator.clipboard.writeText(message).then(() => {
-            alert("Message copié ! Collez-le maintenant sur Instagram.");
-            window.location.href = "https://instagram.com/direct/t/__cyber__hub__";
+        
+        if(!phone || !insta) return alert("Veuillez remplir tous les champs.");
+
+        const orderText = `🛒 Commande CyberHub\n----------------------\nProduit: ${currentSelection}\n📞 Tel: ${phone}\n📸 Insta: ${insta}\n----------------------\nMerci de m'envoyer les détails du paiement D17.`;
+        
+        navigator.clipboard.writeText(orderText).then(() => {
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('success-container').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = "https://instagram.com/direct/t/__cyber__hub__";
+            }, 1500);
         });
     }
-    loadData();
+
+    init();
 </script>
 </body>
 </html>
