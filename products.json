@@ -1,7 +1,7 @@
 {
   "categories": [
     {
-      "name": "Gaming",
+      "name": "Gaming Top-Ups",
       "logo_url": "https://img.icons8.com/fluency/48/console.png",
       "subcategories": [
         {
@@ -14,24 +14,101 @@
           ]
         },
         {
-          "name": "FC 26 (PC Only)",
+          "name": "Rocket League (20% Cashback)",
+          "items": [
+            {"name": "500 credits", "price": "22 DT"},
+            {"name": "1000 credits", "price": "34 DT"},
+            {"name": "1600 credits", "price": "45 DT"},
+            {"name": "3000 credits", "price": "60 DT"},
+            {"name": "6000 credits", "price": "110 DT"}
+          ]
+        },
+        {
+          "name": "FC 26 Points (PC Only)",
           "items": [
             {"name": "1050 points", "price": "50 DT"},
-            {"name": "2800 points", "price": "105 DT"}
+            {"name": "2800 points", "price": "105 DT"},
+            {"name": "5900 points", "price": "185 DT"},
+            {"name": "12000 points", "price": "350 DT"}
+          ]
+        },
+        {
+          "name": "Free Fire (via ID)",
+          "items": [
+            {"name": "110 Diamonds", "price": "9 DT"},
+            {"name": "231 Diamonds", "price": "14 DT"},
+            {"name": "583 Diamonds", "price": "26 DT"},
+            {"name": "1188 Diamonds", "price": "46 DT"},
+            {"name": "2420 Diamonds", "price": "80 DT"}
           ]
         }
       ]
     },
     {
-      "name": "AI Tools",
+      "name": "AI & Premium Tools",
       "logo_url": "https://img.icons8.com/fluency/48/artificial-intelligence.png",
       "subcategories": [
         {
-          "name": "ChatGPT & Gemini",
+          "name": "Gemini AI Pro",
           "items": [
-            {"name": "Gemini AI Pro (1 Mo)", "price": "25 DT"},
-            {"name": "ChatGPT Plus (1 Mo)", "price": "25 DT"},
-            {"name": "ChatGPT GO (1 Mo)", "price": "22 DT"}
+            {"name": "Gemini Pro (1 Mois)", "price": "25 DT"},
+            {"name": "Gemini Pro (3 Mois)", "price": "30 DT"},
+            {"name": "Gemini Pro (6 Mois)", "price": "40 DT"},
+            {"name": "Gemini Pro (1 An)", "price": "60 DT"}
+          ]
+        },
+        {
+          "name": "ChatGPT Plus",
+          "items": [
+            {"name": "ChatGPT Plus (1 Mois)", "price": "25 DT"},
+            {"name": "ChatGPT Plus (3 Mois)", "price": "35 DT"},
+            {"name": "ChatGPT Plus (6 Mois)", "price": "45 DT"},
+            {"name": "ChatGPT Plus (1 An)", "price": "60 DT"}
+          ]
+        },
+        {
+          "name": "ChatGPT GO",
+          "items": [
+            {"name": "ChatGPT GO (1 Mois)", "price": "22 DT"},
+            {"name": "ChatGPT GO (3 Mois)", "price": "30 DT"},
+            {"name": "ChatGPT GO (1 An)", "price": "50 DT"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Creative & Design",
+      "logo_url": "https://img.icons8.com/fluency/48/paint-palette.png",
+      "subcategories": [
+        {
+          "name": "Adobe Creative Cloud",
+          "items": [
+            {"name": "Adobe CC (2 Mois)", "price": "35 DT"},
+            {"name": "Adobe CC (3 Mois)", "price": "40 DT"},
+            {"name": "Adobe CC (12 Mois)", "price": "70 DT"}
+          ]
+        },
+        {
+          "name": "Capcut Pro",
+          "items": [
+            {"name": "Capcut Pro (1 Mois)", "price": "23 DT"},
+            {"name": "Capcut Pro (3 Mois)", "price": "45 DT"},
+            {"name": "Capcut Pro (12 Mois)", "price": "85 DT"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cards & Payments",
+      "logo_url": "https://img.icons8.com/fluency/48/visa.png",
+      "subcategories": [
+        {
+          "name": "Virtual Cards",
+          "items": [
+            {"name": "Visa/MasterCard + 0$", "price": "25 DT"},
+            {"name": "Visa/MasterCard + 5$", "price": "35 DT"},
+            {"name": "Visa/MasterCard + 10$", "price": "55 DT"},
+            {"name": "Card Refill (per 1$)", "price": "4 DT"}
           ]
         }
       ]
