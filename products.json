@@ -18,32 +18,32 @@
           "name": "Rocket League",
           "logo": "https://img.icons8.com/color/48/rocket-league.png",
           "items": [
-            {"name": "500 credits", "price": "22 DT"},
-            {"name": "1000 credits", "price": "34 DT"},
-            {"name": "1600 credits", "price": "45 DT"},
-            {"name": "3000 credits", "price": "60 DT"},
-            {"name": "6000 credits", "price": "110 DT"}
+            {"name": "500 Credits", "price": "22 DT"},
+            {"name": "1000 Credits", "price": "34 DT"},
+            {"name": "1600 Credits", "price": "45 DT"},
+            {"name": "3000 Credits", "price": "60 DT"},
+            {"name": "6000 Credits", "price": "110 DT"}
           ]
         },
         {
-          "name": "FC 26",
+          "name": "FC 26 (PC)",
           "logo": "https://img.icons8.com/color/48/football--v1.png",
           "items": [
-            {"name": "1050 points", "price": "50 DT"},
-            {"name": "2800 points", "price": "105 DT"},
-            {"name": "5900 points", "price": "185 DT"},
-            {"name": "12000 points", "price": "350 DT"}
+            {"name": "1050 Points", "price": "50 DT"},
+            {"name": "2800 Points", "price": "105 DT"},
+            {"name": "5900 Points", "price": "185 DT"},
+            {"name": "12000 Points", "price": "350 DT"}
           ]
         },
         {
           "name": "Free Fire",
           "logo": "https://img.icons8.com/color/48/garena-free-fire.png",
           "items": [
-            {"name": "100+10", "price": "9 DT"},
-            {"name": "210+21", "price": "14 DT"},
-            {"name": "500+83", "price": "26 DT"},
-            {"name": "1080+108", "price": "46 DT"},
-            {"name": "2200+220", "price": "80 DT"}
+            {"name": "110 Diamonds", "price": "9 DT"},
+            {"name": "231 Diamonds", "price": "14 DT"},
+            {"name": "583 Diamonds", "price": "26 DT"},
+            {"name": "1188 Diamonds", "price": "46 DT"},
+            {"name": "2420 Diamonds", "price": "80 DT"}
           ]
         }
       ]
@@ -56,20 +56,17 @@
           "name": "ChatGPT Plus",
           "logo": "https://img.icons8.com/color/48/chatgpt.png",
           "items": [
-            {"name": "1 mois", "price": "25 DT"},
-            {"name": "3 mois", "price": "35 DT"},
-            {"name": "6 mois", "price": "45 DT"},
-            {"name": "1 an", "price": "60 DT"}
+            {"name": "1 Mois", "price": "25 DT"},
+            {"name": "3 Mois", "price": "35 DT"},
+            {"name": "12 Mois", "price": "60 DT"}
           ]
         },
         {
           "name": "Gemini AI Pro",
           "logo": "https://img.icons8.com/color/48/google-logo.png",
           "items": [
-            {"name": "1 mois", "price": "25 DT"},
-            {"name": "3 mois", "price": "30 DT"},
-            {"name": "6 mois", "price": "40 DT"},
-            {"name": "1 an", "price": "60 DT"}
+            {"name": "1 Mois", "price": "25 DT"},
+            {"name": "12 Mois", "price": "60 DT"}
           ]
         }
       ]
@@ -82,43 +79,27 @@
           "name": "Capcut Pro",
           "logo": "https://img.icons8.com/color/48/video-editing.png",
           "items": [
-            {"name": "1 mois", "price": "23 DT"},
-            {"name": "3 mois", "price": "45 DT"},
-            {"name": "6 mois", "price": "60 DT"},
-            {"name": "12 mois", "price": "85 DT"}
+            {"name": "1 Mois", "price": "23 DT"},
+            {"name": "12 Mois", "price": "85 DT"}
           ]
         },
         {
           "name": "Adobe Creative Cloud",
           "logo": "https://img.icons8.com/color/48/adobe-creative-cloud.png",
           "items": [
-            {"name": "2 Months", "price": "35 DT"},
-            {"name": "3 Months", "price": "40 DT"},
-            {"name": "4 Months", "price": "45 DT"},
-            {"name": "12 Months", "price": "70 DT"}
+            {"name": "2 Mois", "price": "35 DT"},
+            {"name": "12 Mois", "price": "70 DT"}
           ]
         }
       ]
     },
     {
-      "name": "Social Media",
-      "logo_url": "https://img.icons8.com/fluency/48/social-network.png",
-      "apps": [
-        {
-          "name": "Shein",
-          "logo": "https://img.icons8.com/color/48/shopping-bag.png",
-          "items": [
-            {"name": "Service Fee", "price": "10 DT"}
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Payment Methods",
+      "name": "International Virtual Cards",
       "logo_url": "https://img.icons8.com/fluency/48/visa.png",
+      "warning_note": "NB: Nous aurons besoin de votre CIN, PERMIS ou Passport pour que vous bénéficiez de ce service. Veuillez ne pas partager le code de la carte avec personne.",
       "apps": [
         {
-          "name": "Virtual Cards",
+          "name": "Visa / MasterCard",
           "logo": "https://img.icons8.com/color/48/mastercard.png",
           "items": [
             {"name": "Card + 0$", "price": "25 DT"},
