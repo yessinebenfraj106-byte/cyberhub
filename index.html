@@ -7,53 +7,64 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
+            // Your Public Key
             emailjs.init("aVLHyVhILMDCu8T99");
         })();
     </script>
 </head>
-<body>
+<body style="background-color: white; color: black; font-family: sans-serif; margin: 0; padding: 20px;">
 
-    <div style="text-align: center; font-family: sans-serif; padding: 20px;">
-        <img src="Cyber-Hub-Logo.png" alt="CyberHub Logo" style="width: 150px;">
-        <h1>CyberHub</h1>
+    <div style="text-align: center; max-width: 500px; margin: auto;">
+        <img src="Cyber-Hub-Logo.png" alt="CyberHub Logo" style="width: 180px; margin-bottom: 10px;">
         
-        <form id="order-form" onsubmit="processOrder(event)">
-            <p>Nom Complet:</p>
-            <input type="text" id="name" required style="padding: 8px; width: 250px;">
+        <h1 style="margin-top: 0;">CyberHub</h1>
+        <p style="color: #666;">Passez votre commande ci-dessous</p>
+        
+        <form id="order-form" onsubmit="processOrder(event)" style="margin-top: 20px;">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px;">Nom Complet:</label>
+                <input type="text" id="name" required style="padding: 10px; width: 90%; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
             
-            <p>Contact (WhatsApp/Tel):</p>
-            <input type="text" id="contact" required style="padding: 8px; width: 250px;">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px;">Contact (WhatsApp/Tel):</label>
+                <input type="text" id="contact" required style="padding: 10px; width: 90%; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
             
-            <p>Choisir un Article:</p>
-            <select id="product-select" style="padding: 8px; width: 270px;">
-                <option value="Fortnite 1000 V-Bucks|35">Fortnite 1000 V-Bucks - 35 DT</option>
-                <option value="Free Fire 500 Diamonds|20">Free Fire 500 Diamonds - 20 DT</option>
-                <option value="Netflix 1 Mois|25">Netflix 1 Mois - 25 DT</option>
-            </select>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px;">Choisir un Article:</label>
+                <select id="product-select" style="padding: 10px; width: 95%; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="Fortnite 1000 V-Bucks|35">Fortnite 1000 V-Bucks - 35 DT</option>
+                    <option value="Free Fire 500 Diamonds|20">Free Fire 500 Diamonds - 20 DT</option>
+                    <option value="Netflix 1 Mois|25">Netflix 1 Mois - 25 DT</option>
+                </select>
+            </div>
             
-            <br><br>
-            <button type="submit" id="confirm-btn" style="padding: 10px 20px; cursor: pointer; background-color: #eee; border: 1px solid #ccc;">
+            <button type="submit" id="confirm-btn" style="padding: 12px 25px; cursor: pointer; background-color: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; width: 95%;">
                 Confirmer la Commande
             </button>
         </form>
 
-        <hr style="margin-top: 40px; width: 50%; border: 0.5px solid #eee;">
-        <p style="color: #888; font-size: 14px;">Made by <b>Yessine Ben Fraj</b></p>
+        <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 13px; margin: 0;">&copy; 2026 CyberHub Tunisia</p>
+            <p style="color: #555; font-size: 14px; margin-top: 5px;">Made by <b>Yessine Ben Fraj</b></p>
+        </div>
     </div>
 
     <script>
         function processOrder(event) {
-            event.preventDefault(); // STOPS THE INFINITE LOADING
+            event.preventDefault(); // FIXES THE INFINITE "TRAITEMENT" HANG
             
             const btn = document.getElementById('confirm-btn');
-            const productData = document.getElementById('product-select').value.split('|');
+            const productSelect = document.getElementById('product-select');
+            const productData = productSelect.value.split('|');
             const name = document.getElementById('name').value;
             const contact = document.getElementById('contact').value;
 
             btn.innerText = "Traitement...";
             btn.disabled = true;
 
-            // This creates the exact text Zapier needs for your Google Sheet formulas
+            // Formats the data so Zapier/Google Sheets can read it perfectly
             const orderInfo = `
 Article: ${productData[0]}
 Prix: ${productData[1]} DT
@@ -63,18 +74,18 @@ Contact: ${contact}
 
             const templateParams = {
                 customer_name: name,
-                message_body: orderInfo // This maps to {{message_body}} in EmailJS
+                message_body: orderInfo
             };
 
             emailjs.send("service_default", "template_r8b7yaf", templateParams)
                 .then(function(response) {
-                    alert("Commande Envoyée !");
+                    alert("Succès ! Votre commande a été envoyée.");
                     window.location.reload();
                 }, function(error) {
-                    btn.innerText = "Confirmer";
+                    btn.innerText = "Confirmer la Commande";
                     btn.disabled = false;
                     console.error("FAILED...", error);
-                    alert("Erreur: " + JSON.stringify(error));
+                    alert("Erreur: " + error.text + " (Code: " + error.status + ")");
                 });
         }
     </script>
