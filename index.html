@@ -3,121 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub - Advanced Store</title>
+    <title>CyberHub | Interactive Store</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>emailjs.init("aVLHyVhILMDCu8T99");</script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            emailjs.init("aVLHyVhILMDCu8T99");
+        })();
+    </script>
     <style>
         :root {
-            --primary: #00a8ff; /* Your Blue Glow */
-            --bg: #020617;      /* Dark Space Blue */
-            --card: rgba(15, 23, 42, 0.9);
+            --neon-blue: #00d2ff;
+            --deep-blue: #000c24;
+            --glass: rgba(0, 20, 50, 0.75);
         }
         body {
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at top right, #001f3f, transparent),
-                              radial-gradient(circle at bottom left, #000814, transparent);
+            background: var(--deep-blue);
+            background-image: 
+                radial-gradient(circle at 20% 30%, #003366 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, #001a33 0%, transparent 50%);
             color: white;
             font-family: 'Orbitron', sans-serif;
-            margin: 0; padding: 20px; min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: var(--card);
-            border: 1px solid var(--primary);
-            padding: 30px;
+        .cyber-card {
+            background: var(--glass);
+            border: 2px solid var(--neon-blue);
+            backdrop-filter: blur(15px);
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.25);
+            width: 90%;
+            max-width: 450px;
+            margin-top: 50px;
+            text-align: center;
         }
-        .logo { width: 150px; filter: drop-shadow(0 0 10px var(--primary)); margin-bottom: 20px; }
-        h1 { text-transform: uppercase; letter-spacing: 3px; font-size: 1.5rem; color: var(--primary); }
-        
+        .logo { width: 160px; filter: drop-shadow(0 0 10px var(--neon-blue)); margin-bottom: 20px; }
         select, input {
-            width: 100%; padding: 12px; margin: 10px 0;
-            background: #0f172a; border: 1px solid #1e293b;
-            color: white; border-radius: 8px; outline: none;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            box-sizing: border-box;
         }
-        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
-
         #confirm-btn {
-            width: 100%; padding: 15px; margin-top: 20px;
-            background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-weight: bold;
-            cursor: pointer; transition: 0.3s;
+            background: var(--neon-blue);
+            color: black;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: 0.3s;
+            margin-top: 15px;
         }
-        #confirm-btn:hover { box-shadow: 0 0 20px var(--primary); transform: translateY(-2px); }
-
-        footer { margin-top: 40px; font-size: 0.8rem; color: #475569; }
-        .yessine-credit { color: var(--primary); text-shadow: 0 0 5px var(--primary); font-weight: bold; }
+        #confirm-btn:disabled { background: #444; box-shadow: none; cursor: not-allowed; }
+        .social-hub {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .social-icon {
+            text-decoration: none;
+            color: var(--neon-blue);
+            font-size: 11px;
+            border: 1px solid var(--neon-blue);
+            padding: 6px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .social-icon:hover { background: var(--neon-blue); color: black; }
+        footer { margin-top: auto; padding: 30px 0; font-size: 12px; color: #555; }
+        .yessine { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="cyber-card">
     <img src="Cyber-Hub-Logo.png" class="logo" alt="CyberHub">
-    <h1>CyberHub Store</h1>
+    <h2 style="letter-spacing: 2px; font-size: 16px; margin-bottom: 20px;">SYSTEME DE COMMANDE</h2>
 
     <form id="order-form" onsubmit="processOrder(event)">
-        <label>Catégorie:</label>
-        <select id="category" onchange="updateSub()"><option>Chargement...</option></select>
+        <select id="category" onchange="updateSub()"><option>Chargement de l'inventaire...</option></select>
+        <select id="subcategory" onchange="updateItems()"><option value="">-- Sous-Catégorie --</option></select>
+        <select id="product-select"><option value="">-- Article --</option></select>
 
-        <label>Sous-catégorie:</label>
-        <select id="subcategory" onchange="updateItems()"><option>--</option></select>
+        <input type="text" id="name" placeholder="NOM CLIENT" required>
+        <input type="text" id="contact" placeholder="WHATSAPP / TEL" required>
 
-        <label>Produit:</label>
-        <select id="product-select"><option>--</option></select>
-
-        <input type="text" id="name" placeholder="Votre Nom" required>
-        <input type="text" id="contact" placeholder="WhatsApp / Tel" required>
-
-        <button type="submit" id="confirm-btn">CONFIRMER LA COMMANDE</button>
+        <button type="submit" id="confirm-btn">VALIDER L'ACHAT</button>
     </form>
+
+    <div class="social-hub">
+        <a href="https://wa.me/21629895846" target="_blank" class="social-icon">WhatsApp</a>
+        <a href="#" class="social-icon">Facebook</a>
+        <a href="#" class="social-icon">Instagram</a>
+    </div>
 </div>
 
 <footer>
-    <p>Made by <span class="yessine-credit">Yessine Ben Fraj</span></p>
+    <p>Powered by CyberHub | Designed by <span class="yessine">Yessine Ben Fraj</span></p>
 </footer>
 
 <script>
-    // ⚠️ REPLACE THIS WITH YOUR SHEET CSV LINK
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
+    let inventoryData = {};
 
-    let inventory = [];
-
-    // Fetch data from Google Sheet
-    async function loadInventory() {
+    async function loadSheetData() {
         try {
-            const response = await fetch(SHEET_URL);
-            const data = await response.text();
-            // Basic CSV parser logic... (I can help you refine this once you have the link)
-            alert("Inventaire chargé !");
-        } catch (e) { console.error("Could not load items"); }
+            const response = await fetch(CSV_URL);
+            const text = await response.text();
+            const rows = text.split('\n').slice(1);
+
+            rows.forEach(row => {
+                const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (columns.length >= 4) {
+                    const cat = columns[0].trim().replace(/^"|"$/g, '');
+                    const sub = columns[1].trim().replace(/^"|"$/g, '');
+                    const item = columns[2].trim().replace(/^"|"$/g, '');
+                    const price = columns[3].trim().replace(/^"|"$/g, '');
+
+                    if (!inventoryData[cat]) inventoryData[cat] = {};
+                    if (!inventoryData[cat][sub]) inventoryData[cat][sub] = [];
+                    inventoryData[cat][sub].push(`${item}|${price}`);
+                }
+            });
+            
+            const catSelect = document.getElementById('category');
+            catSelect.innerHTML = '<option value="">SÉLECTIONNER CATÉGORIE</option>';
+            Object.keys(inventoryData).forEach(cat => {
+                if(cat) catSelect.innerHTML += `<option value="${cat}">${cat.toUpperCase()}</option>`;
+            });
+        } catch (e) { console.error("Error:", e); }
+    }
+
+    function updateSub() {
+        const cat = document.getElementById('category').value;
+        const subSelect = document.getElementById('subcategory');
+        subSelect.innerHTML = '<option value="">-- Sous-Catégorie --</option>';
+        if (inventoryData[cat]) {
+            Object.keys(inventoryData[cat]).forEach(sub => {
+                subSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+            });
+        }
+        updateItems();
+    }
+
+    function updateItems() {
+        const cat = document.getElementById('category').value;
+        const sub = document.getElementById('subcategory').value;
+        const itemSelect = document.getElementById('product-select');
+        itemSelect.innerHTML = '<option value="">-- Article --</option>';
+        if (inventoryData[cat] && inventoryData[cat][sub]) {
+            inventoryData[cat][sub].forEach(i => {
+                const [name, price] = i.split('|');
+                itemSelect.innerHTML += `<option value="${i}">${name} - ${price} DT</option>`;
+            });
+        }
     }
 
     function processOrder(event) {
         event.preventDefault();
         const btn = document.getElementById('confirm-btn');
-        btn.innerText = "Traitement...";
+        const productVal = document.getElementById('product-select').value;
+        if (!productVal) return alert("Choisissez un produit !");
+        
+        btn.innerText = "CRYPTAGE...";
         btn.disabled = true;
 
-        const orderInfo = `
-            Produit: ${document.getElementById('product-select').value}
-            Client: ${document.getElementById('name').value}
-            Contact: ${document.getElementById('contact').value}
-        `;
+        const product = productVal.split('|');
+        const orderInfo = `Article: ${product[0]}\nPrix: ${product[1]} DT\nNom: ${document.getElementById('name').value}\nContact: ${document.getElementById('contact').value}`;
 
         emailjs.send("service_default", "template_r8b7yaf", {
             customer_name: document.getElementById('name').value,
             message_body: orderInfo
         }).then(() => {
-            alert("🚀 Commande envoyée !");
+            alert("🚀 Commande synchronisée !");
             window.location.reload();
-        }).catch((err) => {
-            alert("Erreur!");
+        }).catch(() => {
+            alert("Erreur de connexion");
+            btn.innerText = "VALIDER L'ACHAT";
             btn.disabled = false;
         });
     }
+
+    loadSheetData();
 </script>
 </body>
 </html>
