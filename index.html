@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberHub | Digital Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
-        (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); // Your Public Key
+        (function(){ 
+            emailjs.init("aVLHyVhILMDCu8T99"); // Your Public Key
+        })();
     </script>
+    
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); --border: rgba(255,255,255,0.1); }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 60px; overflow-x: hidden; }
@@ -43,7 +48,12 @@
         input:focus, select:focus { border-color: var(--primary); }
         
         .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 1rem; }
-        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; cursor: pointer; }
+        .btn-action:disabled { background: #555; cursor: not-allowed; }
+        
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; cursor: pointer; box-sizing: border-box; }
+        
+        footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: #64748b; }
+        .credit { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -59,6 +69,10 @@
     <div id="view-title">Categories</div>
     <div id="warning-area" class="warning-box"></div>
     <div id="content-area"></div>
+    
+    <footer>
+        Made by <span class="credit">Yessine Ben Fraj</span>
+    </footer>
 </div>
 
 <div id="modal">
@@ -84,29 +98,26 @@
         <div id="success-step" style="display:none">
             <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
             <h3>Commande Prête !</h3>
-            <p style="color:#94a3b8; font-size: 0.9rem;">Le message de commande a été copié.</p>
-            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez ci-dessous pour nous l'envoyer :</p>
+            <p style="color:#94a3b8; font-size: 0.9rem;">Votre commande a été enregistrée.</p>
+            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez pour nous contacter :</p>
             
-            <a href="#" id="final-link" class="social-btn" target="_blank">Ouvrir Instagram</a>
+            <a href="#" id="final-link" class="social-btn" target="_blank">Ouvrir le lien</a>
             
             <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Fermer</button>
         </div>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: #64748b;">
-    Made by <span style="color: var(--primary);">Yessine Ben Fraj</span>
-</footer>
-
 <script>
-    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
+    // 1. Initialize Particles
+    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
-    // IMPORTANT: Replace with your actual JSON data or CSV logic
+    // 2. Product Data (You can replace this with CSV logic if you prefer)
     const productsData = {
         categories: [
             {
                 name: "Gaming",
-                logo_url: "https://cdn-icons-png.flaticon.com/512/686/686589.png", // Example Icon
+                logo_url: "https://cdn-icons-png.flaticon.com/512/686/686589.png", 
                 apps: [
                     { name: "Fortnite", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png", items: [{name: "1000 V-Bucks", price: "28 DT"}, {name: "2800 V-Bucks", price: "65 DT"}] },
                     { name: "Free Fire", logo: "https://seeklogo.com/images/G/garena-free-fire-logo-509201509D-seeklogo.com.png", items: [{name: "100 Diamonds", price: "6 DT"}, {name: "500 Diamonds", price: "25 DT"}] }
@@ -114,9 +125,10 @@
             },
             {
                 name: "Streaming",
-                logo_url: "https://cdn-icons-png.flaticon.com/512/2989/2989835.png", // Example Icon
+                logo_url: "https://cdn-icons-png.flaticon.com/512/2989/2989835.png",
                 apps: [
-                    { name: "Netflix", logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", items: [{name: "1 Mois 4K", price: "15 DT"}] }
+                    { name: "Netflix", logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", items: [{name: "1 Mois 4K", price: "15 DT"}] },
+                    { name: "Spotify", logo: "https://cdn-icons-png.flaticon.com/512/174/174872.png", items: [{name: "3 Mois Premium", price: "40 DT"}] }
                 ]
             }
         ]
@@ -125,8 +137,9 @@
     let currentSelection = "";
     let currentPrice = "";
 
+    // 3. Navigation Logic
     function showCategories() {
-        document.getElementById('view-title').innerText = "Categories";
+        document.getElementById('view-title').innerText = "Catégories";
         document.getElementById('warning-area').style.display = 'none';
         document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})">
@@ -154,6 +167,7 @@
                 </div>`).join('')}`;
     }
 
+    // 4. Modal Logic
     function openModal(name, price) {
         currentSelection = name;
         currentPrice = price;
@@ -173,43 +187,41 @@
         else input.placeholder = "Nom profil Facebook";
     }
 
+    // 5. Order Processing
     function processOrder() {
         const name = document.getElementById('uName').value;
         const contactMethod = document.getElementById('contactMethod').value;
         const contactDetail = document.getElementById('uContact').value;
         const btn = document.querySelector('.btn-action');
 
-        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs"); return; }
+        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs !"); return; }
 
         btn.innerText = "Traitement...";
         btn.disabled = true;
 
-        // Structured Message for Zapier/Sheets
-        const fullMessage = `
+        // Create the structured text for Zapier/Sheets
+        const orderText = `
 Article: ${currentSelection}
 Prix: ${currentPrice}
 Nom: ${name}
 Contact: ${contactMethod}: ${contactDetail}
         `.trim();
 
-        // Send to EmailJS
+        // Send data to EmailJS
         emailjs.send("service_default", "template_r8b7yaf", {
             customer_name: name,
-            message_body: fullMessage
+            message_body: orderText
         }).then(() => {
-            // Copy to Clipboard
-            navigator.clipboard.writeText(`Salut CyberHub! Je veux commander:\n${currentSelection} (${currentPrice})\nNom: ${name}`).then(() => {
-                showSuccess(contactMethod);
-                btn.innerText = "Confirmer & Commander";
-                btn.disabled = false;
-            });
+            showSuccess(contactMethod);
+            btn.innerText = "Confirmer & Commander";
+            btn.disabled = false;
         }, (err) => {
-            alert("Erreur de connexion: " + JSON.stringify(err));
-            btn.innerText = "Réessayer";
+            alert("Erreur: " + JSON.stringify(err));
             btn.disabled = false;
         });
     }
 
+    // 6. Success Screen Logic with YOUR LINKS
     function showSuccess(method) {
         document.getElementById('form-step').style.display = 'none';
         document.getElementById('success-step').style.display = 'block';
@@ -217,22 +229,20 @@ Contact: ${contactMethod}: ${contactDetail}
         
         if (method === "Instagram") {
             linkBtn.innerText = "Ouvrir Instagram";
-            linkBtn.href = "https://instagram.com/direct/t/__cyber__hub__"; // Your IG Link
+            linkBtn.href = "https://www.instagram.com/__cyber__hub__?igsh=MTJnbGZmdHl5Znc1aQ==";
             linkBtn.style.background = "linear-gradient(45deg, #f09433, #bc1888)";
         } else if (method === "WhatsApp") {
             linkBtn.innerText = "Ouvrir WhatsApp";
-            // Replace with your number
             linkBtn.href = "https://wa.me/21629895846"; 
             linkBtn.style.background = "#25D366";
         } else {
             linkBtn.innerText = "Ouvrir Facebook";
-            // Replace with your FB Link
-            linkBtn.href = "https://m.me/YOUR_FACEBOOK_PAGE_ID"; 
+            linkBtn.href = "https://www.facebook.com/share/1AeYqaxUyE/"; 
             linkBtn.style.background = "#1877F2";
         }
     }
 
-    // Initialize
+    // Start App
     showCategories();
 </script>
 </body>
