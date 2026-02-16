@@ -11,12 +11,13 @@
     
     <script>
         (function(){ 
+            // Initialize EmailJS with your Public Key
             emailjs.init("aVLHyVhILMDCu8T99"); 
         })();
     </script>
     
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); --border: rgba(255,255,255,0.1); }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 60px; overflow-x: hidden; }
         
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
@@ -27,7 +28,7 @@
         .logo { 
             width: 140px; 
             height: 140px; 
-            object-fit: contain; /* Keeps logo shape perfect */
+            object-fit: contain; 
             filter: drop-shadow(0 0 20px var(--primary)); 
             margin-bottom: 15px; 
             border-radius: 50%; 
@@ -68,7 +69,7 @@
 
 <div class="container">
     <div class="header">
-        <img src="https://i.imgur.com/GTSoVO6.png" class="logo" alt="CyberHub" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
+        <img src="https://i.imgur.com/3q15S2k.png" id="branding-logo" class="logo" alt="CyberHub" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
         <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
     </div>
 
@@ -140,9 +141,9 @@
                 
                 if (cols.length >= 6) {
                     const cat = cols[0];
-                    const catImg = cols[1] || "https://cdn-icons-png.flaticon.com/512/686/686589.png"; // Default Icon
+                    const catImg = cols[1] || "https://cdn-icons-png.flaticon.com/512/686/686589.png"; 
                     const sub = cols[2];
-                    const subImg = cols[3] || "https://cdn-icons-png.flaticon.com/512/5968/5968517.png"; // Default Icon
+                    const subImg = cols[3] || "https://cdn-icons-png.flaticon.com/512/5968/5968517.png"; 
                     const item = cols[4];
                     const price = cols[5];
 
@@ -243,7 +244,8 @@ Nom: ${name}
 Contact: ${contactMethod}: ${contactDetail}
         `.trim();
 
-        emailjs.send("service_default", "template_r8b7yaf", {
+        // YOUR REAL IDs ARE HERE
+        emailjs.send("service_tjvcxv4", "template_r8b7yaf", {
             customer_name: name,
             message_body: orderText
         }).then(() => {
@@ -285,5 +287,3 @@ Contact: ${contactMethod}: ${contactDetail}
 </script>
 </body>
 </html>
-
-
