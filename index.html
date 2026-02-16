@@ -1,205 +1,239 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub | Interactive Store</title>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>CyberHub | Digital Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        (function() {
-            emailjs.init("aVLHyVhILMDCu8T99");
-        })();
+        (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); // Your Public Key
     </script>
     <style>
-        :root {
-            --neon-blue: #00d2ff;
-            --deep-blue: #000c24;
-            --glass: rgba(0, 20, 50, 0.75);
-        }
-        body {
-            background: var(--deep-blue);
-            background-image: 
-                radial-gradient(circle at 20% 30%, #003366 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, #001a33 0%, transparent 50%);
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .cyber-card {
-            background: var(--glass);
-            border: 2px solid var(--neon-blue);
-            backdrop-filter: blur(15px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 210, 255, 0.25);
-            width: 90%;
-            max-width: 450px;
-            margin-top: 50px;
-            text-align: center;
-        }
-        .logo { width: 160px; filter: drop-shadow(0 0 10px var(--neon-blue)); margin-bottom: 20px; }
-        select, input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--neon-blue);
-            color: white;
-            border-radius: 5px;
-            font-family: 'Orbitron', sans-serif;
-            box-sizing: border-box;
-        }
-        #confirm-btn {
-            background: var(--neon-blue);
-            color: black;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 0 15px var(--neon-blue);
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-        #confirm-btn:disabled { background: #444; box-shadow: none; cursor: not-allowed; }
-        .social-hub {
-            margin-top: 30px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .social-icon {
-            text-decoration: none;
-            color: var(--neon-blue);
-            font-size: 11px;
-            border: 1px solid var(--neon-blue);
-            padding: 6px 10px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .social-icon:hover { background: var(--neon-blue); color: black; }
-        footer { margin-top: auto; padding: 30px 0; font-size: 12px; color: #555; }
-        .yessine { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue); font-weight: bold; }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); --border: rgba(255,255,255,0.1); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 60px; overflow-x: hidden; }
+        
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        
+        /* Header & Logo */
+        .header { text-align: center; padding: 40px 0; }
+        .logo { width: 110px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; }
+        
+        /* Navigation */
+        #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
+        .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
+        .nav-card img { width: 45px; height: 45px; margin-bottom: 10px; }
+        
+        /* Items */
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
+        .price { color: var(--primary); font-weight: 800; }
+        
+        /* Warning Box */
+        .warning-box { background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; color: #fef08a; padding: 15px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; display: none; text-align: center; }
+
+        /* Modal & Form */
+        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
+        .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
+        
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; font-size: 1rem; outline: none; box-sizing: border-box; font-family: inherit; }
+        input:focus, select:focus { border-color: var(--primary); }
+        
+        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 1rem; }
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="cyber-card">
-    <img src="Cyber-Hub-Logo.png" class="logo" alt="CyberHub">
-    <h2 style="letter-spacing: 2px; font-size: 16px; margin-bottom: 20px;">SYSTEME DE COMMANDE</h2>
+<div id="particles-js"></div>
 
-    <form id="order-form" onsubmit="processOrder(event)">
-        <select id="category" onchange="updateSub()"><option>Chargement de l'inventaire...</option></select>
-        <select id="subcategory" onchange="updateItems()"><option value="">-- Sous-Catégorie --</option></select>
-        <select id="product-select"><option value="">-- Article --</option></select>
+<div class="container">
+    <div class="header">
+        <img src="Cyber-Hub-Logo.png" id="branding-logo" class="logo" alt="CyberHub">
+        <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
+    </div>
 
-        <input type="text" id="name" placeholder="NOM CLIENT" required>
-        <input type="text" id="contact" placeholder="WHATSAPP / TEL" required>
+    <div id="view-title">Categories</div>
+    <div id="warning-area" class="warning-box"></div>
+    <div id="content-area"></div>
+</div>
 
-        <button type="submit" id="confirm-btn">VALIDER L'ACHAT</button>
-    </form>
+<div id="modal">
+    <div class="modal-content">
+        <h3 id="modal-item-name" style="color: var(--primary); margin-top:0;">Product</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8;">Remplissez vos infos pour commander.</p>
+        
+        <div id="form-step">
+            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed Tounsi)" required>
 
-    <div class="social-hub">
-        <a href="https://wa.me/21629895846" target="_blank" class="social-icon">WhatsApp</a>
-        <a href="#" class="social-icon">Facebook</a>
-        <a href="#" class="social-icon">Instagram</a>
+            <select id="contactMethod" onchange="updateContactPlaceholder()">
+                <option value="Instagram">Instagram 📸</option>
+                <option value="WhatsApp">WhatsApp 📞</option>
+                <option value="Facebook">Facebook 🔵</option>
+            </select>
+
+            <input type="text" id="uContact" placeholder="Votre Username (@...)" required>
+            
+            <button class="btn-action" onclick="processOrder()">Confirmer & Commander</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
+        </div>
+
+        <div id="success-step" style="display:none">
+            <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
+            <h3>Commande Prête !</h3>
+            <p style="color:#94a3b8; font-size: 0.9rem;">Le message de commande a été copié.</p>
+            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez ci-dessous pour nous l'envoyer :</p>
+            
+            <a href="#" id="final-link" class="social-btn" target="_blank">Ouvrir Instagram</a>
+            
+            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Fermer</button>
+        </div>
     </div>
 </div>
 
-<footer>
-    <p>Powered by CyberHub | Designed by <span class="yessine">Yessine Ben Fraj</span></p>
+<footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: #64748b;">
+    Made by <span style="color: var(--primary);">Yessine Ben Fraj</span>
 </footer>
 
 <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
-    let inventoryData = {};
+    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
-    async function loadSheetData() {
-        try {
-            const response = await fetch(CSV_URL);
-            const text = await response.text();
-            const rows = text.split('\n').slice(1);
+    // IMPORTANT: Replace with your actual JSON data or CSV logic
+    const productsData = {
+        categories: [
+            {
+                name: "Gaming",
+                logo_url: "https://cdn-icons-png.flaticon.com/512/686/686589.png", // Example Icon
+                apps: [
+                    { name: "Fortnite", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png", items: [{name: "1000 V-Bucks", price: "28 DT"}, {name: "2800 V-Bucks", price: "65 DT"}] },
+                    { name: "Free Fire", logo: "https://seeklogo.com/images/G/garena-free-fire-logo-509201509D-seeklogo.com.png", items: [{name: "100 Diamonds", price: "6 DT"}, {name: "500 Diamonds", price: "25 DT"}] }
+                ]
+            },
+            {
+                name: "Streaming",
+                logo_url: "https://cdn-icons-png.flaticon.com/512/2989/2989835.png", // Example Icon
+                apps: [
+                    { name: "Netflix", logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", items: [{name: "1 Mois 4K", price: "15 DT"}] }
+                ]
+            }
+        ]
+    };
 
-            rows.forEach(row => {
-                const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (columns.length >= 4) {
-                    const cat = columns[0].trim().replace(/^"|"$/g, '');
-                    const sub = columns[1].trim().replace(/^"|"$/g, '');
-                    const item = columns[2].trim().replace(/^"|"$/g, '');
-                    const price = columns[3].trim().replace(/^"|"$/g, '');
+    let currentSelection = "";
+    let currentPrice = "";
 
-                    if (!inventoryData[cat]) inventoryData[cat] = {};
-                    if (!inventoryData[cat][sub]) inventoryData[cat][sub] = [];
-                    inventoryData[cat][sub].push(`${item}|${price}`);
-                }
-            });
-            
-            const catSelect = document.getElementById('category');
-            catSelect.innerHTML = '<option value="">SÉLECTIONNER CATÉGORIE</option>';
-            Object.keys(inventoryData).forEach(cat => {
-                if(cat) catSelect.innerHTML += `<option value="${cat}">${cat.toUpperCase()}</option>`;
-            });
-        } catch (e) { console.error("Error:", e); }
+    function showCategories() {
+        document.getElementById('view-title').innerText = "Categories";
+        document.getElementById('warning-area').style.display = 'none';
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+            <div class="nav-card" onclick="showApps(${i})">
+                <img src="${c.logo_url}" style="width:50px;"><div>${c.name}</div>
+            </div>`).join('')}</div>`;
     }
 
-    function updateSub() {
-        const cat = document.getElementById('category').value;
-        const subSelect = document.getElementById('subcategory');
-        subSelect.innerHTML = '<option value="">-- Sous-Catégorie --</option>';
-        if (inventoryData[cat]) {
-            Object.keys(inventoryData[cat]).forEach(sub => {
-                subSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
-            });
-        }
-        updateItems();
+    function showApps(catIdx) {
+        const cat = productsData.categories[catIdx];
+        document.getElementById('view-title').innerText = cat.name;
+        document.getElementById('content-area').innerHTML = `
+            <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
+            <div class="grid">${cat.apps.map((a, i) => `
+                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}" style="width:50px;"><div>${a.name}</div></div>`).join('')}</div>`;
     }
 
-    function updateItems() {
-        const cat = document.getElementById('category').value;
-        const sub = document.getElementById('subcategory').value;
-        const itemSelect = document.getElementById('product-select');
-        itemSelect.innerHTML = '<option value="">-- Article --</option>';
-        if (inventoryData[cat] && inventoryData[cat][sub]) {
-            inventoryData[cat][sub].forEach(i => {
-                const [name, price] = i.split('|');
-                itemSelect.innerHTML += `<option value="${i}">${name} - ${price} DT</option>`;
-            });
-        }
+    function showItems(catIdx, appIdx) {
+        const app = productsData.categories[catIdx].apps[appIdx];
+        document.getElementById('view-title').innerText = app.name;
+        document.getElementById('content-area').innerHTML = `
+            <button onclick="showApps(${catIdx})" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
+            ${app.items.map(item => `
+                <div class="item-row" onclick="openModal('${app.name} - ${item.name}', '${item.price}')">
+                    <span>${item.name}</span><span class="price">${item.price}</span>
+                </div>`).join('')}`;
     }
 
-    function processOrder(event) {
-        event.preventDefault();
-        const btn = document.getElementById('confirm-btn');
-        const productVal = document.getElementById('product-select').value;
-        if (!productVal) return alert("Choisissez un produit !");
-        
-        btn.innerText = "CRYPTAGE...";
+    function openModal(name, price) {
+        currentSelection = name;
+        currentPrice = price;
+        document.getElementById('modal-item-name').innerText = name;
+        document.getElementById('form-step').style.display = 'block';
+        document.getElementById('success-step').style.display = 'none';
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+    function updateContactPlaceholder() {
+        const method = document.getElementById('contactMethod').value;
+        const input = document.getElementById('uContact');
+        if (method === "Instagram") input.placeholder = "Votre Username (@...)";
+        else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
+        else input.placeholder = "Nom profil Facebook";
+    }
+
+    function processOrder() {
+        const name = document.getElementById('uName').value;
+        const contactMethod = document.getElementById('contactMethod').value;
+        const contactDetail = document.getElementById('uContact').value;
+        const btn = document.querySelector('.btn-action');
+
+        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs"); return; }
+
+        btn.innerText = "Traitement...";
         btn.disabled = true;
 
-        const product = productVal.split('|');
-        const orderInfo = `Article: ${product[0]}\nPrix: ${product[1]} DT\nNom: ${document.getElementById('name').value}\nContact: ${document.getElementById('contact').value}`;
+        // Structured Message for Zapier/Sheets
+        const fullMessage = `
+Article: ${currentSelection}
+Prix: ${currentPrice}
+Nom: ${name}
+Contact: ${contactMethod}: ${contactDetail}
+        `.trim();
 
+        // Send to EmailJS
         emailjs.send("service_default", "template_r8b7yaf", {
-            customer_name: document.getElementById('name').value,
-            message_body: orderInfo
+            customer_name: name,
+            message_body: fullMessage
         }).then(() => {
-            alert("🚀 Commande synchronisée !");
-            window.location.reload();
-        }).catch(() => {
-            alert("Erreur de connexion");
-            btn.innerText = "VALIDER L'ACHAT";
+            // Copy to Clipboard
+            navigator.clipboard.writeText(`Salut CyberHub! Je veux commander:\n${currentSelection} (${currentPrice})\nNom: ${name}`).then(() => {
+                showSuccess(contactMethod);
+                btn.innerText = "Confirmer & Commander";
+                btn.disabled = false;
+            });
+        }, (err) => {
+            alert("Erreur de connexion: " + JSON.stringify(err));
+            btn.innerText = "Réessayer";
             btn.disabled = false;
         });
     }
 
-    loadSheetData();
+    function showSuccess(method) {
+        document.getElementById('form-step').style.display = 'none';
+        document.getElementById('success-step').style.display = 'block';
+        const linkBtn = document.getElementById('final-link');
+        
+        if (method === "Instagram") {
+            linkBtn.innerText = "Ouvrir Instagram";
+            linkBtn.href = "https://instagram.com/direct/t/__cyber__hub__"; // Your IG Link
+            linkBtn.style.background = "linear-gradient(45deg, #f09433, #bc1888)";
+        } else if (method === "WhatsApp") {
+            linkBtn.innerText = "Ouvrir WhatsApp";
+            // Replace with your number
+            linkBtn.href = "https://wa.me/21629895846"; 
+            linkBtn.style.background = "#25D366";
+        } else {
+            linkBtn.innerText = "Ouvrir Facebook";
+            // Replace with your FB Link
+            linkBtn.href = "https://m.me/YOUR_FACEBOOK_PAGE_ID"; 
+            linkBtn.style.background = "#1877F2";
+        }
+    }
+
+    // Initialize
+    showCategories();
 </script>
 </body>
 </html>
