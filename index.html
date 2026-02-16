@@ -11,7 +11,6 @@
     
     <script>
         (function(){ 
-            // Your Public Key
             emailjs.init("aVLHyVhILMDCu8T99"); 
         })();
     </script>
@@ -25,21 +24,29 @@
         
         /* Header & Logo */
         .header { text-align: center; padding: 40px 0; }
-        /* I made the logo slightly larger (130px) and rounded */
-        .logo { width: 130px; height: 130px; object-fit: cover; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo { 
+            width: 140px; 
+            height: 140px; 
+            object-fit: contain; /* Keeps logo shape perfect */
+            filter: drop-shadow(0 0 20px var(--primary)); 
+            margin-bottom: 15px; 
+            border-radius: 50%; 
+            border: 2px solid rgba(0, 168, 255, 0.3);
+            background: rgba(0,0,0,0.5);
+        }
         
         /* Navigation */
         #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
         .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
-        .nav-card img { width: 50px; height: 50px; margin-bottom: 10px; object-fit: contain; }
+        .nav-card img { width: 60px; height: 60px; margin-bottom: 10px; object-fit: contain; }
         
         /* Items */
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
         .price { color: var(--primary); font-weight: 800; }
         
-        /* Modal & Form */
+        /* Modal */
         #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
         
@@ -61,11 +68,11 @@
 
 <div class="container">
     <div class="header">
-        <img src="https://drive.google.com/uc?export=view&id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm" id="branding-logo" class="logo" alt="CyberHub">
+        <img src="https://i.imgur.com/3q15S2k.png" id="branding-logo" class="logo" alt="CyberHub" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
         <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
     </div>
 
-    <div id="view-title">Catégories</div>
+    <div id="view-title">CHARGEMENT...</div>
     <div id="content-area"></div>
     
     <footer>
@@ -79,7 +86,7 @@
         <p style="font-size: 0.85rem; color: #94a3b8;">Remplissez vos infos pour commander.</p>
         
         <div id="form-step">
-            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed Tounsi)" required>
+            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed)" required>
 
             <select id="contactMethod" onchange="updateContactPlaceholder()">
                 <option value="Instagram">Instagram 📸</option>
@@ -98,7 +105,6 @@
             <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
             <h3>Commande Prête !</h3>
             <p style="color:#94a3b8; font-size: 0.9rem;">Votre commande a été enregistrée.</p>
-            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez pour nous contacter :</p>
             
             <a href="#" id="final-link" class="social-btn" target="_blank">Ouvrir le lien</a>
             
@@ -111,81 +117,66 @@
     // 1. Initialize Particles
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
-    // 2. DATA SECTION (Everything is here now!)
-    const productsData = {
-        categories: [
-            {
-                name: "Gaming",
-                logo_url: "https://cdn-icons-png.flaticon.com/512/686/686589.png", 
-                apps: [
-                    { 
-                        name: "Fortnite", 
-                        logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png", 
-                        items: [
-                            {name: "1000 V-Bucks", price: "28 DT"}, 
-                            {name: "2800 V-Bucks", price: "65 DT"},
-                            {name: "5000 V-Bucks", price: "110 DT"}
-                        ] 
-                    },
-                    { 
-                        name: "Free Fire", 
-                        logo: "https://seeklogo.com/images/G/garena-free-fire-logo-509201509D-seeklogo.com.png", 
-                        items: [
-                            {name: "100 Diamonds", price: "6 DT"}, 
-                            {name: "210 Diamonds", price: "12 DT"},
-                            {name: "530 Diamonds", price: "28 DT"}
-                        ] 
-                    }
-                ]
-            },
-            {
-                name: "Streaming",
-                logo_url: "https://cdn-icons-png.flaticon.com/512/2989/2989835.png",
-                apps: [
-                    { 
-                        name: "Netflix", 
-                        logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", 
-                        items: [
-                            {name: "1 Mois (Partagé)", price: "10 DT"},
-                            {name: "1 Mois 4K (Privé)", price: "25 DT"}
-                        ] 
-                    },
-                    { 
-                        name: "Spotify", 
-                        logo: "https://cdn-icons-png.flaticon.com/512/174/174872.png", 
-                        items: [
-                            {name: "3 Mois Premium", price: "15 DT"},
-                            {name: "1 An Premium", price: "45 DT"}
-                        ] 
-                    }
-                ]
-            },
-            {
-                name: "Logiciels",
-                logo_url: "https://cdn-icons-png.flaticon.com/512/2885/2885417.png",
-                apps: [
-                    { 
-                        name: "Microsoft", 
-                        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png", 
-                        items: [
-                            {name: "Windows 11 Pro Key", price: "15 DT"},
-                            {name: "Office 2021 Pro", price: "20 DT"}
-                        ] 
-                    }
-                ]
-            }
-        ]
-    };
+    // 2. YOUR GOOGLE SHEET LINK
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
 
+    let productsData = { categories: [] };
     let currentSelection = "";
     let currentPrice = "";
 
-    // 3. Navigation Logic
+    // 3. LOAD DATA FROM SHEET
+    async function loadSheet() {
+        try {
+            const response = await fetch(CSV_URL);
+            const text = await response.text();
+            
+            // Parse CSV
+            const rows = text.split('\n').slice(1); // Skip header
+            let tempMap = {};
+
+            rows.forEach(row => {
+                // Split by comma (handle quotes if any)
+                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                
+                if (cols.length >= 6) {
+                    const cat = cols[0];
+                    const catImg = cols[1] || "https://cdn-icons-png.flaticon.com/512/686/686589.png"; // Default Icon
+                    const sub = cols[2];
+                    const subImg = cols[3] || "https://cdn-icons-png.flaticon.com/512/5968/5968517.png"; // Default Icon
+                    const item = cols[4];
+                    const price = cols[5];
+
+                    if (!tempMap[cat]) {
+                        tempMap[cat] = { name: cat, logo_url: catImg, apps: {} };
+                    }
+                    if (!tempMap[cat].apps[sub]) {
+                        tempMap[cat].apps[sub] = { name: sub, logo: subImg, items: [] };
+                    }
+                    tempMap[cat].apps[sub].items.push({ name: item, price: price });
+                }
+            });
+
+            // Convert map to arrays
+            productsData.categories = Object.values(tempMap).map(c => {
+                c.apps = Object.values(c.apps);
+                return c;
+            });
+
+            showCategories();
+            
+        } catch (error) {
+            console.error(error);
+            document.getElementById('view-title').innerText = "ERREUR DE CHARGEMENT";
+        }
+    }
+
+    // 4. NAVIGATION LOGIC
     function showCategories() {
-        document.getElementById('view-title').innerText = "Catégories";
+        document.getElementById('view-title').innerText = "CATÉGORIES";
         document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.logo_url}"><div>${c.name}</div>
+                <img src="${c.logo_url}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
+                <div>${c.name}</div>
             </div>`).join('')}</div>`;
     }
 
@@ -195,7 +186,10 @@
         document.getElementById('content-area').innerHTML = `
             <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
             <div class="grid">${cat.apps.map((a, i) => `
-                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}"><div>${a.name}</div></div>`).join('')}</div>`;
+                <div class="nav-card" onclick="showItems(${catIdx}, ${i})">
+                    <img src="${a.logo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'">
+                    <div>${a.name}</div>
+                </div>`).join('')}</div>`;
     }
 
     function showItems(catIdx, appIdx) {
@@ -209,7 +203,7 @@
                 </div>`).join('')}`;
     }
 
-    // 4. Modal Logic
+    // 5. MODAL & ORDER LOGIC
     function openModal(name, price) {
         currentSelection = name;
         currentPrice = price;
@@ -228,10 +222,9 @@
         if (method === "Instagram") input.placeholder = "Votre Username (@...)";
         else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
         else if (method === "Facebook") input.placeholder = "Nom profil Facebook";
-        else input.placeholder = "Votre adresse Email";
+        else input.placeholder = "Votre Email";
     }
 
-    // 5. Order Processing
     function processOrder() {
         const name = document.getElementById('uName').value;
         const contactMethod = document.getElementById('contactMethod').value;
@@ -254,7 +247,7 @@ Contact: ${contactMethod}: ${contactDetail}
             customer_name: name,
             message_body: orderText
         }).then(() => {
-            showSuccess(contactMethod, orderText, name);
+            showSuccess(contactMethod, orderText);
             btn.innerText = "Confirmer & Commander";
             btn.disabled = false;
         }, (err) => {
@@ -263,8 +256,7 @@ Contact: ${contactMethod}: ${contactDetail}
         });
     }
 
-    // 6. Success Screen Logic (With Your Links)
-    function showSuccess(method, orderText, name) {
+    function showSuccess(method, orderText) {
         document.getElementById('form-step').style.display = 'none';
         document.getElementById('success-step').style.display = 'block';
         const linkBtn = document.getElementById('final-link');
@@ -282,16 +274,14 @@ Contact: ${contactMethod}: ${contactDetail}
             linkBtn.href = "https://www.facebook.com/share/1AeYqaxUyE/"; 
             linkBtn.style.background = "#1877F2";
         } else {
-            // EMAIL LOGIC
             linkBtn.innerText = "Envoyer un Email";
-            // NOTE: Replace 'your@email.com' if you want replies to go somewhere specific
-            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Nouvelle Commande CyberHub&body=" + encodeURIComponent(orderText);
+            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Commande&body=" + encodeURIComponent(orderText);
             linkBtn.style.background = "#ea4335";
         }
     }
 
     // Start App
-    showCategories();
+    loadSheet();
 </script>
 </body>
 </html>
