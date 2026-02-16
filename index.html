@@ -1,231 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub | Digital Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>CyberHub - Boutique</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Your Public Key
+            emailjs.init("aVLHyVhILMDCu8T99");
+        })();
+    </script>
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); --border: rgba(255,255,255,0.1); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 60px; overflow-x: hidden; }
-        
-        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        
-        /* Header & Logo */
-        .header { text-align: center; padding: 40px 0; }
-        .logo { width: 110px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; }
-        
-        /* Navigation */
-        #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
-        .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
-        .nav-card img { width: 45px; height: 45px; margin-bottom: 10px; }
-        
-        /* Items */
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
-        .price { color: var(--primary); font-weight: 800; }
-        
-        /* Warning Box */
-        .warning-box { background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; color: #fef08a; padding: 15px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; display: none; text-align: center; }
-
-        /* Modal & Form */
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
-        
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; font-size: 1rem; outline: none; box-sizing: border-box; font-family: inherit; }
-        input:focus, select:focus { border-color: var(--primary); }
-        
-        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 1rem; }
-        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; }
+        :root {
+            --primary: #00ffcc;
+            --bg: #0a0a0a;
+        }
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+        }
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 5px;
+        }
+        #confirm-btn {
+            background: var(--primary);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        #confirm-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        /* Footer Style for Yessine */
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #222;
+        }
+        .credit {
+            font-size: 0.9em;
+            color: #888;
+            letter-spacing: 1px;
+        }
+        .credit strong {
+            color: var(--primary);
+            text-shadow: 0 0 8px var(--primary);
+        }
     </style>
 </head>
 <body>
 
-<div id="particles-js"></div>
-
-<div class="container">
-    <div class="header">
-        <img src="" id="branding-logo" class="logo" alt="CyberHub">
-        <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
-    </div>
-
-    <div id="view-title">Categories</div>
-    <div id="warning-area" class="warning-box"></div>
-    <div id="content-area"></div>
-</div>
-
-<div id="modal">
-    <div class="modal-content">
-        <h3 id="modal-item-name" style="color: var(--primary); margin-top:0;">Product</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">Remplissez vos infos pour commander.</p>
+    <div class="container">
+        <img src="Cyber-Hub-Logo.png" alt="CyberHub Logo" style="width: 150px;">
+        <h2>Passer une Commande</h2>
         
-        <div id="form-step">
-            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed Tounsi)" required>
-
-            <select id="contactMethod" onchange="updateContactPlaceholder()">
-                <option value="Instagram">Instagram 📸</option>
-                <option value="WhatsApp">WhatsApp 📞</option>
-                <option value="Facebook">Facebook 🔵</option>
+        <form id="order-form" onsubmit="processOrder(event)">
+            <input type="text" id="name" placeholder="Votre Nom Complet" required>
+            <input type="text" id="contact" placeholder="Numéro Téléphone / WhatsApp" required>
+            
+            <select id="product-select">
+                <option value="Fortnite 1000 V-Bucks|35">Fortnite 1000 V-Bucks - 35 DT</option>
+                <option value="Free Fire 500 Diamonds|20">Free Fire 500 Diamonds - 20 DT</option>
+                <option value="Netflix 1 Mois|25">Netflix 1 Mois - 25 DT</option>
             </select>
 
-            <input type="text" id="uContact" placeholder="Votre Username Instagram (@...)" required>
-            
-            <button class="btn-action" onclick="processOrder()">Confirmer & Commander</button>
-            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
-        </div>
+            <div id="order-summary-text" style="display:none;">
+                </div>
 
-        <div id="success-step" style="display:none">
-            <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
-            <h3>Commande Prête !</h3>
-            <p style="color:#94a3b8; font-size: 0.9rem;">Le message de commande a été copié.</p>
-            <p style="color:white; font-weight:bold; margin-bottom: 15px;">Cliquez ci-dessous pour nous l'envoyer :</p>
-            
-            <a href="#" id="final-link" class="social-btn" style="background: linear-gradient(45deg, #f09433, #bc1888);">Ouvrir Instagram</a>
-            
-            <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Fermer</button>
-        </div>
+            <button type="submit" id="confirm-btn">Confirmer la Commande</button>
+        </form>
     </div>
-</div>
 
-<script>
-    (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })(); // Your Public Key
-    
-    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
+    <footer>
+        <p class="credit">Developed & Designed by <strong>Yessine Ben Fraj</strong></p>
+        <p style="font-size: 0.7em; color: #444;">&copy; 2026 CyberHub Tunisia</p>
+    </footer>
 
-    let productsData = {};
-    let assetsData = {};
-    let currentSelection = "";
-    let currentPrice = "";
+    <script>
+        function processOrder(event) {
+            event.preventDefault(); // FIXES THE "TAKING TOO LONG" BUG
+            
+            const btn = document.getElementById('confirm-btn');
+            const productData = document.getElementById('product-select').value.split('|');
+            const name = document.getElementById('name').value;
+            const contact = document.getElementById('contact').value;
 
-    async function init() {
-        const [pRes, aRes] = await Promise.all([ fetch('products.json'), fetch('assets.json') ]);
-        productsData = await pRes.json();
-        assetsData = await aRes.json();
-        document.getElementById('branding-logo').src = assetsData.branding.logo_url;
-        showCategories();
-    }
+            btn.innerText = "Traitement...";
+            btn.disabled = true;
 
-    function showCategories() {
-        document.getElementById('view-title').innerText = "Categories";
-        document.getElementById('warning-area').style.display = 'none';
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
-            <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.logo_url}"><div>${c.name}</div>
-            </div>`).join('')}</div>`;
-    }
-
-    function showApps(catIdx) {
-        const cat = productsData.categories[catIdx];
-        document.getElementById('view-title').innerText = cat.name;
-        
-        // Show Warning
-        const warnBox = document.getElementById('warning-area');
-        if(cat.warning_note) { warnBox.innerText = cat.warning_note; warnBox.style.display = 'block'; }
-        else { warnBox.style.display = 'none'; }
-
-        document.getElementById('content-area').innerHTML = `
-            <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
-            <div class="grid">${cat.apps.map((a, i) => `
-                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}"><div>${a.name}</div></div>`).join('')}</div>`;
-    }
-
-    function showItems(catIdx, appIdx) {
-        const app = productsData.categories[catIdx].apps[appIdx];
-        document.getElementById('view-title').innerText = app.name;
-        document.getElementById('content-area').innerHTML = `
-            <button onclick="showApps(${catIdx})" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
-            ${app.items.map(item => `
-                <div class="item-row" onclick="openModal('${app.name} - ${item.name}', '${item.price}')">
-                    <span>${item.name}</span><span class="price">${item.price}</span>
-                </div>`).join('')}`;
-    }
-
-    function openModal(name, price) {
-        currentSelection = name;
-        currentPrice = price;
-        document.getElementById('modal-item-name').innerText = name;
-        document.getElementById('form-step').style.display = 'block';
-        document.getElementById('success-step').style.display = 'none';
-        document.getElementById('modal').style.display = 'flex';
-    }
-
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-    function updateContactPlaceholder() {
-        const method = document.getElementById('contactMethod').value;
-        const input = document.getElementById('uContact');
-        if (method === "Instagram") input.placeholder = "Votre Username (@...)";
-        else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
-        else input.placeholder = "Nom profil Facebook";
-    }
-
-    function processOrder() {
-        event.preventDefault();
-        const name = document.getElementById('uName').value;
-        const contactMethod = document.getElementById('contactMethod').value;
-        const contactDetail = document.getElementById('uContact').value;
-        const btn = document.querySelector('.btn-action');
-
-        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs"); return; }
-
-        btn.innerText = "Traitement...";
-        btn.disabled = true;
-
-        // Structured Message for Sheets extraction
-        const fullMessage = `
-🛒 Commande CyberHub
---------------------
-Article: ${currentSelection}
-Prix: ${currentPrice}
+            // Prepare the "message_body" that Zapier will read
+            const orderInfo = `
+Article: ${productData[0]}
+Prix: ${productData[1]} DT
 Nom: ${name}
-Contact: ${contactMethod} - ${contactDetail}
---------------------
-En attente de paiement D17.
-        `.trim();
+Contact: ${contact}
+            `;
 
-        // 1. Send Email (For Zapier -> Google Sheets)
-        emailjs.send("service_default", "template_r8b7yaf", {
-            product_name: currentSelection,
-            message_body: fullMessage // Ensure your EmailJS template uses {{message_body}}
-        }).then(() => {
-            // 2. Copy to Clipboard
-            navigator.clipboard.writeText(fullMessage).then(() => {
-                showSuccess(contactMethod);
-                btn.innerText = "Confirmer & Commander";
-                btn.disabled = false;
-            });
-        });
-    }
+            const templateParams = {
+                customer_name: name,
+                message_body: orderInfo
+            };
 
-    function showSuccess(method) {
-        document.getElementById('form-step').style.display = 'none';
-        document.getElementById('success-step').style.display = 'block';
-        const linkBtn = document.getElementById('final-link');
-        
-        if (method === "Instagram") {
-            linkBtn.innerText = "Ouvrir Instagram";
-            linkBtn.href = "https://instagram.com/direct/t/__cyber__hub__";
-            linkBtn.style.background = "linear-gradient(45deg, #f09433, #bc1888)";
-        } else if (method === "WhatsApp") {
-            linkBtn.innerText = "Ouvrir WhatsApp";
-            // Replace with your WhatsApp number
-            linkBtn.href = "https://wa.me/21629895846?text=" + encodeURIComponent("Bonjour CyberHub, voici ma commande (copiée).");
-            linkBtn.style.background = "#25D366";
-        } else {
-            linkBtn.innerText = "Ouvrir Facebook";
-            // Replace with your FB Page link
-            linkBtn.href = "https://m.me/61588022320307"; 
-            linkBtn.style.background = "#1877F2";
+            emailjs.send("service_default", "template_r8b7yaf", templateParams)
+                .then(function(response) {
+                    alert("✅ Commande envoyée !");
+                    window.location.reload();
+                }, function(error) {
+                    btn.innerText = "Confirmer";
+                    btn.disabled = false;
+                    console.error("EmailJS Error:", error);
+                    alert("Erreur: " + error.text + " (Status: " + error.status + ")");
+                });
         }
-    }
-
-    init();
-</script>
+    </script>
 </body>
 </html>
-
-
