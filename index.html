@@ -7,102 +7,43 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            // Your Public Key
             emailjs.init("aVLHyVhILMDCu8T99");
         })();
     </script>
-    <style>
-        :root {
-            --primary: #00ffcc;
-            --bg: #0a0a0a;
-        }
-        body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            border: 1px solid var(--primary);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-        }
-        input, select {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: white;
-            border-radius: 5px;
-        }
-        #confirm-btn {
-            background: var(--primary);
-            color: black;
-            border: none;
-            padding: 15px 30px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        #confirm-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
-        /* Footer Style for Yessine */
-        footer {
-            margin-top: 50px;
-            padding: 20px;
-            border-top: 1px solid #222;
-        }
-        .credit {
-            font-size: 0.9em;
-            color: #888;
-            letter-spacing: 1px;
-        }
-        .credit strong {
-            color: var(--primary);
-            text-shadow: 0 0 8px var(--primary);
-        }
-    </style>
 </head>
 <body>
 
-    <div class="container">
+    <div style="text-align: center; font-family: sans-serif; padding: 20px;">
         <img src="Cyber-Hub-Logo.png" alt="CyberHub Logo" style="width: 150px;">
-        <h2>Passer une Commande</h2>
+        <h1>CyberHub</h1>
         
         <form id="order-form" onsubmit="processOrder(event)">
-            <input type="text" id="name" placeholder="Votre Nom Complet" required>
-            <input type="text" id="contact" placeholder="Numéro Téléphone / WhatsApp" required>
+            <p>Nom Complet:</p>
+            <input type="text" id="name" required style="padding: 8px; width: 250px;">
             
-            <select id="product-select">
+            <p>Contact (WhatsApp/Tel):</p>
+            <input type="text" id="contact" required style="padding: 8px; width: 250px;">
+            
+            <p>Choisir un Article:</p>
+            <select id="product-select" style="padding: 8px; width: 270px;">
                 <option value="Fortnite 1000 V-Bucks|35">Fortnite 1000 V-Bucks - 35 DT</option>
                 <option value="Free Fire 500 Diamonds|20">Free Fire 500 Diamonds - 20 DT</option>
                 <option value="Netflix 1 Mois|25">Netflix 1 Mois - 25 DT</option>
             </select>
-
-            <div id="order-summary-text" style="display:none;">
-                </div>
-
-            <button type="submit" id="confirm-btn">Confirmer la Commande</button>
+            
+            <br><br>
+            <button type="submit" id="confirm-btn" style="padding: 10px 20px; cursor: pointer; background-color: #eee; border: 1px solid #ccc;">
+                Confirmer la Commande
+            </button>
         </form>
-    </div>
 
-    <footer>
-        <p class="credit">Developed & Designed by <strong>Yessine Ben Fraj</strong></p>
-        <p style="font-size: 0.7em; color: #444;">&copy; 2026 CyberHub Tunisia</p>
-    </footer>
+        <hr style="margin-top: 40px; width: 50%; border: 0.5px solid #eee;">
+        <p style="color: #888; font-size: 14px;">Made by <b>Yessine Ben Fraj</b></p>
+    </div>
 
     <script>
         function processOrder(event) {
-            event.preventDefault(); // FIXES THE "TAKING TOO LONG" BUG
+            event.preventDefault(); // STOPS THE INFINITE LOADING
             
             const btn = document.getElementById('confirm-btn');
             const productData = document.getElementById('product-select').value.split('|');
@@ -112,7 +53,7 @@
             btn.innerText = "Traitement...";
             btn.disabled = true;
 
-            // Prepare the "message_body" that Zapier will read
+            // This creates the exact text Zapier needs for your Google Sheet formulas
             const orderInfo = `
 Article: ${productData[0]}
 Prix: ${productData[1]} DT
@@ -122,18 +63,18 @@ Contact: ${contact}
 
             const templateParams = {
                 customer_name: name,
-                message_body: orderInfo
+                message_body: orderInfo // This maps to {{message_body}} in EmailJS
             };
 
             emailjs.send("service_default", "template_r8b7yaf", templateParams)
                 .then(function(response) {
-                    alert("✅ Commande envoyée !");
+                    alert("Commande Envoyée !");
                     window.location.reload();
                 }, function(error) {
                     btn.innerText = "Confirmer";
                     btn.disabled = false;
-                    console.error("EmailJS Error:", error);
-                    alert("Erreur: " + error.text + " (Status: " + error.status + ")");
+                    console.error("FAILED...", error);
+                    alert("Erreur: " + JSON.stringify(error));
                 });
         }
     </script>
