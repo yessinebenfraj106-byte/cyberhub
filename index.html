@@ -25,7 +25,8 @@
         
         /* Header & Logo */
         .header { text-align: center; padding: 40px 0; }
-        .logo { width: 140px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; border-radius: 50%; }
+        /* I made the logo slightly larger (130px) and rounded */
+        .logo { width: 130px; height: 130px; object-fit: cover; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; border-radius: 50%; border: 2px solid var(--primary); }
         
         /* Navigation */
         #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
@@ -107,11 +108,10 @@
 </div>
 
 <script>
-    // 1. Initialize Particles (Blue Background)
+    // 1. Initialize Particles
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
-    // 2. DATA SECTION (Add your new Categories & Photos here!)
-    // Use "Copy Image Address" from Google or Imgur for the logos.
+    // 2. DATA SECTION (Everything is here now!)
     const productsData = {
         categories: [
             {
@@ -161,7 +161,7 @@
                 ]
             },
             {
-                name: "Software",
+                name: "Logiciels",
                 logo_url: "https://cdn-icons-png.flaticon.com/512/2885/2885417.png",
                 apps: [
                     { 
@@ -243,7 +243,6 @@
         btn.innerText = "Traitement...";
         btn.disabled = true;
 
-        // Structured message for Zapier / Google Sheets
         const orderText = `
 Article: ${currentSelection}
 Prix: ${currentPrice}
@@ -255,7 +254,7 @@ Contact: ${contactMethod}: ${contactDetail}
             customer_name: name,
             message_body: orderText
         }).then(() => {
-            showSuccess(contactMethod, orderText);
+            showSuccess(contactMethod, orderText, name);
             btn.innerText = "Confirmer & Commander";
             btn.disabled = false;
         }, (err) => {
@@ -264,8 +263,8 @@ Contact: ${contactMethod}: ${contactDetail}
         });
     }
 
-    // 6. Success Screen Logic (With your Links)
-    function showSuccess(method, orderText) {
+    // 6. Success Screen Logic (With Your Links)
+    function showSuccess(method, orderText, name) {
         document.getElementById('form-step').style.display = 'none';
         document.getElementById('success-step').style.display = 'block';
         const linkBtn = document.getElementById('final-link');
@@ -285,8 +284,8 @@ Contact: ${contactMethod}: ${contactDetail}
         } else {
             // EMAIL LOGIC
             linkBtn.innerText = "Envoyer un Email";
-            // Replace with your actual email below if you want
-            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Nouvelle Commande&body=" + encodeURIComponent(orderText);
+            // NOTE: Replace 'your@email.com' if you want replies to go somewhere specific
+            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Nouvelle Commande CyberHub&body=" + encodeURIComponent(orderText);
             linkBtn.style.background = "#ea4335";
         }
     }
