@@ -11,7 +11,7 @@
     
     <script>
         (function(){ 
-            // Initialize EmailJS
+            // YOUR EMAILJS PUBLIC KEY
             emailjs.init("aVLHyVhILMDCu8T99"); 
         })();
     </script>
@@ -26,7 +26,7 @@
         /* Header & Logo */
         .header { text-align: center; padding: 40px 0; }
         .logo { 
-            width: 150px; /* Adjusted size for the new logo */
+            width: 150px; 
             height: 150px; 
             object-fit: contain; 
             filter: drop-shadow(0 0 20px var(--primary)); 
@@ -70,7 +70,7 @@
 
 <div class="container">
     <div class="header">
-        <img src="https://i.imgur.com/GTSoVO6.png" id="branding-logo" class="logo" alt="CyberHub" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" id="branding-logo" class="logo" alt="CyberHub">
         <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
     </div>
 
@@ -242,6 +242,7 @@ Nom: ${name}
 Contact: ${contactMethod}: ${contactDetail}
         `.trim();
 
+        // YOUR SERVICE ID AND TEMPLATE ID
         emailjs.send("service_tjvcxv4", "template_r8b7yaf", {
             customer_name: name,
             message_body: orderText
