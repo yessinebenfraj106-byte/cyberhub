@@ -164,6 +164,7 @@
     }
 
     function processOrder() {
+        event.preventDefault();
         const name = document.getElementById('uName').value;
         const contactMethod = document.getElementById('contactMethod').value;
         const contactDetail = document.getElementById('uContact').value;
@@ -226,4 +227,5 @@ En attente de paiement D17.
 </script>
 </body>
 </html>
+
 
