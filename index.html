@@ -11,7 +11,8 @@
     
     <script>
         (function(){ 
-            emailjs.init("aVLHyVhILMDCu8T99"); // Your Public Key
+            // Your Public Key
+            emailjs.init("aVLHyVhILMDCu8T99"); 
         })();
     </script>
     
@@ -24,22 +25,19 @@
         
         /* Header & Logo */
         .header { text-align: center; padding: 40px 0; }
-        .logo { width: 110px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; }
+        .logo { width: 140px; filter: drop-shadow(0 0 20px var(--primary)); margin-bottom: 10px; border-radius: 50%; }
         
         /* Navigation */
         #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
         .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
-        .nav-card img { width: 45px; height: 45px; margin-bottom: 10px; }
+        .nav-card img { width: 50px; height: 50px; margin-bottom: 10px; object-fit: contain; }
         
         /* Items */
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
         .price { color: var(--primary); font-weight: 800; }
         
-        /* Warning Box */
-        .warning-box { background: rgba(234, 179, 8, 0.15); border: 1px solid #eab308; color: #fef08a; padding: 15px; border-radius: 12px; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; display: none; text-align: center; }
-
         /* Modal & Form */
         #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
@@ -62,12 +60,11 @@
 
 <div class="container">
     <div class="header">
-        <img src="Cyber-Hub-Logo.png" id="branding-logo" class="logo" alt="CyberHub">
+        <img src="https://drive.google.com/uc?export=view&id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm" id="branding-logo" class="logo" alt="CyberHub">
         <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
     </div>
 
-    <div id="view-title">Categories</div>
-    <div id="warning-area" class="warning-box"></div>
+    <div id="view-title">Catégories</div>
     <div id="content-area"></div>
     
     <footer>
@@ -87,6 +84,7 @@
                 <option value="Instagram">Instagram 📸</option>
                 <option value="WhatsApp">WhatsApp 📞</option>
                 <option value="Facebook">Facebook 🔵</option>
+                <option value="Email">Email 📧</option>
             </select>
 
             <input type="text" id="uContact" placeholder="Votre Username (@...)" required>
@@ -109,26 +107,71 @@
 </div>
 
 <script>
-    // 1. Initialize Particles
+    // 1. Initialize Particles (Blue Background)
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
 
-    // 2. Product Data (You can replace this with CSV logic if you prefer)
+    // 2. DATA SECTION (Add your new Categories & Photos here!)
+    // Use "Copy Image Address" from Google or Imgur for the logos.
     const productsData = {
         categories: [
             {
                 name: "Gaming",
                 logo_url: "https://cdn-icons-png.flaticon.com/512/686/686589.png", 
                 apps: [
-                    { name: "Fortnite", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png", items: [{name: "1000 V-Bucks", price: "28 DT"}, {name: "2800 V-Bucks", price: "65 DT"}] },
-                    { name: "Free Fire", logo: "https://seeklogo.com/images/G/garena-free-fire-logo-509201509D-seeklogo.com.png", items: [{name: "100 Diamonds", price: "6 DT"}, {name: "500 Diamonds", price: "25 DT"}] }
+                    { 
+                        name: "Fortnite", 
+                        logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png", 
+                        items: [
+                            {name: "1000 V-Bucks", price: "28 DT"}, 
+                            {name: "2800 V-Bucks", price: "65 DT"},
+                            {name: "5000 V-Bucks", price: "110 DT"}
+                        ] 
+                    },
+                    { 
+                        name: "Free Fire", 
+                        logo: "https://seeklogo.com/images/G/garena-free-fire-logo-509201509D-seeklogo.com.png", 
+                        items: [
+                            {name: "100 Diamonds", price: "6 DT"}, 
+                            {name: "210 Diamonds", price: "12 DT"},
+                            {name: "530 Diamonds", price: "28 DT"}
+                        ] 
+                    }
                 ]
             },
             {
                 name: "Streaming",
                 logo_url: "https://cdn-icons-png.flaticon.com/512/2989/2989835.png",
                 apps: [
-                    { name: "Netflix", logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", items: [{name: "1 Mois 4K", price: "15 DT"}] },
-                    { name: "Spotify", logo: "https://cdn-icons-png.flaticon.com/512/174/174872.png", items: [{name: "3 Mois Premium", price: "40 DT"}] }
+                    { 
+                        name: "Netflix", 
+                        logo: "https://cdn-icons-png.flaticon.com/512/732/732228.png", 
+                        items: [
+                            {name: "1 Mois (Partagé)", price: "10 DT"},
+                            {name: "1 Mois 4K (Privé)", price: "25 DT"}
+                        ] 
+                    },
+                    { 
+                        name: "Spotify", 
+                        logo: "https://cdn-icons-png.flaticon.com/512/174/174872.png", 
+                        items: [
+                            {name: "3 Mois Premium", price: "15 DT"},
+                            {name: "1 An Premium", price: "45 DT"}
+                        ] 
+                    }
+                ]
+            },
+            {
+                name: "Software",
+                logo_url: "https://cdn-icons-png.flaticon.com/512/2885/2885417.png",
+                apps: [
+                    { 
+                        name: "Microsoft", 
+                        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png", 
+                        items: [
+                            {name: "Windows 11 Pro Key", price: "15 DT"},
+                            {name: "Office 2021 Pro", price: "20 DT"}
+                        ] 
+                    }
                 ]
             }
         ]
@@ -140,10 +183,9 @@
     // 3. Navigation Logic
     function showCategories() {
         document.getElementById('view-title').innerText = "Catégories";
-        document.getElementById('warning-area').style.display = 'none';
         document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.logo_url}" style="width:50px;"><div>${c.name}</div>
+                <img src="${c.logo_url}"><div>${c.name}</div>
             </div>`).join('')}</div>`;
     }
 
@@ -153,7 +195,7 @@
         document.getElementById('content-area').innerHTML = `
             <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
             <div class="grid">${cat.apps.map((a, i) => `
-                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}" style="width:50px;"><div>${a.name}</div></div>`).join('')}</div>`;
+                <div class="nav-card" onclick="showItems(${catIdx}, ${i})"><img src="${a.logo}"><div>${a.name}</div></div>`).join('')}</div>`;
     }
 
     function showItems(catIdx, appIdx) {
@@ -182,9 +224,11 @@
     function updateContactPlaceholder() {
         const method = document.getElementById('contactMethod').value;
         const input = document.getElementById('uContact');
+        
         if (method === "Instagram") input.placeholder = "Votre Username (@...)";
         else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
-        else input.placeholder = "Nom profil Facebook";
+        else if (method === "Facebook") input.placeholder = "Nom profil Facebook";
+        else input.placeholder = "Votre adresse Email";
     }
 
     // 5. Order Processing
@@ -199,7 +243,7 @@
         btn.innerText = "Traitement...";
         btn.disabled = true;
 
-        // Create the structured text for Zapier/Sheets
+        // Structured message for Zapier / Google Sheets
         const orderText = `
 Article: ${currentSelection}
 Prix: ${currentPrice}
@@ -207,12 +251,11 @@ Nom: ${name}
 Contact: ${contactMethod}: ${contactDetail}
         `.trim();
 
-        // Send data to EmailJS
         emailjs.send("service_default", "template_r8b7yaf", {
             customer_name: name,
             message_body: orderText
         }).then(() => {
-            showSuccess(contactMethod);
+            showSuccess(contactMethod, orderText);
             btn.innerText = "Confirmer & Commander";
             btn.disabled = false;
         }, (err) => {
@@ -221,8 +264,8 @@ Contact: ${contactMethod}: ${contactDetail}
         });
     }
 
-    // 6. Success Screen Logic with YOUR LINKS
-    function showSuccess(method) {
+    // 6. Success Screen Logic (With your Links)
+    function showSuccess(method, orderText) {
         document.getElementById('form-step').style.display = 'none';
         document.getElementById('success-step').style.display = 'block';
         const linkBtn = document.getElementById('final-link');
@@ -235,10 +278,16 @@ Contact: ${contactMethod}: ${contactDetail}
             linkBtn.innerText = "Ouvrir WhatsApp";
             linkBtn.href = "https://wa.me/21629895846"; 
             linkBtn.style.background = "#25D366";
-        } else {
+        } else if (method === "Facebook") {
             linkBtn.innerText = "Ouvrir Facebook";
             linkBtn.href = "https://www.facebook.com/share/1AeYqaxUyE/"; 
             linkBtn.style.background = "#1877F2";
+        } else {
+            // EMAIL LOGIC
+            linkBtn.innerText = "Envoyer un Email";
+            // Replace with your actual email below if you want
+            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Nouvelle Commande&body=" + encodeURIComponent(orderText);
+            linkBtn.style.background = "#ea4335";
         }
     }
 
