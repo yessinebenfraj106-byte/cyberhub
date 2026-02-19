@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Digital Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -12,126 +12,155 @@
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow-x: hidden; }
-        
-        /* Fixed Background Particles - Dots Size Fixed */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; pointer-events: all; }
-        
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; display: block; margin: auto; }
-
-        /* Modals */
-        #welcome-modal { display:flex; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:2000; justify-content:center; align-items:center; }
+        .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         
-        /* Fixed Scrollable Policy */
-        .modal-content { 
-            background: var(--bg); 
-            padding: 25px; 
-            border-radius: 24px; 
-            width: 90%; 
-            max-width: 400px; 
-            border: 1px solid var(--primary); 
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh; /* Limits height so it doesn't go off screen */
-        }
-
-        .policy-scroll-area {
-            overflow-y: auto; 
-            text-align: left; 
-            padding-right: 10px;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        /* Custom Scrollbar for Policy */
+        /* Mandatory Policy Modal */
+        #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 100%; max-width: 400px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 85vh; }
+        .policy-scroll-area { overflow-y: scroll; touch-action: pan-y; text-align: left; padding-right: 15px; margin: 15px 0; flex: 1; }
         .policy-scroll-area::-webkit-scrollbar { width: 5px; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; font-size: 1.1rem; }
-        .policy-text p { color: var(--sub); line-height: 1.6; font-size: 0.9rem; margin-bottom: 10px; }
-
-        .add-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; }
-        .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.5; }
+        .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; }
+        .policy-text p { font-size: 0.9rem; line-height: 1.5; color: var(--sub); }
+        .accept-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem; }
+        .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; border: 1px solid #334155; }
     </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
-<div class="container">
-    <div class="header" style="text-align:center;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo">
-        <h1 style="font-size: 1.5rem; letter-spacing: 2px;">CYBERHUB</h1>
-    </div>
-    <div id="content-area"></div>
-</div>
 
 <div id="welcome-modal">
     <div class="modal-content">
-        <h3 style="color:var(--primary); margin-top:0; text-align: center;">Store Policy</h3>
-        
+        <h2 style="color:var(--primary); margin:0; text-align: center; font-weight: 800;">STORE POLICY</h2>
         <div class="policy-scroll-area" id="policyScroll">
             <div class="policy-text">
-                <h4>1. Services Digitaux</h4>
-                <p>Toutes nos ventes sont des produits numériques. Une fois le service livré ou le compte activé, aucune demande de remboursement ne sera acceptée.</p>
-                
-                <h4>2. Livraison & Délais</h4>
-                <p>Le délai de livraison standard est de 24h à 48h. Nous vous contacterons via le mode de communication choisi (WhatsApp/Instagram) pour finaliser l'accès.</p>
-                
-                <h4>3. Responsabilité</h4>
-                <p>L'utilisateur est responsable de fournir des informations de contact valides. CyberHub n'est pas responsable en cas d'erreur de saisie du client.</p>
-                
-                <h4>4. Utilisation des Données</h4>
-                <p>Vos données sont utilisées uniquement pour le traitement de la commande via nos outils d'automatisation (Zapier/EmailJS).</p>
-                
-                <p style="margin-top: 20px; font-weight: bold; color: var(--text); text-align: center;">Veuillez défiler jusqu'en bas pour accepter.</p>
+                <p>Welcome to <strong>CyberHub</strong>. Before entering the store, please read and scroll to the bottom of our policy to accept.</p>
+                <h4>1. Digital Services</h4>
+                <p>All sales are final. Since we provide digital services, no refunds can be issued once an account is activated or a service is delivered.</p>
+                <h4>2. Delivery & Timeframes</h4>
+                <p>Standard delivery takes 24h to 48h. We will contact you via WhatsApp (+216 29 895 846) or Instagram to fulfill your order.</p>
+                <h4>3. Customer Responsibility</h4>
+                <p>Please ensure your contact information is correct. CyberHub is not responsible for errors in provided usernames or phone numbers.</p>
+                <h4>4. Data Privacy</h4>
+                <p>Your data is used exclusively for order processing via Zapier and EmailJS. We do not store or sell your personal information.</p>
+                <p style="text-align: center; color: var(--primary); font-weight: bold; margin-top: 20px;">Keep scrolling to accept...</p>
             </div>
         </div>
-
-        <button id="welcomeBtn" class="add-btn" onclick="closeWelcome()" disabled>Défilez pour accepter</button>
+        <button id="welcomeBtn" class="accept-btn" onclick="closeWelcome()" disabled>Scroll to Accept</button>
     </div>
 </div>
 
-<script>
-    // 1. FIXED PARTICLES - Smaller Dots & Clean Lines
-    particlesJS("particles-js", {
-        "particles": {
-            "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-            "color": { "value": "#00a8ff" },
-            "opacity": { "value": 0.5 },
-            "size": { "value": 2.5 }, // Smaller dots
-            "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.3, "width": 1 },
-            "move": { "enable": true, "speed": 1.5 }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": { "enable": true, "mode": "grab" },
-                "onclick": { "enable": true, "mode": "bubble" }
-            },
-            "modes": {
-                "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } },
-                "bubble": { "distance": 200, "size": 0, "opacity": 0, "duration": 1.5 }
-            }
-        }
-    });
+<div class="container">
+    <div class="top-controls">
+        <button class="icon-btn" onclick="toggleTheme()">🌓</button>
+        <button class="icon-btn" onclick="toggleLang()" id="langBtn">FR 🇫🇷</button>
+        <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px; flex-grow: 1; text-align: center;">CYBERHUB</div>
+        <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
+    </div>
+    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
+    <div class="social-bar">
+        <a href="https://wa.me/21629895846" class="s-link">📞</a>
+        <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
+        <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link">🔵</a>
+        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
+    </div>
+    <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
+    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
+    <div id="content-area"></div>
+</div>
 
-    // 2. SCROLL TO ACCEPT LOGIC
+<script>
+    const translations = {
+        EN: { loading: "LOADING...", search: "Search articles...", categories: "CATEGORIES", back: "← Back", cart: "Cart", myCart: "🛒 My Cart", total: "Total:", name: "Full Name", contact: "Username/Number", confirm: "Confirm Order", close: "Close", ready: "Ready!", contactSupport: "Contact Support", policy: "Store Policy", lang: "EN 🇺🇸" },
+        FR: { loading: "CHARGEMENT...", search: "Rechercher des articles...", categories: "CATÉGORIES", back: "← Retour", cart: "Panier", myCart: "🛒 Mon Panier", total: "Total:", name: "Nom Complet", contact: "Username/Numéro", confirm: "Confirmer la Commande", close: "Fermer", ready: "Prêt!", contactSupport: "Contacter Support", policy: "Politique du Store", lang: "FR 🇫🇷" }
+    };
+
+    let currentLang = "FR";
+    let productsData = { categories: [] };
+    let cart = [];
+
+    // Mandatory Scroll Logic
     const policyScroll = document.getElementById('policyScroll');
     const welcomeBtn = document.getElementById('welcomeBtn');
 
     policyScroll.addEventListener('scroll', function() {
-        // Check if user reached the bottom (buffer of 10px)
-        if (policyScroll.scrollHeight - policyScroll.scrollTop <= policyScroll.clientHeight + 10) {
+        const scrollTotal = policyScroll.scrollHeight - policyScroll.clientHeight;
+        const currentScroll = policyScroll.scrollTop;
+        if ((currentScroll / scrollTotal) > 0.95) {
             welcomeBtn.disabled = false;
-            welcomeBtn.innerText = "J'accepte et Entrer";
+            welcomeBtn.innerText = "I Agree & Enter";
         }
     });
 
     function closeWelcome() {
         document.getElementById('welcome-modal').style.display = 'none';
-        // Your existing fetchData() call here
+        fetchData(); 
     }
+
+    async function fetchData() {
+        const res = await fetch("YOUR_CSV_URL_HERE");
+        const text = await res.text();
+        const rows = text.split('\n').slice(1);
+        let temp = {};
+
+        rows.forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+            if (cols.length >= 9) {
+                // Language Fallback: If EN (6,7,8) is missing, use FR (0,2,4)
+                const cat = { fr: cols[0], en: cols[6] || cols[0] };
+                const sub = { fr: cols[2], en: cols[7] || cols[2] };
+                const item = { fr: cols[4], en: cols[8] || cols[4], price: cols[5] };
+
+                if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
+                if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
+                temp[cat.fr].apps[sub.fr].items.push(item);
+            }
+        });
+        productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
+        updateStaticText();
+        showCats();
+    }
+
+    function toggleLang() { currentLang = currentLang === "FR" ? "EN" : "FR"; updateStaticText(); showCats(); }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
+
+    function showCats() {
+        const lang = currentLang.toLowerCase();
+        document.getElementById('view-title').innerText = translations[currentLang].categories;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+            <div class="nav-card" onclick="showApps(${i})">
+                <img src="${c.img}">
+                <div>${c.name[lang]}</div>
+            </div>`).join('')}</div>`;
+    }
+
+    function updateStaticText() {
+        const t = translations[currentLang];
+        document.getElementById('langBtn').innerText = t.lang;
+        document.getElementById('mainSearch').placeholder = t.search;
+    }
+
+    function filterItems() {
+        const q = document.getElementById('mainSearch').value.toLowerCase();
+        document.querySelectorAll('.nav-card, .item-row').forEach(el => {
+            el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none";
+        });
+    }
+
+    // Initialize Particles
+    particlesJS("particles-js", {
+        "particles": { "number": { "value": 80 }, "color": { "value": "#00a8ff" }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 1.5 } },
+        "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "bubble" } }, "modes": { "grab": { "distance": 180 }, "bubble": { "distance": 200, "size": 0, "opacity": 0, "duration": 1.5 } } }
+    });
 </script>
 </body>
 </html>
