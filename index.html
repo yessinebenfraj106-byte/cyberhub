@@ -5,262 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberHub | Digital Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
-    <script>
-        (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();
-    </script>
-    
+    <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script>
     <style>
-        :root { 
-            --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); 
-            --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8;
-            --blend: screen;
-        }
-
-        body.light-mode {
-            --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9);
-            --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b;
-            --blend: multiply;
-        }
-
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; transition: 0.3s; }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
+        body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow-x: hidden; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; }
-
-        /* Header & Controls */
-        .header { text-align: center; padding: 20px 0; }
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--primary); filter: drop-shadow(0 0 10px var(--primary)); margin-bottom: 10px; background: #000; }
         
+        /* UI Elements */
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; }
         .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 12px; cursor: pointer; backdrop-filter: blur(5px); }
-
-        /* Social Bar */
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 12px; cursor: pointer; }
         .social-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .s-link { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); transition: 0.2s; }
-        .s-link:hover { transform: translateY(-3px); border-color: var(--primary); }
-
-        /* Search & Grid */
-        .search-box input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; margin-bottom: 20px; }
+        .s-link { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); transition: 0.2s; font-size: 1.2rem; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; }
         .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
-        
-        /* Items & Cart UI */
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .add-btn { background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         
-        .cart-status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 12px 25px; border-radius: 30px; display: none; cursor: pointer; box-shadow: 0 10px 20px rgba(0,168,255,0.3); z-index: 999; font-weight: 800; }
-
-        /* Modal */
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background: var(--bg); padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--primary); max-height: 80vh; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 8px 0; font-size: 0.9rem; }
+        /* Cart Status */
+        .cart-status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 12px 25px; border-radius: 30px; display: none; cursor: pointer; box-shadow: 0 10px 20px rgba(0,168,255,0.4); z-index: 999; font-weight: 800; }
         
+        /* Modals */
+        #modal, #policy-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:1000; justify-content:center; align-items:center; }
+        .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 400px; border: 1px solid var(--primary); max-height: 85vh; overflow-y: auto; color: var(--text); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
-        .checkout-btn { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 15px; }
+        
+        .policy-text { font-size: 0.85rem; line-height: 1.6; text-align: left; color: var(--sub); }
+        .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; }
     </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
 <div class="container">
     <div class="top-controls">
-        <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
+        <button class="icon-btn" onclick="toggleTheme()">🌓</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
         <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
     </div>
-
-    <div class="header">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo">
-    </div>
-
+    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
     <div class="social-bar">
         <a href="https://wa.me/21629895846" class="s-link">📞</a>
         <a href="https://www.instagram.com/__cyber__hub__?igsh=MTJnbGZmdHl5Znc1aQ==" class="s-link">📸</a>
         <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link">🔵</a>
         <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
     </div>
-
-    <div class="search-box">
-        <input type="text" id="mainSearch" placeholder="Rechercher un service..." onkeyup="filterItems()">
-    </div>
-
+    <input type="text" id="mainSearch" placeholder="Rechercher un service..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">CHARGEMENT...</h3>
     <div id="content-area"></div>
+    <footer style="margin-top:40px; text-align:center; font-size:0.8rem; color:var(--sub);">
+        © 2026 CyberHub. <span style="color:var(--primary); cursor:pointer; font-weight:bold;" onclick="togglePolicy(true)">Store Policy</span>
+    </footer>
 </div>
 
-<div class="cart-status" id="cart-float" onclick="openCart()">Voir Panier (<span id="float-total">0</span> DT)</div>
+<div class="cart-status" id="cart-float" onclick="openCart()">Panier: <span id="float-total">0</span> DT</div>
 
 <div id="modal">
     <div class="modal-content">
         <div id="cart-view">
-            <h3 style="margin-top:0">Votre Panier</h3>
-            <div id="cart-items-list"></div>
-            <div style="margin: 15px 0; font-weight: 800; border-top: 2px solid var(--primary); padding-top: 10px;">
-                Total: <span id="cart-total-price">0</span> DT
-            </div>
-            
-            <input type="text" id="custName" placeholder="Votre Nom">
-            <select id="custMethod">
-                <option value="WhatsApp">WhatsApp 📞</option>
-                <option value="Instagram">Instagram 📸</option>
-                <option value="Facebook">Facebook 🔵</option>
-            </select>
-            <input type="text" id="custContact" placeholder="Username ou Numéro">
-            
-            <button class="checkout-btn" id="sendOrderBtn" onclick="submitOrder()">Commander via EmailJS</button>
-            <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Continuer les achats</button>
+            <h3 style="margin:0 0 15px 0">🛒 Mon Panier</h3>
+            <div id="cart-items-list" style="max-height: 150px; overflow-y: auto;"></div>
+            <div style="margin-top:15px; display:flex; gap:5px;"><input type="text" id="promoInput" placeholder="Code Promo" style="margin:0; flex:1;"><button class="add-btn" onclick="applyPromo()">OK</button></div>
+            <div id="promoMsg" style="font-size:0.7rem; margin-top:5px;"></div>
+            <div style="margin:15px 0; font-weight:800; border-top:2px solid var(--primary); padding-top:10px; display:flex; justify-content:space-between;"><span>Total:</span><span><span id="cart-total-price">0</span> DT</span></div>
+            <input type="text" id="custName" placeholder="Nom Complet"><select id="custMethod"><option value="WhatsApp">WhatsApp</option><option value="Instagram">Instagram</option><option value="Facebook">Facebook</option></select><input type="text" id="custContact" placeholder="Username/Numéro">
+            <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px; margin-top:10px;" onclick="submitOrder()">Confirmer</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Fermer</button>
         </div>
+        <div id="success-view" style="display:none; text-align:center;"><div style="font-size:4rem;">✅</div><h3>Prêt!</h3><a href="#" id="final-redirect" class="add-btn" style="display:block; text-decoration:none; margin-top:15px;" target="_blank">Contacter Support</a></div>
+    </div>
+</div>
 
-        <div id="success-view" style="display:none; text-align: center;">
-            <div style="font-size: 4rem;">✅</div>
-            <h3>Commande Envoyée!</h3>
-            <p style="color:var(--sub); font-size: 0.9rem;">Finalisez en nous contactant sur :</p>
-            <a href="#" id="final-redirect" class="checkout-btn" style="display:block; text-decoration:none;" target="_blank">Ouvrir le lien</a>
+<div id="policy-modal">
+    <div class="modal-content">
+        <h3 style="color:var(--primary); margin-top:0;">Store Policy</h3>
+        <div class="policy-text">
+            <h4>1. Services Digitaux</h4>
+            Toutes nos ventes sont des services numériques. La livraison s'effectue via WhatsApp ou Instagram après confirmation du paiement.
+            <h4>2. Livraison</h4>
+            Le délai habituel est de 24-48h. Assurez-vous de fournir un contact valide.
+            <h4>3. Remboursement</h4>
+            Les ventes sont finales. Aucun remboursement n'est possible une fois le service livré ou activé.
+            <h4>4. Promo Codes</h4>
+            Un seul code par commande. Entrez le code avant de confirmer.
         </div>
+        <button class="add-btn" style="width:100%; margin-top:20px;" onclick="togglePolicy(false)">J'ai compris</button>
     </div>
 </div>
 
 <script>
-    // Particle Init
-    particlesJS("particles-js", { "particles": { "number": { "value": 40 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.3 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 120, "color": "#00a8ff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1 } } });
-
+    particlesJS("particles-js", { "particles": { "number": { "value": 40 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.2 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 120, "color": "#00a8ff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1 } } });
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
     let productsData = { categories: [] };
     let cart = [];
+    let discount = 0;
 
     async function fetchData() {
-        try {
-            const res = await fetch(CSV_URL);
-            const text = await res.text();
-            const rows = text.split('\n').slice(1);
-            let temp = {};
-
-            rows.forEach(row => {
-                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if (cols.length >= 6) {
-                    const [cat, catImg, sub, subImg, item, price] = cols;
-                    if (!temp[cat]) temp[cat] = { name: cat, img: catImg, apps: {} };
-                    if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: subImg, items: [] };
-                    temp[cat].apps[sub].items.push({ name: item, price: price });
-                }
-            });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
-            showCats();
-        } catch (e) { document.getElementById('view-title').innerText = "ERREUR CHARGEMENT"; }
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+        const rows = text.split('\n').slice(1);
+        let temp = {};
+        rows.forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+            if (cols.length >= 6) {
+                const [cat, catImg, sub, subImg, item, price] = cols;
+                if (!temp[cat]) temp[cat] = { name: cat, img: catImg, apps: {} };
+                if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: subImg, items: [] };
+                temp[cat].apps[sub].items.push({ name: item, price: price });
+            }
+        });
+        productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
+        showCats();
     }
 
     function showCats() {
         document.getElementById('view-title').innerText = "CATÉGORIES";
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
-            <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
-                <div style="font-weight:700">${c.name}</div>
-            </div>`).join('')}</div>`;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'"><div>${c.name}</div></div>`).join('')}</div>`;
     }
 
     function showApps(idx) {
         const c = productsData.categories[idx];
         document.getElementById('view-title').innerText = c.name;
-        document.getElementById('content-area').innerHTML = `
-            <button onclick="showCats()" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">← Retour</button>
-            <div class="grid">${c.apps.map((a, i) => `
-                <div class="nav-card" onclick="showItems(${idx}, ${i})">
-                    <img src="${a.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'">
-                    <div style="font-weight:700">${a.name}</div>
-                </div>`).join('')}</div>`;
+        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">← Retour</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'"><div>${a.name}</div></div>`).join('')}</div>`;
     }
 
     function showItems(cIdx, aIdx) {
         const a = productsData.categories[cIdx].apps[aIdx];
         document.getElementById('view-title').innerText = a.name;
-        document.getElementById('content-area').innerHTML = `
-            <button onclick="showApps(${cIdx})" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">← Retour</button>
-            ${a.items.map(it => `
-                <div class="item-row">
-                    <span>${it.name}</span>
-                    <div>
-                        <span style="color:var(--primary); font-weight:800; margin-right:10px;">${it.price}</span>
-                        <button class="add-btn" onclick="addToCart('${a.name} - ${it.name}', '${it.price}')">+</button>
-                    </div>
-                </div>`).join('')}`;
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">← Retour</button>${a.items.map(it => `<div class="item-row"><span>${it.name}</span><div><span style="color:var(--primary); font-weight:800; margin-right:10px;">${it.price}</span><button class="add-btn" onclick="addToCart('${a.name} - ${it.name}', '${it.price}')">+</button></div></div>`).join('')}`;
     }
 
     function addToCart(name, price) {
-        cart.push({ name, price: parseFloat(price) || 0 });
+        cart.push({ name, price: parseFloat(price.replace(/[^0-9.]/g, '')) || 0 });
         updateCartUI();
     }
 
     function updateCartUI() {
+        const subtotal = cart.reduce((s, i) => s + i.price, 0);
+        const final = subtotal * (1 - discount);
         document.getElementById('cart-count').innerText = cart.length;
-        const total = cart.reduce((s, i) => s + i.price, 0);
-        const float = document.getElementById('cart-float');
-        if(cart.length > 0) {
-            float.style.display = 'block';
-            document.getElementById('float-total').innerText = total;
-        } else { float.style.display = 'none'; }
+        document.getElementById('cart-float').style.display = cart.length > 0 ? 'block' : 'none';
+        document.getElementById('float-total').innerText = final.toFixed(2);
+    }
+
+    function applyPromo() {
+        const code = document.getElementById('promoInput').value.toUpperCase();
+        const msg = document.getElementById('promoMsg');
+        if(code === "CYBER10") { discount = 0.10; msg.innerText = "-10% Appliqué!"; msg.style.color="#25D366"; }
+        else { discount = 0; msg.innerText = "Code invalide"; msg.style.color="red"; }
+        updateCartUI();
+        document.getElementById('cart-total-price').innerText = (cart.reduce((s, i) => s + i.price, 0) * (1 - discount)).toFixed(2);
     }
 
     function openCart() {
         const list = document.getElementById('cart-items-list');
-        list.innerHTML = cart.map((item, i) => `
-            <div class="cart-item">
-                <span>${item.name}</span>
-                <span>${item.price} DT <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button></span>
-            </div>`).join('');
-        document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
+        list.innerHTML = cart.map((item, i) => `<div style="display:flex; justify-content:space-between; padding:5px 0; font-size:0.85rem; border-bottom:1px solid var(--border)"><span>${item.name}</span><span>${item.price} DT <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button></span></div>`).join('');
+        document.getElementById('cart-total-price').innerText = (cart.reduce((s, i) => s + i.price, 0) * (1 - discount)).toFixed(2);
+        document.getElementById('modal').style.display = 'flex';
         document.getElementById('cart-view').style.display = 'block';
         document.getElementById('success-view').style.display = 'none';
-        document.getElementById('modal').style.display = 'flex';
     }
 
-    function removeFromCart(i) {
-        cart.splice(i, 1);
-        updateCartUI();
-        openCart();
-    }
+    function removeFromCart(i) { cart.splice(i, 1); updateCartUI(); openCart(); }
 
     function submitOrder() {
         const name = document.getElementById('custName').value;
         const method = document.getElementById('custMethod').value;
         const contact = document.getElementById('custContact').value;
-        if(!name || !contact || cart.length === 0) return alert("Veuillez remplir les infos !");
-
-        const btn = document.getElementById('sendOrderBtn');
-        btn.innerText = "Envoi..."; btn.disabled = true;
-
-        const cartText = cart.map(i => `- ${i.name} (${i.price} DT)`).join('\n');
-        const total = cart.reduce((s, i) => s + i.price, 0);
+        if(!name || !contact || cart.length === 0) return alert("Infos manquantes!");
+        
+        const btn = document.getElementById('sendOrderBtn'); btn.innerText = "Envoi..."; btn.disabled = true;
+        const subtotal = cart.reduce((s, i) => s + i.price, 0);
+        const total = (subtotal * (1 - discount)).toFixed(2);
+        const items = cart.map(i => `- ${i.name} (${i.price} DT)`).join('\n');
 
         emailjs.send("service_tjvcxv4", "template_r8b7yaf", {
             customer_name: name,
-            message_body: `Commande de ${name}\nContact: ${method} (${contact})\n\nArticles:\n${cartText}\n\nTOTAL: ${total} DT`
+            message_body: `CLIENT: ${name}\nCONTACT: ${method} (${contact})\n\nARTICLES:\n${items}\nREDUC: ${discount*100}%\nTOTAL: ${total} DT`
         }).then(() => {
             document.getElementById('cart-view').style.display = 'none';
             document.getElementById('success-view').style.display = 'block';
-            const redirect = document.getElementById('final-redirect');
-            if(method === "WhatsApp") { redirect.href = "https://wa.me/21629895846"; redirect.innerText = "WhatsApp"; }
-            else if(method === "Instagram") { redirect.href = "https://www.instagram.com/__cyber__hub__?igsh=MTJnbGZmdHl5Znc1aQ=="; redirect.innerText = "Instagram"; }
-            else { redirect.href = "https://www.facebook.com/share/17Hs8EAiix/"; redirect.innerText = "Facebook"; }
+            const redir = document.getElementById('final-redirect');
+            if(method === "WhatsApp") redir.href = "https://wa.me/21629895846";
+            else if(method === "Instagram") redir.href = "https://www.instagram.com/__cyber__hub__";
+            else redir.href = "https://www.facebook.com/share/17Hs8EAiix/";
             cart = []; updateCartUI();
-        }).finally(() => { btn.innerText = "Commander"; btn.disabled = false; });
+        }).finally(() => { btn.innerText = "Confirmer"; btn.disabled = false; });
     }
 
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-    }
-
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
+    function togglePolicy(show) { document.getElementById('policy-modal').style.display = show ? 'flex' : 'none'; }
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
-        document.querySelectorAll('.nav-card, .item-row').forEach(el => {
-            el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none";
-        });
+        document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
     }
-
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
     fetchData();
 </script>
