@@ -11,7 +11,6 @@
     
     <script>
         (function(){ 
-            // YOUR EMAILJS PUBLIC KEY
             emailjs.init("aVLHyVhILMDCu8T99"); 
         })();
     </script>
@@ -24,41 +23,49 @@
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
         /* Header & Logo */
-        .header { text-align: center; padding: 40px 0; }
+        .header { text-align: center; padding: 30px 0 10px 0; }
         .logo { 
-            width: 150px; 
-            height: 150px; 
-            object-fit: contain; 
-            filter: drop-shadow(0 0 20px var(--primary)); 
-            margin-bottom: 15px; 
-            border-radius: 50%; 
+            width: 120px; height: 120px; object-fit: contain; 
+            filter: drop-shadow(0 0 15px var(--primary)); 
+            margin-bottom: 10px; border-radius: 50%; 
             border: 2px solid rgba(0, 168, 255, 0.3);
-            background: rgba(0,0,0,0.5);
-            padding: 5px;
+            background: rgba(0,0,0,0.5); padding: 5px;
         }
+
+        /* NEW: Social Contact Bar */
+        .contact-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; }
+        .c-btn {
+            width: 45px; height: 45px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.2rem;
+            background: var(--card); border: 1px solid var(--border);
+            transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .c-btn:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 5px 15px rgba(0, 168, 255, 0.2); }
+        .c-wa { color: #25D366; } .c-ig { color: #E4405F; } .c-fb { color: #1877F2; } .c-ml { color: #ea4335; }
+
+        /* NEW: Search Bar */
+        .search-box { width: 100%; margin-bottom: 20px; position: relative; }
+        .search-box input { width: 100%; padding: 12px 15px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; color: white; outline: none; transition: 0.3s; box-sizing: border-box; }
+        .search-box input:focus { border-color: var(--primary); }
         
-        /* Navigation */
-        #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        /* Navigation & Grid */
+        #view-title { font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; font-size: 0.9rem; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
-        .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 168, 255, 0.15); }
-        .nav-card img { width: 60px; height: 60px; margin-bottom: 10px; object-fit: contain; }
+        .nav-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         
-        /* Items */
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(5px); }
+        /* BG Removal Trick: mix-blend-mode removes black/dark backgrounds from JPGs */
+        .nav-card img { width: 65px; height: 65px; margin-bottom: 10px; object-fit: contain; mix-blend-mode: screen; filter: brightness(1.1); }
+        
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .price { color: var(--primary); font-weight: 800; }
         
         /* Modal */
         #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background: #0f172a; padding: 30px; border-radius: 24px; width: 90%; max-width: 380px; text-align: center; border: 1px solid var(--primary); }
-        
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; font-size: 1rem; outline: none; box-sizing: border-box; font-family: inherit; }
-        input:focus, select:focus { border-color: var(--primary); }
-        
-        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 1rem; }
-        .btn-action:disabled { background: #555; cursor: not-allowed; }
-        
-        .social-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border-radius: 10px; margin-top: 10px; text-decoration: none; font-weight: bold; color: white; cursor: pointer; box-sizing: border-box; }
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); background: #020617; color: white; box-sizing: border-box; font-family: inherit; }
+        .btn-action { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 15px; }
         
         footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: #64748b; }
         .credit { color: var(--primary); font-weight: bold; }
@@ -70,16 +77,25 @@
 
 <div class="container">
     <div class="header">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" id="branding-logo" class="logo" alt="CyberHub">
-        <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;">CYBERHUB</div>
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" alt="CyberHub">
+        <div style="font-size: 1.4rem; font-weight: 800; letter-spacing: 3px; margin-bottom: 20px;">CYBERHUB</div>
+    </div>
+
+    <div class="contact-bar">
+        <a href="https://wa.me/21629895846" class="c-btn c-wa" target="_blank">📞</a>
+        <a href="https://www.instagram.com/__cyber__hub__" class="c-btn c-ig" target="_blank">📸</a>
+        <a href="https://www.facebook.com/share/1AeYqaxUyE/" class="c-btn c-fb" target="_blank">🔵</a>
+        <a href="mailto:cyberhubcontact@gmail.com" class="c-btn c-ml">📧</a>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="storeSearch" placeholder="Rechercher un service..." onkeyup="handleSearch()">
     </div>
 
     <div id="view-title">CHARGEMENT...</div>
     <div id="content-area"></div>
     
-    <footer>
-        Made by <span class="credit">Yessine Ben Fraj</span>
-    </footer>
+    <footer>Made by <span class="credit">Yessine Ben Fraj</span></footer>
 </div>
 
 <div id="modal">
@@ -88,17 +104,14 @@
         <p style="font-size: 0.85rem; color: #94a3b8;">Remplissez vos infos pour commander.</p>
         
         <div id="form-step">
-            <input type="text" id="uName" placeholder="Votre Nom (ex: Ahmed)" required>
-
+            <input type="text" id="uName" placeholder="Votre Nom">
             <select id="contactMethod" onchange="updateContactPlaceholder()">
                 <option value="Instagram">Instagram 📸</option>
                 <option value="WhatsApp">WhatsApp 📞</option>
                 <option value="Facebook">Facebook 🔵</option>
                 <option value="Email">Email 📧</option>
             </select>
-
-            <input type="text" id="uContact" placeholder="Votre Username (@...)" required>
-            
+            <input type="text" id="uContact" placeholder="Votre Username (@...)">
             <button class="btn-action" onclick="processOrder()">Confirmer & Commander</button>
             <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Annuler</button>
         </div>
@@ -106,52 +119,32 @@
         <div id="success-step" style="display:none">
             <div style="font-size: 4rem; margin-bottom:10px;">✅</div>
             <h3>Commande Prête !</h3>
-            <p style="color:#94a3b8; font-size: 0.9rem;">Votre commande a été enregistrée.</p>
-            
-            <a href="#" id="final-link" class="social-btn" target="_blank">Ouvrir le lien</a>
-            
+            <a href="#" id="final-link" class="btn-action" style="display:block; text-decoration:none;" target="_blank">Ouvrir le lien</a>
             <button onclick="closeModal()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer;">Fermer</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. Initialize Particles
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } } });
+    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.3 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1.5 } } });
 
-    // 2. GOOGLE SHEET LINK
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
-
     let productsData = { categories: [] };
-    let currentSelection = "";
-    let currentPrice = "";
+    let currentSelection = ""; let currentPrice = "";
 
-    // 3. LOAD DATA
     async function loadSheet() {
         try {
             const response = await fetch(CSV_URL);
             const text = await response.text();
-            
             const rows = text.split('\n').slice(1);
             let tempMap = {};
 
             rows.forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                
                 if (cols.length >= 6) {
-                    const cat = cols[0];
-                    const catImg = cols[1] || "https://cdn-icons-png.flaticon.com/512/686/686589.png"; 
-                    const sub = cols[2];
-                    const subImg = cols[3] || "https://cdn-icons-png.flaticon.com/512/5968/5968517.png"; 
-                    const item = cols[4];
-                    const price = cols[5];
-
-                    if (!tempMap[cat]) {
-                        tempMap[cat] = { name: cat, logo_url: catImg, apps: {} };
-                    }
-                    if (!tempMap[cat].apps[sub]) {
-                        tempMap[cat].apps[sub] = { name: sub, logo: subImg, items: [] };
-                    }
+                    const [cat, catImg, sub, subImg, item, price] = cols;
+                    if (!tempMap[cat]) tempMap[cat] = { name: cat, logo: catImg, apps: {} };
+                    if (!tempMap[cat].apps[sub]) tempMap[cat].apps[sub] = { name: sub, logo: subImg, items: [] };
                     tempMap[cat].apps[sub].items.push({ name: item, price: price });
                 }
             });
@@ -160,21 +153,24 @@
                 c.apps = Object.values(c.apps);
                 return c;
             });
-
             showCategories();
-            
-        } catch (error) {
-            console.error(error);
-            document.getElementById('view-title').innerText = "ERREUR DE CHARGEMENT";
-        }
+        } catch (e) { document.getElementById('view-title').innerText = "ERREUR DE CONNEXION"; }
     }
 
-    // 4. NAVIGATION
+    // SEARCH LOGIC
+    function handleSearch() {
+        const query = document.getElementById('storeSearch').value.toLowerCase();
+        const cards = document.querySelectorAll('.nav-card, .item-row');
+        cards.forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(query) ? "" : "none";
+        });
+    }
+
     function showCategories() {
         document.getElementById('view-title').innerText = "CATÉGORIES";
         document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})">
-                <img src="${c.logo_url}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
+                <img src="${c.logo || ''}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'">
                 <div>${c.name}</div>
             </div>`).join('')}</div>`;
     }
@@ -183,10 +179,10 @@
         const cat = productsData.categories[catIdx];
         document.getElementById('view-title').innerText = cat.name;
         document.getElementById('content-area').innerHTML = `
-            <button onclick="showCategories()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
+            <button onclick="showCategories()" style="background:none; border:1px solid var(--border); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
             <div class="grid">${cat.apps.map((a, i) => `
                 <div class="nav-card" onclick="showItems(${catIdx}, ${i})">
-                    <img src="${a.logo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'">
+                    <img src="${a.logo || ''}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'">
                     <div>${a.name}</div>
                 </div>`).join('')}</div>`;
     }
@@ -195,17 +191,15 @@
         const app = productsData.categories[catIdx].apps[appIdx];
         document.getElementById('view-title').innerText = app.name;
         document.getElementById('content-area').innerHTML = `
-            <button onclick="showApps(${catIdx})" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
+            <button onclick="showApps(${catIdx})" style="background:none; border:1px solid var(--border); color:#94a3b8; padding:8px 15px; border-radius:8px; cursor:pointer; margin-bottom:15px;">← Retour</button>
             ${app.items.map(item => `
                 <div class="item-row" onclick="openModal('${app.name} - ${item.name}', '${item.price}')">
                     <span>${item.name}</span><span class="price">${item.price}</span>
                 </div>`).join('')}`;
     }
 
-    // 5. MODAL & PROCESS ORDER
     function openModal(name, price) {
-        currentSelection = name;
-        currentPrice = price;
+        currentSelection = name; currentPrice = price;
         document.getElementById('modal-item-name').innerText = name;
         document.getElementById('form-step').style.display = 'block';
         document.getElementById('success-step').style.display = 'none';
@@ -215,69 +209,31 @@
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
     function updateContactPlaceholder() {
-        const method = document.getElementById('contactMethod').value;
-        const input = document.getElementById('uContact');
-        
-        if (method === "Instagram") input.placeholder = "Votre Username (@...)";
-        else if (method === "WhatsApp") input.placeholder = "Numéro WhatsApp (+216...)";
-        else if (method === "Facebook") input.placeholder = "Nom profil Facebook";
-        else input.placeholder = "Votre Email";
+        const m = document.getElementById('contactMethod').value;
+        const i = document.getElementById('uContact');
+        i.placeholder = m === "Instagram" ? "Votre Username (@...)" : m === "WhatsApp" ? "Numéro (+216...)" : m === "Facebook" ? "Nom Facebook" : "Votre Email";
     }
 
     function processOrder() {
         const name = document.getElementById('uName').value;
-        const contactMethod = document.getElementById('contactMethod').value;
-        const contactDetail = document.getElementById('uContact').value;
-        const btn = document.querySelector('.btn-action');
+        const method = document.getElementById('contactMethod').value;
+        const contact = document.getElementById('uContact').value;
+        if(!name || !contact) return alert("Champs vides !");
 
-        if(!name || !contactDetail) { alert("Veuillez remplir tous les champs !"); return; }
+        const msg = `Article: ${currentSelection}\nPrix: ${currentPrice}\nClient: ${name}\nContact: ${method} (${contact})`;
 
-        btn.innerText = "Traitement...";
-        btn.disabled = true;
-
-        const orderText = `
-Article: ${currentSelection}
-Prix: ${currentPrice}
-Nom: ${name}
-Contact: ${contactMethod}: ${contactDetail}
-        `.trim();
-
-        // YOUR SERVICE ID AND TEMPLATE ID
-        emailjs.send("service_tjvcxv4", "template_r8b7yaf", {
-            customer_name: name,
-            message_body: orderText
-        }).then(() => {
-            showSuccess(contactMethod, orderText);
-            btn.innerText = "Confirmer & Commander";
-            btn.disabled = false;
-        }, (err) => {
-            alert("Erreur: " + JSON.stringify(err));
-            btn.disabled = false;
-        });
+        emailjs.send("service_tjvcxv4", "template_r8b7yaf", { customer_name: name, message_body: msg })
+        .then(() => showSuccess(method, msg));
     }
 
-    function showSuccess(method, orderText) {
+    function showSuccess(method, msg) {
         document.getElementById('form-step').style.display = 'none';
         document.getElementById('success-step').style.display = 'block';
-        const linkBtn = document.getElementById('final-link');
-        
-        if (method === "Instagram") {
-            linkBtn.innerText = "Ouvrir Instagram";
-            linkBtn.href = "https://www.instagram.com/__cyber__hub__?igsh=MTJnbGZmdHl5Znc1aQ==";
-            linkBtn.style.background = "linear-gradient(45deg, #f09433, #bc1888)";
-        } else if (method === "WhatsApp") {
-            linkBtn.innerText = "Ouvrir WhatsApp";
-            linkBtn.href = "https://wa.me/21629895846"; 
-            linkBtn.style.background = "#25D366";
-        } else if (method === "Facebook") {
-            linkBtn.innerText = "Ouvrir Facebook";
-            linkBtn.href = "https://www.facebook.com/share/1AeYqaxUyE/"; 
-            linkBtn.style.background = "#1877F2";
-        } else {
-            linkBtn.innerText = "Envoyer un Email";
-            linkBtn.href = "mailto:cyberhubcontact@gmail.com?subject=Commande&body=" + encodeURIComponent(orderText);
-            linkBtn.style.background = "#ea4335";
-        }
+        const link = document.getElementById('final-link');
+        if (method === "Instagram") { link.href = "https://www.instagram.com/__cyber__hub__"; link.style.background = "linear-gradient(45deg, #f09433, #bc1888)"; link.innerText = "Ouvrir Instagram"; }
+        else if (method === "WhatsApp") { link.href = "https://wa.me/21629895846"; link.style.background = "#25D366"; link.innerText = "Ouvrir WhatsApp"; }
+        else if (method === "Facebook") { link.href = "https://www.facebook.com/share/1AeYqaxUyE/"; link.style.background = "#1877F2"; link.innerText = "Ouvrir Facebook"; }
+        else { link.href = "mailto:cyberhubcontact@gmail.com?body=" + encodeURIComponent(msg); link.style.background = "#ea4335"; link.innerText = "Envoyer Email"; }
     }
 
     loadSheet();
