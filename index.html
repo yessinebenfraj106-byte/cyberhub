@@ -7,237 +7,169 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script>
+    
+    <script>
+        (function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();
+    </script>
+    
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow-x: hidden; }
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; }
+        
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; pointer-events: all; }
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; display: block; margin: auto; }
         .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .social-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .s-link { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); transition: 0.2s; font-size: 1.2rem; }
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .cart-status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 12px 25px; border-radius: 30px; display: none; cursor: pointer; box-shadow: 0 10px 20px rgba(0,168,255,0.4); z-index: 999; font-weight: 800; }
-        #modal, #policy-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:1000; justify-content:center; align-items:center; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+
+        .disclaimer-box { background: rgba(255, 166, 0, 0.1); border: 1px solid orange; color: orange; padding: 12px; border-radius: 10px; font-size: 0.8rem; margin: 15px 0; }
+        
+        #modal, #policy-modal, #welcome-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:2000; justify-content:center; align-items:center; }
         .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 400px; border: 1px solid var(--primary); max-height: 85vh; overflow-y: auto; color: var(--text); }
+        
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
-        .policy-text { font-size: 0.85rem; line-height: 1.6; text-align: left; color: var(--sub); }
-        .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; }
+        .checkbox-container { display: flex; align-items: flex-start; gap: 10px; font-size: 0.8rem; margin: 15px 0; cursor: pointer; text-align: left; }
     </style>
 </head>
 <body>
+
 <div id="particles-js"></div>
+
 <div class="container">
     <div class="top-controls">
-        <button class="icon-btn" onclick="toggleTheme()">🌓</button>
+        <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
         <button class="icon-btn" onclick="toggleLang()" id="langBtn">FR 🇫🇷</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px; flex-grow: 1; text-align: center;">CYBERHUB</div>
         <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
     </div>
-    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
-    <div class="social-bar">
-        <a href="https://wa.me/21629895846" class="s-link">📞</a>
-        <a href="https://www.instagram.com/__cyber__hub__?igsh=MTJnbGZmdHl5Znc1aQ==" class="s-link">📸</a>
-        <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link">🔵</a>
-        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
-    </div>
+    <div class="header"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
     <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
     <div id="content-area"></div>
-    <footer style="margin-top:40px; text-align:center; font-size:0.8rem; color:var(--sub);">
-        © 2026 CyberHub. <span style="color:var(--primary); cursor:pointer; font-weight:bold;" onclick="togglePolicy(true)" id="policyLink">Store Policy</span>
-    </footer>
 </div>
 
-<div class="cart-status" id="cart-float" onclick="openCart()"><span id="cartFloatTxt">Cart</span>: <span id="float-total">0</span> DT</div>
+<div id="welcome-modal" style="display: flex;">
+    <div class="modal-content">
+        <h3 id="welHeader" style="color: var(--primary); margin-top: 0;">Welcome to CyberHub</h3>
+        <div id="welBody" style="font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px;"></div>
+        <button id="welcomeBtn" class="add-btn" style="width: 100%; padding: 15px;" onclick="closeWelcome()" disabled>Wait (3s)</button>
+    </div>
+</div>
 
 <div id="modal">
     <div class="modal-content">
         <div id="cart-view">
-            <h3 style="margin:0 0 15px 0" id="cartTitle">🛒 My Cart</h3>
-            <div id="cart-items-list" style="max-height: 150px; overflow-y: auto;"></div>
-            <div style="margin-top:15px; display:flex; gap:5px;"><input type="text" id="promoInput" placeholder="Code" style="margin:0; flex:1;"><button class="add-btn" onclick="applyPromo()">OK</button></div>
-            <div id="promoMsg" style="font-size:0.7rem; margin-top:5px;"></div>
-            <div style="margin:15px 0; font-weight:800; border-top:2px solid var(--primary); padding-top:10px; display:flex; justify-content:space-between;"><span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span></div>
-            <input type="text" id="custName" placeholder="Full Name"><select id="custMethod"><option value="WhatsApp">WhatsApp</option><option value="Instagram">Instagram</option><option value="Facebook">Facebook</option></select><input type="text" id="custContact" placeholder="Username/Number">
-            <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px; margin-top:10px;" onclick="submitOrder()">Confirm</button>
-            <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;" id="closeBtn">Close</button>
-        </div>
-        <div id="success-view" style="display:none; text-align:center;"><div style="font-size:4rem;">✅</div><h3 id="successTitle">Ready!</h3><a href="#" id="final-redirect" class="add-btn" style="display:block; text-decoration:none; margin-top:15px;" target="_blank">Contact Support</a></div>
-    </div>
-</div>
+            <h3 id="cartTitle">🛒 Mon Panier</h3>
+            <div id="cart-items-list"></div>
+            
+            <div id="global-disclaimer" class="disclaimer-box" style="display: none;"></div>
 
-<div id="policy-modal">
-    <div class="modal-content">
-        <h3 style="color:var(--primary); margin-top:0;" id="polHeader">Store Policy</h3>
-        <div class="policy-text" id="polBody"></div>
-        <button class="add-btn" style="width:100%; margin-top:20px;" onclick="togglePolicy(false)" id="polClose">I Understand</button>
+            <label class="checkbox-container">
+                <input type="checkbox" id="agreeCheck" onchange="toggleOrderBtn()">
+                <span id="agreeTxt">I agree to the item disclaimers and store policy.</span>
+            </label>
+
+            <div style="margin:15px 0; font-weight:800; border-top:2px solid var(--primary); padding-top:10px; display:flex; justify-content:space-between;">
+                <span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span>
+            </div>
+            
+            <input type="text" id="custName" placeholder="Full Name">
+            <input type="text" id="custContact" placeholder="Username/Number">
+            
+            <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px;" onclick="submitOrder()" disabled>Confirm Order</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Close</button>
+        </div>
     </div>
 </div>
 
 <script>
     const translations = {
         EN: {
-            loading: "LOADING...", search: "Search services...", categories: "CATEGORIES", back: "← Back", 
-            cart: "Cart", myCart: "🛒 My Cart", total: "Total:", name: "Full Name", contact: "Username/Number", 
-            confirm: "Confirm Order", close: "Close", ready: "Ready!", contactSupport: "Contact Support",
-            policy: "Store Policy", policyBtn: "I Understand", lang: "EN 🇺🇸",
-            promoCode: "Promo Code", promoOk: "Code Applied!", promoErr: "Invalid Code",
-            polContent: `<h4>1. Digital Services</h4>All sales are digital. Delivery is via WhatsApp/Instagram after payment.<h4>2. Delivery</h4>Usually 24-48h. Provide valid contact.<h4>3. Refunds</h4>Sales are final. No refunds after delivery/activation.`
+            welcome: "Welcome to CyberHub", welcomeTxt: "By entering, you agree to our Store Policy. Digital services are non-refundable once delivered. Orders are processed within 24-48h.",
+            agree: "I agree to the item disclaimers and store policy.", categories: "CATEGORIES", wait: "Wait", continue: "I Agree & Continue"
         },
         FR: {
-            loading: "CHARGEMENT...", search: "Rechercher...", categories: "CATÉGORIES", back: "← Retour", 
-            cart: "Panier", myCart: "🛒 Mon Panier", total: "Total:", name: "Nom Complet", contact: "Username/Numéro", 
-            confirm: "Confirmer la Commande", close: "Fermer", ready: "Prêt!", contactSupport: "Contacter Support",
-            policy: "Politique du Store", policyBtn: "J'ai compris", lang: "FR 🇫🇷",
-            promoCode: "Code Promo", promoOk: "Code Appliqué!", promoErr: "Code invalide",
-            polContent: `<h4>1. Services Digitaux</h4>Ventes numériques uniquement. Livraison via WhatsApp/Instagram après paiement.<h4>2. Livraison</h4>Délai 24-48h. Fournir un contact valide.<h4>3. Remboursement</h4>Ventes finales. Aucun remboursement après livraison.`
+            welcome: "Bienvenue sur CyberHub", welcomeTxt: "En entrant, vous acceptez notre politique. Les services numériques ne sont pas remboursables une fois livrés. Délai: 24-48h.",
+            agree: "J'accepte les avertissements et la politique du store.", categories: "CATÉGORIES", wait: "Attendez", continue: "J'accepte et Continuer"
         }
     };
 
     let currentLang = "FR";
-    particlesJS("particles-js", { "particles": { "number": { "value": 40 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.2 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 120, "color": "#00a8ff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1 } } });
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
-    let productsData = { categories: [] };
     let cart = [];
-    let discount = 0;
+
+    // 1. Interactive Background
+    particlesJS("particles-js", {
+        "particles": {
+            "number": { "value": 80 }, "color": { "value": "#00a8ff" },
+            "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.4 },
+            "move": { "enable": true, "speed": 2 }
+        },
+        "interactivity": {
+            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
+            "modes": { "grab": { "distance": 200 }, "push": { "particles_nb": 4 } }
+        }
+    });
+
+    // 2. Welcome Timer Logic
+    let timeLeft = 3;
+    const timerInterval = setInterval(() => {
+        timeLeft--;
+        const btn = document.getElementById('welcomeBtn');
+        const t = translations[currentLang];
+        if (timeLeft > 0) {
+            btn.innerText = `${t.wait} (${timeLeft}s)`;
+        } else {
+            btn.innerText = t.continue;
+            btn.disabled = false;
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+
+    function closeWelcome() {
+        document.getElementById('welcome-modal').style.display = 'none';
+        updateStaticText();
+    }
+
+    function toggleOrderBtn() {
+        document.getElementById('sendOrderBtn').disabled = !document.getElementById('agreeCheck').checked;
+    }
+
+    function openCart() {
+        const discBox = document.getElementById('global-disclaimer');
+        // Logic to extract unique disclaimers based on currentLang from cart items would go here
+        document.getElementById('agreeCheck').checked = false;
+        toggleOrderBtn();
+        document.getElementById('modal').style.display = 'flex';
+    }
 
     function updateStaticText() {
         const t = translations[currentLang];
-        document.getElementById('langBtn').innerText = t.lang;
-        document.getElementById('mainSearch').placeholder = t.search;
-        document.getElementById('policyLink').innerText = t.policy;
-        document.getElementById('cartFloatTxt').innerText = t.cart;
-        document.getElementById('cartTitle').innerText = t.myCart;
-        document.getElementById('totalTxt').innerText = t.total;
-        document.getElementById('custName').placeholder = t.name;
-        document.getElementById('custContact').placeholder = t.contact;
-        document.getElementById('sendOrderBtn').innerText = t.confirm;
-        document.getElementById('closeBtn').innerText = t.close;
-        document.getElementById('successTitle').innerText = t.ready;
-        document.getElementById('final-redirect').innerText = t.contactSupport;
-        document.getElementById('polHeader').innerText = t.policy;
-        document.getElementById('polClose').innerText = t.policyBtn;
-        document.getElementById('polBody').innerHTML = t.polContent;
-        document.getElementById('promoInput').placeholder = "Code";
-    }
-
-    async function fetchData() {
-        const res = await fetch(CSV_URL);
-        const text = await res.text();
-        const rows = text.split('\n').slice(1);
-        let temp = {};
-        rows.forEach(row => {
-            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-            if (cols.length >= 6) {
-                const [cat, catImg, sub, subImg, item, price] = cols;
-                if (!temp[cat]) temp[cat] = { name: cat, img: catImg, apps: {} };
-                if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: subImg, items: [] };
-                temp[cat].apps[sub].items.push({ name: item, price: price });
-            }
-        });
-        productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
-        updateStaticText();
-        showCats();
+        document.getElementById('welHeader').innerText = t.welcome;
+        document.getElementById('welBody').innerText = t.welcomeTxt;
+        document.getElementById('agreeTxt').innerText = t.agree;
+        document.getElementById('view-title').innerText = t.categories;
+        document.getElementById('langBtn').innerText = currentLang === "FR" ? "EN 🇺🇸" : "FR 🇫🇷";
     }
 
     function toggleLang() {
         currentLang = currentLang === "FR" ? "EN" : "FR";
         updateStaticText();
-        showCats();
     }
 
-    function showCats() {
-        document.getElementById('view-title').innerText = translations[currentLang].categories;
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/686/686589.png'"><div>${c.name}</div></div>`).join('')}</div>`;
-    }
-
-    function showApps(idx) {
-        const c = productsData.categories[idx];
-        document.getElementById('view-title').innerText = c.name;
-        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">${translations[currentLang].back}</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968517.png'"><div>${a.name}</div></div>`).join('')}</div>`;
-    }
-
-    function showItems(cIdx, aIdx) {
-        const a = productsData.categories[cIdx].apps[aIdx];
-        document.getElementById('view-title').innerText = a.name;
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; color:var(--primary); border:none; margin-bottom:10px; cursor:pointer;">${translations[currentLang].back}</button>${a.items.map(it => `<div class="item-row"><span>${it.name}</span><div><span style="color:var(--primary); font-weight:800; margin-right:10px;">${it.price}</span><button class="add-btn" onclick="addToCart('${a.name} - ${it.name}', '${it.price}')">+</button></div></div>`).join('')}`;
-    }
-
-    function addToCart(name, price) {
-        cart.push({ name, price: parseFloat(price.replace(/[^0-9.]/g, '')) || 0 });
-        updateCartUI();
-    }
-
-    function updateCartUI() {
-        const subtotal = cart.reduce((s, i) => s + i.price, 0);
-        const final = subtotal * (1 - discount);
-        document.getElementById('cart-count').innerText = cart.length;
-        document.getElementById('cart-float').style.display = cart.length > 0 ? 'block' : 'none';
-        document.getElementById('float-total').innerText = final.toFixed(2);
-    }
-
-    function applyPromo() {
-        const code = document.getElementById('promoInput').value.toUpperCase();
-        const msg = document.getElementById('promoMsg');
-        const t = translations[currentLang];
-        if(code === "CYBER10") { discount = 0.10; msg.innerText = t.promoOk; msg.style.color="#25D366"; }
-        else { discount = 0; msg.innerText = t.promoErr; msg.style.color="red"; }
-        updateCartUI();
-        document.getElementById('cart-total-price').innerText = (cart.reduce((s, i) => s + i.price, 0) * (1 - discount)).toFixed(2);
-    }
-
-    function openCart() {
-        const list = document.getElementById('cart-items-list');
-        list.innerHTML = cart.map((item, i) => `<div style="display:flex; justify-content:space-between; padding:5px 0; font-size:0.85rem; border-bottom:1px solid var(--border)"><span>${item.name}</span><span>${item.price} DT <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button></span></div>`).join('');
-        document.getElementById('cart-total-price').innerText = (cart.reduce((s, i) => s + i.price, 0) * (1 - discount)).toFixed(2);
-        document.getElementById('modal').style.display = 'flex';
-        document.getElementById('cart-view').style.display = 'block';
-        document.getElementById('success-view').style.display = 'none';
-    }
-
-    function removeFromCart(i) { cart.splice(i, 1); updateCartUI(); openCart(); }
-
-    function submitOrder() {
-        const name = document.getElementById('custName').value;
-        const method = document.getElementById('custMethod').value;
-        const contact = document.getElementById('custContact').value;
-        if(!name || !contact || cart.length === 0) return alert("Error: Info missing!");
-        
-        const btn = document.getElementById('sendOrderBtn'); btn.disabled = true;
-        const subtotal = cart.reduce((s, i) => s + i.price, 0);
-        const total = (subtotal * (1 - discount)).toFixed(2);
-        const items = cart.map(i => `- ${i.name} (${i.price} DT)`).join('\n');
-
-        emailjs.send("service_tjvcxv4", "template_r8b7yaf", {
-            customer_name: name,
-            message_body: `LANGUAGE: ${currentLang}\nCLIENT: ${name}\nCONTACT: ${method} (${contact})\n\nARTICLES:\n${items}\nREDUC: ${discount*100}%\nTOTAL: ${total} DT`
-        }).then(() => {
-            document.getElementById('cart-view').style.display = 'none';
-            document.getElementById('success-view').style.display = 'block';
-            const redir = document.getElementById('final-redirect');
-            if(method === "WhatsApp") redir.href = "https://wa.me/21629895846";
-            else if(method === "Instagram") redir.href = "https://www.instagram.com/__cyber__hub__";
-            else redir.href = "https://www.facebook.com/share/17Hs8EAiix/";
-            cart = []; updateCartUI();
-        }).finally(() => { btn.disabled = false; });
-    }
-
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
-    function togglePolicy(show) { document.getElementById('policy-modal').style.display = show ? 'flex' : 'none'; }
+    window.onload = updateStaticText;
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
     }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    fetchData();
 </script>
 </body>
 </html>
