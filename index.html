@@ -8,51 +8,35 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script>
+    
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; transition: 0.3s; overflow: hidden; }
         
-        /* FIX: pointer-events: none ensures background doesn't block scroll on PC or Phone */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; pointer-events: none; top: 0; left: 0; }
+        /* FIX: pointer-events: none ensures background NEVER blocks scrolling on PC or Phone */
+        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         
-        /* FIX: Overflow and Touch Action for Phone Scroll */
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; box-shadow: 0 0 20px rgba(0,168,255,0.3); }
-
-        /* Social Bar & Contact */
-        .social-bar { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
-        .s-link { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.3rem; transition: 0.2s; color: var(--text); }
-
-        /* Policy Modal Logic */
+        /* FIX: Body and container scrolling for PC/Phone */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; overflow: hidden; }
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 10; height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+        
+        /* Modal & Policy Scrolling */
         #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--bg); padding: 30px; border-radius: 28px; width: 100%; max-width: 440px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 85vh; pointer-events: auto; }
-        
-        /* FIX: Scrollable Area with priority touch action */
-        .policy-scroll-area { 
-            overflow-y: auto !important; 
-            text-align: left; 
-            padding-right: 15px; 
-            margin: 20px 0; 
-            flex: 1; 
-            touch-action: pan-y;
-            -webkit-overflow-scrolling: touch;
-        }
+        .policy-scroll-area { overflow-y: scroll !important; -webkit-overflow-scrolling: touch; text-align: left; padding-right: 15px; margin: 20px 0; flex: 1; touch-action: pan-y; }
         .policy-scroll-area::-webkit-scrollbar { width: 6px; display: block; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        
-        .policy-text h4 { color: var(--primary); margin: 20px 0 8px 0; font-weight: 800; font-size: 1.1rem; }
-        .policy-text p { margin-bottom: 15px; color: var(--sub); font-size: 0.95rem; line-height: 1.8; word-spacing: 1px; }
 
-        .accept-btn { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 16px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; font-size: 1rem; }
-        .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; opacity: 0.6; }
-
-        .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; }
+        .social-bar { display: flex; justify-content: center; gap: 12px; margin: 15px 0; }
+        .s-link { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.2rem; color: var(--text); }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 8px; }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 8px; }
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .back-btn { background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; }
     </style>
 </head>
 <body id="mainBody">
@@ -61,35 +45,33 @@
 
 <div id="welcome-modal">
     <div class="modal-content">
-        <h2 style="color:var(--primary); margin:0; text-align: center; font-weight: 800; letter-spacing: 1px;">STORE POLICY</h2>
+        <h2 style="color:var(--primary); text-align: center; font-weight: 800; margin: 0;">STORE POLICY</h2>
         <div class="policy-scroll-area" id="policyScroll">
-            <div class="policy-text">
-                <p>Bienvenue sur <strong>CyberHub</strong>. Veuillez lire attentivement nos conditions avant d'entrer.</p>
-                <h4>1. Nature des Services Digitaux</h4>
-                <p>Produits numériques uniquement. Ventes finales. Aucun remboursement après livraison ou activation.</p>
-                <h4>2. Délais de Livraison</h4>
-                <p>Traitement sous 24h à 48h. Contact via WhatsApp au +216 29 895 846.</p>
-                <h4>3. Responsabilité</h4>
-                <p>Le client est responsable de la validité des coordonnées fournies lors de la commande.</p>
-                <h4>4. Confidentialité</h4>
-                <p>Données utilisées exclusivement pour le traitement via Zapier et EmailJS.</p>
-                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px; border-top: 1px solid var(--border);">DÉFILEZ JUSQU'EN BAS POUR ACCEPTER</p>
+            <div style="line-height: 1.8; color: var(--sub); font-size: 0.95rem;">
+                <p>Bienvenue sur <strong>CyberHub</strong>. Veuillez lire nos conditions avant d'entrer.</p>
+                <h4 style="color:var(--primary)">1. Services Digitaux</h4>
+                <p>Tous les produits sont numériques. Les ventes sont finales. Aucun remboursement après activation.</p>
+                <h4 style="color:var(--primary)">2. Livraison</h4>
+                <p>Délais de 24h à 48h. Contact via WhatsApp au +216 29 895 846.</p>
+                <h4 style="color:var(--primary)">3. Confidentialité</h4>
+                <p>Vos données sont utilisées uniquement pour le traitement via Zapier et EmailJS.</p>
+                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px;">DÉFILEZ JUSQU'EN BAS POUR ACCEPTER</p>
             </div>
         </div>
-        <button id="welcomeBtn" class="accept-btn" onclick="closeWelcome()" disabled>Scroll to Accept</button>
+        <button id="welcomeBtn" class="add-btn" style="width:100%; padding:15px; border-radius:15px;" onclick="closeWelcome()" disabled>Scroll to Accept</button>
     </div>
 </div>
 
-<div class="container" id="scrollContainer">
-    <div class="top-controls">
-        <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
-        <button class="icon-btn" onclick="toggleLang()" id="langBtn">FR 🇫🇷</button>
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <button class="icon-btn" onclick="toggleTheme()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">🌓 Theme</button>
+        <button id="langBtn" class="icon-btn" onclick="toggleLang()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">FR 🇫🇷</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
-        <button class="icon-btn">🛒 0</button>
+        <div style="background:var(--card); padding:8px 12px; border-radius:10px; border:1px solid var(--border);">🛒 0</div>
     </div>
 
-    <div style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
-
+    <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo">
+    
     <div class="social-bar">
         <a href="https://wa.me/21629895846" class="s-link">📞</a>
         <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
@@ -97,13 +79,13 @@
         <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
     </div>
 
-    <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px; box-sizing: border-box;">
+    <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:20px; box-sizing: border-box;">
     
-    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7; text-align: center;">CHARGEMENT...</h3>
+    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7; text-align: center; margin-bottom: 15px;">CHARGEMENT...</h3>
     <div id="content-area"></div>
 
     <footer style="margin-top:40px; text-align:center; font-size:0.75rem; color:var(--sub); padding-bottom: 20px;">
-        © 2026 CyberHub. <br> Made with ❤️ by <strong>Yessine Ben Fraj</strong>
+        © 2026 CyberHub. Made by <strong>Yessine Ben Fraj</strong>
     </footer>
 </div>
 
@@ -111,7 +93,7 @@
     let currentLang = "FR", productsData = { categories: [] };
 
     particlesJS("particles-js", {
-        "particles": { "number": { "value": 70 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.2 }, "line_linked": { "enable": true, "opacity": 0.25 }, "move": { "speed": 1.2 } }
+        "particles": { "number": { "value": 60 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.2 }, "line_linked": { "enable": true, "opacity": 0.3 }, "move": { "speed": 1.2 } }
     });
 
     const policyScroll = document.getElementById('policyScroll'), welcomeBtn = document.getElementById('welcomeBtn');
@@ -123,17 +105,8 @@
     });
 
     function toggleTheme() { document.getElementById('mainBody').classList.toggle('light-mode'); }
-    function toggleLang() { 
-        currentLang = (currentLang === "FR" ? "EN" : "FR"); 
-        document.getElementById('langBtn').innerText = currentLang === "FR" ? "FR 🇫🇷" : "EN 🇺🇸";
-        showCats(); 
-    }
-
-    function closeWelcome() { 
-        document.getElementById('welcome-modal').style.display = 'none'; 
-        document.getElementById('scrollContainer').style.overflowY = 'auto';
-        fetchData(); 
-    }
+    function toggleLang() { currentLang = (currentLang === "FR" ? "EN" : "FR"); document.getElementById('langBtn').innerText = currentLang === "FR" ? "FR 🇫🇷" : "EN 🇺🇸"; showCats(); }
+    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
 
     async function fetchData() {
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
@@ -143,12 +116,17 @@
             rows.forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 9) {
-                    // Logic to ignore #ERROR! in Columns G, H, I and fallback to French
-                    const cat = { fr: cols[0], en: (cols[6] && !cols[6].includes("#")) ? cols[6] : cols[0] };
-                    if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1] };
+                    // FIX: Error handling for #ERROR! cells
+                    const catName = { fr: cols[0], en: (cols[6] && !cols[6].includes("#")) ? cols[6] : cols[0] };
+                    const subName = { fr: cols[2], en: (cols[7] && !cols[7].includes("#")) ? cols[7] : cols[2] };
+                    const itemName = { fr: cols[4], en: (cols[8] && !cols[8].includes("#")) ? cols[8] : cols[4], price: cols[5] };
+
+                    if (!temp[catName.fr]) temp[catName.fr] = { name: catName, img: cols[1], apps: {} };
+                    if (!temp[catName.fr].apps[subName.fr]) temp[catName.fr].apps[subName.fr] = { name: subName, img: cols[3], items: [] };
+                    temp[catName.fr].apps[subName.fr].items.push(itemName);
                 }
             });
-            productsData.categories = Object.values(temp);
+            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
         } catch (e) { document.getElementById('view-title').innerText = "ERREUR DE CHARGEMENT"; }
     }
@@ -156,16 +134,41 @@
     function showCats() {
         const lang = currentLang.toLowerCase();
         document.getElementById('view-title').innerText = currentLang === "FR" ? "CATÉGORIES" : "CATEGORIES";
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c) => `
-            <div class="nav-card" onclick="alert('Selection: ${c.name[lang]}')">
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+            <div class="nav-card" onclick="showApps(${i})">
                 <img src="${c.img}">
-                <div>${c.name[lang]}</div>
+                <div style="font-weight:bold;">${c.name[lang]}</div>
             </div>`).join('')}</div>`;
+    }
+
+    function showApps(cIdx) {
+        const c = productsData.categories[cIdx], lang = currentLang.toLowerCase();
+        document.getElementById('view-title').innerText = c.name[lang];
+        document.getElementById('content-area').innerHTML = `<button class="back-btn" onclick="showCats()">← Retour</button>
+            <div class="grid">${c.apps.map((a, i) => `
+            <div class="nav-card" onclick="showItems(${cIdx}, ${i})">
+                <img src="${a.img}">
+                <div style="font-weight:bold;">${a.name[lang]}</div>
+            </div>`).join('')}</div>`;
+    }
+
+    function showItems(cIdx, aIdx) {
+        const a = productsData.categories[cIdx].apps[aIdx], lang = currentLang.toLowerCase();
+        document.getElementById('view-title').innerText = a.name[lang];
+        document.getElementById('content-area').innerHTML = `<button class="back-btn" onclick="showApps(${cIdx})">← Retour</button>
+            ${a.items.map(it => `
+            <div class="item-row">
+                <span>${it[lang]}</span>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="color:var(--primary); font-weight:800;">${it.price}</span>
+                    <button class="add-btn" onclick="alert('Ajouté!')">+</button>
+                </div>
+            </div>`).join('')}`;
     }
 
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
-        document.querySelectorAll('.nav-card').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
+        document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
     }
 </script>
 </body>
