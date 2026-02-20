@@ -26,8 +26,8 @@
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
         .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
         
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
         .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
 
@@ -51,21 +51,16 @@
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px; flex-grow: 1; text-align: center;">CYBERHUB</div>
         <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
     </div>
-    
     <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
-    
     <div class="social-bar">
-        <a href="https://wa.me/21629895846" class="s-link" title="WhatsApp">📞</a>
-        <a href="https://www.instagram.com/__cyber__hub__" class="s-link" title="Instagram">📸</a>
-        <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link" title="Facebook">🔵</a>
-        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link" title="Email">📧</a>
+        <a href="https://wa.me/21629895846" class="s-link">📞</a>
+        <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
+        <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link">🔵</a>
+        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
     </div>
-
     <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
-    
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
     <div id="content-area"></div>
-    
     <footer>Made by Yessine Ben Fraj</footer>
 </div>
 
@@ -83,11 +78,9 @@
             <h3 id="cartTitle">🛒 Mon Panier</h3>
             <div id="cart-items-list" style="max-height: 200px; overflow-y: auto;"></div>
             <div id="global-disclaimer" style="background:rgba(255,166,0,0.1); border:1px solid orange; color:orange; padding:10px; border-radius:8px; font-size:0.8rem; margin:10px 0; display:none;"></div>
-            
             <div style="margin:15px 0; font-weight:800; border-top:1px solid var(--border); padding-top:10px; display:flex; justify-content:space-between;">
                 <span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span>
             </div>
-            
             <input type="text" id="custName" placeholder="Full Name / Nom">
             <select id="contactMethod">
                 <option value="WhatsApp">WhatsApp 📞</option>
@@ -96,16 +89,12 @@
                 <option value="Email">Email 📧</option>
             </select>
             <input type="text" id="custContact" placeholder="Username / Number">
-            
             <label style="display:flex; align-items:center; gap:10px; font-size:0.7rem; margin:10px 0; cursor:pointer;">
                 <input type="checkbox" id="agreeCheck" onchange="toggleOrderBtn()">
                 <span id="agreeTxt">I agree to the policy / J'accepte la politique</span>
             </label>
-            
             <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px;" onclick="submitOrder()" disabled>Confirm Order</button>
-            <div style="font-size:0.7rem; color:var(--primary); margin-top:10px; font-weight:bold;">
-                Paiement: D17, Cash (Hammam Lif), Mandat Minute.
-            </div>
+            <div style="font-size:0.7rem; color:var(--primary); margin-top:10px; font-weight:bold;">Paiement: D17, Cash (Hammam Lif), Mandat Minute.</div>
             <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Close</button>
         </div>
         <div id="success-view" style="display:none;">
@@ -118,8 +107,8 @@
 
 <script>
     const translations = {
-        EN: { categories: "CATEGORIES", wait: "Wait", continue: "I Agree & Enter", cart: "My Cart", total: "Total:", confirm: "Confirm Order", success: "Order Sent!", contact: "Contact Support", search: "Search services...", pol: `<h4>1. Digital Services</h4>All sales are final. No refunds after delivery.<h4>2. Delivery</h4>Delivery within 24-48h.<h4>3. Payment</h4>D17, Cash (Hammam Lif), or Mandat Minute.`, welcome: "Welcome to CyberHub" },
-        FR: { categories: "CATÉGORIES", wait: "Attendez", continue: "J'accepte et Entrer", cart: "Mon Panier", total: "Total:", confirm: "Confirmer la Commande", success: "Commande Envoyée!", contact: "Contacter Support", search: "Rechercher...", pol: `<h4>1. Services Digitaux</h4>Ventes finales. Aucun remboursement après livraison.<h4>2. Livraison</h4>Délai de 24-48h.<h4>3. Paiement</h4>D17, Cash (Hammam Lif), ou Mandat Minute.`, welcome: "Bienvenue sur CyberHub" }
+        EN: { categories: "CATEGORIES", wait: "Wait", continue: "I Agree & Enter", cart: "My Cart", total: "Total:", confirm: "Confirm", success: "Order Sent!", contact: "Contact Support", search: "Search services...", pol: `<h4>1. Digital Services</h4>No refunds after delivery.<h4>2. Delivery</h4>24-48h via social apps.<h4>3. Payment</h4>D17, Cash (Hammam Lif), Mandat Minute.`, welcome: "Welcome to CyberHub" },
+        FR: { categories: "CATÉGORIES", wait: "Attendez", continue: "J'accepte et Entrer", cart: "Mon Panier", total: "Total:", confirm: "Confirmer", success: "Commande Envoyée!", contact: "Contactez-nous", search: "Rechercher...", pol: `<h4>1. Conditions Générales</h4>Ventes digitales non-remboursables.<h4>2. Livraison</h4>Délai de 24-48h.<h4>3. Paiement</h4>D17, Cash (Hammam Lif), Mandat Minute.`, welcome: "Bienvenue sur CyberHub" }
     };
 
     let currentLang = "FR";
@@ -127,7 +116,6 @@
     let cart = [];
     let timeLeft = 3;
 
-    // Subtle Particle Config
     particlesJS("particles-js", {
         "particles": {
             "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
