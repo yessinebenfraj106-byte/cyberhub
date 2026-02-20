@@ -9,112 +9,96 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script>
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
-        body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow-x: hidden; }
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; pointer-events: all; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; box-shadow: 0 0 20px rgba(0,168,255,0.3); }
-        .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; }
+        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: all; }
+        .container { max-width: 500px; margin: auto; padding: 20px; z-index: 1; position: relative; }
         
-        #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 100%; max-width: 420px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 80vh; }
-        .policy-scroll-area { overflow-y: auto !important; text-align: left; padding-right: 15px; margin: 20px 0; flex: 1; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
-        .policy-scroll-area::-webkit-scrollbar { width: 5px; }
-        .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        .policy-text { line-height: 1.8; word-spacing: 2px; }
-        .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; font-weight: 800; }
-        .policy-text p { margin-bottom: 12px; color: var(--sub); font-size: 0.95rem; }
-        .accept-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
-        .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; border: 1px solid #334155; opacity: 0.6; }
+        /* Modal & Scroll Fix */
+        #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-content { background: #0f172a; padding: 25px; border-radius: 24px; width: 90%; max-width: 400px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 80vh; position: relative; }
+        .policy-scroll-area { overflow-y: scroll !important; text-align: left; margin: 15px 0; flex: 1; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+        .policy-text { line-height: 1.8; word-spacing: 2px; color: var(--sub); }
+        
+        /* Pulsing Arrow */
+        .scroll-arrow { text-align: center; font-size: 1.5rem; color: var(--primary); animation: pulse 1.5s infinite; margin-top: -10px; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(5px); } }
+
+        .accept-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; }
+        .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
+
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
 <div id="welcome-modal">
     <div class="modal-content">
-        <h2 style="color:var(--primary); margin:0; text-align: center; font-weight: 800;">STORE POLICY</h2>
+        <h3 style="color:var(--primary); text-align: center; margin-top: 0;">STORE POLICY</h3>
         <div class="policy-scroll-area" id="policyScroll">
             <div class="policy-text">
-                <p>Welcome to <strong>CyberHub</strong>. Read and scroll to the end of our policy to accept.</p>
-                <h4>1. Digital Goods</h4>
-                <p>All sales are final. Since products are digital, no refunds can be issued once service is delivered.</p>
-                <h4>2. Delivery</h4>
-                <p>Standard delivery takes 24h to 48h. We will contact you via WhatsApp (+216 29 895 846) or Instagram.</p>
-                <h4>3. Privacy</h4>
-                <p>Your data is only used to process orders via Zapier and EmailJS.</p>
-                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px;">Keep scrolling to accept...</p>
+                <p>Bienvenue sur <strong>CyberHub</strong>. Veuillez lire attentivement notre politique avant d'entrer.</p>
+                <h4 style="color:var(--primary)">1. Services Digitaux</h4>
+                <p>Ventes finales. Aucun remboursement après livraison.</p>
+                <h4 style="color:var(--primary)">2. Livraison</h4>
+                <p>Délai de 24-48h. Contact via WhatsApp (+216 29 895 846).</p>
+                <p style="text-align:center; font-weight:bold; color:white; margin-top:20px;">DÉFILEZ POUR ACCEPTER</p>
             </div>
         </div>
+        <div class="scroll-arrow" id="arrow">↓</div>
         <button id="welcomeBtn" class="accept-btn" onclick="closeWelcome()" disabled>Scroll to Accept</button>
     </div>
 </div>
+
 <div class="container">
-    <div class="top-controls">
-        <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
-        <button class="icon-btn" onclick="toggleLang()" id="langBtn">FR 🇫🇷</button>
-        <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
-        <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
+    <div style="text-align:center; margin-bottom: 20px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; border-radius:50%; border:2px solid var(--primary);">
+        <h1 style="font-size: 1.2rem; letter-spacing: 3px; color: var(--primary);">CYBERHUB</h1>
     </div>
-    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
-    <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px; box-sizing: border-box;">
-    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
+    <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px; box-sizing:border-box;">
     <div id="content-area"></div>
 </div>
+
 <script>
-    const translations = {
-        EN: { search: "Search services...", cats: "CATEGORIES", back: "← Back", enter: "I Agree & Enter", wait: "Scroll to Accept" },
-        FR: { search: "Rechercher...", cats: "CATÉGORIES", back: "← Retour", enter: "J'accepte et Entrer", wait: "Défilez pour accepter" }
-    };
-    let currentLang = "FR", productsData = { categories: [] }, cart = [];
+    let currentLang = "FR", productsData = { categories: [] };
+    
     particlesJS("particles-js", {
-        "particles": { "number": { "value": 80 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.5 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.3 }, "move": { "enable": true, "speed": 1.5 } },
-        "interactivity": { "events": { "onhover": { "mode": "grab" }, "onclick": { "mode": "bubble" } }, "modes": { "grab": { "distance": 180 }, "bubble": { "size": 0, "opacity": 0 } } }
+        "particles": { "number": { "value": 60 }, "size": { "value": 2.5 }, "color": { "value": "#00a8ff" }, "line_linked": { "enable": true, "color": "#00a8ff", "opacity": 0.3 }, "move": { "speed": 1.5 } },
+        "interactivity": { "events": { "onhover": { "mode": "grab" } }, "modes": { "grab": { "distance": 180 } } }
     });
-    const policyScroll = document.getElementById('policyScroll'), welcomeBtn = document.getElementById('welcomeBtn');
-    policyScroll.addEventListener('scroll', function() {
-        const threshold = policyScroll.scrollHeight - policyScroll.clientHeight - 30;
-        if (policyScroll.scrollTop >= threshold) { welcomeBtn.disabled = false; welcomeBtn.innerText = translations[currentLang].enter; }
+
+    const policyScroll = document.getElementById('policyScroll'), welcomeBtn = document.getElementById('welcomeBtn'), arrow = document.getElementById('arrow');
+    policyScroll.addEventListener('scroll', () => {
+        if (policyScroll.scrollHeight - policyScroll.scrollTop <= policyScroll.clientHeight + 30) {
+            welcomeBtn.disabled = false;
+            welcomeBtn.innerText = "J'accepte et Entrer";
+            arrow.style.display = "none";
+        }
     });
-    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
+
     async function fetchData() {
-        // REPLACE WITH YOUR PUBLISHED CSV URL
-        const CSV_URL = "YOUR_CSV_URL_HERE"; 
-        try {
-            const res = await fetch(CSV_URL), text = await res.text(), rows = text.split('\n').slice(1);
-            let temp = {};
-            rows.forEach(row => {
-                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if (cols.length >= 9) {
-                    const cat = { fr: cols[0], en: cols[6] || cols[0] };
-                    const sub = { fr: cols[2], en: cols[7] || cols[2] };
-                    const item = { fr: cols[4], en: cols[8] || cols[4], price: cols[5], dFR: cols[9] || "", dEN: cols[10] || cols[9] || "" };
-                    if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
-                    if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
-                    temp[cat.fr].apps[sub.fr].items.push(item);
-                }
-            });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
-            showCats();
-        } catch (e) { console.error("Error loading data", e); }
+        const CSV_URL = "YOUR_CSV_URL_HERE"; // REPLACE THIS
+        const res = await fetch(CSV_URL), text = await res.text(), rows = text.split('\n').slice(1);
+        let temp = {};
+        rows.forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+            if (cols.length >= 9) {
+                const cat = { fr: cols[0], en: cols[6] || cols[0] };
+                if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: [] };
+            }
+        });
+        productsData.categories = Object.values(temp);
+        showCats();
     }
-    function toggleLang() { currentLang = (currentLang === "FR" ? "EN" : "FR"); document.getElementById('langBtn').innerText = (currentLang === "FR" ? "FR 🇫🇷" : "EN 🇺🇸"); showCats(); }
+
     function showCats() {
-        const lang = currentLang.toLowerCase();
-        document.getElementById('view-title').innerText = translations[currentLang].cats;
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[lang]}</div></div>`).join('')}</div>`;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
+            <div class="nav-card" onclick="alert('Product logic here')"><img src="${c.img}"><div>${c.name[currentLang.toLowerCase()]}</div></div>`).join('')}</div>`;
     }
-    function filterItems() {
-        const q = document.getElementById('mainSearch').value.toLowerCase();
-        document.querySelectorAll('.nav-card, .item-row').forEach(el => { el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none"; });
-    }
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
+
+    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
 </script>
 </body>
 </html>
