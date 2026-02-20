@@ -54,7 +54,7 @@
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
     <div id="content-area"></div>
     <footer>
-        <div style="font-size:0.75rem; color:var(--sub);">Made by Yessine Ben Fraj with ❤️</div>
+        <div style="font-size:0.75rem; color:var(--sub);">Made by Yessine Ben Fraj with love</div>
         <span class="policy-link" onclick="openPolicyManual()" id="polTrigger">View Policy</span>
     </footer>
 </div>
@@ -72,16 +72,14 @@
         <div id="cart-view">
             <h3 id="cartTitle">🛒 Mon Panier</h3>
             <div id="cart-items-list" style="max-height: 200px; overflow-y: auto;"></div>
-            <div id="global-disclaimer" style="background:rgba(255,166,0,0.1); border:1px solid orange; color:orange; padding:10px; border-radius:8px; font-size:0.8rem; margin:10px 0; display:none;"></div>
             <div style="margin:15px 0; font-weight:800; border-top:1px solid var(--border); padding-top:10px; display:flex; justify-content:space-between;">
                 <span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span>
             </div>
-            <input type="text" id="custName" placeholder="Name">
+            <input type="text" id="custName" placeholder="Full Name / Nom">
             <select id="contactMethod">
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Instagram">Instagram</option>
                 <option value="Facebook">Facebook</option>
-                <option value="Email">Email</option>
             </select>
             <input type="text" id="custContact" placeholder="Username / Number">
             <label style="display:flex; align-items:center; gap:10px; font-size:0.7rem; margin:10px 0; cursor:pointer;">
@@ -89,7 +87,6 @@
                 <span id="agreeTxt">I agree to the policy</span>
             </label>
             <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px;" onclick="submitOrder()" disabled>Confirm Order</button>
-            <div style="font-size:0.7rem; color:var(--primary); margin-top:10px; font-weight:bold;">Paiement: D17, Cash (Hammam Lif), Mandat Minute.</div>
             <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Close</button>
         </div>
         <div id="success-view" style="display:none;">
@@ -102,8 +99,14 @@
 
 <script>
     const translations = {
-        EN: { categories: "CATEGORIES", search: "Search items, apps...", pol: "<h4>1. Policy</h4>All sales final.<h4>2. Payment</h4>D17, Cash (Hammam Lif).", viewPol: "View Policy", wait: "Wait", agree: "I Agree" },
-        FR: { categories: "CATÉGORIES", search: "Rechercher...", pol: "<h4>1. Politique</h4>Ventes digitales finales.<h4>2. Paiement</h4>D17, Cash (Hammam Lif).", viewPol: "Voir Politique", wait: "Attendez", agree: "J'accepte" }
+        EN: { 
+            categories: "CATEGORIES", search: "Search items, apps...", wait: "Wait", agree: "I Agree", viewPol: "View Policy", cart: "My Cart", total: "Total:", confirm: "Confirm Order", success: "Order Sent!", contact: "Contact Support", welcome: "Welcome to CyberHub",
+            pol: "<h4>1. Digital Goods</h4>All sales are final. No refunds after delivery.<h4>2. Delivery</h4>Standard delivery: 24-48 hours.<h4>3. Payment</h4>We accept <b>D17</b>, <b>Mandat Minute</b>, and <b>Cash</b> (strictly near Hammam-Lif)."
+        },
+        FR: { 
+            categories: "CATÉGORIES", search: "Rechercher...", wait: "Attendez", agree: "J'accepte", viewPol: "Voir Politique", cart: "Mon Panier", total: "Total:", confirm: "Confirmer la Commande", success: "Commande Envoyée!", contact: "Contacter Support", welcome: "Bienvenue sur CyberHub",
+            pol: "<h4>1. Produits Digitaux</h4>Toutes les ventes sont finales. Aucun remboursement après livraison.<h4>2. Livraison</h4>Délai standard: 24-48h.<h4>3. Modes de Paiement</h4>Nous acceptons <b>D17</b>, <b>Mandat Minute</b>, et <b>Cash</b> (uniquement près de Hammam-Lif)."
+        }
     };
 
     let currentLang = "FR";
@@ -111,7 +114,7 @@
     let cart = [];
     let timeLeft = 3;
 
-    // Subtle Particle Config
+    // Subtle Particle Config (Size 1.5)
     particlesJS("particles-js", {
         "particles": {
             "number": { "value": 80 }, "color": { "value": "#00a8ff" },
@@ -154,6 +157,7 @@
         showCats();
     }
 
+    // Global Search: Items, Apps, and Categories
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         const lang = currentLang.toLowerCase();
@@ -180,13 +184,13 @@
                     <span style="font-size:0.8rem;">${it[lang]}</span>
                     <div>
                         <span style="color:var(--primary); font-weight:800; margin-right:5px;">${it.price}</span>
-                        <button class="add-btn" style="padding:2px 8px;" onclick="triggerAddToCartFromSearch('${it[lang]}', '${it.price}', '${it['d'+currentLang]}')">+</button>
+                        <button class="add-btn" style="padding:2px 8px;" onclick="triggerQuickAdd('${it[lang]}', '${it.price}', '${it['d'+currentLang]}')">+</button>
                     </div>
                 </div>`).join('')}
             </div>`).join('')}</div>`;
     }
 
-    function triggerAddToCartFromSearch(n, p, d) { cart.push({ name: n, price: parseFloat(p) || 0, disc: d, comment: "Search Buy" }); document.getElementById('cart-count').innerText = cart.length; }
+    function triggerQuickAdd(n, p, d) { cart.push({ name: n, price: parseFloat(p) || 0, disc: d, comment: "Search Buy" }); document.getElementById('cart-count').innerText = cart.length; }
     function showCats() { const l = currentLang.toLowerCase(); document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[l]}</div></div>`).join('')}</div>`; }
     function showApps(idx) { const l = currentLang.toLowerCase(); const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" class="icon-btn">←</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><div>${a.name[l]}</div></div>`).join('')}</div>`; }
     function showItems(cIdx, aIdx) {
@@ -210,7 +214,7 @@
     }
     function submitOrder() {
         const n = document.getElementById('custName').value; const c = document.getElementById('custContact').value; const m = document.getElementById('contactMethod').value;
-        const body = `Client: ${n}\nContact: ${m} (${c})\nArticles:\n${cart.map(i => `- ${i.name} | Note: ${i.comment}`).join('\n')}\nTotal: ${document.getElementById('cart-total-price').innerText} DT`;
+        const body = `Client: ${n}\nContact: ${m} (${c})\nArticles:\n${cart.map(i => `- ${i.name} | User_Note: ${i.comment}`).join('\n')}\nTotal: ${document.getElementById('cart-total-price').innerText} DT`;
         emailjs.send("service_tjvcxv4", "template_r8b7yaf", { customer_name: n, message_body: body }).then(() => {
             document.getElementById('cart-view').style.display = 'none'; document.getElementById('success-view').style.display = 'block';
             document.getElementById('final-redirect').href = m === "WhatsApp" ? "https://wa.me/21629895846" : (m === "Instagram" ? "https://www.instagram.com/__cyber__hub__" : "#");
@@ -227,4 +231,3 @@
 </script>
 </body>
 </html>
-
