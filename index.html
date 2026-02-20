@@ -11,50 +11,31 @@
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow: hidden; }
-        
-        /* Particle Background Fix: pointer-events none allows mouse wheel scroll on PC */
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; pointer-events: none; top: 0; left: 0; }
-        
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; box-shadow: 0 0 20px rgba(0,168,255,0.3); }
-
-        /* Modal & Scroll Fix */
         #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: #0f172a; padding: 25px; border-radius: 24px; width: 100%; max-width: 420px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 80vh; pointer-events: auto; }
-        
-        .policy-scroll-area { 
-            overflow-y: scroll !important; 
-            -webkit-overflow-scrolling: touch; 
-            text-align: left; 
-            padding-right: 15px; 
-            margin: 20px 0; 
-            flex: 1; 
-            touch-action: pan-y; 
-        }
+        .policy-scroll-area { overflow-y: scroll !important; -webkit-overflow-scrolling: touch; text-align: left; padding-right: 15px; margin: 20px 0; flex: 1; touch-action: pan-y; }
         .policy-scroll-area::-webkit-scrollbar { width: 6px; display: block; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        
         .policy-text { line-height: 1.8; word-spacing: 2px; }
         .policy-text h4 { color: var(--primary); margin: 15px 0 10px 0; font-weight: 800; font-size: 1.1rem; }
         .policy-text p { margin-bottom: 15px; color: var(--sub); font-size: 0.95rem; }
-
         .scroll-arrow { text-align: center; font-size: 1.5rem; color: var(--primary); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(5px); } }
-
         .accept-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
         .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; border: 1px solid #334155; opacity: 0.6; }
-
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
         .nav-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 8px; }
-        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #success-view { display: none; text-align: center; padding: 20px; }
+        .success-icon { font-size: 4rem; color: #00ff88; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
 <div id="welcome-modal">
     <div class="modal-content">
         <h2 style="color:var(--primary); margin:0; text-align: center; font-weight: 800;">STORE POLICY</h2>
@@ -62,21 +43,18 @@
             <div class="policy-text">
                 <p>Bienvenue sur <strong>CyberHub</strong>. Veuillez défiler jusqu'en bas pour accepter et entrer dans le store.</p>
                 <h4>1. Services Digitaux</h4>
-                <p>Toutes nos ventes sont des produits numériques. Une fois le service livré ou activé, aucun remboursement ne sera accepté.</p>
+                <p>Toutes nos ventes sont des produits numériques. Aucun remboursement ne sera accepté après livraison.</p>
                 <h4>2. Livraison & Délais</h4>
-                <p>Le délai de livraison standard est de 24h à 48h. Nous vous contacterons via WhatsApp au +216 29 895 846 ou Instagram pour finaliser l'accès.</p>
+                <p>Délai de livraison: 24h à 48h. Contact via WhatsApp au +216 29 895 846.</p>
                 <h4>3. Responsabilité</h4>
-                <p>CyberHub n'est pas responsable en cas d'erreur de saisie des informations de contact par le client.</p>
-                <h4>4. Confidentialité</h4>
-                <p>Vos données sont utilisées uniquement pour le traitement de la commande via nos outils d'automatisation (Zapier/EmailJS).</p>
-                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px;">DÉFILEZ POUR DÉBLOQUER L'ENTRÉE</p>
+                <p>CyberHub n'est pas responsable des erreurs de saisie client.</p>
+                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px;">DÉFILEZ POUR ACCEPTER</p>
             </div>
         </div>
         <div id="arrow" class="scroll-arrow">↓</div>
         <button id="welcomeBtn" class="accept-btn" onclick="closeWelcome()" disabled>Scroll to Accept</button>
     </div>
 </div>
-
 <div class="container">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
         <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
@@ -85,83 +63,59 @@
         <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
     </div>
     <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
-    <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px; box-sizing: border-box;">
-    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">CHARGEMENT...</h3>
-    <div id="content-area"></div>
+    <div id="main-ui">
+        <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px; box-sizing: border-box;">
+        <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">CHARGEMENT...</h3>
+        <div id="content-area"></div>
+    </div>
+    <div id="success-view">
+        <div class="success-icon">✅</div>
+        <h2 style="color: var(--primary);">Commande Reçue!</h2>
+        <p style="color: var(--sub);">Votre demande est en cours de traitement. Nous vous contacterons sous 24-48h.</p>
+        <button class="accept-btn" style="margin-top:20px;" onclick="location.reload()">Retour au Store</button>
+    </div>
 </div>
-
 <script>
     const translations = {
         EN: { search: "Search services...", cats: "CATEGORIES", enter: "I Agree & Enter" },
         FR: { search: "Rechercher...", cats: "CATÉGORIES", enter: "J'accepte et Entrer" }
     };
-
-    let currentLang = "FR";
-    let productsData = { categories: [] };
-
+    let currentLang = "FR", productsData = { categories: [] };
     particlesJS("particles-js", {
-        "particles": {
-            "number": { "value": 80 }, "color": { "value": "#00a8ff" },
-            "opacity": { "value": 0.5 }, "size": { "value": 2.5 },
-            "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.3 },
-            "move": { "enable": true, "speed": 1.5 }
-        }
+        "particles": { "number": { "value": 80 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.5 }, "line_linked": { "enable": true, "opacity": 0.3 }, "move": { "speed": 1.5 } }
     });
-
-    const policyScroll = document.getElementById('policyScroll');
-    const welcomeBtn = document.getElementById('welcomeBtn');
-    const arrow = document.getElementById('arrow');
-
+    const policyScroll = document.getElementById('policyScroll'), welcomeBtn = document.getElementById('welcomeBtn'), arrow = document.getElementById('arrow');
     policyScroll.addEventListener('scroll', function() {
-        const threshold = policyScroll.scrollHeight - policyScroll.clientHeight - 30;
-        if (policyScroll.scrollTop >= threshold) {
+        if (policyScroll.scrollHeight - policyScroll.scrollTop <= policyScroll.clientHeight + 35) {
             welcomeBtn.disabled = false;
             welcomeBtn.innerText = translations[currentLang].enter;
             arrow.style.display = "none";
         }
     });
-
-    function closeWelcome() {
-        document.getElementById('welcome-modal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-        fetchData();
-    }
-
+    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; document.body.style.overflow = 'auto'; fetchData(); }
     async function fetchData() {
-        const CSV_URL = "YOUR_CSV_URL_HERE"; 
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
         try {
-            const res = await fetch(CSV_URL);
-            const text = await res.text();
-            const rows = text.split('\n').slice(1);
+            const res = await fetch(CSV_URL), text = await res.text(), rows = text.split('\n').slice(1);
             let temp = {};
-
             rows.forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 9) {
-                    // Fallback Logic: Uses French if English is missing or an #ERROR!
                     const cat = { fr: cols[0], en: (cols[6] && !cols[6].includes("#")) ? cols[6] : cols[0] };
-                    const sub = { fr: cols[2], en: (cols[7] && !cols[7].includes("#")) ? cols[7] : cols[2] };
-                    const item = { fr: cols[4], en: (cols[8] && !cols[8].includes("#")) ? cols[8] : cols[4], price: cols[5] };
-
-                    if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
-                    if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
-                    temp[cat.fr].apps[sub.fr].items.push(item);
+                    if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: [] };
                 }
             });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
+            productsData.categories = Object.values(temp);
             showCats();
-        } catch (e) { console.error("CSV Load Error:", e); }
+        } catch (e) { console.error(e); }
     }
-
     function showCats() {
         const lang = currentLang.toLowerCase();
         document.getElementById('view-title').innerText = translations[currentLang].cats;
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
-            <div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[lang]}</div></div>`).join('')}</div>`;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[lang]}</div></div>`).join('')}</div>`;
     }
-
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
     function toggleLang() { currentLang = (currentLang === "FR" ? "EN" : "FR"); showCats(); }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         document.querySelectorAll('.nav-card').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
