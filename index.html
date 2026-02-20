@@ -12,20 +12,28 @@
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; transition: 0.3s; overflow-y: auto; }
+        
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; pointer-events: all; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; display: block; margin: auto; }
         .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        
         .social-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .s-link { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); transition: 0.2s; font-size: 1.2rem; }
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
+        .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
+        
         .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+
         #modal, #welcome-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:2000; justify-content:center; align-items:center; }
         .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 420px; border: 1px solid var(--primary); max-height: 85vh; overflow-y: auto; color: var(--text); text-align: center; }
+        
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
         .policy-text { font-size: 0.85rem; line-height: 1.6; text-align: left; color: var(--sub); margin-bottom: 20px; }
         .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
@@ -43,16 +51,21 @@
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px; flex-grow: 1; text-align: center;">CYBERHUB</div>
         <button class="icon-btn" onclick="openCart()">🛒 <span id="cart-count">0</span></button>
     </div>
-    <div class="header"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
+    
+    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo"></div>
+    
     <div class="social-bar">
         <a href="https://wa.me/21629895846" class="s-link" title="WhatsApp">📞</a>
         <a href="https://www.instagram.com/__cyber__hub__" class="s-link" title="Instagram">📸</a>
         <a href="https://www.facebook.com/share/17Hs8EAiix/" class="s-link" title="Facebook">🔵</a>
         <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link" title="Email">📧</a>
     </div>
+
     <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
+    
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
     <div id="content-area"></div>
+    
     <footer>Made by Yessine Ben Fraj</footer>
 </div>
 
@@ -70,10 +83,12 @@
             <h3 id="cartTitle">🛒 Mon Panier</h3>
             <div id="cart-items-list" style="max-height: 200px; overflow-y: auto;"></div>
             <div id="global-disclaimer" style="background:rgba(255,166,0,0.1); border:1px solid orange; color:orange; padding:10px; border-radius:8px; font-size:0.8rem; margin:10px 0; display:none;"></div>
+            
             <div style="margin:15px 0; font-weight:800; border-top:1px solid var(--border); padding-top:10px; display:flex; justify-content:space-between;">
                 <span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span>
             </div>
-            <input type="text" id="custName" placeholder="Nom Complet / Full Name">
+            
+            <input type="text" id="custName" placeholder="Full Name / Nom">
             <select id="contactMethod">
                 <option value="WhatsApp">WhatsApp 📞</option>
                 <option value="Instagram">Instagram 📸</option>
@@ -81,11 +96,16 @@
                 <option value="Email">Email 📧</option>
             </select>
             <input type="text" id="custContact" placeholder="Username / Number">
+            
             <label style="display:flex; align-items:center; gap:10px; font-size:0.7rem; margin:10px 0; cursor:pointer;">
                 <input type="checkbox" id="agreeCheck" onchange="toggleOrderBtn()">
                 <span id="agreeTxt">I agree to the policy / J'accepte la politique</span>
             </label>
+            
             <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px;" onclick="submitOrder()" disabled>Confirm Order</button>
+            <div style="font-size:0.7rem; color:var(--primary); margin-top:10px; font-weight:bold;">
+                Paiement: D17, Cash (Hammam Lif), Mandat Minute.
+            </div>
             <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); width:100%; margin-top:10px; cursor:pointer;">Close</button>
         </div>
         <div id="success-view" style="display:none;">
@@ -107,7 +127,25 @@
     let cart = [];
     let timeLeft = 3;
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "color": { "value": "#00a8ff" }, "opacity": { "value": 0.5 }, "size": { "value": 2.5 }, "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.4 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "bubble" } }, "modes": { "grab": { "distance": 200 }, "bubble": { "distance": 200, "size": 0, "opacity": 0, "duration": 2 } } } });
+    // Subtle Particle Config
+    particlesJS("particles-js", {
+        "particles": {
+            "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#00a8ff" },
+            "opacity": { "value": 0.3 }, 
+            "size": { "value": 1.5, "random": true },
+            "line_linked": { "enable": true, "distance": 120, "color": "#00a8ff", "opacity": 0.2 },
+            "move": { "enable": true, "speed": 1.2 }
+        },
+        "interactivity": {
+            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "bubble" } },
+            "modes": {
+                "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } },
+                "bubble": { "distance": 100, "size": 0, "opacity": 0, "duration": 1.5 }
+            }
+        },
+        "retina_detect": true
+    });
 
     function updateUI() {
         const t = translations[currentLang];
@@ -123,25 +161,19 @@
         document.getElementById('final-redirect').innerText = t.contact;
     }
 
-    // Cookie Logic for Policy
     function checkPolicyCookie() {
-        const policyAccepted = localStorage.getItem('cyberhub_policy_accepted');
-        if (policyAccepted) {
+        if (localStorage.getItem('cyberhub_policy_accepted')) {
             document.getElementById('welcome-modal').style.display = 'none';
             fetchData();
         } else {
             document.getElementById('welcome-modal').style.display = 'flex';
-            startTimer();
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                const btn = document.getElementById('welcomeBtn');
+                if (timeLeft > 0) { btn.innerText = `${translations[currentLang].wait} (${timeLeft}s)`; }
+                else { btn.innerText = translations[currentLang].continue; btn.disabled = false; clearInterval(timerInterval); }
+            }, 1000);
         }
-    }
-
-    function startTimer() {
-        const timerInterval = setInterval(() => {
-            timeLeft--;
-            const btn = document.getElementById('welcomeBtn');
-            if (timeLeft > 0) { btn.innerText = `${translations[currentLang].wait} (${timeLeft}s)`; }
-            else { btn.innerText = translations[currentLang].continue; btn.disabled = false; clearInterval(timerInterval); }
-        }, 1000);
     }
 
     function closeWelcome() {
@@ -239,7 +271,6 @@
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
     function toggleTheme() { document.body.classList.toggle('light-mode'); }
     
-    // Initial Run
     updateUI();
     checkPolicyCookie();
 </script>
