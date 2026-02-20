@@ -12,13 +12,13 @@
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; transition: 0.3s; overflow: hidden; }
         
-        /* Particle Background - pointer-events:none allows scroll to pass through */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        /* Particle Background Fix: pointer-events none allows mouse wheel scroll on PC */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; pointer-events: none; top: 0; left: 0; }
         
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; box-shadow: 0 0 20px rgba(0,168,255,0.3); }
 
-        /* Fixed Scrollable Policy Modal */
+        /* Modal & Scroll Fix */
         #welcome-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: #0f172a; padding: 25px; border-radius: 24px; width: 100%; max-width: 420px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 80vh; pointer-events: auto; }
         
@@ -29,7 +29,7 @@
             padding-right: 15px; 
             margin: 20px 0; 
             flex: 1; 
-            touch-action: pan-y; /* Mandatory for mobile scroll */
+            touch-action: pan-y; 
         }
         .policy-scroll-area::-webkit-scrollbar { width: 6px; display: block; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
@@ -44,8 +44,11 @@
         .accept-btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
         .accept-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; border: 1px solid #334155; opacity: 0.6; }
 
-        .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .nav-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 8px; }
+        .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -75,7 +78,7 @@
 </div>
 
 <div class="container">
-    <div class="top-controls">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
         <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
         <button class="icon-btn" onclick="toggleLang()" id="langBtn">FR 🇫🇷</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
@@ -89,23 +92,19 @@
 
 <script>
     const translations = {
-        EN: { search: "Search services...", cats: "CATEGORIES", enter: "I Agree & Enter", wait: "Scroll to Accept" },
-        FR: { search: "Rechercher...", cats: "CATÉGORIES", enter: "J'accepte et Entrer", wait: "Défilez pour accepter" }
+        EN: { search: "Search services...", cats: "CATEGORIES", enter: "I Agree & Enter" },
+        FR: { search: "Rechercher...", cats: "CATÉGORIES", enter: "J'accepte et Entrer" }
     };
 
     let currentLang = "FR";
     let productsData = { categories: [] };
 
-    // Particles - pointer-events:none allows mouse interaction with the modal
     particlesJS("particles-js", {
         "particles": {
             "number": { "value": 80 }, "color": { "value": "#00a8ff" },
             "opacity": { "value": 0.5 }, "size": { "value": 2.5 },
             "line_linked": { "enable": true, "distance": 150, "color": "#00a8ff", "opacity": 0.3 },
             "move": { "enable": true, "speed": 1.5 }
-        },
-        "interactivity": {
-            "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
         }
     });
 
@@ -113,7 +112,6 @@
     const welcomeBtn = document.getElementById('welcomeBtn');
     const arrow = document.getElementById('arrow');
 
-    // Robust scroll detection for both PC and Mobile
     policyScroll.addEventListener('scroll', function() {
         const threshold = policyScroll.scrollHeight - policyScroll.clientHeight - 30;
         if (policyScroll.scrollTop >= threshold) {
@@ -125,7 +123,7 @@
 
     function closeWelcome() {
         document.getElementById('welcome-modal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enable body scroll if needed
+        document.body.style.overflow = 'auto';
         fetchData();
     }
 
@@ -140,10 +138,10 @@
             rows.forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 9) {
-                    // Vice Versa Fallback logic
-                    const cat = { fr: cols[0], en: cols[6] || cols[0] };
-                    const sub = { fr: cols[2], en: cols[7] || cols[2] };
-                    const item = { fr: cols[4], en: cols[8] || cols[4], price: cols[5] };
+                    // Fallback Logic: Uses French if English is missing or an #ERROR!
+                    const cat = { fr: cols[0], en: (cols[6] && !cols[6].includes("#")) ? cols[6] : cols[0] };
+                    const sub = { fr: cols[2], en: (cols[7] && !cols[7].includes("#")) ? cols[7] : cols[2] };
+                    const item = { fr: cols[4], en: (cols[8] && !cols[8].includes("#")) ? cols[8] : cols[4], price: cols[5] };
 
                     if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
                     if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
@@ -152,7 +150,7 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
-        } catch (e) { console.error("CSV Error:", e); }
+        } catch (e) { console.error("CSV Load Error:", e); }
     }
 
     function showCats() {
