@@ -13,30 +13,30 @@
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; }
         
-        /* FIX: Background must NOT have pointer events to allow manual scrolling */
-        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        /* FIX 1: Background pointer-events:none allows scroll to pass to the modal */
+        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none !important; }
         
-        /* FIX: Changed 'overflow: hidden' to allow manual scroll while keeping modal behavior */
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; min-height: 100vh; position: relative; }
+        /* FIX 2: Ensure Body allows vertical scrolling */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; min-height: 100vh; overflow-y: auto !important; position: relative; }
         
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 10; }
         
-        /* Modal & Policy Scrolling Fixes */
+        /* MODAL FIXES */
         #welcome-modal, #cart-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--bg); padding: 30px; border-radius: 28px; width: 100%; max-width: 440px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 85vh; pointer-events: auto; }
+        .modal-content { background: var(--bg); padding: 25px; border-radius: 28px; width: 100%; max-width: 440px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 85vh; pointer-events: auto !important; }
         
-        /* Manual Scroll Area Fix */
+        /* SCROLL AREA FIX: Explicit touch action for mobile and overflow for PC */
         .policy-scroll-area { 
             overflow-y: scroll !important; 
-            -webkit-overflow-scrolling: touch; 
+            -webkit-overflow-scrolling: touch !important; 
             text-align: left; 
             padding-right: 15px; 
             margin: 15px 0; 
             flex: 1; 
-            touch-action: pan-y;
+            touch-action: pan-y !important;
             border-bottom: 1px solid var(--border);
         }
-        .policy-scroll-area::-webkit-scrollbar { width: 6px; display: block; }
+        .policy-scroll-area::-webkit-scrollbar { width: 8px; display: block; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
         .logo { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; }
@@ -48,11 +48,11 @@
         .nav-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         
-        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; }
-        .btn-p:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
+        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; }
+        .btn-p:disabled { background: #1e293b; color: #475569; cursor: not-allowed; opacity: 0.5; }
         
-        /* Auto-Scroll Assist Button */
-        .scroll-assist { background: rgba(0,168,255,0.1); color: var(--primary); border: 1px dashed var(--primary); padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; margin-bottom: 15px; width: 100%; font-weight: bold; text-transform: uppercase; }
+        /* Auto-Scroll Button Fix */
+        .scroll-assist { background: rgba(0,168,255,0.15); color: var(--primary); border: 2px dashed var(--primary); padding: 12px; border-radius: 12px; cursor: pointer; font-size: 0.85rem; margin-bottom: 15px; width: 100%; font-weight: 800; text-transform: uppercase; z-index: 10000; }
         
         .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     </style>
@@ -64,20 +64,20 @@
 <div id="welcome-modal">
     <div class="modal-content">
         <h2 style="color:var(--primary); text-align: center; font-weight: 800; margin: 0;">STORE POLICY</h2>
-        <button class="scroll-assist" id="autoScrollBtn" onclick="runAutoScroll()">↓ Click to Scroll to Bottom</button>
+        <button class="scroll-assist" id="autoScrollBtn" onclick="runAutoScroll()">↓ Click to Read Policy & Enter</button>
         <div class="policy-scroll-area" id="policyScroll">
             <div style="line-height: 1.8; color: var(--sub); font-size: 0.95rem;">
-                <p>Welcome to <strong>CyberHub</strong>. Read and scroll to accept.</p>
-                <h4 style="color:var(--primary)">1. Digital Nature</h4>
-                <p>All items are digital. Once delivered, no refunds are possible.</p>
+                <p>Welcome to <strong>CyberHub</strong>. Before entering, please scroll to the bottom to accept our policy.</p>
+                <h4 style="color:var(--primary)">1. Digital Products</h4>
+                <p>All sales are final. Since items are digital services or accounts, no refunds are given after delivery.</p>
                 <h4 style="color:var(--primary)">2. Delivery Time</h4>
-                <p>Orders are processed within 24h to 48h.</p>
+                <p>Most orders are delivered within 24h to 48h.</p>
                 <h4 style="color:var(--primary)">3. Support</h4>
-                <p>Contact us via WhatsApp at +216 29 895 846 or Instagram.</p>
-                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 30px; border-top: 1px solid var(--border);">PLEASE READ UNTIL THE END</p>
+                <p>Contact Yessine via WhatsApp at +216 29 895 846 for any issues.</p>
+                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 40px; border-top: 1px solid var(--border);">KEEP SCROLLING TO UNLOCK THE BUTTON</p>
             </div>
         </div>
-        <button id="welcomeBtn" class="btn-p" onclick="closeWelcome()" disabled>Scroll to Accept</button>
+        <button id="welcomeBtn" class="btn-p" onclick="closeWelcome()" disabled>Scroll to End</button>
     </div>
 </div>
 
@@ -89,7 +89,7 @@
             <span>TOTAL:</span><span id="cart-total">0 DT</span>
         </div>
         <input type="text" id="userName" placeholder="Full Name" style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 15px; box-sizing: border-box;">
-        <input type="text" id="userContact" placeholder="Username / Number" style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 10px; box-sizing: border-box;">
+        <input type="text" id="userContact" placeholder="WhatsApp / Instagram Username" style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 10px; box-sizing: border-box;">
         <button class="btn-p" style="margin-top: 20px;" onclick="submitOrder()">Confirm Order</button>
         <button onclick="toggleCart(false)" style="background:none; border:none; color:var(--sub); margin-top: 15px; cursor:pointer;">Close</button>
     </div>
@@ -97,21 +97,19 @@
 
 <div class="container">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <button class="icon-btn" onclick="toggleTheme()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">🌓</button>
-        <button id="langBtn" class="icon-btn" onclick="toggleLang()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">FR 🇫🇷</button>
+        <button class="btn-p" onclick="toggleTheme()" style="background:var(--card); font-size: 0.75rem;">🌓</button>
+        <button id="langBtn" class="btn-p" onclick="toggleLang()" style="background:var(--card); font-size: 0.75rem;">FR 🇫🇷</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
-        <button class="icon-btn" onclick="toggleCart(true)" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">🛒 <span id="cart-count">0</span></button>
+        <button class="btn-p" onclick="toggleCart(true)" style="background:var(--card); font-size: 0.75rem;">🛒 <span id="cart-count">0</span></button>
     </div>
 
     <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo">
-    
     <div class="social-bar">
         <a href="https://wa.me/21629895846" class="s-link">📞</a>
         <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
-        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
     </div>
 
-    <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:20px; box-sizing: border-box;">
+    <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:20px; box-sizing: border-box;">
     
     <div id="content-area"></div>
 
@@ -124,22 +122,27 @@
     let currentLang = "FR", productsData = { categories: [] }, cart = [];
 
     particlesJS("particles-js", {
-        "particles": { "number": { "value": 40 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.2 }, "line_linked": { "opacity": 0.3 } }
+        "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.2 }, "line_linked": { "opacity": 0.3 } }
     });
 
-    // Manual and Auto Scroll Logic
     const pScroll = document.getElementById('policyScroll'), wBtn = document.getElementById('welcomeBtn');
     
+    // Improved Scroll Detection
     pScroll.addEventListener('scroll', () => {
-        // Unlock button when scrolled 95% of the way down
-        if (pScroll.scrollHeight - pScroll.scrollTop <= pScroll.clientHeight + 40) {
+        const atBottom = pScroll.scrollHeight - pScroll.scrollTop <= pScroll.clientHeight + 45;
+        if (atBottom) {
             wBtn.disabled = false;
             wBtn.innerText = currentLang === "FR" ? "J'accepte et Entrer" : "I Agree & Enter";
             document.getElementById('autoScrollBtn').style.display = 'none';
         }
     });
 
-    function runAutoScroll() { pScroll.scrollTo({ top: pScroll.scrollHeight, behavior: 'smooth' }); }
+    function runAutoScroll() { 
+        pScroll.scrollTo({ top: pScroll.scrollHeight, behavior: 'smooth' }); 
+        // Force unlock if smooth scroll finishes
+        setTimeout(() => { wBtn.disabled = false; wBtn.innerText = "Enter Store"; }, 800);
+    }
+    
     function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
     function toggleTheme() { document.getElementById('mainBody').classList.toggle('light-mode'); }
     function toggleLang() { currentLang = (currentLang === "FR" ? "EN" : "FR"); document.getElementById('langBtn').innerText = currentLang === "FR" ? "FR 🇫🇷" : "EN 🇺🇸"; showCats(); }
@@ -163,7 +166,7 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
-        } catch (e) { console.error("Data Load Fail", e); }
+        } catch (e) { console.error("Data Load Error", e); }
     }
 
     function showCats() {
@@ -174,25 +177,25 @@
 
     function showApps(cIdx) {
         const c = productsData.categories[cIdx], lang = currentLang.toLowerCase();
-        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>
+        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px; font-weight:800;">← Back</button>
             <div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${cIdx}, ${i})"><img src="${a.img}"><div>${a.name[lang]}</div></div>`).join('')}</div>`;
     }
 
     function showItems(cIdx, aIdx) {
         const a = productsData.categories[cIdx].apps[aIdx], lang = currentLang.toLowerCase();
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px; font-weight:800;">← Back</button>
             ${a.items.map(it => `<div class="item-row"><span>${it[lang]}</span><div><span style="color:var(--primary); margin-right:10px;">${it.price}</span><button class="btn-p" onclick="addToCart('${it[lang]}', '${it.price}')">+</button></div></div>`).join('')}`;
     }
 
-    function addToCart(name, price) { cart.push({ name, price }); document.getElementById('cart-count').innerText = cart.length; alert("Added!"); }
+    function addToCart(name, price) { cart.push({ name, price }); document.getElementById('cart-count').innerText = cart.length; alert("Added to Bag!"); }
     function renderCart() {
         const list = document.getElementById('cart-list');
-        list.innerHTML = cart.map((it, i) => `<div class="cart-item"><span>${it.name}</span><span>${it.price} <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button></span></div>`).join('');
+        list.innerHTML = cart.map((it, i) => `<div class="cart-item"><span>${it.name}</span><span>${it.price} <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer; font-weight:800;">X</button></span></div>`).join('');
         const total = cart.reduce((sum, it) => sum + (parseFloat(it.price) || 0), 0);
         document.getElementById('cart-total').innerText = total + " DT";
     }
     function removeFromCart(i) { cart.splice(i, 1); document.getElementById('cart-count').innerText = cart.length; renderCart(); }
-    function submitOrder() { alert("Order details saved. Please contact support via WhatsApp to finish payment."); toggleCart(false); }
+    function submitOrder() { alert("Confirmed! Redirecting to WhatsApp..."); toggleCart(false); }
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
