@@ -12,38 +12,30 @@
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; transition: 0.3s; overflow-y: auto; }
-        
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; pointer-events: all; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px; background: #000; display: block; margin: auto; }
         .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 8px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        
         .social-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .s-link { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); transition: 0.2s; font-size: 1.2rem; }
-        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
         .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
-        
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
         .add-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
-
         #modal, #welcome-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:2000; justify-content:center; align-items:center; }
         .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 420px; border: 1px solid var(--primary); max-height: 85vh; overflow-y: auto; color: var(--text); text-align: center; }
-        
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
         .policy-text { font-size: 0.85rem; line-height: 1.6; text-align: left; color: var(--sub); margin-bottom: 20px; }
         .policy-text h4 { color: var(--primary); margin: 15px 0 5px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
         footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
+        .policy-link { color: var(--primary); cursor: pointer; text-decoration: underline; font-size: 0.7rem; display: block; margin-top: 5px; }
     </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
 <div class="container">
     <div class="top-controls">
         <button class="icon-btn" onclick="toggleTheme()">🌓 Theme</button>
@@ -61,7 +53,10 @@
     <input type="text" id="mainSearch" placeholder="Search..." onkeyup="filterItems()" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:15px;">
     <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7;">LOADING...</h3>
     <div id="content-area"></div>
-    <footer>Made by Yessine Ben Fraj</footer>
+    <footer>
+        <div style="font-size:0.75rem; color:var(--sub);">Made by Yessine Ben Fraj with love</div>
+        <span class="policy-link" onclick="openPolicyManual()" id="polTrigger">View Policy</span>
+    </footer>
 </div>
 
 <div id="welcome-modal">
@@ -81,17 +76,17 @@
             <div style="margin:15px 0; font-weight:800; border-top:1px solid var(--border); padding-top:10px; display:flex; justify-content:space-between;">
                 <span id="totalTxt">Total:</span><span><span id="cart-total-price">0</span> DT</span>
             </div>
-            <input type="text" id="custName" placeholder="Full Name / Nom">
+            <input type="text" id="custName" placeholder="Name">
             <select id="contactMethod">
-                <option value="WhatsApp">WhatsApp 📞</option>
-                <option value="Instagram">Instagram 📸</option>
-                <option value="Facebook">Facebook 🔵</option>
-                <option value="Email">Email 📧</option>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Email">Email</option>
             </select>
             <input type="text" id="custContact" placeholder="Username / Number">
             <label style="display:flex; align-items:center; gap:10px; font-size:0.7rem; margin:10px 0; cursor:pointer;">
                 <input type="checkbox" id="agreeCheck" onchange="toggleOrderBtn()">
-                <span id="agreeTxt">I agree to the policy / J'accepte la politique</span>
+                <span id="agreeTxt">I agree to the policy</span>
             </label>
             <button class="add-btn" id="sendOrderBtn" style="width:100%; padding:15px;" onclick="submitOrder()" disabled>Confirm Order</button>
             <div style="font-size:0.7rem; color:var(--primary); margin-top:10px; font-weight:bold;">Paiement: D17, Cash (Hammam Lif), Mandat Minute.</div>
@@ -100,15 +95,15 @@
         <div id="success-view" style="display:none;">
             <div style="font-size:4rem;">✅</div>
             <h3 id="successTitle">Order Sent!</h3>
-            <a href="#" id="final-redirect" class="add-btn" style="display:block; text-decoration:none; margin-top:15px;" target="_blank">Contact Support</a>
+            <a href="#" id="final-redirect" class="add-btn" style="display:block; text-decoration:none; margin-top:15px;" target="_blank">Contact Us</a>
         </div>
     </div>
 </div>
 
 <script>
     const translations = {
-        EN: { categories: "CATEGORIES", wait: "Wait", continue: "I Agree & Enter", cart: "My Cart", total: "Total:", confirm: "Confirm", success: "Order Sent!", contact: "Contact Support", search: "Search services...", pol: `<h4>1. Digital Services</h4>No refunds after delivery.<h4>2. Delivery</h4>24-48h via social apps.<h4>3. Payment</h4>D17, Cash (Hammam Lif), Mandat Minute.`, welcome: "Welcome to CyberHub" },
-        FR: { categories: "CATÉGORIES", wait: "Attendez", continue: "J'accepte et Entrer", cart: "Mon Panier", total: "Total:", confirm: "Confirmer", success: "Commande Envoyée!", contact: "Contactez-nous", search: "Rechercher...", pol: `<h4>1. Conditions Générales</h4>Ventes digitales non-remboursables.<h4>2. Livraison</h4>Délai de 24-48h.<h4>3. Paiement</h4>D17, Cash (Hammam Lif), Mandat Minute.`, welcome: "Bienvenue sur CyberHub" }
+        EN: { categories: "CATEGORIES", search: "Search items, apps...", pol: "<h4>1. Policy</h4>All sales final.<h4>2. Payment</h4>D17, Cash (Hammam Lif).", viewPol: "View Policy", wait: "Wait", agree: "I Agree" },
+        FR: { categories: "CATÉGORIES", search: "Rechercher...", pol: "<h4>1. Politique</h4>Ventes digitales finales.<h4>2. Paiement</h4>D17, Cash (Hammam Lif).", viewPol: "Voir Politique", wait: "Attendez", agree: "J'accepte" }
     };
 
     let currentLang = "FR";
@@ -116,58 +111,27 @@
     let cart = [];
     let timeLeft = 3;
 
+    // Subtle Particle Config
     particlesJS("particles-js", {
         "particles": {
-            "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-            "color": { "value": "#00a8ff" },
-            "opacity": { "value": 0.3 }, 
-            "size": { "value": 1.5, "random": true },
-            "line_linked": { "enable": true, "distance": 120, "color": "#00a8ff", "opacity": 0.2 },
+            "number": { "value": 80 }, "color": { "value": "#00a8ff" },
+            "opacity": { "value": 0.3 }, "size": { "value": 1.5, "random": true },
+            "line_linked": { "enable": true, "distance": 120, "opacity": 0.2 },
             "move": { "enable": true, "speed": 1.2 }
         },
         "interactivity": {
             "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "bubble" } },
-            "modes": {
-                "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } },
-                "bubble": { "distance": 100, "size": 0, "opacity": 0, "duration": 1.5 }
-            }
-        },
-        "retina_detect": true
+            "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, "bubble": { "distance": 100, "size": 0, "opacity": 0, "duration": 1.5 } }
+        }
     });
 
     function updateUI() {
         const t = translations[currentLang];
         document.getElementById('polBody').innerHTML = t.pol;
-        document.getElementById('welHeader').innerText = t.welcome;
-        document.getElementById('langBtn').innerText = currentLang === "FR" ? "EN 🇺🇸" : "FR 🇫🇷";
         document.getElementById('mainSearch').placeholder = t.search;
         document.getElementById('view-title').innerText = t.categories;
-        document.getElementById('cartTitle').innerText = t.cart;
-        document.getElementById('totalTxt').innerText = t.total;
-        document.getElementById('sendOrderBtn').innerText = t.confirm;
-        document.getElementById('successTitle').innerText = t.success;
-        document.getElementById('final-redirect').innerText = t.contact;
-    }
-
-    function checkPolicyCookie() {
-        if (localStorage.getItem('cyberhub_policy_accepted')) {
-            document.getElementById('welcome-modal').style.display = 'none';
-            fetchData();
-        } else {
-            document.getElementById('welcome-modal').style.display = 'flex';
-            const timerInterval = setInterval(() => {
-                timeLeft--;
-                const btn = document.getElementById('welcomeBtn');
-                if (timeLeft > 0) { btn.innerText = `${translations[currentLang].wait} (${timeLeft}s)`; }
-                else { btn.innerText = translations[currentLang].continue; btn.disabled = false; clearInterval(timerInterval); }
-            }, 1000);
-        }
-    }
-
-    function closeWelcome() {
-        localStorage.setItem('cyberhub_policy_accepted', 'true');
-        document.getElementById('welcome-modal').style.display = 'none';
-        fetchData();
+        document.getElementById('polTrigger').innerText = t.viewPol;
+        document.getElementById('langBtn').innerText = currentLang === "FR" ? "EN 🇺🇸" : "FR 🇫🇷";
     }
 
     async function fetchData() {
@@ -190,77 +154,76 @@
         showCats();
     }
 
-    function showCats() {
+    function filterItems() {
+        const q = document.getElementById('mainSearch').value.toLowerCase();
         const lang = currentLang.toLowerCase();
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[lang]}</div></div>`).join('')}</div>`;
-    }
+        if (q.length === 0) return showCats();
 
-    function showApps(idx) {
-        const lang = currentLang.toLowerCase(); const c = productsData.categories[idx];
-        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" class="icon-btn" style="margin-bottom:15px;">←</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><div>${a.name[lang]}</div></div>`).join('')}</div>`;
-    }
+        let filtered = [];
+        productsData.categories.forEach(cat => {
+            cat.apps.forEach(app => {
+                const matchesApp = app.name[lang].toLowerCase().includes(q);
+                const matchedItems = app.items.filter(it => it[lang].toLowerCase().includes(q));
+                if (matchesApp || matchedItems.length > 0) {
+                    filtered.push({ app, items: matchesApp ? app.items : matchedItems });
+                }
+            });
+        });
 
-    function showItems(cIdx, aIdx) {
-        const lang = currentLang.toLowerCase(); const a = productsData.categories[cIdx].apps[aIdx];
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" class="icon-btn" style="margin-bottom:15px;">←</button>${a.items.map((it, i) => `
-            <div class="item-row">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>${it[lang]}</span>
-                    <div>
-                        <span style="color:var(--primary); font-weight:800; margin-right:10px;">${it.price}</span>
-                        <button class="add-btn" style="width:auto;" onclick="triggerAddToCart(${cIdx}, ${aIdx}, ${i})">+</button>
-                    </div>
+        document.getElementById('content-area').innerHTML = `<div class="grid">${filtered.map(f => `
+            <div class="nav-card" style="grid-column: span 2; text-align:left;">
+                <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); padding-bottom:5px;">
+                    <img src="${f.app.img}" style="width:30px; height:30px;">
+                    <strong>${f.app.name[lang]}</strong>
                 </div>
-                ${it.showInput ? `<input type="text" id="input-${cIdx}-${aIdx}-${i}" placeholder="${it.inputPlaceholder}">` : ''}
-            </div>`).join('')}`;
+                ${f.items.map(it => `<div class="item-row" style="margin-top:10px; background:none; border:none; padding:0; flex-direction:row; justify-content:space-between;">
+                    <span style="font-size:0.8rem;">${it[lang]}</span>
+                    <div>
+                        <span style="color:var(--primary); font-weight:800; margin-right:5px;">${it.price}</span>
+                        <button class="add-btn" style="padding:2px 8px;" onclick="triggerAddToCartFromSearch('${it[lang]}', '${it.price}', '${it['d'+currentLang]}')">+</button>
+                    </div>
+                </div>`).join('')}
+            </div>`).join('')}</div>`;
     }
 
+    function triggerAddToCartFromSearch(n, p, d) { cart.push({ name: n, price: parseFloat(p) || 0, disc: d, comment: "Search Buy" }); document.getElementById('cart-count').innerText = cart.length; }
+    function showCats() { const l = currentLang.toLowerCase(); document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[l]}</div></div>`).join('')}</div>`; }
+    function showApps(idx) { const l = currentLang.toLowerCase(); const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" class="icon-btn">←</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><div>${a.name[l]}</div></div>`).join('')}</div>`; }
+    function showItems(cIdx, aIdx) {
+        const l = currentLang.toLowerCase(); const a = productsData.categories[cIdx].apps[aIdx];
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" class="icon-btn">←</button>${a.items.map((it, i) => `<div class="item-row"><span>${it[l]}</span><span style="color:var(--primary); font-weight:800;">${it.price}</span>${it.showInput ? `<input type="text" id="in-${cIdx}-${aIdx}-${i}" placeholder="${it.inputPlaceholder}">` : ''}<button class="add-btn" onclick="triggerAddToCart(${cIdx}, ${aIdx}, ${i})">+</button></div>`).join('')}`;
+    }
     function triggerAddToCart(cIdx, aIdx, iIdx) {
-        const item = productsData.categories[cIdx].apps[aIdx].items[iIdx];
-        const inputEl = document.getElementById(`input-${cIdx}-${aIdx}-${iIdx}`);
-        const customValue = inputEl ? inputEl.value : "N/A";
-        cart.push({ name: item[currentLang.toLowerCase()], price: parseFloat(item.price) || 0, disc: item['d'+currentLang], comment: customValue });
+        const it = productsData.categories[cIdx].apps[aIdx].items[iIdx];
+        const val = document.getElementById(`in-${cIdx}-${aIdx}-${iIdx}`) ? document.getElementById(`in-${cIdx}-${aIdx}-${iIdx}`).value : "N/A";
+        cart.push({ name: it[currentLang.toLowerCase()], price: parseFloat(it.price) || 0, disc: it['d'+currentLang], comment: val });
         document.getElementById('cart-count').innerText = cart.length;
-        if(inputEl) inputEl.value = "";
     }
-
+    function openPolicyManual() { document.getElementById('welcome-modal').style.display = 'flex'; document.getElementById('welcomeBtn').disabled = false; document.getElementById('welcomeBtn').innerText = "Close"; }
+    function closeWelcome() { localStorage.setItem('cyberhub_policy_accepted', 'true'); document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
     function toggleOrderBtn() { document.getElementById('sendOrderBtn').disabled = !document.getElementById('agreeCheck').checked; }
-    
     function openCart() {
-        const list = document.getElementById('cart-items-list'); const discBox = document.getElementById('global-disclaimer');
-        list.innerHTML = cart.map(i => `<div style="border-bottom:1px solid var(--border); padding:5px 0;"><div style="display:flex; justify-content:space-between; font-size:0.8rem;"><span>${i.name}</span><span>${i.price} DT</span></div><div style="font-size:0.7rem; color:var(--primary);">Note: ${i.comment}</div></div>`).join('');
-        const discs = [...new Set(cart.map(i => i.disc).filter(d => d && d !== ""))];
-        discBox.style.display = discs.length > 0 ? "block" : "none"; discBox.innerHTML = discs.join("<br>");
+        const list = document.getElementById('cart-items-list');
+        list.innerHTML = cart.map(i => `<div style="border-bottom:1px solid var(--border); padding:5px 0; font-size:0.8rem; display:flex; justify-content:space-between;"><span>${i.name} (${i.comment})</span><span>${i.price} DT</span></div>`).join('');
         document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
-        document.getElementById('modal').style.display = 'flex'; document.getElementById('cart-view').style.display = 'block'; document.getElementById('success-view').style.display = 'none';
+        document.getElementById('modal').style.display = 'flex';
     }
-
     function submitOrder() {
-        const n = document.getElementById('custName').value; const m = document.getElementById('contactMethod').value; const c = document.getElementById('custContact').value;
-        if(!n || !c) return alert("Missing info!");
-        const body = `Client: ${n}\nContact: ${m} (${c})\n\nArticles:\n${cart.map(i => `- ${i.name} (${i.price} DT) | User_Note: ${i.comment}`).join('\n')}\n\nTotal: ${cart.reduce((s, i) => s + i.price, 0)} DT`;
+        const n = document.getElementById('custName').value; const c = document.getElementById('custContact').value; const m = document.getElementById('contactMethod').value;
+        const body = `Client: ${n}\nContact: ${m} (${c})\nArticles:\n${cart.map(i => `- ${i.name} | Note: ${i.comment}`).join('\n')}\nTotal: ${document.getElementById('cart-total-price').innerText} DT`;
         emailjs.send("service_tjvcxv4", "template_r8b7yaf", { customer_name: n, message_body: body }).then(() => {
             document.getElementById('cart-view').style.display = 'none'; document.getElementById('success-view').style.display = 'block';
-            const redir = document.getElementById('final-redirect');
-            if(m === "WhatsApp") redir.href = "https://wa.me/21629895846";
-            else if(m === "Instagram") redir.href = "https://www.instagram.com/__cyber__hub__";
-            else if(m === "Facebook") redir.href = "https://www.facebook.com/share/17Hs8EAiix/";
-            else redir.href = "mailto:cyber.hub.contact.now@gmail.com";
+            document.getElementById('final-redirect').href = m === "WhatsApp" ? "https://wa.me/21629895846" : (m === "Instagram" ? "https://www.instagram.com/__cyber__hub__" : "#");
             cart = []; document.getElementById('cart-count').innerText = 0;
         });
     }
-
-    function filterItems() {
-        const q = document.getElementById('mainSearch').value.toLowerCase();
-        document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
-    }
-    
-    function toggleLang() { currentLang = currentLang === "FR" ? "EN" : "FR"; updateUI(); showCats(); }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function toggleLang() { currentLang = currentLang === "FR" ? "EN" : "FR"; updateUI(); fetchData(); }
     function toggleTheme() { document.body.classList.toggle('light-mode'); }
-    
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
     updateUI();
-    checkPolicyCookie();
+    if (localStorage.getItem('cyberhub_policy_accepted')) { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
+    else { document.getElementById('welcome-modal').style.display = 'flex'; let itv = setInterval(() => { if(timeLeft > 0) { timeLeft--; document.getElementById('welcomeBtn').innerText = translations[currentLang].wait + ` (${timeLeft}s)`; } else { document.getElementById('welcomeBtn').disabled = false; document.getElementById('welcomeBtn').innerText = translations[currentLang].agree; clearInterval(itv); } }, 1000); }
 </script>
 </body>
 </html>
