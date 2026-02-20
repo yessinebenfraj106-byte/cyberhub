@@ -12,16 +12,30 @@
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; overflow: hidden; }
         
+        /* FIX: Background must NOT have pointer events to allow manual scrolling */
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 10; height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
         
-        /* Modals */
+        /* FIX: Changed 'overflow: hidden' to allow manual scroll while keeping modal behavior */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; min-height: 100vh; position: relative; }
+        
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 10; }
+        
+        /* Modal & Policy Scrolling Fixes */
         #welcome-modal, #cart-modal { display: flex; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--bg); padding: 30px; border-radius: 28px; width: 100%; max-width: 440px; border: 1px solid var(--primary); display: flex; flex-direction: column; max-height: 85vh; pointer-events: auto; }
         
-        .policy-scroll-area { overflow-y: scroll !important; -webkit-overflow-scrolling: touch; text-align: left; padding-right: 15px; margin: 15px 0; flex: 1; touch-action: pan-y; }
+        /* Manual Scroll Area Fix */
+        .policy-scroll-area { 
+            overflow-y: scroll !important; 
+            -webkit-overflow-scrolling: touch; 
+            text-align: left; 
+            padding-right: 15px; 
+            margin: 15px 0; 
+            flex: 1; 
+            touch-action: pan-y;
+            border-bottom: 1px solid var(--border);
+        }
         .policy-scroll-area::-webkit-scrollbar { width: 6px; display: block; }
         .policy-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
@@ -34,9 +48,11 @@
         .nav-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         
-        .btn-p { background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-weight: 800; }
+        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; }
         .btn-p:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
-        .scroll-down-btn { background: rgba(0,168,255,0.1); color: var(--primary); border: 1px dashed var(--primary); padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; margin-bottom: 10px; width: 100%; font-weight: bold; }
+        
+        /* Auto-Scroll Assist Button */
+        .scroll-assist { background: rgba(0,168,255,0.1); color: var(--primary); border: 1px dashed var(--primary); padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; margin-bottom: 15px; width: 100%; font-weight: bold; text-transform: uppercase; }
         
         .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     </style>
@@ -48,17 +64,17 @@
 <div id="welcome-modal">
     <div class="modal-content">
         <h2 style="color:var(--primary); text-align: center; font-weight: 800; margin: 0;">STORE POLICY</h2>
-        <button class="scroll-down-btn" onclick="autoScrollPolicy()">↓ Click to read full policy</button>
+        <button class="scroll-assist" id="autoScrollBtn" onclick="runAutoScroll()">↓ Click to Scroll to Bottom</button>
         <div class="policy-scroll-area" id="policyScroll">
-            <div style="line-height: 1.8; color: var(--sub); font-size: 0.9rem;">
-                <p>Bienvenue sur <strong>CyberHub</strong>. Veuillez accepter nos conditions pour entrer.</p>
-                <h4 style="color:var(--primary)">1. Services Digitaux</h4>
-                <p>Tous les produits sont numériques (comptes, abonnements). Pas de remboursement après activation.</p>
-                <h4 style="color:var(--primary)">2. Délais</h4>
-                <p>Livraison entre 24h et 48h. Contact WhatsApp: +216 29 895 846.</p>
-                <h4 style="color:var(--primary)">3. Données</h4>
-                <p>Utilisées uniquement pour Zapier/EmailJS.</p>
-                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 20px;">DÉFILEZ JUSQU'EN BAS POUR ACCEPTER</p>
+            <div style="line-height: 1.8; color: var(--sub); font-size: 0.95rem;">
+                <p>Welcome to <strong>CyberHub</strong>. Read and scroll to accept.</p>
+                <h4 style="color:var(--primary)">1. Digital Nature</h4>
+                <p>All items are digital. Once delivered, no refunds are possible.</p>
+                <h4 style="color:var(--primary)">2. Delivery Time</h4>
+                <p>Orders are processed within 24h to 48h.</p>
+                <h4 style="color:var(--primary)">3. Support</h4>
+                <p>Contact us via WhatsApp at +216 29 895 846 or Instagram.</p>
+                <p style="text-align: center; color: var(--primary); font-weight: bold; padding-top: 30px; border-top: 1px solid var(--border);">PLEASE READ UNTIL THE END</p>
             </div>
         </div>
         <button id="welcomeBtn" class="btn-p" onclick="closeWelcome()" disabled>Scroll to Accept</button>
@@ -67,27 +83,28 @@
 
 <div id="cart-modal" style="display:none;">
     <div class="modal-content">
-        <h2 style="color:var(--primary); text-align: center; margin: 0;">MON PANIER</h2>
+        <h2 style="color:var(--primary); text-align: center; margin: 0;">MY CART</h2>
         <div id="cart-list" style="margin: 15px 0; max-height: 200px; overflow-y: auto;"></div>
         <div style="border-top: 2px solid var(--primary); padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-weight: 800;">
             <span>TOTAL:</span><span id="cart-total">0 DT</span>
         </div>
-        <input type="text" id="userName" placeholder="Nom Complet" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 15px;">
-        <input type="text" id="userContact" placeholder="Username / Numéro" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 10px;">
-        <button class="btn-p" style="margin-top: 20px;" onclick="submitOrder()">Confirmer la Commande</button>
-        <button onclick="toggleCart(false)" style="background:none; border:none; color:var(--sub); margin-top: 10px; cursor:pointer;">Fermer</button>
+        <input type="text" id="userName" placeholder="Full Name" style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 15px; box-sizing: border-box;">
+        <input type="text" id="userContact" placeholder="Username / Number" style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-top: 10px; box-sizing: border-box;">
+        <button class="btn-p" style="margin-top: 20px;" onclick="submitOrder()">Confirm Order</button>
+        <button onclick="toggleCart(false)" style="background:none; border:none; color:var(--sub); margin-top: 15px; cursor:pointer;">Close</button>
     </div>
 </div>
 
 <div class="container">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <button class="btn-p" onclick="toggleTheme()" style="background:var(--card); font-size: 0.7rem;">🌓 Theme</button>
-        <button id="langBtn" class="btn-p" onclick="toggleLang()" style="background:var(--card); font-size: 0.7rem;">FR 🇫🇷</button>
+        <button class="icon-btn" onclick="toggleTheme()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">🌓</button>
+        <button id="langBtn" class="icon-btn" onclick="toggleLang()" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">FR 🇫🇷</button>
         <div style="font-weight: 800; color: var(--primary); letter-spacing: 2px;">CYBERHUB</div>
-        <button class="btn-p" onclick="toggleCart(true)" style="background:var(--card); font-size: 0.7rem;">🛒 <span id="cart-count">0</span></button>
+        <button class="icon-btn" onclick="toggleCart(true)" style="background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer;">🛒 <span id="cart-count">0</span></button>
     </div>
 
     <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo">
+    
     <div class="social-bar">
         <a href="https://wa.me/21629895846" class="s-link">📞</a>
         <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
@@ -96,7 +113,6 @@
 
     <input type="text" id="mainSearch" placeholder="Rechercher..." onkeyup="filterItems()" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin-bottom:20px; box-sizing: border-box;">
     
-    <h3 id="view-title" style="font-size: 0.8rem; opacity: 0.7; text-align: center; margin-bottom: 15px;">CHARGEMENT...</h3>
     <div id="content-area"></div>
 
     <footer style="margin-top:40px; text-align:center; font-size:0.75rem; color:var(--sub); padding-bottom: 20px;">
@@ -108,22 +124,26 @@
     let currentLang = "FR", productsData = { categories: [] }, cart = [];
 
     particlesJS("particles-js", {
-        "particles": { "number": { "value": 50 }, "color": { "value": "#00a8ff" }, "size": { "value": 2 } }
+        "particles": { "number": { "value": 40 }, "color": { "value": "#00a8ff" }, "size": { "value": 2.2 }, "line_linked": { "opacity": 0.3 } }
     });
 
-    const policyScroll = document.getElementById('policyScroll'), welcomeBtn = document.getElementById('welcomeBtn');
-    policyScroll.addEventListener('scroll', () => {
-        if (policyScroll.scrollHeight - policyScroll.scrollTop <= policyScroll.clientHeight + 40) {
-            welcomeBtn.disabled = false;
-            welcomeBtn.innerText = currentLang === "FR" ? "J'accepte et Entrer" : "I Agree & Enter";
+    // Manual and Auto Scroll Logic
+    const pScroll = document.getElementById('policyScroll'), wBtn = document.getElementById('welcomeBtn');
+    
+    pScroll.addEventListener('scroll', () => {
+        // Unlock button when scrolled 95% of the way down
+        if (pScroll.scrollHeight - pScroll.scrollTop <= pScroll.clientHeight + 40) {
+            wBtn.disabled = false;
+            wBtn.innerText = currentLang === "FR" ? "J'accepte et Entrer" : "I Agree & Enter";
+            document.getElementById('autoScrollBtn').style.display = 'none';
         }
     });
 
-    function autoScrollPolicy() { policyScroll.scrollTo({ top: policyScroll.scrollHeight, behavior: 'smooth' }); }
+    function runAutoScroll() { pScroll.scrollTo({ top: pScroll.scrollHeight, behavior: 'smooth' }); }
+    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
     function toggleTheme() { document.getElementById('mainBody').classList.toggle('light-mode'); }
     function toggleLang() { currentLang = (currentLang === "FR" ? "EN" : "FR"); document.getElementById('langBtn').innerText = currentLang === "FR" ? "FR 🇫🇷" : "EN 🇺🇸"; showCats(); }
-    function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; fetchData(); }
-    function toggleCart(show) { document.getElementById('cart-modal').style.display = show ? 'flex' : 'none'; renderCart(); }
+    function toggleCart(show) { document.getElementById('cart-modal').style.display = show ? 'flex' : 'none'; if(show) renderCart(); }
 
     async function fetchData() {
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
@@ -135,39 +155,36 @@
                 if (cols.length >= 9) {
                     const cat = { fr: cols[0], en: (cols[6] && !cols[6].includes("#")) ? cols[6] : cols[0] };
                     const sub = { fr: cols[2], en: (cols[7] && !cols[7].includes("#")) ? cols[7] : cols[2] };
-                    const item = { fr: cols[4], en: (cols[8] && !cols[8].includes("#")) ? cols[8] : cols[4], price: cols[5] };
+                    const itm = { fr: cols[4], en: (cols[8] && !cols[8].includes("#")) ? cols[8] : cols[4], price: cols[5] };
                     if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
                     if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
-                    temp[cat.fr].apps[sub.fr].items.push(item);
+                    temp[cat.fr].apps[sub.fr].items.push(itm);
                 }
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
-        } catch (e) { document.getElementById('view-title').innerText = "ERREUR DE DONNÉES"; }
+        } catch (e) { console.error("Data Load Fail", e); }
     }
 
     function showCats() {
         const lang = currentLang.toLowerCase();
-        document.getElementById('view-title').innerText = currentLang === "FR" ? "CATÉGORIES" : "CATEGORIES";
         document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `
             <div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[lang]}</div></div>`).join('')}</div>`;
     }
 
     function showApps(cIdx) {
         const c = productsData.categories[cIdx], lang = currentLang.toLowerCase();
-        document.getElementById('view-title').innerText = c.name[lang];
-        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer;">← Retour</button>
+        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>
             <div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${cIdx}, ${i})"><img src="${a.img}"><div>${a.name[lang]}</div></div>`).join('')}</div>`;
     }
 
     function showItems(cIdx, aIdx) {
         const a = productsData.categories[cIdx].apps[aIdx], lang = currentLang.toLowerCase();
-        document.getElementById('view-title').innerText = a.name[lang];
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; border:none; color:var(--primary); cursor:pointer;">← Retour</button>
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>
             ${a.items.map(it => `<div class="item-row"><span>${it[lang]}</span><div><span style="color:var(--primary); margin-right:10px;">${it.price}</span><button class="btn-p" onclick="addToCart('${it[lang]}', '${it.price}')">+</button></div></div>`).join('')}`;
     }
 
-    function addToCart(name, price) { cart.push({ name, price }); document.getElementById('cart-count').innerText = cart.length; alert("Ajouté!"); }
+    function addToCart(name, price) { cart.push({ name, price }); document.getElementById('cart-count').innerText = cart.length; alert("Added!"); }
     function renderCart() {
         const list = document.getElementById('cart-list');
         list.innerHTML = cart.map((it, i) => `<div class="cart-item"><span>${it.name}</span><span>${it.price} <button onclick="removeFromCart(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button></span></div>`).join('');
@@ -175,7 +192,7 @@
         document.getElementById('cart-total').innerText = total + " DT";
     }
     function removeFromCart(i) { cart.splice(i, 1); document.getElementById('cart-count').innerText = cart.length; renderCart(); }
-    function submitOrder() { alert("Commande confirmée! Redirection support..."); toggleCart(false); }
+    function submitOrder() { alert("Order details saved. Please contact support via WhatsApp to finish payment."); toggleCart(false); }
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         document.querySelectorAll('.nav-card, .item-row').forEach(el => el.style.display = el.innerText.toLowerCase().includes(q) ? "" : "none");
