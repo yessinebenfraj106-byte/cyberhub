@@ -24,7 +24,8 @@
         .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); margin-bottom: 8px; }
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
         .add-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; width: 100%; }
-        .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+        .add-btn:disabled { background: #334155 !important; cursor: not-allowed; opacity: 0.5; }
+        .oos-label { color: #ff4d4d; font-size: 0.65rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 4px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
         #modal, #welcome-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:2000; justify-content:center; align-items:center; }
         .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 480px; border: 1px solid var(--primary); max-height: 85vh; overflow-y: auto; color: var(--text); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
@@ -95,11 +96,11 @@
     const translations = {
         EN: { 
             categories: "CATEGORIES", search: "Search services, items...", wait: "Wait", agree: "I Agree", viewPol: "View Policy", cart: "My Cart", total: "Total:", confirm: "Confirm", success: "Order Sent!", contact: "Contact Support", welcome: "CyberHub Policy",
-            pol: `<h4>1. Digital Goods</h4>All sales of digital services (keys, top-ups, accounts) are final. No refunds after delivery.<h4>2. Delivery</h4>Standard delivery: 24-48h.<h4>3. Payment</h4>We accept <b>D17</b>, <b>Mandat Minute</b>, and <b>Cash</b> (strictly near Hammam-Lif).<h4>4. Responsibility</h4>You are responsible for accurate data in the "Note" field .`
+            pol: `<h4>1. Digital Goods</h4>All sales final. No refunds after delivery.<h4>2. Delivery</h4>Standard delivery: 24-48h.<h4>3. Payment</h4>We accept <b>D17</b>, <b>Mandat Minute</b>, and <b>Cash</b> (strictly near Hammam-Lif).<h4>4. Responsibility</h4>You are responsible for providing correct User Notes.`
         },
         FR: { 
             categories: "CATÉGORIES", search: "Rechercher...", wait: "Attendez", agree: "J'accepte", viewPol: "Voir Politique", cart: "Mon Panier", total: "Total:", confirm: "Confirmer", success: "Commande Envoyée!", contact: "Contacter Support", welcome: "Politique CyberHub",
-            pol: `<h4>1. Produits Digitaux</h4>Toutes les ventes (clés, recharges, comptes) sont finales. Aucun remboursement après livraison.<h4>2. Livraison</h4>Délai standard: 24-48h.<h4>3. Paiement</h4>Nous acceptons <b>D17</b>, <b>Mandat Minute</b>, et <b>Cash</b> (uniquement près de Hammam-Lif).<h4>4. Responsabilité</h4>Vous êtes responsable de l'exactitude des notes saisies .`
+            pol: `<h4>1. Produits Digitaux</h4>Ventes digitales finales. Aucun remboursement après livraison.<h4>2. Livraison</h4>Délai standard: 24-48h.<h4>3. Paiement</h4>Nous acceptons <b>D17</b>, <b>Mandat Minute</b>, et <b>Cash</b> (uniquement près de Hammam-Lif).<h4>4. Responsabilité</h4>Vous êtes responsable de l'exactitude des notes saisies.`
         }
     };
 
@@ -132,7 +133,7 @@
             if (cols.length >= 13) {
                 const cat = { fr: cols[0], en: cols[6] || cols[0] };
                 const sub = { fr: cols[2], en: cols[7] || cols[2] };
-                const item = { fr: cols[4], en: cols[8] || cols[4], price: cols[5], dFR: cols[9], dEN: cols[10] || cols[9], showInput: cols[12] === "YES", inputPlaceholder: cols[13] || "..." };
+                const item = { fr: cols[4], en: cols[8] || cols[4], price: cols[5], dFR: cols[9], dEN: cols[10] || cols[9], showInput: cols[12] === "YES", inputPlaceholder: cols[13] || "...", isOOS: cols[14] === "OOS" };
                 if (!temp[cat.fr]) temp[cat.fr] = { name: cat, img: cols[1], apps: {} };
                 if (!temp[cat.fr].apps[sub.fr]) temp[cat.fr].apps[sub.fr] = { name: sub, img: cols[3], items: [] };
                 temp[cat.fr].apps[sub.fr].items.push(item);
@@ -154,15 +155,28 @@
                 if (matchesApp || matchedItems.length > 0) filtered.push({ app, items: matchesApp ? app.items : matchedItems });
             });
         });
-        document.getElementById('content-area').innerHTML = `<div class="grid">${filtered.map(f => `<div class="nav-card" style="grid-column: span 2; text-align:left;"><div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); padding-bottom:5px;"><img src="${f.app.img}" style="width:30px; height:30px;"><strong>${f.app.name[lang]}</strong></div>${f.items.map(it => `<div class="item-row" style="margin-top:10px; background:none; border:none; padding:0; flex-direction:row; justify-content:space-between;"><span style="font-size:0.8rem;">${it[lang]}</span><div><span style="color:var(--primary); font-weight:800; margin-right:5px;">${it.price}</span><button class="add-btn" style="width:auto; padding:2px 8px;" onclick="quickAdd('${it[lang]}', '${it.price}', '${it['d'+currentLang]}')">+</button></div></div>`).join('')}</div>`).join('')}</div>`;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${filtered.map(f => `
+            <div class="nav-card" style="grid-column: span 2; text-align:left;">
+                <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); padding-bottom:5px;">
+                    <img src="${f.app.img}" style="width:30px; height:30px;">
+                    <strong>${f.app.name[lang]}</strong>
+                </div>
+                ${f.items.map(it => `<div class="item-row" style="margin-top:10px; background:none; border:none; padding:0; flex-direction:row; justify-content:space-between;">
+                    <span style="font-size:0.8rem;">${it[lang]} ${it.isOOS ? '<span class="oos-label">OOS</span>' : ''}</span>
+                    <div>
+                        <span style="color:var(--primary); font-weight:800; margin-right:5px;">${it.price}</span>
+                        <button class="add-btn" style="width:auto; padding:2px 8px;" onclick="quickAdd('${it[lang]}', '${it.price}', '${it['d'+currentLang]}')" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? 'X' : '+'}</button>
+                    </div>
+                </div>`).join('')}
+            </div>`).join('')}</div>`;
     }
 
-    function quickAdd(n, p, d) { cart.push({ name: n, price: parseFloat(p) || 0, disc: d, comment: "Search Buy" }); document.getElementById('cart-count').innerText = cart.length; }
+    function quickAdd(n, p, d) { cart.push({ name: n, price: parseFloat(p) || 0, disc: d, comment: "N/A" }); document.getElementById('cart-count').innerText = cart.length; }
     function showCats() { const l = currentLang.toLowerCase(); document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><div>${c.name[l]}</div></div>`).join('')}</div>`; }
     function showApps(idx) { const l = currentLang.toLowerCase(); const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" class="icon-btn">←</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><div>${a.name[l]}</div></div>`).join('')}</div>`; }
     function showItems(cIdx, aIdx) {
         const l = currentLang.toLowerCase(); const a = productsData.categories[cIdx].apps[aIdx];
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" class="icon-btn">←</button>${a.items.map((it, i) => `<div class="item-row"><span>${it[l]}</span><span style="color:var(--primary); font-weight:800;">${it.price} DT</span>${it.showInput ? `<input type="text" id="in-${cIdx}-${aIdx}-${i}" placeholder="${it.inputPlaceholder}">` : ''}<button class="add-btn" onclick="addToCart(${cIdx}, ${aIdx}, ${i})">+</button></div>`).join('')}`;
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cIdx})" class="icon-btn">←</button>${a.items.map((it, i) => `<div class="item-row"><span>${it[l]} ${it.isOOS ? '<span class="oos-label">OUT OF STOCK</span>' : ''}</span><span style="color:var(--primary); font-weight:800;">${it.price} DT</span>${it.showInput && !it.isOOS ? `<input type="text" id="in-${cIdx}-${aIdx}-${i}" placeholder="${it.inputPlaceholder}">` : ''}<button class="add-btn" onclick="addToCart(${cIdx}, ${aIdx}, ${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? 'X' : '+'}</button></div>`).join('')}`;
     }
     function addToCart(cIdx, aIdx, iIdx) {
         const it = productsData.categories[cIdx].apps[aIdx].items[iIdx];
@@ -197,5 +211,3 @@
 </script>
 </body>
 </html>
-
-
