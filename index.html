@@ -7,7 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
+    
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; }
@@ -53,7 +55,7 @@
     <div id="admin-panel" style="display:none;" class="admin-controls">
         <b style="color:#ffae00; font-size:1rem;">🔓 ADMIN PORTAL</b><br><br>
         <button onclick="toggleMaintenance()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">Toggle Maintenance</button>
-        <button onclick="addNewItemPrompt()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">+ Add New Item</button>
+        <button onclick="addNewItemPrompt()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; margin-left:10px;">+ Add Item</button>
     </div>
 
     <input type="text" id="mainSearch" placeholder="Search / Rechercher..." onkeyup="filterItems()" style="border-radius:15px;">
@@ -82,10 +84,10 @@
 </div>
 
 <script>
-    // --- SETTINGS ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwugu30r-sahUlMD7qqQzexDwzBy4NME0tyMHvIGIKsYg9FJ2V7gu21RP9jf24pfVgO/exec"; 
-    const ADMIN_PASS = "1234"; // Default Password
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
+    // --- EXACT URL SETTINGS ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
+    const ADMIN_PASS = "1234";
 
     let productsData = { categories: [] };
     let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
@@ -94,18 +96,16 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "size": { "value": 1.5 }, "line_linked": { "opacity": 0.2 }, "move": { "speed": 1.2 } } });
 
-    // --- BIOMETRIC PASSKEY & ADMIN LOGIN LOGIC ---
+    // --- ADMIN LOGIN LOGIC ---
     async function logoTrigger() {
         clickCount++;
         if(clickCount === 5) {
             clickCount = 0;
-            // 1. Check if Passkey Exists
             if (localStorage.getItem('admin_passkey_id')) {
                 const success = await loginWithPasskey();
                 if (success) return grantAdmin();
             }
-            // 2. Fallback to Password
-            const pass = prompt("Enter Password (or type 'PASSKEY' to set up fingerprint/face ID):");
+            const pass = prompt("Enter Password (or type 'PASSKEY' to register Fingerprint/FaceID):");
             if (pass === ADMIN_PASS) {
                 grantAdmin();
             } else if (pass && pass.toUpperCase() === "PASSKEY") {
@@ -122,7 +122,7 @@
         isAdmin = true;
         document.getElementById('admin-panel').style.display = 'block';
         alert("🔓 Admin Access Granted!");
-        showCats(); // Refresh view
+        showCats(); 
     }
 
     async function registerPasskey() {
@@ -154,7 +154,7 @@
         } catch(e) { return false; }
     }
 
-    // --- SHEET DATA FETCHER (BULLETPROOF) ---
+    // --- SHEET DATA FETCHER ---
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL);
@@ -164,12 +164,11 @@
 
             rows.forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if (cols.length >= 6) {
+                if (cols.length >= 6 && cols[0] !== "") {
                     const cat = cols[0]; const catImg = cols[1];
                     const sub = cols[2]; const subImg = cols[3];
                     const itemName = cols[4]; const price = cols[5];
 
-                    // Bulletproof Check: Looks anywhere in the row for 'YES' and 'OOS'
                     const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
                     const showInput = cols.some(c => c && c.toUpperCase() === "YES");
                     
@@ -187,18 +186,29 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
-        } catch (e) { document.getElementById('content-area').innerHTML = "<p style='text-align:center; color:red;'>Error Loading Shop Data.</p>"; }
+        } catch (e) { document.getElementById('content-area').innerHTML = "<p style='text-align:center; color:red;'>Error Loading Shop Data. Check Spreadsheet URL.</p>"; }
     }
 
-    // --- ADMIN GOOGLE APPS SCRIPT FUNCTIONS ---
+    // --- ADMIN GOOGLE APPS SCRIPT SYNC ---
     async function syncToSheet(payload) {
-        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
-        alert("✅ Synced with Google Sheets!");
-        fetchData();
+        try {
+            // Updated to use your new Apps Script URL
+            await fetch(SCRIPT_URL, { 
+                method: "POST", 
+                body: JSON.stringify(payload),
+                mode: 'no-cors' 
+            });
+            alert("✅ Command sent to Google Sheets! Refresh in a few seconds.");
+            setTimeout(fetchData, 2000); // Reload after 2 seconds to see changes
+        } catch(e) {
+            alert("Error syncing. Check console.");
+            console.error(e);
+        }
     }
+    
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
     function addNewItemPrompt() {
-        const cat = prompt("Category Name (Fr):"); const app = prompt("App Name (Fr):");
+        const cat = prompt("Category Name (Ex: Games):"); const app = prompt("App Name (Ex: Steam):");
         const name = prompt("Item Name:"); const price = prompt("Price (Ex: 15 DT):");
         if(cat && app && name && price) syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
@@ -208,7 +218,7 @@
         alert(msg.style.display === 'block' ? "Shop Closed to Customers." : "Shop Opened.");
     }
 
-    // --- UI & RENDER LOGIC ---
+    // --- UI RENDERING ---
     function showCats() { document.getElementById('content-area').innerHTML = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}" style="width:60px;"><br>${c.name}</div>`).join('')}</div>`; }
     function showApps(idx) { const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}" style="width:50px;"><br>${a.name}</div>`).join('')}</div>`; }
     function showItems(cI, aI) {
@@ -217,18 +227,18 @@
         a.items.map((it, i) => `
             <div class="item-row">
                 <span style="font-size:0.9rem;">${it.name} ${it.isOOS ? '<span class="oos-tag">OOS</span>' : ''}</span>
-                <b style="color:var(--primary);">${it.price}</b>
+                <b style="color:var(--primary);">${it.price} DT</b>
                 ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
                 ${isAdmin ? `
                     <div style="margin-top:10px; border-top:1px dashed #444; padding-top:10px;">
                         <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem;">Toggle OOS</button>
-                        <button onclick="var p=prompt('New Price?'); if(p) updateItem('${it.name}', p, ${it.isOOS})" style="padding:5px; font-size:0.7rem;">Edit Price</button>
+                        <button onclick="var p=prompt('New Price?'); if(p) updateItem('${it.name}', p, ${it.isOOS})" style="padding:5px; font-size:0.7rem; margin-left:5px;">Edit Price</button>
                     </div>` : ''}
                 <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS || (document.getElementById('maintenance-msg').style.display === 'block' && !isAdmin) ? 'disabled' : ''}>${it.isOOS ? 'OUT OF STOCK' : 'ADD TO CART'}</button>
             </div>`).join('');
     }
 
-    // --- CART & ORDER LOGIC ---
+    // --- CART LOGIC ---
     function addToCart(c,a,i) { 
         const it = productsData.categories[c].apps[a].items[i];
         const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A";
@@ -238,24 +248,26 @@
     }
     function openCart() { 
         document.getElementById('modal').style.display = 'flex';
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div>• ${i.name} <i>(${i.note})</i></div>`).join('');
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
         document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
     
     function submitOrder() {
         const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase();
-        const name = document.getElementById('custName').value;
-        const contact = document.getElementById('custContact').value;
+        const name = document.getElementById('custName').value || "Unknown";
+        const contact = document.getElementById('custContact').value || "None";
         const total = document.getElementById('cart-total-price').innerText;
         const items = cart.map(i => `${i.name}`).join(' | ');
         const notes = cart.map(i => i.note).join(' | ');
 
-        // ZAPIER-FRIENDLY STRUCTURE
+        // EXACT FORMAT FOR ZAPIER
         const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT`;
 
         navigator.clipboard.writeText(body).then(() => {
             const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
+            
+            // ENSURE THESE IDs MATCH YOUR EMAILJS ACCOUNT
             emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
                 alert(`Order Sent! ID: ${orderID}`);
                 cart = []; localStorage.removeItem('cyberhub_cart'); location.reload();
