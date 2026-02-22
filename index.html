@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> <style>
+    <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
+    <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
@@ -82,7 +83,7 @@
 
 <script>
     // --- SETTINGS ---
-    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwugu30r-sahUlMD7qqQzexDwzBy4NME0tyMHvIGIKsYg9FJ2V7gu21RP9jf24pfVgO/exec"; 
     const ADMIN_PASS = "1234"; // Default Password
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
 
@@ -191,7 +192,6 @@
 
     // --- ADMIN GOOGLE APPS SCRIPT FUNCTIONS ---
     async function syncToSheet(payload) {
-        if(SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") { alert("You must link your Apps Script URL in the code!"); return; }
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
         alert("✅ Synced with Google Sheets!");
         fetchData();
