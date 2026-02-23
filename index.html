@@ -25,12 +25,12 @@
         .s-link { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.3rem; backdrop-filter: blur(5px); transition: 0.3s; }
         .s-link:hover { transform: translateY(-3px); border-color: var(--primary); }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.5s ease-in-out; }
         .nav-card { padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
         .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.05); }
         .nav-card img { width: 65px; height: 65px; object-fit: contain; mix-blend-mode: var(--blend); display: block; margin: 0 auto 10px auto; }
         
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; animation: fadeIn 0.5s ease-in-out; }
         .add-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; width: 100%; transition: 0.3s; margin-top: 12px; font-size: 0.9rem; text-transform: uppercase; }
         .add-btn:hover { background: #fff; box-shadow: 0 0 15px var(--primary); }
         .add-btn:disabled { background: #1e293b !important; color: #64748b !important; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
@@ -76,6 +76,12 @@
         .pass-reveal-box { display: flex; align-items: center; gap: 10px; }
         .pass-reveal-box input { flex-grow: 1; }
         .pass-reveal-box button { background: var(--card); border: 1px solid var(--primary); color: white; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.2rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* LOADING SPINNER */
+        .loader-text { text-align: center; color: var(--primary); font-weight: bold; margin-top: 40px; font-size: 1.1rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
@@ -120,8 +126,12 @@
     <div id="loyalty-msg" class="loyalty-band glass"></div>
 
     <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="glass" placeholder="Search..." onkeyup="filterItems()" style="border-radius:20px; margin-bottom:20px; padding:15px 20px;">
-        <div id="content-area"></div>
+        <input type="text" id="mainSearch" class="glass" placeholder="Search..." oninput="filterItems()" style="border-radius:20px; margin-bottom:20px; padding:15px 20px;">
+        
+        <div id="content-area">
+            <div class="loader-text">Loading Store Data... ⏳</div>
+        </div>
+        
     </div>
     <footer>Made by Yessine with ❤️</footer>
 </div>
@@ -386,11 +396,20 @@
                     temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS, showInput: showInput, placeholder: placeholder });
                 }
             });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; }); forceReRender();
+            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; }); 
+            
+            // 🔥 FIXED: Force categories to show instantly upon loading!
+            forceReRender(); 
+            
         } catch (e) {}
     }
 
-    function forceReRender() { if(currentView.type === 'cats') showCats(); else if(currentView.type === 'apps') showApps(currentView.cI); else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI); }
+    function forceReRender() { 
+        if(currentView.type === 'cats') showCats(); 
+        else if(currentView.type === 'apps') showApps(currentView.cI); 
+        else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI); 
+    }
+    
     async function syncToSheet(payload) { closeModal('add-item-modal'); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); } catch(e) {} }
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
     function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
@@ -413,8 +432,35 @@
         if(!cat || !app || !name || !price) return; syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
+    // 🔥 FIXED: Powerful Live Search Function
     function filterItems() {
-        // Local filtering can be implemented here based on the view
+        const q = document.getElementById('mainSearch').value.toLowerCase();
+        
+        // If search bar is empty, return to the normal category/app/item view
+        if(!q) return forceReRender(); 
+        
+        let html = '';
+        const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en'];
+
+        productsData.categories.forEach((c, cI) => {
+            c.apps.forEach((a, aI) => {
+                a.items.forEach((it, i) => {
+                    // Search through Category name, App name, AND Item name
+                    if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)) {
+                        html += `
+                        <div class="item-row glass">
+                            <span style="font-size:0.95rem; font-weight:bold;">${a.name} - ${it.name} ${it.isOOS ? `<span class="oos-tag">${t.oos}</span>` : ''}</span>
+                            <b style="color:var(--primary); margin-top:5px; font-size:1.1rem;">${it.price} DT</b>
+                            ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
+                            <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? t.oos : t.addCart}</button>
+                        </div>`;
+                    }
+                });
+            });
+        });
+        
+        // Display the search results
+        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub); margin-top: 30px; font-weight: bold;">No items found.</p>`;
     }
 
     function showCats() { currentView = {type: 'cats'}; document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
@@ -464,6 +510,7 @@
     async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
 
     document.getElementById('cart-count').innerText = cart.length;
+    fetchData(); // Kick off the initial load
 </script>
 </body>
 </html>
