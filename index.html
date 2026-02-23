@@ -19,6 +19,7 @@
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; position: absolute; top: 20px; right: 20px; z-index: 100; }
+        .login-btn { right: auto; left: 20px; background: var(--primary); color: white; border: none; }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; }
         .social-bar { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
         .s-link { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.3rem; }
@@ -41,25 +42,28 @@
         .promo-box button { background: var(--card); color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; font-weight: bold; cursor: pointer; padding: 0 15px; }
 
         .admin-controls { background: #ffae0022; padding: 15px; border-radius: 12px; border: 1px dashed #ffae00; margin-bottom: 15px; font-size: 0.8rem; text-align: center; }
+        .loyalty-band { background: #00ff8822; color: #00ff88; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 0.8rem; margin-bottom: 15px; display: none; border: 1px dashed #00ff88; text-align: center; }
         .maintenance-band { background: #ffcc00; color: #000; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
         footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 20px; border-radius: 20px; font-size: 0.8rem; display: none; z-index: 3000; font-weight: bold; }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast">Info Copied! ❤️</div>
+<div id="toast" class="toast">Action Complete! ❤️</div>
 
 <div class="container">
+    <button class="icon-btn login-btn" onclick="openLoginModal()" id="user-btn">👤 Login / Sign Up</button>
     <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">🌓 Theme</button>
     
-    <div id="maintenance-msg" class="maintenance-band" style="display:none; margin-top: 40px;">
+    <div id="maintenance-msg" class="maintenance-band" style="display:none; margin-top: 50px;">
         ⚠️ STORE CURRENTLY CLOSED FOR MAINTENANCE ⚠️<br>
         <span style="font-size: 0.8rem; font-weight: normal;">Contact us directly via the links below.</span>
     </div>
     
-    <div class="header" style="text-align:center; margin-top: 40px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()" title="Click 5 times for Admin">
+    <div class="header" style="text-align:center; margin-top: 50px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()" title="Tap 5 times for Admin Passkey">
         <h2 style="color:var(--primary); margin-top:10px; letter-spacing: 2px;">CYBERHUB</h2>
     </div>
 
@@ -71,9 +75,11 @@
 
     <div id="admin-panel" style="display:none;" class="admin-controls">
         <b style="color:#ffae00; font-size:1rem;">🔓 ADMIN PORTAL</b><br><br>
-        <button onclick="toggleMaintenance()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; background:#ff4d4d; color:white;" id="admin-maint-btn">Toggle Maintenance</button>
+        <button onclick="toggleMaintenance()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; background:#ff4d4d; color:white;">Toggle Maintenance</button>
         <button onclick="openAddModal()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; margin-left:10px; background:var(--primary); color:white;">+ Add Item</button>
     </div>
+
+    <div id="loyalty-msg" class="loyalty-band"></div>
 
     <div id="shop-wrapper">
         <input type="text" id="mainSearch" placeholder="Search / Rechercher..." onkeyup="filterItems()" style="border-radius:15px; margin-bottom:15px;">
@@ -84,6 +90,21 @@
     </div>
     
     <footer>Made by Yessine with ❤️</footer>
+</div>
+
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--primary); border-bottom:1px solid var(--border); padding-bottom:10px;">👤 CyberHub Account</h3>
+        <p style="font-size:0.8rem; color:var(--sub);">Accounts are optional. Log in to earn stacking 2% discounts on every order!</p>
+        
+        <input type="text" id="authContact" placeholder="Email or Phone Number">
+        <input type="password" id="authPass" placeholder="Password">
+        
+        <button class="add-btn" onclick="processAuth('login')">Log In</button>
+        <button class="add-btn" onclick="processAuth('register')" style="background:var(--card); color:var(--text); border:1px solid var(--primary); margin-top:5px;">Create Account</button>
+        
+        <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Continue as Guest</button>
+    </div>
 </div>
 
 <div id="modal" class="modal">
@@ -105,7 +126,7 @@
                 </span>
             </div>
             <input type="text" id="custName" placeholder="Full Name / Nom">
-            <input type="text" id="custContact" placeholder="Phone / Social Handle">
+            <input type="text" id="custContact" placeholder="Email / Phone (Used for Loyalty)">
             <button class="add-btn" onclick="submitOrder()">Place Order</button>
             <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:10px; cursor:pointer;">Close</button>
         </div>
@@ -115,20 +136,12 @@
 <div id="add-item-modal" class="modal">
     <div class="modal-content">
         <h3 style="color:var(--primary); border-bottom:1px solid var(--border); padding-bottom:10px;">➕ Add New Item</h3>
-        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Select Category:</label>
         <select id="add-cat-sel" onchange="checkNewCat()"></select>
         <input type="text" id="add-cat-new" placeholder="Type New Category Name..." style="display:none; border-color:#ffae00;">
-
-        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Select Sub-App:</label>
-        <select id="add-app-sel" onchange="checkNewApp()">
-            <option value="_NEW_">➕ Create New Sub-App...</option>
-        </select>
+        <select id="add-app-sel" onchange="checkNewApp()"><option value="_NEW_">➕ Create New Sub-App...</option></select>
         <input type="text" id="add-app-new" placeholder="Type New Sub-App Name..." style="display:none; border-color:#ffae00;">
-
-        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Item Details:</label>
         <input type="text" id="add-item-name" placeholder="Item Name (e.g., 1000 V-Bucks)">
         <input type="text" id="add-item-price" placeholder="Price (e.g., 15 DT)">
-
         <button class="add-btn" onclick="submitNewItem()">💾 Save to Store</button>
         <button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
     </div>
@@ -139,14 +152,15 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     
-    // PROMO CSV URL INTEGRATED HERE:
+    // YOUR PROMO URL
     const PROMO_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1497819206&single=true&output=csv"; 
+    
+    // YOUR NEW USERS URL
+    const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
     
     const ADMIN_PASS = "26240608"; 
 
-    // Promos are now loaded dynamically!
     let PROMO_CODES = {}; 
-
     let productsData = { categories: [] };
     let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
     let isAdmin = false;
@@ -154,13 +168,75 @@
     let clickCount = 0;
     let currentView = { type: 'cats', cI: null, aI: null }; 
     let lastDataString = ""; 
+    
+    // Auth & Loyalty Variables
+    let currentUser = null; 
+    let loyaltyDiscount = 0; 
     let activePromo = null; 
-    let activeDiscount = 0;
+    let activePromoDiscount = 0;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "size": { "value": 1.5 }, "line_linked": { "opacity": 0.2 }, "move": { "speed": 1.2 } } });
     function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
-    // --- ADVANCED DEVICE TRACKER ---
+    // --- OPTIONAL ACCOUNT & LOYALTY LOGIC ---
+    function openLoginModal() { document.getElementById('login-modal').style.display = 'flex'; }
+    
+    async function processAuth(actionType) {
+        const contact = document.getElementById('authContact').value.trim();
+        const pass = document.getElementById('authPass').value.trim();
+        if(!contact || !pass) return alert("Please fill in both fields.");
+        
+        document.getElementById('authContact').value = "Processing...";
+        
+        if (actionType === 'register') {
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
+            alert("Account created successfully! You are now logged in.");
+            currentUser = contact;
+            loyaltyDiscount = 0;
+            finishLogin();
+        } 
+        else if (actionType === 'login') {
+            try {
+                const res = await fetch(USERS_URL + "&t=" + new Date().getTime());
+                const text = await res.text();
+                const rows = text.split('\n');
+                let found = false;
+                
+                for(let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols[0] === contact && cols[1] === pass) {
+                        found = true;
+                        currentUser = contact;
+                        let pastOrders = Number(cols[2]) || 0;
+                        
+                        // Calculate Loyalty: 2% per past order (Max 20% limit)
+                        loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
+                        
+                        alert(`Welcome back! You have made ${pastOrders} past orders. Your loyalty discount is ${loyaltyDiscount * 100}%!`);
+                        finishLogin();
+                        break;
+                    }
+                }
+                if(!found) {
+                    alert("Incorrect Email/Phone or Password.");
+                    document.getElementById('authContact').value = contact;
+                }
+            } catch(e) { alert("Login error."); }
+        }
+    }
+
+    function finishLogin() {
+        closeModal('login-modal');
+        document.getElementById('user-btn').innerText = "👤 " + currentUser.substring(0, 8) + "...";
+        document.getElementById('custContact').value = currentUser; // Auto-fill cart
+        
+        if (loyaltyDiscount > 0) {
+            document.getElementById('loyalty-msg').style.display = 'block';
+            document.getElementById('loyalty-msg').innerText = `✨ Active Loyalty Bonus: ${loyaltyDiscount * 100}% OFF everything! ✨`;
+        }
+    }
+
+    // --- TRACKER & NATIVE REDMI BIOMETRICS ---
     async function logVisit() {
         if(localStorage.getItem('admin_passkey_id')) return; 
         let device = navigator.userAgent;
@@ -171,7 +247,6 @@
             } catch(e) {}
         } else {
             if (/iPhone/i.test(device)) device = "Apple iPhone";
-            else if (/iPad/i.test(device)) device = "Apple iPad";
             else if (/Android/i.test(device)) {
                 const match = device.match(/Android\s([0-9\.]*);.*?; (.*?) Build/);
                 device = match ? `Android ${match[1]} - ${match[2]}` : "Android Device";
@@ -181,7 +256,6 @@
     }
     window.onload = logVisit;
 
-    // --- ADMIN LOGIC ---
     async function logoTrigger() {
         clickCount++;
         if(clickCount === 5) {
@@ -190,7 +264,7 @@
                 const success = await loginWithPasskey();
                 if (success) return grantAdmin();
             }
-            const pass = prompt("Admin Password (or 'PASSKEY' to register biometrics):");
+            const pass = prompt("Admin Password (or 'PASSKEY' to register Redmi Face/Fingerprint):");
             if (pass === ADMIN_PASS) { grantAdmin(); } 
             else if (pass && pass.toUpperCase() === "PASSKEY") {
                 const verify = prompt("Verify Password:");
@@ -204,46 +278,44 @@
         isAdmin = true;
         document.getElementById('admin-panel').style.display = 'block';
         document.getElementById('shop-wrapper').style.display = 'block'; 
-        alert("🔓 Admin Access Granted!");
+        alert("🔓 Admin Access Granted via Biometrics/Password!");
         forceReRender(); 
     }
 
+    // --- LIVE SYNC & RENDER LOGIC ---
     setInterval(fetchData, 10000); 
     async function fetchData() {
         try {
-            // Fetch Store Data
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); 
             const text = await res.text();
             
-            // Safely fetch Promo Data in the background
             try {
-                if(PROMO_URL !== "PASTE_YOUR_PROMO_CSV_URL_HERE") {
+                if(PROMO_URL.startsWith("http")) {
                     const pRes = await fetch(PROMO_URL + "&t=" + new Date().getTime());
                     const pText = await pRes.text();
-                    PROMO_CODES = {}; // Reset local codes
+                    PROMO_CODES = {}; 
                     pText.split('\n').slice(1).forEach(row => {
                         const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                         if(cols[0] && cols[1]) PROMO_CODES[cols[0].toUpperCase()] = parseFloat(cols[1]);
                     });
                 }
-            } catch(e) { console.log("Promo codes not connected yet."); }
+            } catch(e) {}
 
             if(text === lastDataString && !isAdmin) return; 
             lastDataString = text;
 
             const rows = text.split('\n');
             const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            
             globalMaintenance = (headers.length > 15 && headers[15].replace(/^"|"$/g, '').trim() === "MAINTENANCE_ON");
 
             if(globalMaintenance && !isAdmin) {
                 document.getElementById('shop-wrapper').style.display = 'none';
-                document.getElementById('theme-btn').style.display = 'none';
+                document.getElementById('user-btn').style.display = 'none';
                 document.getElementById('maintenance-msg').style.display = 'block';
                 return; 
             } else {
                 document.getElementById('shop-wrapper').style.display = 'block';
-                document.getElementById('theme-btn').style.display = 'block';
+                document.getElementById('user-btn').style.display = 'block';
                 document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none';
             }
 
@@ -264,7 +336,7 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             forceReRender();
-        } catch (e) { console.log("Live Sync Error"); }
+        } catch (e) {}
     }
 
     function forceReRender() {
@@ -289,24 +361,12 @@
         catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
         productsData.categories.forEach(c => { catSel.innerHTML += `<option value="${c.name}">${c.name}</option>`; });
         catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`;
-        checkNewCat(); 
-        document.getElementById('add-item-modal').style.display = 'flex';
+        checkNewCat(); document.getElementById('add-item-modal').style.display = 'flex';
     }
     function checkNewCat() {
-        const val = document.getElementById('add-cat-sel').value;
-        const subSel = document.getElementById('add-app-sel');
-        if (val === "_NEW_") {
-            document.getElementById('add-cat-new').style.display = 'block';
-            subSel.innerHTML = `<option value="_NEW_">➕ Create New Sub-App...</option>`;
-            checkNewApp();
-        } else {
-            document.getElementById('add-cat-new').style.display = 'none';
-            subSel.innerHTML = `<option value="">-- Choose Sub-App --</option>`;
-            const catObj = productsData.categories.find(c => c.name === val);
-            if(catObj) { catObj.apps.forEach(a => { subSel.innerHTML += `<option value="${a.name}">${a.name}</option>`; }); }
-            subSel.innerHTML += `<option value="_NEW_">➕ Create New Sub-App...</option>`;
-            checkNewApp();
-        }
+        const val = document.getElementById('add-cat-sel').value; const subSel = document.getElementById('add-app-sel');
+        if (val === "_NEW_") { document.getElementById('add-cat-new').style.display = 'block'; subSel.innerHTML = `<option value="_NEW_">➕ Create New Sub-App...</option>`; checkNewApp(); } 
+        else { document.getElementById('add-cat-new').style.display = 'none'; subSel.innerHTML = `<option value="">-- Choose Sub-App --</option>`; const catObj = productsData.categories.find(c => c.name === val); if(catObj) { catObj.apps.forEach(a => { subSel.innerHTML += `<option value="${a.name}">${a.name}</option>`; }); } subSel.innerHTML += `<option value="_NEW_">➕ Create New Sub-App...</option>`; checkNewApp(); }
     }
     function checkNewApp() { document.getElementById('add-app-new').style.display = (document.getElementById('add-app-sel').value === "_NEW_") ? 'block' : 'none'; }
     function submitNewItem() {
@@ -337,26 +397,26 @@
             </div>`).join('');
     }
 
-    // --- CART & PROMO LOGIC ---
+    // --- CART & DISCOUNT LOGIC ---
     function applyPromo() {
         const code = document.getElementById('promoCodeInput').value.toUpperCase();
         if (PROMO_CODES[code]) {
-            activePromo = code;
-            activeDiscount = PROMO_CODES[code];
-            alert(`✅ Promo Code Applied! ${activeDiscount * 100}% off.`);
+            activePromo = code; activePromoDiscount = PROMO_CODES[code];
+            alert(`✅ Promo Code Applied! ${activePromoDiscount * 100}% off.`);
             updateCartUI();
-        } else {
-            alert("❌ Invalid Promo Code.");
-        }
+        } else { alert("❌ Invalid Promo Code."); }
     }
 
     function updateCartUI() {
         let rawTotal = cart.reduce((s, i) => s + i.price, 0);
-        let finalTotal = rawTotal - (rawTotal * activeDiscount);
+        
+        // Stack the standard Promo Code AND the Loyalty Discount
+        let combinedDiscount = activePromoDiscount + loyaltyDiscount;
+        let finalTotal = rawTotal - (rawTotal * combinedDiscount);
         
         document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
         
-        if (activeDiscount > 0) {
+        if (combinedDiscount > 0) {
             document.getElementById('original-price').style.display = 'inline-block';
             document.getElementById('original-price').innerText = rawTotal + " DT";
             document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2);
@@ -375,10 +435,7 @@
         localStorage.setItem('cyberhub_cart', JSON.stringify(cart));
     }
 
-    function openCart() { 
-        document.getElementById('modal').style.display = 'flex';
-        updateCartUI();
-    }
+    function openCart() { document.getElementById('modal').style.display = 'flex'; updateCartUI(); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
     function submitOrder() {
@@ -390,19 +447,25 @@
         const notes = cart.map(i => i.note).join(' | ');
         
         let promoString = activePromo ? `\nPROMO: ${activePromo}` : "";
+        let loyaltyString = loyaltyDiscount > 0 ? `\nLOYALTY: ${loyaltyDiscount * 100}%` : "";
 
-        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT${promoString}`;
+        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT${promoString}${loyaltyString}`;
         
         navigator.clipboard.writeText(body).then(() => {
             const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
             emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
+                // Instantly credit their account with +1 order if logged in!
+                if(currentUser) {
+                    fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "increment_loyalty", contact: currentUser }), mode: 'no-cors' });
+                }
                 alert(`Order Sent! ID: ${orderID}`);
                 cart = []; localStorage.removeItem('cyberhub_cart'); location.reload();
             });
         });
     }
 
-    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered!"); } catch(e) {} }
+    // --- BIOMETRICS ---
+    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered! Face Unlock configured."); } catch(e) {} }
     async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
 
     fetchData();
