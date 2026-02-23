@@ -11,24 +11,20 @@
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     
     <style>
-        :root { --primary: #00f0ff; --bg: #02060d; --card: rgba(10, 20, 40, 0.25); --border: rgba(255, 255, 255, 0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
+        /* RESTORED OLD BACKGROUND COLORS */
+        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.6); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        /* 🔥 LIQUID GLASS */
-        .liquid-glass { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-            backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.3); border-left: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.05); transition: all 0.3s ease;
-        }
+        .glass { background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 18px; }
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.05); }
         
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: 0.3s; }
         
         /* 📱 LEFT SIDEBAR MENU */
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(2, 6, 13, 0.85); z-index: 5000; transition: 0.4s ease-in-out; padding: 30px 20px; border-right: 1px solid var(--primary); backdrop-filter: blur(25px); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(2, 6, 13, 0.95); z-index: 5000; transition: 0.4s ease-in-out; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
         #sidebar.open { left: 0; }
         .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
         .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
@@ -42,13 +38,19 @@
         .btn-maint { background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 0 15px rgba(255,77,77,0.4); }
         .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 0 15px rgba(0,255,136,0.4);}
         .btn-add { background: var(--primary); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 0 15px rgba(0,240,255,0.4);}
+        .btn-lock { background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
 
         /* ⏳ LIVE COUNTDOWN MAINTENANCE BANNER */
         .maintenance-band { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #fff; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); backdrop-filter: blur(10px); }
         #ui-maint-title { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; color: #ff4d4d; text-transform: uppercase; }
         #ui-maint-time { font-size: 2rem; font-weight: 800; margin-top: 15px; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 0 15px #ff4d4d; }
 
-        /* STANDALONE VS RETRACTABLE */
+        /* CATEGORIES & ITEMS */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.5s ease-in-out; }
+        .nav-card { padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.05); }
+        .nav-card img { width: 65px; height: 65px; object-fit: contain; mix-blend-mode: var(--blend); display: block; margin: 0 auto 10px auto; }
+
         .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; font-size: 1.1rem; }
         .app-header img { width: 45px; height: 45px; object-fit: contain; }
         .app-header:hover { border-color: var(--primary); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
@@ -67,8 +69,10 @@
         input[type="datetime-local"] { color-scheme: dark; }
         input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2); }
         
-        .checkbox-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 1px solid var(--primary); text-align: left; }
-        .checkbox-container input { width: 25px; height: 25px; margin: 0; cursor: pointer; accent-color: var(--primary); }
+        /* CHAT UI */
+        .chat-box { background: rgba(0,0,0,0.6); height: 250px; border-radius: 12px; border: 1px solid var(--border); overflow-y: auto; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .chat-msg { background: var(--card); padding: 10px; border-radius: 10px; width: fit-content; max-width: 80%; text-align: left; font-size: 0.9rem; }
+        .chat-msg.me { background: rgba(0, 240, 255, 0.2); align-self: flex-end; border: 1px solid var(--primary); }
 
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
         .toast.show { bottom: 30px; }
@@ -88,14 +92,15 @@
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
     <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Login</div>
-    <div class="menu-item" onclick="window.location.href='mailto:cyber.hub.contact.now@gmail.com';">📞 Contact Us</div>
-    <div class="menu-item" onclick="showToast('VIP Rewards Hub coming soon!', 'info'); toggleSidebar();" style="color:#ffae00;">💎 VIP Rewards Hub</div>
+    <div class="menu-item" onclick="openContactOptions(); toggleSidebar();">📞 Contact Options</div>
+    <div class="menu-item" onclick="openLiveSupport(); toggleSidebar();">💬 Live Support Chat</div>
+    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:#ffae00;">💎 VIP Rewards Hub</div>
 </div>
 
 <div class="container">
-    <div class="top-bar liquid-glass">
-        <button class="icon-btn liquid-glass" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn liquid-glass" onclick="document.getElementById('lang-screen').style.display='flex';" style="border:none; background:transparent;">🌐 Lang</button>
+    <div class="top-bar glass">
+        <button class="icon-btn glass" onclick="toggleSidebar()">☰ MENU</button>
+        <button class="icon-btn glass" onclick="document.getElementById('lang-screen').style.display='flex';" style="border:none; background:transparent;">🌐 Lang</button>
     </div>
     
     <div id="maintenance-msg" class="maintenance-band liquid-glass">
@@ -113,20 +118,19 @@
         <b style="color:#ffae00; font-size:1.2rem;">🔓 GOD MODE ADMIN PORTAL</b><br>
         <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Control Panel</p>
         
-        <label style="color:var(--primary); font-weight:bold; font-size:0.8rem; display:block; text-align:left;">Set Re-open Date/Time (Optional):</label>
         <input type="datetime-local" id="maint-timer-input" class="liquid-glass">
         <div class="admin-grid">
             <button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button>
             <button class="btn-maint" onclick="setLiveMaintenance('UNTIL')" style="background:#b30000;">🛑 Close Until Notice</button>
         </div>
         <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 OPEN STORE</button>
-        <hr style="border: 1px solid var(--border); margin: 20px 0;">
-        <button class="btn-add" onclick="openAddModal()">+ ADD NEW ITEM TO STORE</button>
+        <button class="btn-add" onclick="openAddModal()">+ ADD NEW ITEM</button>
+        <button class="btn-lock" onclick="lockAdminPanel()">🔒 Lock & Leave Admin</button>
     </div>
 
     <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="applyFilters()" style="margin-bottom:20px;">
-        <div id="content-area"><div class="loader-text">Live Syncing Data... ⏳</div></div>
+        <input type="text" id="mainSearch" class="glass" placeholder="Search Store..." oninput="applyFilters()" style="margin-bottom:20px;">
+        <div id="content-area"><div class="loader-text">Loading Store Data... ⏳</div></div>
     </div>
 </div>
 
@@ -135,18 +139,14 @@
 <div id="add-item-modal" class="modal">
     <div class="modal-content liquid-glass">
         <h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3>
-        
         <select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select>
         <input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)">
         <input type="text" id="add-item-name" placeholder="Item Details (e.g., 1 Profile - 1 Month)">
         <input type="number" id="add-item-price" placeholder="Price (DT)">
         
-        <div class="checkbox-container">
-            <input type="checkbox" id="add-is-retractable" onchange="toggleRetractableInput()">
-            <div>
-                <b style="color:white;">Make this Retractable?</b><br>
-                <span style="font-size:0.75rem; color:var(--sub);">Groups it into a dropdown menu.</span>
-            </div>
+        <div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;">
+            <input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;">
+            <div><b style="color:white;">Make this Retractable?</b><br><span style="font-size:0.75rem; color:var(--sub);">Groups it into a dropdown menu.</span></div>
         </div>
         <input type="text" id="add-retract-group" placeholder="Menu Name (e.g., Netflix Profiles)" style="display:none; border-color:var(--primary);">
 
@@ -155,32 +155,133 @@
     </div>
 </div>
 
-<div id="lang-screen"></div><div id="auth-choice-modal" class="modal"></div><div id="pass-input-modal" class="modal"></div><div id="profile-modal" class="modal"></div><div id="modal" class="modal"></div><div id="login-modal" class="modal"></div>
+<div id="contact-modal" class="modal">
+    <div class="modal-content liquid-glass">
+        <h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+            <a href="https://www.instagram.com/__cyber__hub__" class="add-btn" style="text-decoration:none; background:#E1306C; color:white;">📸 Instagram</a>
+            <a href="https://wa.me/21629895846" class="add-btn" style="text-decoration:none; background:#25D366; color:white;">💬 WhatsApp</a>
+            <a href="#" class="add-btn" style="text-decoration:none; background:#1877F2; color:white;">📘 Facebook</a>
+            <a href="mailto:cyber.hub.contact.now@gmail.com" class="add-btn" style="text-decoration:none; background:#ea4335; color:white;">📧 Email Us</a>
+        </div>
+        <button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="chat-modal" class="modal">
+    <div class="modal-content liquid-glass">
+        <h3 style="color:var(--primary); margin-bottom:5px;">💬 Support Chat</h3>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;" id="chat-user-label">Loading...</p>
+        
+        <div class="chat-box" id="chat-history">
+            <div class="chat-msg"><b>Support:</b> Hello! How can we help you today?</div>
+        </div>
+        
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button class="add-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button>
+        </div>
+        <button onclick="closeModal('chat-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="vip-modal" class="modal">
+    <div class="modal-content liquid-glass">
+        <h3 style="color:#ffae00; margin-bottom:5px;">💎 VIP Rewards Hub</h3>
+        <p style="color:var(--text); margin-bottom:20px;">Your Current Status:</p>
+        <div style="font-size:3rem; font-weight:900; color:var(--primary); text-shadow:0 0 20px var(--primary);" id="vip-discount-display">0%</div>
+        <p style="color:var(--sub); font-size:0.9rem; margin-top:10px;">Discount applied automatically to all future orders!</p>
+        <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:25px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="lang-screen"></div><div id="auth-choice-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Admin Login required</h3><button class="add-btn" onclick="openPassInput()">🔑 Use Password</button><button onclick="closeModal('auth-choice-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div><div id="pass-input-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);" id="prompt-title">Enter Password</h3><input type="password" id="auth-manual-pass" placeholder="..."><button class="add-btn" onclick="submitManualPass()">Verify</button><button onclick="closeModal('pass-input-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div><div id="profile-modal" class="modal"></div><div id="modal" class="modal"></div><div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 CyberHub Account</h3><input type="text" id="authContact" placeholder="Email"><input type="password" id="authPass" placeholder="Password"><button class="add-btn" onclick="processAuth('login')">Log In</button><button class="add-btn" onclick="processAuth('register')" style="background:transparent; color:var(--primary); border:2px solid var(--primary); margin-top:10px;">Create Account</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
-    
+    const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
+
+    const ADMIN_EMAIL = "yessinebenfraj106@gmail.com";
+    const ADMIN_PASS = "Aqszedfr43";
+
     let toastTimeout; function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast liquid-glass show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
 
     function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function openAddModal() { document.getElementById('add-item-modal').style.display = 'flex'; }
-    function toggleRetractableInput() { document.getElementById('add-retract-group').style.display = document.getElementById('add-is-retractable').checked ? 'block' : 'none'; }
-
+    function openContactOptions() { document.getElementById('contact-modal').style.display = 'flex'; }
+    
     let productsData = { categories: [], standalone: [] }; let cart = []; let isAdmin = false; let globalMaintenance = false; let lastDataString = ""; let clickCount = 0; let countdownInterval;
+    let currentUser = null; let loyaltyDiscount = 0; let currentView = { type: 'cats', cI: null };
 
-    // 🔥 TRUE LIVE SYNC ENGINE (Runs every 3 seconds without refreshing the page)
+    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
+    
+    // --- AUTHENTICATION & LIVE SUPPORT ---
+    function openProfileOrLogin() { if(currentUser) { showToast("Logged in as " + currentUser, "success"); } else { document.getElementById('login-modal').style.display = 'flex'; } }
+    
+    async function processAuth(actionType) {
+        const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
+        if(!contact || !pass) return showToast("Fill all fields", "error");
+        
+        // CUSTOMER SUPPORT ADMIN LOGIN CHECK
+        if(contact === ADMIN_EMAIL && pass === ADMIN_PASS) {
+            currentUser = contact; loyaltyDiscount = 1.0; closeModal('login-modal');
+            showToast("Welcome Admin Yessine! You can now check Support Chat.", "success");
+            return;
+        }
+
+        if (actionType === 'register') {
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
+            showToast("Account created successfully!", "success"); currentUser = contact; loyaltyDiscount = 0; closeModal('login-modal');
+        } else if (actionType === 'login') {
+            try {
+                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let found = false;
+                for(let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols[0] === contact && cols[1] === pass) {
+                        found = true; currentUser = contact; let pastOrders = Number(cols[2]) || 0; loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
+                        showToast(`Welcome! Loyalty Discount: ${loyaltyDiscount * 100}%!`, "success"); closeModal('login-modal'); break;
+                    }
+                }
+                if(!found) showToast("Incorrect Credentials.", "error"); 
+            } catch(e) {}
+        }
+    }
+
+    function openVIPHub() {
+        if(!currentUser) return showToast("Please login first to view VIP status.", "error");
+        document.getElementById('vip-discount-display').innerText = (loyaltyDiscount * 100) + "%";
+        document.getElementById('vip-modal').style.display = 'flex';
+    }
+
+    function openLiveSupport() {
+        if(!currentUser) return showToast("You must login to use Live Support.", "error");
+        document.getElementById('chat-modal').style.display = 'flex';
+        document.getElementById('chat-user-label').innerText = currentUser === ADMIN_EMAIL ? "Admin Mode: Viewing user tickets" : "Logged in as: " + currentUser;
+    }
+
+    function sendChatMessage() {
+        const input = document.getElementById('chat-input');
+        if(!input.value.trim()) return;
+        const chatBox = document.getElementById('chat-history');
+        chatBox.innerHTML += `<div class="chat-msg me"><b>You:</b> ${input.value}</div>`;
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+        showToast("Message Sent to Support.", "success");
+        // In a full backend, this would fetch(SCRIPT_URL, { action: "chat", msg: ... })
+    }
+
+    // --- TRUE LIVE SYNC ENGINE ---
     setInterval(fetchData, 3000); 
 
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
-            if(text === lastDataString && !isAdmin) return; lastDataString = text; // Only rebuild if data changed
+            if(text === lastDataString && !isAdmin) return; lastDataString = text; 
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // 🔓 GOD MODE MAINTENANCE CHECK
+            // ⏳ FIX FOR NaN IN TIMER (Scientific Notation Parsing)
             let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "OFF";
             handleMaintenanceUI(maintData);
 
@@ -190,17 +291,15 @@
                 if (cols.length >= 6 && cols[0] !== "") {
                     const cat = cols[0]; const app = cols[2]; const itemNameRaw = cols[4]; const price = parseFloat(cols[5]) || 0; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
                     
-                    // Decode the Retractable Group Logic (Using a hidden tag in the name)
                     let itemName = itemNameRaw; let groupName = null;
-                    if(itemNameRaw.includes("||GRP||")) {
-                        let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1];
-                    }
+                    if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
 
-                    if(groupName) { // Put in Retractable Menu
-                        if (!temp[cat]) temp[cat] = { name: cat, groups: {} };
+                    if(groupName) { 
+                        if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], groups: {} };
                         if (!temp[cat].groups[groupName]) temp[cat].groups[groupName] = { name: groupName, img: cols[3], items: [] };
                         temp[cat].groups[groupName].items.push({ name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS, app: app });
-                    } else { // Standalone Giant Card
+                    } else { 
+                        if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], groups: {} };
                         tempStandalone.push({ cat: cat, app: app, img: cols[3], name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS });
                     }
                 }
@@ -208,11 +307,11 @@
             productsData.categories = Object.values(temp).map(c => { c.groups = Object.values(c.groups); return c; });
             productsData.standalone = tempStandalone;
             
-            applyFilters(); // Live Draw
+            applyFilters(); 
         } catch (e) {}
     }
 
-    // ⏳ LIVE TIMER ENGINE
+    // ⏳ SAFE LIVE TIMER ENGINE (Fixed NaN)
     function handleMaintenanceUI(maintData) {
         clearInterval(countdownInterval);
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); const noticeEl = document.getElementById('ui-maint-notice');
@@ -223,8 +322,12 @@
             band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isAdmin ? 'block' : 'none'; globalMaintenance = true;
             if(maintData === "UNTIL") {
                 timeEl.style.display = 'none'; noticeEl.style.display = 'block'; noticeEl.innerText = "Closed until further notice.";
-            } else { // It is a Timestamp
-                let target = parseInt(maintData); timeEl.style.display = 'block'; noticeEl.style.display = 'block'; noticeEl.innerText = "Reopening in:";
+            } else { 
+                // Fix for scientific notation parsing
+                let target = parseInt(parseFloat(maintData)); 
+                if(isNaN(target)) { timeEl.style.display = 'none'; return; }
+                
+                timeEl.style.display = 'block'; noticeEl.style.display = 'block'; noticeEl.innerText = "Reopening in:";
                 countdownInterval = setInterval(() => {
                     let now = new Date().getTime(); let distance = target - now;
                     if(distance < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
@@ -250,70 +353,87 @@
         setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Live Updated!", "success"); }, 1500);
     }
 
+    // 🌟 RESTORED OLD CATEGORIES GRID
+    function applyFilters() {
+        const q = document.getElementById('mainSearch').value.toLowerCase(); let html = '';
+        
+        // If Search is Empty -> Show Categories Grid
+        if(!q) {
+            if(currentView.type === 'cats') {
+                html = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`;
+            } else if(currentView.type === 'apps') {
+                const c = productsData.categories[currentView.cI];
+                html = `<button onclick="showCats()" class="icon-btn glass" style="margin-bottom:15px; border:none;">← Back to Categories</button>`;
+                
+                // Standalone for this category
+                productsData.standalone.filter(it => it.cat === c.name).forEach(it => {
+                    html += `<div class="item-row glass" style="padding:20px; text-align:center;"><img src="${it.img}" style="width:50px; height:50px; margin:0 auto 10px auto;"><span style="font-weight:900;">${it.name}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b><button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button></div>`;
+                });
+
+                // Retractable Menus for this category
+                c.groups.forEach((g, gI) => {
+                    html += `
+                    <div class="glass app-header" onclick="document.getElementById('acc-${currentView.cI}-${gI}').style.display = document.getElementById('acc-${currentView.cI}-${gI}').style.display === 'none' ? 'block' : 'none'">
+                        <img src="${g.img}"> <span>${g.name} (${g.items.length})</span> <span style="margin-left:auto;">▼</span>
+                    </div>
+                    <div id="acc-${currentView.cI}-${gI}" class="retractable-content" style="display:none;">
+                    `;
+                    g.items.forEach(it => { html += `<div class="item-row"><span style="font-weight:bold;">${it.name}</span><b style="color:var(--primary);">${it.price} DT</b><button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button></div>`; });
+                    html += `</div>`;
+                });
+            }
+            document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">Store Empty.</p>`;
+            return;
+        }
+
+        // If Searching -> Show Live Search Results
+        html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3>`;
+        productsData.standalone.forEach(it => {
+            if(it.name.toLowerCase().includes(q) || it.app.toLowerCase().includes(q)) {
+                html += `<div class="item-row glass" style="padding:20px; text-align:center;"><span style="font-weight:900;">${it.name}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b><button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button></div>`;
+            }
+        });
+        productsData.categories.forEach((c, cI) => {
+            c.groups.forEach((g, gI) => {
+                let validItems = g.items.filter(it => it.name.toLowerCase().includes(q) || g.name.toLowerCase().includes(q));
+                if(validItems.length > 0) {
+                    html += `<div class="glass app-header" onclick="document.getElementById('search-acc-${cI}-${gI}').style.display = document.getElementById('search-acc-${cI}-${gI}').style.display === 'none' ? 'block' : 'none'"><img src="${g.img}"> <span>${g.name} (${validItems.length})</span> <span style="margin-left:auto;">▼</span></div><div id="search-acc-${cI}-${gI}" class="retractable-content" style="display:block;">`;
+                    validItems.forEach(it => { html += `<div class="item-row"><span style="font-weight:bold;">${it.name}</span><b style="color:var(--primary);">${it.price} DT</b><button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button></div>`; });
+                    html += `</div>`;
+                }
+            });
+        });
+        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">No items found.</p>`;
+    }
+
+    function showCats() { currentView = {type: 'cats'}; applyFilters(); }
+    function showApps(idx) { currentView = {type: 'apps', cI: idx}; applyFilters(); }
+
     function submitNewItem() {
         let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value;
         if(!cat || !app || !name || !price) return showToast("Fill all fields", "error");
-        
-        // Magically append the group name so it organizes perfectly in the sheet without changing formulas
         if(document.getElementById('add-is-retractable').checked) {
             let group = document.getElementById('add-retract-group').value;
             if(!group) return showToast("Provide a Menu Name", "error");
             name = name + "||GRP||" + group;
         }
-        
         showToast("Uploading to live store...", "info"); closeModal('add-item-modal');
         fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' })
         .then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Live Sync Complete!", "success"); }, 1500); });
     }
 
-    function applyFilters() {
-        const q = document.getElementById('mainSearch').value.toLowerCase(); let html = '';
-        
-        // 1. Draw Standalone Items First
-        productsData.standalone.forEach((it, i) => {
-            if(!q || it.name.toLowerCase().includes(q) || it.app.toLowerCase().includes(q)) {
-                html += `
-                <div class="item-row liquid-glass" style="padding:20px; text-align:center;">
-                    <img src="${it.img}" style="width:60px; height:60px; margin:0 auto 10px auto;">
-                    <span style="font-size:1.1rem; font-weight:900;">${it.name}</span>
-                    <b style="color:var(--primary); font-size:1.3rem; margin-top:5px;">${it.price} DT</b>
-                    <button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button>
-                </div>`;
-            }
-        });
+    function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
 
-        // 2. Draw Retractable Menus
-        productsData.categories.forEach((c, cI) => {
-            c.groups.forEach((g, gI) => {
-                let validItems = g.items.filter(it => !q || it.name.toLowerCase().includes(q) || g.name.toLowerCase().includes(q));
-                if(validItems.length > 0) {
-                    html += `
-                    <div class="liquid-glass app-header" onclick="document.getElementById('acc-${cI}-${gI}').style.display = document.getElementById('acc-${cI}-${gI}').style.display === 'none' ? 'block' : 'none'">
-                        <img src="${g.img}"> <span>${g.name} (${validItems.length})</span> <span style="margin-left:auto;">▼</span>
-                    </div>
-                    <div id="acc-${cI}-${gI}" class="retractable-content" style="${q ? 'display:block;' : 'display:none;'}">
-                    `;
-                    validItems.forEach(it => {
-                        html += `
-                        <div class="item-row">
-                            <span style="font-weight:bold;">${it.name}</span>
-                            <b style="color:var(--primary);">${it.price} DT</b>
-                            <button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button>
-                        </div>`;
-                    });
-                    html += `</div>`;
-                }
-            });
-        });
-
-        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">No items found.</p>`;
+    // 🔥 STRICT ADMIN BIOMETRICS & LOCKOUT
+    function logoTrigger() { document.getElementById('auth-choice-modal').style.display = 'flex'; }
+    function openPassInput() { closeModal('auth-choice-modal'); document.getElementById('pass-input-modal').style.display = 'flex'; }
+    function submitManualPass() {
+        const p = document.getElementById('auth-manual-pass').value; closeModal('pass-input-modal'); document.getElementById('auth-manual-pass').value = "";
+        if(p === ADMIN_PASS) { isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; fetchData(); showToast("🔓 God Mode Unlocked!", "success"); } 
+        else { showToast("Incorrect Password", "error"); }
     }
+    function lockAdminPanel() { isAdmin = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Admin Panel Locked.", "info"); }
 
-    function addToCart(nameRaw, price) { 
-        let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw;
-        cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); 
-    }
-    function logoTrigger() { clickCount++; if(clickCount === 5) { clickCount = 0; isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; showToast("🔓 God Mode Unlocked!", "success"); } }
     fetchData(); 
 </script>
 </body>
