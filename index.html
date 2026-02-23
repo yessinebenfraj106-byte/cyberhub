@@ -11,25 +11,33 @@
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     
     <style>
-        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; }
+        :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
+        body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.9); --border: rgba(0,0,0,0.1); --text: #0f172a; --sub: #64748b; --blend: multiply; }
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; transition: 0.3s; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; }
         
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; position: absolute; top: 20px; right: 20px; z-index: 100; }
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; }
         .social-bar { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
         .s-link { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.3rem; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nav-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
+        .nav-card img { width: 60px; height: 60px; object-fit: contain; mix-blend-mode: var(--blend); display: block; margin: 0 auto 8px auto; }
         
         .item-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; flex-direction: column; }
         .add-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin-top: 10px; }
         .add-btn:disabled { background: #1e293b !important; color: #64748b !important; cursor: not-allowed; opacity: 0.6; }
-        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 4px; border-radius: 4px; margin-left: 10px; text-transform: uppercase; }
+        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 4px; border-radius: 4px; margin-left: 10px; }
 
-        #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(10px); }
-        .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; }
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(10px); }
+        .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; color: var(--text); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
         
         .admin-controls { background: #ffae0022; padding: 15px; border-radius: 12px; border: 1px dashed #ffae00; margin-bottom: 15px; font-size: 0.8rem; text-align: center; }
+        .maintenance-band { background: #ffcc00; color: #000; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 20px; border-radius: 20px; font-size: 0.8rem; display: none; z-index: 3000; font-weight: bold; }
     </style>
@@ -39,10 +47,15 @@
 <div id="toast" class="toast">Info Copied! ❤️</div>
 
 <div class="container">
-    <div id="maintenance-msg" style="display:none; text-align:center; color:#ff4d4d; font-weight:bold; margin-bottom:20px; border:1px solid #ff4d4d; padding:10px; border-radius:10px;">⚠️ SHOP CLOSED FOR MAINTENANCE</div>
+    <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">🌓 Theme</button>
     
-    <div class="header" style="text-align:center;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
+    <div id="maintenance-msg" class="maintenance-band" style="display:none; margin-top: 40px;">
+        ⚠️ STORE CURRENTLY CLOSED FOR MAINTENANCE ⚠️<br>
+        <span style="font-size: 0.8rem; font-weight: normal;">Contact us directly via the links below.</span>
+    </div>
+    
+    <div class="header" style="text-align:center; margin-top: 40px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()" title="Click 5 times for Admin">
         <h2 style="color:var(--primary); margin-top:10px; letter-spacing: 2px;">CYBERHUB</h2>
     </div>
 
@@ -54,20 +67,22 @@
 
     <div id="admin-panel" style="display:none;" class="admin-controls">
         <b style="color:#ffae00; font-size:1rem;">🔓 ADMIN PORTAL</b><br><br>
-        <button onclick="toggleMaintenance()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">Toggle Maintenance</button>
-        <button onclick="addNewItemPrompt()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; margin-left:10px;">+ Add Item</button>
+        <button onclick="toggleMaintenance()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; background:#ff4d4d; color:white;" id="admin-maint-btn">Toggle Maintenance</button>
+        <button onclick="openAddModal()" style="padding:8px; border-radius:5px; border:none; cursor:pointer; font-weight:bold; margin-left:10px; background:var(--primary); color:white;">+ Add Item</button>
     </div>
 
-    <input type="text" id="mainSearch" placeholder="Search / Rechercher..." onkeyup="filterItems()" style="border-radius:15px;">
-    <div id="content-area"></div>
-    <div style="text-align:center; margin-top:20px; cursor:pointer; font-weight:bold; color:var(--primary); background:var(--card); padding:15px; border-radius:15px; border:1px solid var(--primary);" onclick="openCart()">
-        🛒 View Cart (<span id="cart-count">0</span>)
+    <div id="shop-wrapper">
+        <input type="text" id="mainSearch" placeholder="Search / Rechercher..." onkeyup="filterItems()" style="border-radius:15px; margin-bottom:15px;">
+        <div id="content-area"></div>
+        <div style="text-align:center; margin-top:20px; cursor:pointer; font-weight:bold; color:var(--primary); background:var(--card); padding:15px; border-radius:15px; border:1px solid var(--primary);" onclick="openCart()">
+            🛒 View Cart (<span id="cart-count">0</span>)
+        </div>
     </div>
     
     <footer>Made by Yessine Ben Fraj with ❤️</footer>
 </div>
 
-<div id="modal">
+<div id="modal" class="modal">
     <div class="modal-content">
         <div id="cart-view">
             <h3>🛒 Mon Panier</h3>
@@ -78,25 +93,50 @@
             <input type="text" id="custName" placeholder="Full Name / Nom">
             <input type="text" id="custContact" placeholder="Phone / Social Handle">
             <button class="add-btn" onclick="submitOrder()">Place Order & Copy Info</button>
-            <button onclick="closeModal()" style="background:none; border:none; color:var(--sub); margin-top:10px; cursor:pointer;">Close</button>
+            <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:10px; cursor:pointer;">Close</button>
         </div>
     </div>
 </div>
 
+<div id="add-item-modal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:var(--primary); border-bottom:1px solid var(--border); padding-bottom:10px;">➕ Add New Item</h3>
+        
+        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Select Category:</label>
+        <select id="add-cat-sel" onchange="checkNewCat()"></select>
+        <input type="text" id="add-cat-new" placeholder="Type New Category Name..." style="display:none; border-color:#ffae00;">
+
+        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Select Sub-App:</label>
+        <select id="add-app-sel" onchange="checkNewApp()">
+            <option value="_NEW_">➕ Create New Sub-App...</option>
+        </select>
+        <input type="text" id="add-app-new" placeholder="Type New Sub-App Name..." style="display:none; border-color:#ffae00;">
+
+        <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Item Details:</label>
+        <input type="text" id="add-item-name" placeholder="Item Name (e.g., 1000 V-Bucks)">
+        <input type="text" id="add-item-price" placeholder="Price (e.g., 15 DT)">
+
+        <button class="add-btn" onclick="submitNewItem()">💾 Save to Store</button>
+        <button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
 <script>
-    // --- EXACT URL SETTINGS ---
+    // --- SETTINGS ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
-    const ADMIN_PASS = "1234";
+    const ADMIN_PASS = "26240609"; // UPDATED ADMIN PASSWORD
 
     let productsData = { categories: [] };
     let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
     let isAdmin = false;
+    let globalMaintenance = false;
     let clickCount = 0;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "size": { "value": 1.5 }, "line_linked": { "opacity": 0.2 }, "move": { "speed": 1.2 } } });
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
-    // --- ADMIN LOGIN LOGIC ---
+    // --- ADMIN LOGIC ---
     async function logoTrigger() {
         clickCount++;
         if(clickCount === 5) {
@@ -105,174 +145,166 @@
                 const success = await loginWithPasskey();
                 if (success) return grantAdmin();
             }
-            const pass = prompt("Enter Password (or type 'PASSKEY' to register Fingerprint/FaceID):");
-            if (pass === ADMIN_PASS) {
-                grantAdmin();
-            } else if (pass && pass.toUpperCase() === "PASSKEY") {
-                const verify = prompt("Verify Password to register device:");
+            const pass = prompt("Admin Password (or 'PASSKEY' to register biometrics):");
+            if (pass === ADMIN_PASS) { grantAdmin(); } 
+            else if (pass && pass.toUpperCase() === "PASSKEY") {
+                const verify = prompt("Verify Password:");
                 if (verify === ADMIN_PASS) { await registerPasskey(); grantAdmin(); }
-                else alert("Incorrect verification.");
-            } else if (pass) {
-                alert("Incorrect Password.");
-            }
+                else alert("Incorrect.");
+            } else if (pass) { alert("Incorrect Password."); }
         }
     }
 
     function grantAdmin() {
         isAdmin = true;
         document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('shop-wrapper').style.display = 'block'; // Admin bypasses maintenance
         alert("🔓 Admin Access Granted!");
         showCats(); 
     }
 
-    async function registerPasskey() {
-        try {
-            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
-            const credential = await navigator.credentials.create({
-                publicKey: {
-                    challenge: challenge, rp: { name: "CyberHub Admin" },
-                    user: { id: new Uint8Array(16), name: "admin", displayName: "Administrator" },
-                    pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
-                    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
-                    timeout: 60000
-                }
-            });
-            localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(credential.rawId))));
-            alert("✅ Device registered! You can now use Fingerprint/FaceID to log in.");
-        } catch(e) { alert("Registration failed or canceled."); }
-    }
-
-    async function loginWithPasskey() {
-        try {
-            const credIdBase64 = localStorage.getItem('admin_passkey_id');
-            const credId = Uint8Array.from(atob(credIdBase64), c => c.charCodeAt(0));
-            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
-            await navigator.credentials.get({
-                publicKey: { challenge: challenge, allowCredentials: [{ type: "public-key", id: credId }], userVerification: "required", timeout: 60000 }
-            });
-            return true;
-        } catch(e) { return false; }
-    }
-
-    // --- SHEET DATA FETCHER ---
+    // --- SHEET DATA FETCHER (GLOBAL MAINTENANCE CHECK) ---
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL);
             const text = await res.text();
-            const rows = text.split('\n').slice(1);
-            let temp = {};
+            const rows = text.split('\n');
+            const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            
+            // Check Column P (Index 15) for Global Maintenance Flag
+            globalMaintenance = (headers.length > 15 && headers[15].replace(/^"|"$/g, '').trim() === "MAINTENANCE_ON");
 
-            rows.forEach(row => {
+            if(globalMaintenance && !isAdmin) {
+                document.getElementById('shop-wrapper').style.display = 'none';
+                document.getElementById('theme-btn').style.display = 'none';
+                document.getElementById('maintenance-msg').style.display = 'block';
+                return; // Stop loading the shop if maintenance is active for regular users
+            } else {
+                document.getElementById('shop-wrapper').style.display = 'block';
+                document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none';
+            }
+
+            let temp = {};
+            rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
-                    const cat = cols[0]; const catImg = cols[1];
-                    const sub = cols[2]; const subImg = cols[3];
-                    const itemName = cols[4]; const price = cols[5];
-
+                    const cat = cols[0]; const sub = cols[2];
                     const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
-                    const showInput = cols.some(c => c && c.toUpperCase() === "YES");
                     
-                    let inputPlaceholder = "...";
-                    if(showInput) {
-                        const yesIdx = cols.findIndex(c => c && c.toUpperCase() === "YES");
-                        if(yesIdx !== -1 && cols[yesIdx + 1] && cols[yesIdx + 1] !== "OOS") { inputPlaceholder = cols[yesIdx + 1]; }
-                    }
-
-                    if (!temp[cat]) temp[cat] = { name: cat, img: catImg, apps: {} };
-                    if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: subImg, items: [] };
-                    
-                    temp[cat].apps[sub].items.push({ name: itemName, price: price, isOOS: isOOS, showInput: showInput, placeholder: inputPlaceholder });
+                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
+                    if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: cols[3], items: [] };
+                    temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS });
                 }
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             showCats();
-        } catch (e) { document.getElementById('content-area').innerHTML = "<p style='text-align:center; color:red;'>Error Loading Shop Data. Check Spreadsheet URL.</p>"; }
+        } catch (e) { document.getElementById('content-area').innerHTML = "<p style='color:red;'>Error Loading Shop Data.</p>"; }
     }
 
-    // --- ADMIN GOOGLE APPS SCRIPT SYNC ---
+    // --- GOOGLE APPS SCRIPT SYNC ---
     async function syncToSheet(payload) {
+        document.getElementById('add-item-modal').style.display = 'none'; // Close modal while processing
         try {
-            // Updated to use your new Apps Script URL
-            await fetch(SCRIPT_URL, { 
-                method: "POST", 
-                body: JSON.stringify(payload),
-                mode: 'no-cors' 
-            });
-            alert("✅ Command sent to Google Sheets! Refresh in a few seconds.");
-            setTimeout(fetchData, 2000); // Reload after 2 seconds to see changes
-        } catch(e) {
-            alert("Error syncing. Check console.");
-            console.error(e);
-        }
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
+            alert("✅ Command processing! Refreshing store data...");
+            setTimeout(fetchData, 2500); 
+        } catch(e) { alert("Error syncing. Check console."); }
     }
     
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
-    function addNewItemPrompt() {
-        const cat = prompt("Category Name (Ex: Games):"); const app = prompt("App Name (Ex: Steam):");
-        const name = prompt("Item Name:"); const price = prompt("Price (Ex: 15 DT):");
-        if(cat && app && name && price) syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
-    }
+    
     function toggleMaintenance() {
-        const msg = document.getElementById('maintenance-msg');
-        msg.style.display = msg.style.display === 'none' ? 'block' : 'none';
-        alert(msg.style.display === 'block' ? "Shop Closed to Customers." : "Shop Opened.");
+        const newState = !globalMaintenance;
+        if(confirm(`Are you sure you want to turn Maintenance Mode ${newState ? 'ON' : 'OFF'} for everyone?`)) {
+            syncToSheet({ action: "maintenance", state: newState });
+        }
+    }
+
+    // --- SMART ADD ITEM MODAL LOGIC ---
+    function openAddModal() {
+        const catSel = document.getElementById('add-cat-sel');
+        catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
+        productsData.categories.forEach(c => { catSel.innerHTML += `<option value="${c.name}">${c.name}</option>`; });
+        catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`;
+        
+        checkNewCat(); // Reset fields
+        document.getElementById('add-item-modal').style.display = 'flex';
+    }
+
+    function checkNewCat() {
+        const val = document.getElementById('add-cat-sel').value;
+        const subSel = document.getElementById('add-app-sel');
+        
+        if (val === "_NEW_") {
+            document.getElementById('add-cat-new').style.display = 'block';
+            subSel.innerHTML = `<option value="_NEW_">➕ Create New Sub-App...</option>`;
+            checkNewApp();
+        } else {
+            document.getElementById('add-cat-new').style.display = 'none';
+            subSel.innerHTML = `<option value="">-- Choose Sub-App --</option>`;
+            const catObj = productsData.categories.find(c => c.name === val);
+            if(catObj) { catObj.apps.forEach(a => { subSel.innerHTML += `<option value="${a.name}">${a.name}</option>`; }); }
+            subSel.innerHTML += `<option value="_NEW_">➕ Create New Sub-App...</option>`;
+            checkNewApp();
+        }
+    }
+
+    function checkNewApp() {
+        document.getElementById('add-app-new').style.display = (document.getElementById('add-app-sel').value === "_NEW_") ? 'block' : 'none';
+    }
+
+    function submitNewItem() {
+        let cat = document.getElementById('add-cat-sel').value;
+        if(cat === "_NEW_") cat = document.getElementById('add-cat-new').value;
+        
+        let app = document.getElementById('add-app-sel').value;
+        if(app === "_NEW_") app = document.getElementById('add-app-new').value;
+
+        const name = document.getElementById('add-item-name').value;
+        const price = document.getElementById('add-item-price').value;
+
+        if(!cat || !app || !name || !price) { alert("Please fill all fields!"); return; }
+        syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
     // --- UI RENDERING ---
-    function showCats() { document.getElementById('content-area').innerHTML = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}" style="width:60px;"><br>${c.name}</div>`).join('')}</div>`; }
-    function showApps(idx) { const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}" style="width:50px;"><br>${a.name}</div>`).join('')}</div>`; }
+    function showCats() { document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
+    function showApps(idx) { const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
     function showItems(cI, aI) {
         const a = productsData.categories[cI].apps[aI];
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cI})" style="background:none; border:none; color:var(--primary); cursor:pointer;">← Back</button>` + 
+        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cI})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>` + 
         a.items.map((it, i) => `
             <div class="item-row">
                 <span style="font-size:0.9rem;">${it.name} ${it.isOOS ? '<span class="oos-tag">OOS</span>' : ''}</span>
                 <b style="color:var(--primary);">${it.price} DT</b>
-                ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
                 ${isAdmin ? `
-                    <div style="margin-top:10px; border-top:1px dashed #444; padding-top:10px;">
-                        <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem;">Toggle OOS</button>
-                        <button onclick="var p=prompt('New Price?'); if(p) updateItem('${it.name}', p, ${it.isOOS})" style="padding:5px; font-size:0.7rem; margin-left:5px;">Edit Price</button>
+                    <div style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;">
+                        <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem; cursor:pointer;">Toggle OOS</button>
+                        <button onclick="var p=prompt('New Price?'); if(p) updateItem('${it.name}', p, ${it.isOOS})" style="padding:5px; font-size:0.7rem; margin-left:5px; cursor:pointer;">Edit Price</button>
                     </div>` : ''}
-                <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS || (document.getElementById('maintenance-msg').style.display === 'block' && !isAdmin) ? 'disabled' : ''}>${it.isOOS ? 'OUT OF STOCK' : 'ADD TO CART'}</button>
+                <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? 'OUT OF STOCK' : 'ADD TO CART'}</button>
             </div>`).join('');
     }
 
-    // --- CART LOGIC ---
+    // --- CART & MODAL LOGIC ---
     function addToCart(c,a,i) { 
-        const it = productsData.categories[c].apps[a].items[i];
-        const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A";
-        cart.push({name: it.name, price: parseFloat(it.price) || 0, note: val});
+        cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price)});
         document.getElementById('cart-count').innerText = cart.length;
         localStorage.setItem('cyberhub_cart', JSON.stringify(cart));
     }
     function openCart() { 
         document.getElementById('modal').style.display = 'flex';
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join('');
         document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
-    function submitOrder() {
-        const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase();
-        const name = document.getElementById('custName').value || "Unknown";
-        const contact = document.getElementById('custContact').value || "None";
-        const total = document.getElementById('cart-total-price').innerText;
-        const items = cart.map(i => `${i.name}`).join(' | ');
-        const notes = cart.map(i => i.note).join(' | ');
-
-        // EXACT FORMAT FOR ZAPIER
-        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT`;
-
-        navigator.clipboard.writeText(body).then(() => {
-            const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
-            
-            // ENSURE THESE IDs MATCH YOUR EMAILJS ACCOUNT
-            emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
-                alert(`Order Sent! ID: ${orderID}`);
-                cart = []; localStorage.removeItem('cyberhub_cart'); location.reload();
-            });
-        });
+    // --- PASSKEY REGISTRATION (Hidden Utility) ---
+    async function registerPasskey() {
+        try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered!"); } catch(e) {}
+    }
+    async function loginWithPasskey() {
+        try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; }
     }
 
     fetchData();
