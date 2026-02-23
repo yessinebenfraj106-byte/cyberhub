@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     
@@ -37,6 +36,10 @@
         .modal-content { background: var(--bg); padding: 25px; border-radius: 24px; width: 90%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; color: var(--text); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; }
         
+        .promo-box { display: flex; gap: 10px; margin-top: 10px; }
+        .promo-box input { margin: 0; text-transform: uppercase; }
+        .promo-box button { background: var(--card); color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; font-weight: bold; cursor: pointer; padding: 0 15px; }
+
         .admin-controls { background: #ffae0022; padding: 15px; border-radius: 12px; border: 1px dashed #ffae00; margin-bottom: 15px; font-size: 0.8rem; text-align: center; }
         .maintenance-band { background: #ffcc00; color: #000; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         footer { margin-top: 50px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
@@ -80,7 +83,7 @@
         </div>
     </div>
     
-    <footer>Made by Yessine Ben Fraj with ❤️</footer>
+    <footer>Made by Yessine with ❤️</footer>
 </div>
 
 <div id="modal" class="modal">
@@ -88,12 +91,22 @@
         <div id="cart-view">
             <h3>🛒 Mon Panier</h3>
             <div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
+            
+            <div class="promo-box">
+                <input type="text" id="promoCodeInput" placeholder="Promo Code?">
+                <button onclick="applyPromo()">APPLY</button>
+            </div>
+            
             <div style="margin:15px 0; padding-top:10px; border-top:1px solid var(--border); font-weight:bold; display:flex; justify-content:space-between;">
-                <span>Total:</span><span><span id="cart-total-price">0</span> DT</span>
+                <span>Total:</span>
+                <span style="text-align:right;">
+                    <span id="original-price" style="text-decoration:line-through; font-size:0.8rem; color:var(--sub); display:none;"></span>
+                    <span id="cart-total-price">0</span> DT
+                </span>
             </div>
             <input type="text" id="custName" placeholder="Full Name / Nom">
             <input type="text" id="custContact" placeholder="Phone / Social Handle">
-            <button class="add-btn" onclick="submitOrder()">Place Order & Copy Info</button>
+            <button class="add-btn" onclick="submitOrder()">Place Order</button>
             <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:10px; cursor:pointer;">Close</button>
         </div>
     </div>
@@ -122,37 +135,55 @@
 </div>
 
 <script>
-    // --- EXACT URL SETTINGS ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const ADMIN_PASS = "26240608"; 
+
+    // --- PROMO CODE SETTINGS ---
+    // Change these names and the decimal number (0.10 = 10% off)
+    const PROMO_CODES = {
+        "CYBER10": 0.10,
+        "VIP20": 0.20
+    };
 
     let productsData = { categories: [] };
     let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
     let isAdmin = false;
     let globalMaintenance = false;
     let clickCount = 0;
-    
-    // Tracks where the user is looking so auto-update doesn't interrupt them
     let currentView = { type: 'cats', cI: null, aI: null }; 
-    let lastDataString = ""; // Prevents unnecessary re-renders
+    let lastDataString = ""; 
+    let activePromo = null; // Stores currently applied code
+    let activeDiscount = 0;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "size": { "value": 1.5 }, "line_linked": { "opacity": 0.2 }, "move": { "speed": 1.2 } } });
     function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
-    // --- DEVICE TRACKER (ANALYTICS) ---
-    function logVisit() {
-        if(localStorage.getItem('admin_passkey_id')) return; // Don't log yourself if you are an admin
-        let ua = navigator.userAgent;
-        let device = "Unknown Device";
-        if (/android/i.test(ua)) device = "Android Phone";
-        else if (/iPad|iPhone|iPod/.test(ua)) device = "iPhone / iPad";
-        else if (/Windows/.test(ua)) device = "Windows PC";
-        else if (/Mac OS/.test(ua)) device = "Mac OS";
+    // --- ADVANCED DEVICE TRACKER ---
+    async function logVisit() {
+        if(localStorage.getItem('admin_passkey_id')) return; 
+        
+        let device = navigator.userAgent;
+        
+        // Use Advanced Web Hints if available (Android 10+)
+        if (navigator.userAgentData) {
+            try {
+                const ua = await navigator.userAgentData.getHighEntropyValues(['model', 'platform', 'platformVersion']);
+                device = `${ua.platform} ${ua.model} (v${ua.platformVersion})`;
+            } catch(e) {}
+        } else {
+            // Clean up standard User Agent for iPhones/Older devices
+            if (/iPhone/i.test(device)) device = "Apple iPhone";
+            else if (/iPad/i.test(device)) device = "Apple iPad";
+            else if (/Android/i.test(device)) {
+                const match = device.match(/Android\s([0-9\.]*);.*?; (.*?) Build/);
+                device = match ? `Android ${match[1]} - ${match[2]}` : "Android Device";
+            }
+        }
         
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "log_visit", device: device }), mode: 'no-cors' });
     }
-    window.onload = logVisit; // Fires secretly in the background when someone opens the site
+    window.onload = logVisit;
 
     // --- ADMIN LOGIC ---
     async function logoTrigger() {
@@ -181,15 +212,12 @@
         forceReRender(); 
     }
 
-    // --- SMART LIVE AUTO-UPDATER ---
-    setInterval(fetchData, 10000); // Polls Google Sheet every 10 seconds
-
+    setInterval(fetchData, 10000); 
     async function fetchData() {
         try {
-            const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); // Bypasses browser cache
+            const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); 
             const text = await res.text();
             
-            // Check if data actually changed to prevent annoying screen flickering
             if(text === lastDataString && !isAdmin) return; 
             lastDataString = text;
 
@@ -226,10 +254,9 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
             forceReRender();
-        } catch (e) { console.log("Live Sync Error (Ignoring)"); }
+        } catch (e) { console.log("Live Sync Error"); }
     }
 
-    // Safely updates the screen without kicking the user out of the menu they are in
     function forceReRender() {
         if(currentView.type === 'cats') showCats();
         else if(currentView.type === 'apps') showApps(currentView.cI);
@@ -240,14 +267,13 @@
         document.getElementById('add-item-modal').style.display = 'none'; 
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-            setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); // Forces a hard refresh
-        } catch(e) { alert("Error syncing. Check console."); }
+            setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); 
+        } catch(e) { alert("Error syncing."); }
     }
     
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
     function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
 
-    // --- ADD ITEM MODAL ---
     function openAddModal() {
         const catSel = document.getElementById('add-cat-sel');
         catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
@@ -281,7 +307,6 @@
         syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
-    // --- UI RENDERING ---
     function showCats() { currentView = {type: 'cats'}; document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
     function showApps(idx) { currentView = {type: 'apps', cI: idx}; const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
     function showItems(cI, aI) {
@@ -302,17 +327,47 @@
             </div>`).join('');
     }
 
-    // --- CART ---
+    // --- CART & PROMO LOGIC ---
+    function applyPromo() {
+        const code = document.getElementById('promoCodeInput').value.toUpperCase();
+        if (PROMO_CODES[code]) {
+            activePromo = code;
+            activeDiscount = PROMO_CODES[code];
+            alert(`✅ Promo Code Applied! ${activeDiscount * 100}% off.`);
+            updateCartUI();
+        } else {
+            alert("❌ Invalid Promo Code.");
+        }
+    }
+
+    function updateCartUI() {
+        let rawTotal = cart.reduce((s, i) => s + i.price, 0);
+        let finalTotal = rawTotal - (rawTotal * activeDiscount);
+        
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
+        
+        if (activeDiscount > 0) {
+            document.getElementById('original-price').style.display = 'inline-block';
+            document.getElementById('original-price').innerText = rawTotal + " DT";
+            document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2);
+            document.getElementById('cart-total-price').style.color = '#00ff88'; // Make it pop green!
+        } else {
+            document.getElementById('original-price').style.display = 'none';
+            document.getElementById('cart-total-price').innerText = rawTotal;
+            document.getElementById('cart-total-price').style.color = 'var(--text)';
+        }
+    }
+
     function addToCart(c,a,i) { 
         const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A";
         cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price), note: val});
         document.getElementById('cart-count').innerText = cart.length;
         localStorage.setItem('cyberhub_cart', JSON.stringify(cart));
     }
+
     function openCart() { 
         document.getElementById('modal').style.display = 'flex';
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
-        document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
+        updateCartUI();
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
@@ -323,8 +378,11 @@
         const total = document.getElementById('cart-total-price').innerText;
         const items = cart.map(i => `${i.name}`).join(' | ');
         const notes = cart.map(i => i.note).join(' | ');
+        
+        let promoString = activePromo ? ` [PROMO: ${activePromo}]` : "";
 
-        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT`;
+        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT${promoString}`;
+        
         navigator.clipboard.writeText(body).then(() => {
             const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
             emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
@@ -334,7 +392,6 @@
         });
     }
 
-    // --- PASSKEY ---
     async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered!"); } catch(e) {} }
     async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
 
