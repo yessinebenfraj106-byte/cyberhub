@@ -11,533 +11,310 @@
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     
     <style>
-        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.6); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; }
+        :root { --primary: #00f0ff; --bg: #02060d; --card: rgba(10, 20, 40, 0.25); --border: rgba(255, 255, 255, 0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        .glass { background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 18px; }
+        /* 🔥 LIQUID GLASS */
+        .liquid-glass { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.3); border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.05); transition: all 0.3s ease;
+        }
+        
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; backdrop-filter: blur(10px); color: var(--primary); transition: 0.3s; }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: 0.3s; }
         
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
-        .social-bar { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
-        .s-link { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: var(--card); border: 1px solid var(--border); font-size: 1.3rem; backdrop-filter: blur(5px); transition: 0.3s; }
-        .s-link:hover { transform: translateY(-3px); border-color: var(--primary); }
+        /* 📱 LEFT SIDEBAR MENU */
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(2, 6, 13, 0.85); z-index: 5000; transition: 0.4s ease-in-out; padding: 30px 20px; border-right: 1px solid var(--primary); backdrop-filter: blur(25px); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+        #sidebar.open { left: 0; }
+        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
+        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .menu-item:hover { color: var(--primary); padding-left: 25px; background: rgba(0,240,255,0.1); border-radius: 12px; border-bottom: none; }
+
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.5s ease-in-out; }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.05); }
-        .nav-card img { width: 65px; height: 65px; object-fit: contain; mix-blend-mode: var(--blend); display: block; margin: 0 auto 10px auto; }
+        /* 🔓 GOD MODE ADMIN PANEL */
+        .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px dashed #ffae00; display: none; }
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn-maint { background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 0 15px rgba(255,77,77,0.4); }
+        .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 0 15px rgba(0,255,136,0.4);}
+        .btn-add { background: var(--primary); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 0 15px rgba(0,240,255,0.4);}
+
+        /* ⏳ LIVE COUNTDOWN MAINTENANCE BANNER */
+        .maintenance-band { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #fff; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); backdrop-filter: blur(10px); }
+        #ui-maint-title { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; color: #ff4d4d; text-transform: uppercase; }
+        #ui-maint-time { font-size: 2rem; font-weight: 800; margin-top: 15px; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 0 15px #ff4d4d; }
+
+        /* STANDALONE VS RETRACTABLE */
+        .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; font-size: 1.1rem; }
+        .app-header img { width: 45px; height: 45px; object-fit: contain; }
+        .app-header:hover { border-color: var(--primary); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
+        .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 20px; animation: slideDown 0.3s ease-out; }
         
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; animation: fadeIn 0.5s ease-in-out; }
-        .add-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; width: 100%; transition: 0.3s; margin-top: 12px; font-size: 0.9rem; text-transform: uppercase; }
-        .add-btn:hover { background: #fff; box-shadow: 0 0 15px var(--primary); }
-        .add-btn:disabled { background: #1e293b !important; color: #64748b !important; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
-        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .add-btn { background: var(--primary); color: #000; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; width: 100%; transition: 0.3s; margin-top: 10px; text-transform: uppercase; }
+        .add-btn:hover { background: #fff; box-shadow: 0 0 15px var(--primary); transform: scale(1.02); }
 
         .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; transition: 0.3s; border: none; }
-        .fab-cart:hover { transform: scale(1.1); }
-        .fab-cart .badge { position: absolute; top: -2px; right: -2px; background: #ff4d4d; color: white; font-size: 13px; font-weight: bold; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg); }
+        
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
+        .modal-content { padding: 30px; width: 100%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; }
+        
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        input[type="datetime-local"] { color-scheme: dark; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2); }
+        
+        .checkbox-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 1px solid var(--primary); text-align: left; }
+        .checkbox-container input { width: 25px; height: 25px; margin: 0; cursor: pointer; accent-color: var(--primary); }
 
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 20px; }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 24px; width: 100%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 30px rgba(0, 240, 255, 0.1); }
-        
-        #lang-screen { display:flex; position:fixed; inset:0; background:var(--bg); z-index:3000; justify-content:center; align-items:center; flex-direction: column; }
-        .lang-btn { background: transparent; border: 2px solid var(--primary); color: white; padding: 15px 30px; margin: 10px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; width: 200px; }
-        .lang-btn:hover { background: var(--primary); color: #000; }
-
-        input, select { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-family: inherit; }
-        input:focus { outline: none; border-color: var(--primary); }
-        
-        .promo-box { display: flex; gap: 10px; margin-top: 15px; }
-        .promo-box input { margin: 0; text-transform: uppercase; }
-        .promo-box button { background: transparent; color: var(--primary); border: 2px solid var(--primary); border-radius: 12px; font-weight: bold; cursor: pointer; padding: 0 20px; transition: 0.3s; }
-        .promo-box button:hover { background: var(--primary); color: #000; }
-
-        .admin-controls { background: #ffae0022; padding: 15px; border-radius: 16px; border: 1px dashed #ffae00; margin-bottom: 20px; font-size: 0.8rem; text-align: center; }
-        .loyalty-band { background: rgba(0, 255, 136, 0.1); color: #00ff88; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.85rem; margin-bottom: 20px; border: 1px solid #00ff88; text-align: center; display: none; }
-        .maintenance-band { background: #ff4d4d; color: #fff; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
-        
-        /* TOAST */
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--primary); color: var(--text); padding: 12px 25px; border-radius: 30px; font-size: 0.9rem; z-index: 4000; font-weight: bold; box-shadow: 0 5px 25px rgba(0,240,255,0.4); transition: bottom 0.4s ease-in-out; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
         .toast.show { bottom: 30px; }
-        .toast.error { border-color: #ff4d4d; box-shadow: 0 5px 25px rgba(255,77,77,0.4); }
-        .toast.success { border-color: #00ff88; box-shadow: 0 5px 25px rgba(0,255,136,0.4); }
-
-        /* AUTH SELECTION BUTTONS */
-        .auth-choice-btn { background: var(--card); border: 1px solid var(--border); color: white; padding: 15px; margin: 8px 0; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; transition: 0.3s; font-size: 1rem;}
-        .auth-choice-btn:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); }
-        
-        /* PROFILE STYLES */
-        .history-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 10px; border-radius: 10px; text-align: left; margin-bottom: 10px; font-size: 0.8rem; }
-        .pass-reveal-box { display: flex; align-items: center; gap: 10px; }
-        .pass-reveal-box input { flex-grow: 1; }
-        .pass-reveal-box button { background: var(--card); border: 1px solid var(--primary); color: white; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.2rem; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* LOADING SPINNER */
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .loader-text { text-align: center; color: var(--primary); font-weight: bold; margin-top: 40px; font-size: 1.1rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast liquid-glass"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
 
-<div id="lang-screen">
-    <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:100px; margin-bottom:30px; border-radius:50%; border:2px solid var(--primary);">
-    <h2 style="color:var(--text); margin-bottom:5px;">Welcome to CyberHub</h2>
-    <p style="color:var(--sub); margin-bottom: 30px;">Please select your language / Choisissez votre langue</p>
-    <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
-    <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
+<div id="sidebar" class="liquid-glass">
+    <button class="close-menu" onclick="toggleSidebar()">✖</button>
+    <div style="text-align:center; margin-bottom: 30px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
+        <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
+    </div>
+    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Login</div>
+    <div class="menu-item" onclick="window.location.href='mailto:cyber.hub.contact.now@gmail.com';">📞 Contact Us</div>
+    <div class="menu-item" onclick="showToast('VIP Rewards Hub coming soon!', 'info'); toggleSidebar();" style="color:#ffae00;">💎 VIP Rewards Hub</div>
 </div>
 
 <div class="container">
-    <div class="top-bar glass">
-        <button class="icon-btn" onclick="openProfileOrLogin()" id="user-btn">👤 Login</button>
-        <button class="icon-btn" onclick="showLangScreen()" style="border:none; background:transparent;">🌐 Lang</button>
+    <div class="top-bar liquid-glass">
+        <button class="icon-btn liquid-glass" onclick="toggleSidebar()">☰ MENU</button>
+        <button class="icon-btn liquid-glass" onclick="document.getElementById('lang-screen').style.display='flex';" style="border:none; background:transparent;">🌐 Lang</button>
     </div>
     
-    <div id="maintenance-msg" class="maintenance-band glass" style="display:none;">
-        ⚠️ <span id="ui-maint">STORE CLOSED</span> ⚠️<br>
+    <div id="maintenance-msg" class="maintenance-band liquid-glass">
+        <div id="ui-maint-title">STORE CLOSED</div>
+        <div id="ui-maint-notice" style="font-size:0.9rem; margin-top:5px;">Until further notice.</div>
+        <div id="ui-maint-time"></div>
     </div>
     
-    <div class="header" style="text-align:center; margin-top: 30px;">
+    <div class="header" style="text-align:center; margin-top: 10px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
-        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
+        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800; text-shadow: 0 0 10px rgba(0,240,255,0.5);">CYBERHUB</h2>
     </div>
 
-    <div class="social-bar">
-        <a href="https://wa.me/21629895846" class="s-link">📞</a>
-        <a href="https://www.instagram.com/__cyber__hub__" class="s-link">📸</a>
-        <a href="mailto:cyber.hub.contact.now@gmail.com" class="s-link">📧</a>
+    <div id="admin-panel" class="admin-controls liquid-glass">
+        <b style="color:#ffae00; font-size:1.2rem;">🔓 GOD MODE ADMIN PORTAL</b><br>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Control Panel</p>
+        
+        <label style="color:var(--primary); font-weight:bold; font-size:0.8rem; display:block; text-align:left;">Set Re-open Date/Time (Optional):</label>
+        <input type="datetime-local" id="maint-timer-input" class="liquid-glass">
+        <div class="admin-grid">
+            <button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button>
+            <button class="btn-maint" onclick="setLiveMaintenance('UNTIL')" style="background:#b30000;">🛑 Close Until Notice</button>
+        </div>
+        <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 OPEN STORE</button>
+        <hr style="border: 1px solid var(--border); margin: 20px 0;">
+        <button class="btn-add" onclick="openAddModal()">+ ADD NEW ITEM TO STORE</button>
     </div>
-
-    <div id="admin-panel" style="display:none;" class="admin-controls glass">
-        <b style="color:#ffae00; font-size:1rem;">🔓 ADMIN PORTAL</b><br><br>
-        <button onclick="toggleMaintenance()" style="padding:10px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; background:#ff4d4d; color:white;">Toggle Lock</button>
-        <button onclick="openAddModal()" style="padding:10px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; margin-left:10px; background:var(--primary); color:#000;">+ Add Item</button>
-    </div>
-
-    <div id="loyalty-msg" class="loyalty-band glass"></div>
 
     <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="glass" placeholder="Search..." oninput="filterItems()" style="border-radius:20px; margin-bottom:20px; padding:15px 20px;">
-        
-        <div id="content-area">
-            <div class="loader-text">Loading Store Data... ⏳</div>
-        </div>
-        
-    </div>
-    <footer>Made by Yessine with ❤️</footer>
-</div>
-
-<button class="fab-cart" onclick="openCart()">
-    🛒<div class="badge" id="cart-count">0</div>
-</button>
-
-<div id="auth-choice-modal" class="modal">
-    <div class="modal-content glass">
-        <h3 style="color:var(--primary); margin-bottom:15px;">Authentication</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:20px;">Choose how you want to verify your identity.</p>
-        <button class="auth-choice-btn" onclick="executeBiometric()">📱 Face ID / Fingerprint</button>
-        <button class="auth-choice-btn" onclick="openPassInput()">🔑 Use Password</button>
-        <button class="auth-choice-btn" onclick="registerBiometricDevice()" style="border-style:dashed;">➕ Register Device (Passkey)</button>
-        <button onclick="closeModal('auth-choice-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
+        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="applyFilters()" style="margin-bottom:20px;">
+        <div id="content-area"><div class="loader-text">Live Syncing Data... ⏳</div></div>
     </div>
 </div>
 
-<div id="pass-input-modal" class="modal">
-    <div class="modal-content glass">
-        <h3 style="color:var(--primary);" id="prompt-title">Enter Password</h3>
-        <input type="password" id="auth-manual-pass" placeholder="...">
-        <button class="add-btn" onclick="submitManualPass()">Verify</button>
-        <button onclick="closeModal('pass-input-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
-    </div>
-</div>
-
-<div id="profile-modal" class="modal">
-    <div class="modal-content glass">
-        <h3 style="color:var(--primary); margin-bottom:5px;">👤 My Dashboard</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;" id="prof-contact"></p>
-        
-        <div class="pass-reveal-box">
-            <input type="password" id="prof-pass-display" value="••••••••" readonly>
-            <button onclick="requestPassReveal()">👁️</button>
-        </div>
-
-        <h4 style="color:var(--primary); margin-top:20px; text-align:left;">🔗 Social Links</h4>
-        <input type="text" id="prof-insta" placeholder="Instagram Username (@)">
-        <input type="text" id="prof-fb" placeholder="Facebook Profile Link">
-        <input type="text" id="prof-wa" placeholder="WhatsApp Number">
-        <button class="add-btn" onclick="saveProfile()" style="margin-bottom:20px;">Save Profile</button>
-
-        <h4 style="color:var(--primary); text-align:left; border-top:1px solid var(--border); padding-top:15px;">📦 Order History</h4>
-        <div id="prof-orders-list" style="max-height: 200px; overflow-y: auto;">
-            <p style="font-size:0.8rem; color:var(--sub);">Loading history...</p>
-        </div>
-        
-        <button onclick="logout()" style="background:none; border:none; color:#ff4d4d; margin-top:20px; cursor:pointer; font-weight:bold;">Log Out</button>
-        <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
-    </div>
-</div>
-
-<div id="modal" class="modal">
-    <div class="modal-content glass">
-        <div id="cart-view">
-            <h3 id="ui-cart-title" style="color:var(--primary);">🛒 My Cart</h3>
-            <div id="cart-items-list" style="text-align:left; max-height:220px; overflow-y:auto; margin-bottom:15px;"></div>
-            <div class="promo-box">
-                <input type="text" id="promoCodeInput" placeholder="Promo Code?">
-                <button onclick="applyPromo()">APPLY</button>
-            </div>
-            <div style="margin:20px 0; padding-top:15px; border-top:1px solid var(--border); font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem;">
-                <span id="ui-cart-total">Total:</span>
-                <span style="text-align:right;">
-                    <span id="original-price" style="text-decoration:line-through; font-size:0.9rem; color:var(--sub); display:none; margin-right:8px;"></span>
-                    <span id="cart-total-price" style="color:var(--primary);">0</span> DT
-                </span>
-            </div>
-            <input type="text" id="custName" placeholder="Full Name">
-            <input type="text" id="custContact" placeholder="Email / Phone (Used for Loyalty)">
-            <button class="add-btn" onclick="submitOrder()" id="ui-checkout-btn">Place Order</button>
-            <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
-        </div>
-    </div>
-</div>
-
-<div id="login-modal" class="modal">
-    <div class="modal-content glass">
-        <h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 CyberHub Account</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:20px;" id="ui-auth-sub">Log in to earn stacking 2% discounts on every order!</p>
-        <input type="text" id="authContact" placeholder="Email / Phone">
-        <input type="password" id="authPass" placeholder="Password">
-        <button class="add-btn" onclick="processAuth('login')" id="ui-auth-login">Log In</button>
-        <button class="add-btn" onclick="processAuth('register')" style="background:transparent; color:var(--primary); border:2px solid var(--primary); margin-top:10px;" id="ui-auth-reg">Create Account</button>
-        <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;" id="ui-auth-guest">Continue as Guest</button>
-    </div>
-</div>
+<button class="fab-cart" onclick="openCart()">🛒<div class="badge" id="cart-count">0</div></button>
 
 <div id="add-item-modal" class="modal">
-    <div class="modal-content glass">
-        <h3 style="color:var(--primary); padding-bottom:10px;">➕ Add New Item</h3>
-        <select id="add-cat-sel" onchange="checkNewCat()"></select>
-        <input type="text" id="add-cat-new" placeholder="New Category Name..." style="display:none; border-color:#ffae00;">
-        <select id="add-app-sel" onchange="checkNewApp()"><option value="_NEW_">➕ Create New Sub-App...</option></select>
-        <input type="text" id="add-app-new" placeholder="New Sub-App Name..." style="display:none; border-color:#ffae00;">
-        <input type="text" id="add-item-name" placeholder="Item Name">
-        <input type="text" id="add-item-price" placeholder="Price (e.g., 15 DT)">
-        <button class="add-btn" onclick="submitNewItem()">💾 Save to Store</button>
+    <div class="modal-content liquid-glass">
+        <h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3>
+        
+        <select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select>
+        <input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)">
+        <input type="text" id="add-item-name" placeholder="Item Details (e.g., 1 Profile - 1 Month)">
+        <input type="number" id="add-item-price" placeholder="Price (DT)">
+        
+        <div class="checkbox-container">
+            <input type="checkbox" id="add-is-retractable" onchange="toggleRetractableInput()">
+            <div>
+                <b style="color:white;">Make this Retractable?</b><br>
+                <span style="font-size:0.75rem; color:var(--sub);">Groups it into a dropdown menu.</span>
+            </div>
+        </div>
+        <input type="text" id="add-retract-group" placeholder="Menu Name (e.g., Netflix Profiles)" style="display:none; border-color:var(--primary);">
+
+        <button class="add-btn" onclick="submitNewItem()">💾 Save to Live Store</button>
         <button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
+<div id="lang-screen"></div><div id="auth-choice-modal" class="modal"></div><div id="pass-input-modal" class="modal"></div><div id="profile-modal" class="modal"></div><div id="modal" class="modal"></div><div id="login-modal" class="modal"></div>
+
 <script>
-    // --- URLs (Fully Connected) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
-    const PROMO_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1497819206&single=true&output=csv"; 
-    const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
-    const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv"; 
     
-    const ADMIN_PASS = "26240608"; 
+    let toastTimeout; function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast liquid-glass show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
 
-    // --- UPGRADED TOAST NOTIFICATIONS ---
-    let toastTimeout;
-    function showToast(msg, type = "info") {
-        const toast = document.getElementById('toast');
-        document.getElementById('toast-msg').innerText = msg;
-        toast.className = 'toast show';
-        if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; }
-        else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; }
-        else { document.getElementById('toast-icon').innerText = '⏳'; } 
-        
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500);
-    }
+    function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('open'); }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function openAddModal() { document.getElementById('add-item-modal').style.display = 'flex'; }
+    function toggleRetractableInput() { document.getElementById('add-retract-group').style.display = document.getElementById('add-is-retractable').checked ? 'block' : 'none'; }
 
-    let currentLang = localStorage.getItem('cyberhub_lang');
-    const TRANSLATIONS = {
-        en: { search: "Search...", loginBtn: "👤 Login", profileBtn: "👤 Profile", authSub: "Log in to earn stacking 2% discounts on every order!", authLogin: "Log In", authReg: "Create Account", authGuest: "Continue as Guest", maint: "STORE CLOSED FOR MAINTENANCE", cartTitle: "🛒 My Cart", back: "← Back", oos: "OUT OF STOCK", addCart: "ADD TO CART" },
-        fr: { search: "Rechercher...", loginBtn: "👤 Connexion", profileBtn: "👤 Profil", authSub: "Connectez-vous pour gagner 2% de réduction cumulable !", authLogin: "Se Connecter", authReg: "Créer un Compte", authGuest: "Continuer sans compte", maint: "BOUTIQUE EN MAINTENANCE", cartTitle: "🛒 Mon Panier", back: "← Retour", oos: "RUPTURE", addCart: "AJOUTER" }
-    };
+    let productsData = { categories: [], standalone: [] }; let cart = []; let isAdmin = false; let globalMaintenance = false; let lastDataString = ""; let clickCount = 0; let countdownInterval;
 
-    function initLang() { if (!currentLang) { document.getElementById('lang-screen').style.display = 'flex'; } else { document.getElementById('lang-screen').style.display = 'none'; applyTranslations(); } }
-    function setLang(lang) { currentLang = lang; localStorage.setItem('cyberhub_lang', lang); document.getElementById('lang-screen').style.display = 'none'; applyTranslations(); forceReRender(); }
-    function showLangScreen() { document.getElementById('lang-screen').style.display = 'flex'; }
-    function applyTranslations() {
-        if(!currentLang) return; const t = TRANSLATIONS[currentLang];
-        document.getElementById('mainSearch').placeholder = t.search; 
-        document.getElementById('user-btn').innerText = currentUser ? t.profileBtn : t.loginBtn;
-        document.getElementById('ui-auth-sub').innerText = t.authSub; document.getElementById('ui-auth-login').innerText = t.authLogin; document.getElementById('ui-auth-reg').innerText = t.authReg; document.getElementById('ui-auth-guest').innerText = t.authGuest; document.getElementById('ui-maint').innerText = t.maint; document.getElementById('ui-cart-title').innerText = t.cartTitle; 
-    }
+    // 🔥 TRUE LIVE SYNC ENGINE (Runs every 3 seconds without refreshing the page)
+    setInterval(fetchData, 3000); 
 
-    let PROMO_CODES = {}; let productsData = { categories: [] }; let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || []; let isAdmin = false; let globalMaintenance = false; let clickCount = 0; let currentView = { type: 'cats', cI: null, aI: null }; let lastDataString = ""; 
-    let currentUser = null; let currentPass = null; let loyaltyDiscount = 0; let activePromo = null; let activePromoDiscount = 0;
-
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
-    initLang(); window.onload = logVisit;
-
-    // --- PROFILE & AUTH ---
-    function openProfileOrLogin() {
-        if(currentUser) {
-            document.getElementById('prof-contact').innerText = currentUser;
-            document.getElementById('profile-modal').style.display = 'flex';
-            fetchOrderHistory();
-        } else {
-            document.getElementById('login-modal').style.display = 'flex';
-        }
-    }
-
-    async function processAuth(actionType) {
-        const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
-        if(!contact || !pass) return showToast("Please fill in both fields.", "error");
-        document.getElementById('authContact').value = "Processing...";
-        if (actionType === 'register') {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
-            showToast("Account created successfully!", "success"); currentUser = contact; currentPass = pass; loyaltyDiscount = 0; finishLogin();
-        } else if (actionType === 'login') {
-            try {
-                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let found = false;
-                for(let i = 1; i < rows.length; i++) {
-                    const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                    if (cols[0] === contact && cols[1] === pass) {
-                        found = true; currentUser = contact; currentPass = pass; 
-                        let pastOrders = Number(cols[2]) || 0; loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
-                        document.getElementById('prof-insta').value = cols[3] || ""; document.getElementById('prof-fb').value = cols[4] || ""; document.getElementById('prof-wa').value = cols[5] || "";
-                        showToast(`Welcome! Loyalty Discount: ${loyaltyDiscount * 100}%!`, "success"); finishLogin(); break;
-                    }
-                }
-                if(!found) { showToast("Incorrect Credentials.", "error"); document.getElementById('authContact').value = contact; }
-            } catch(e) {}
-        }
-    }
-
-    function finishLogin() { closeModal('login-modal'); applyTranslations(); document.getElementById('custContact').value = currentUser; if (loyaltyDiscount > 0) { document.getElementById('loyalty-msg').style.display = 'block'; document.getElementById('loyalty-msg').innerText = `✨ Loyalty Bonus: ${loyaltyDiscount * 100}% OFF! ✨`; } }
-    function logout() { currentUser = null; currentPass = null; loyaltyDiscount = 0; document.getElementById('loyalty-msg').style.display = 'none'; showToast("Logged Out", "info"); closeModal('profile-modal'); applyTranslations(); }
-
-    async function saveProfile() {
-        const insta = document.getElementById('prof-insta').value; const fb = document.getElementById('prof-fb').value; const wa = document.getElementById('prof-wa').value;
-        showToast("Saving...", "info");
-        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_profile", contact: currentUser, insta: insta, fb: fb, wa: wa }), mode: 'no-cors' });
-        showToast("Profile Saved!", "success");
-    }
-
-    async function fetchOrderHistory() {
-        const container = document.getElementById('prof-orders-list');
-        try {
-            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n');
-            let historyHTML = "";
-            for(let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if(cols[2] === currentUser) { // Column C is Contact Info
-                    historyHTML += `<div class="history-card"><b>ID:</b> ${cols[0]} <br><b>Items:</b> ${cols[3]} <br><b style="color:var(--primary);">Price: ${cols[4]}</b></div>`;
-                }
-            }
-            container.innerHTML = historyHTML || "<p>No past orders found.</p>";
-        } catch(e) { container.innerHTML = "<p>Error loading history.</p>"; }
-    }
-
-    async function requestPassReveal() {
-        const success = await loginWithPasskey();
-        if(success) { document.getElementById('prof-pass-display').type = "text"; document.getElementById('prof-pass-display').value = currentPass; setTimeout(() => { document.getElementById('prof-pass-display').type = "password"; document.getElementById('prof-pass-display').value = "••••••••"; }, 5000); } 
-        else { showToast("Biometric verification failed.", "error"); }
-    }
-
-    // --- BIOMETRICS & ADMIN ---
-    let pendingAuthContext = null; let customCallback = null;
-
-    function logoTrigger() { clickCount++; if(clickCount === 5) { clickCount = 0; pendingAuthContext = 'admin'; document.getElementById('auth-choice-modal').style.display = 'flex'; } }
-
-    async function executeBiometric() {
-        closeModal('auth-choice-modal'); const success = await loginWithPasskey();
-        if(success && pendingAuthContext === 'admin') grantAdmin(); else if(!success) showToast("Biometric failed.", "error");
-    }
-
-    function openPassInput(title = "Enter Password", callback = null) { 
-        closeModal('auth-choice-modal'); document.getElementById('prompt-title').innerText = title; 
-        document.getElementById('pass-input-modal').style.display = 'flex'; customCallback = callback; 
-    }
-    
-    function submitManualPass() {
-        const p = document.getElementById('auth-manual-pass').value; closeModal('pass-input-modal'); document.getElementById('auth-manual-pass').value = "";
-        if(customCallback) { customCallback(p); customCallback = null; return; }
-        if(pendingAuthContext === 'admin' && p === ADMIN_PASS) grantAdmin(); else showToast("Incorrect Password", "error");
-    }
-
-    async function registerBiometricDevice() {
-        closeModal('auth-choice-modal');
-        openPassInput("Enter Password to Register Face", async (p) => {
-            if(p === ADMIN_PASS) { await registerPasskey(); if(pendingAuthContext === 'admin') grantAdmin(); } else { showToast("Incorrect Password", "error"); }
-        });
-    }
-
-    function grantAdmin() { isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; document.getElementById('shop-wrapper').style.display = 'block'; showToast("🔓 Admin Access Granted!", "success"); forceReRender(); }
-
-    // --- STORE CORE ---
-    async function logVisit() { if(localStorage.getItem('admin_passkey_id')) return; let device = navigator.userAgent; fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "log_visit", device: device }), mode: 'no-cors' }); }
-
-    setInterval(fetchData, 10000); 
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
-            try { if(PROMO_URL.startsWith("http")) { const pRes = await fetch(PROMO_URL + "&t=" + new Date().getTime()); const pText = await pRes.text(); PROMO_CODES = {}; pText.split('\n').slice(1).forEach(row => { const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols[0] && cols[1]) PROMO_CODES[cols[0].toUpperCase()] = parseFloat(cols[1]); }); } } catch(e) {}
-            if(text === lastDataString && !isAdmin) return; lastDataString = text;
+            if(text === lastDataString && !isAdmin) return; lastDataString = text; // Only rebuild if data changed
+            
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            globalMaintenance = (headers.length > 15 && headers[15].replace(/^"|"$/g, '').trim() === "MAINTENANCE_ON");
-            if(globalMaintenance && !isAdmin) { document.getElementById('shop-wrapper').style.display = 'none'; document.getElementById('maintenance-msg').style.display = 'block'; return; } 
-            else { document.getElementById('shop-wrapper').style.display = 'block'; document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none'; }
-            let temp = {};
+            
+            // 🔓 GOD MODE MAINTENANCE CHECK
+            let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "OFF";
+            handleMaintenanceUI(maintData);
+
+            let temp = {}; let tempStandalone = [];
             rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
-                    const cat = cols[0]; const sub = cols[2]; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS"); const showInput = cols.some(c => c && c.toUpperCase() === "YES"); let placeholder = "..."; if(showInput) { const idx = cols.findIndex(c => c && c.toUpperCase() === "YES"); if(idx !== -1 && cols[idx+1] !== "OOS") placeholder = cols[idx+1]; }
-                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} }; if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: cols[3], items: [] };
-                    temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS, showInput: showInput, placeholder: placeholder });
+                    const cat = cols[0]; const app = cols[2]; const itemNameRaw = cols[4]; const price = parseFloat(cols[5]) || 0; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
+                    
+                    // Decode the Retractable Group Logic (Using a hidden tag in the name)
+                    let itemName = itemNameRaw; let groupName = null;
+                    if(itemNameRaw.includes("||GRP||")) {
+                        let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1];
+                    }
+
+                    if(groupName) { // Put in Retractable Menu
+                        if (!temp[cat]) temp[cat] = { name: cat, groups: {} };
+                        if (!temp[cat].groups[groupName]) temp[cat].groups[groupName] = { name: groupName, img: cols[3], items: [] };
+                        temp[cat].groups[groupName].items.push({ name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS, app: app });
+                    } else { // Standalone Giant Card
+                        tempStandalone.push({ cat: cat, app: app, img: cols[3], name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS });
+                    }
                 }
             });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; }); 
+            productsData.categories = Object.values(temp).map(c => { c.groups = Object.values(c.groups); return c; });
+            productsData.standalone = tempStandalone;
             
-            // 🔥 Force categories to show instantly upon loading!
-            forceReRender(); 
-            
+            applyFilters(); // Live Draw
         } catch (e) {}
     }
 
-    function forceReRender() { 
-        if(currentView.type === 'cats') showCats(); 
-        else if(currentView.type === 'apps') showApps(currentView.cI); 
-        else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI); 
-    }
-    
-    // --- UPGRADED SYNC TO SHEET WITH LIVE NOTIFICATIONS ---
-    async function syncToSheet(payload) { 
-        closeModal('add-item-modal'); 
+    // ⏳ LIVE TIMER ENGINE
+    function handleMaintenanceUI(maintData) {
+        clearInterval(countdownInterval);
+        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); const noticeEl = document.getElementById('ui-maint-notice');
         
-        // 1. Show the Live "Loading" Notification
-        if(payload.action === "maintenance") showToast("Toggling Maintenance Mode... Please wait", "info");
-        else if(payload.action === "update") showToast("Updating Price/Stock... Please wait", "info");
-        else if(payload.action === "add") showToast("Adding Item to Store... Please wait", "info");
-        
-        try { 
-            // 2. Send the request to Google Sheets
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); 
-            
-            // 3. Show the "Success" Notification
-            if(payload.action === "maintenance") showToast(payload.state ? "Maintenance is now ON 🔴" : "Maintenance is now OFF 🟢", "success");
-            else showToast("Update Successful! Store is syncing...", "success");
-            
-            // 4. Force the store to refresh and show the new data instantly
-            setTimeout(() => { lastDataString = ""; fetchData(); }, 1200); 
-        } catch(e) {
-            showToast("Error connecting to server.", "error");
-        } 
-    }
-
-    function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
-    function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
-
-    function openAddModal() {
-        const catSel = document.getElementById('add-cat-sel'); catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
-        productsData.categories.forEach(c => { catSel.innerHTML += `<option value="${c.name}">${c.name}</option>`; });
-        catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`; checkNewCat(); document.getElementById('add-item-modal').style.display = 'flex';
-    }
-    function checkNewCat() {
-        const val = document.getElementById('add-cat-sel').value; const subSel = document.getElementById('add-app-sel');
-        if (val === "_NEW_") { document.getElementById('add-cat-new').style.display = 'block'; subSel.innerHTML = `<option value="_NEW_">➕ Create New Sub-App...</option>`; checkNewApp(); } 
-        else { document.getElementById('add-cat-new').style.display = 'none'; subSel.innerHTML = `<option value="">-- Choose Sub-App --</option>`; const catObj = productsData.categories.find(c => c.name === val); if(catObj) { catObj.apps.forEach(a => { subSel.innerHTML += `<option value="${a.name}">${a.name}</option>`; }); } subSel.innerHTML += `<option value="_NEW_">➕ Create New Sub-App...</option>`; checkNewApp(); }
-    }
-    function checkNewApp() { document.getElementById('add-app-new').style.display = (document.getElementById('add-app-sel').value === "_NEW_") ? 'block' : 'none'; }
-    function submitNewItem() {
-        let cat = document.getElementById('add-cat-sel').value; if(cat === "_NEW_") cat = document.getElementById('add-cat-new').value;
-        let app = document.getElementById('add-app-sel').value; if(app === "_NEW_") app = document.getElementById('add-app-new').value;
-        const name = document.getElementById('add-item-name').value; const price = document.getElementById('add-item-price').value;
-        if(!cat || !app || !name || !price) return; syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
-    }
-
-    // 🔥 Powerful Live Search Function
-    function filterItems() {
-        const q = document.getElementById('mainSearch').value.toLowerCase();
-        
-        // If search bar is empty, return to the normal category/app/item view
-        if(!q) return forceReRender(); 
-        
-        let html = '';
-        const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en'];
-
-        productsData.categories.forEach((c, cI) => {
-            c.apps.forEach((a, aI) => {
-                a.items.forEach((it, i) => {
-                    // Search through Category name, App name, AND Item name
-                    if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)) {
-                        html += `
-                        <div class="item-row glass">
-                            <span style="font-size:0.95rem; font-weight:bold;">${a.name} - ${it.name} ${it.isOOS ? `<span class="oos-tag">${t.oos}</span>` : ''}</span>
-                            <b style="color:var(--primary); margin-top:5px; font-size:1.1rem;">${it.price} DT</b>
-                            ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
-                            <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? t.oos : t.addCart}</button>
-                        </div>`;
+        if(maintData === "OFF") {
+            band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
+        } else {
+            band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isAdmin ? 'block' : 'none'; globalMaintenance = true;
+            if(maintData === "UNTIL") {
+                timeEl.style.display = 'none'; noticeEl.style.display = 'block'; noticeEl.innerText = "Closed until further notice.";
+            } else { // It is a Timestamp
+                let target = parseInt(maintData); timeEl.style.display = 'block'; noticeEl.style.display = 'block'; noticeEl.innerText = "Reopening in:";
+                countdownInterval = setInterval(() => {
+                    let now = new Date().getTime(); let distance = target - now;
+                    if(distance < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
+                    else {
+                        let d = Math.floor(distance / (1000 * 60 * 60 * 24)); let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((distance % (1000 * 60)) / 1000);
+                        timeEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
                     }
-                });
-            });
-        });
+                }, 1000);
+            }
+        }
+    }
+
+    async function setLiveMaintenance(mode) {
+        let payload = { action: "maintenance", state: true, value: "UNTIL" };
+        if(mode === "OFF") { payload.state = false; payload.value = "OFF"; }
+        if(mode === "TIMER") {
+            let timeVal = document.getElementById('maint-timer-input').value;
+            if(!timeVal) return showToast("Please select a date and time first!", "error");
+            payload.value = new Date(timeVal).getTime().toString();
+        }
+        showToast("Pushing live update...", "info");
+        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
+        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Live Updated!", "success"); }, 1500);
+    }
+
+    function submitNewItem() {
+        let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value;
+        if(!cat || !app || !name || !price) return showToast("Fill all fields", "error");
         
-        // Display the search results
-        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub); margin-top: 30px; font-weight: bold;">No items found.</p>`;
+        // Magically append the group name so it organizes perfectly in the sheet without changing formulas
+        if(document.getElementById('add-is-retractable').checked) {
+            let group = document.getElementById('add-retract-group').value;
+            if(!group) return showToast("Provide a Menu Name", "error");
+            name = name + "||GRP||" + group;
+        }
+        
+        showToast("Uploading to live store...", "info"); closeModal('add-item-modal');
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' })
+        .then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Live Sync Complete!", "success"); }, 1500); });
     }
 
-    function showCats() { currentView = {type: 'cats'}; document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
-    function showApps(idx) { currentView = {type: 'apps', cI: idx}; const c = productsData.categories[idx]; const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en']; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">${t.back}</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card glass" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
-    function showItems(cI, aI) {
-        currentView = {type: 'items', cI: cI, aI: aI}; const a = productsData.categories[cI].apps[aI]; const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en'];
-        document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cI})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">${t.back}</button>` + 
-        a.items.map((it, i) => `
-            <div class="item-row glass">
-                <span style="font-size:0.95rem; font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${t.oos}</span>` : ''}</span>
-                <b style="color:var(--primary); margin-top:5px; font-size:1.1rem;">${it.price} DT</b>
-                ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
-                ${isAdmin ? `
-                    <div style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;">
-                        <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem; cursor:pointer;">Toggle OOS</button>
-                        <button onclick="openPassInput('Edit Price (DT)', (p) => { if(p) updateItem('${it.name}', p, ${it.isOOS}) })" style="padding:5px; font-size:0.7rem; margin-left:5px; cursor:pointer;">Edit Price</button>
-                    </div>` : ''}
-                <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? t.oos : t.addCart}</button>
-            </div>`).join('');
-    }
+    function applyFilters() {
+        const q = document.getElementById('mainSearch').value.toLowerCase(); let html = '';
+        
+        // 1. Draw Standalone Items First
+        productsData.standalone.forEach((it, i) => {
+            if(!q || it.name.toLowerCase().includes(q) || it.app.toLowerCase().includes(q)) {
+                html += `
+                <div class="item-row liquid-glass" style="padding:20px; text-align:center;">
+                    <img src="${it.img}" style="width:60px; height:60px; margin:0 auto 10px auto;">
+                    <span style="font-size:1.1rem; font-weight:900;">${it.name}</span>
+                    <b style="color:var(--primary); font-size:1.3rem; margin-top:5px;">${it.price} DT</b>
+                    <button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button>
+                </div>`;
+            }
+        });
 
-    function applyPromo() { const code = document.getElementById('promoCodeInput').value.toUpperCase(); if (PROMO_CODES[code]) { activePromo = code; activePromoDiscount = PROMO_CODES[code]; showToast(`Promo Applied! ${activePromoDiscount * 100}% off.`, "success"); updateCartUI(); } else { showToast("Invalid Promo Code.", "error"); } }
-    function updateCartUI() {
-        let rawTotal = cart.reduce((s, i) => s + i.price, 0); let combinedDiscount = activePromoDiscount + loyaltyDiscount; let finalTotal = rawTotal - (rawTotal * combinedDiscount);
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.75rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
-        if (combinedDiscount > 0) { document.getElementById('original-price').style.display = 'inline-block'; document.getElementById('original-price').innerText = rawTotal + " DT"; document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2); document.getElementById('cart-total-price').style.color = '#00ff88'; } 
-        else { document.getElementById('original-price').style.display = 'none'; document.getElementById('cart-total-price').innerText = rawTotal; document.getElementById('cart-total-price').style.color = 'var(--primary)'; }
-    }
-    function addToCart(c,a,i) { const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A"; cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price), note: val}); document.getElementById('cart-count').innerText = cart.length; localStorage.setItem('cyberhub_cart', JSON.stringify(cart)); showToast("Added to Cart!", "success"); }
-    function openCart() { document.getElementById('modal').style.display = 'flex'; updateCartUI(); }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    
-    function submitOrder() {
-        const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase(); const name = document.getElementById('custName').value || "Unknown"; const contact = document.getElementById('custContact').value || "None"; const total = document.getElementById('cart-total-price').innerText; const items = cart.map(i => `${i.name}`).join(' | '); const notes = cart.map(i => i.note).join(' | ');
-        let promoString = activePromo ? `\nPROMO: ${activePromo}` : ""; let loyaltyString = loyaltyDiscount > 0 ? `\nLOYALTY: ${loyaltyDiscount * 100}%` : "";
-        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT${promoString}${loyaltyString}`;
-        const btn = document.getElementById('ui-checkout-btn'); btn.innerText = "Sending..."; btn.disabled = true;
-        navigator.clipboard.writeText(body).then(() => {
-            emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
-                if(currentUser) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "increment_loyalty", contact: currentUser }), mode: 'no-cors' }); }
-                showToast(`Order Sent! ID: ${orderID}`, "success"); setTimeout(() => { cart = []; localStorage.removeItem('cyberhub_cart'); location.reload(); }, 2000);
+        // 2. Draw Retractable Menus
+        productsData.categories.forEach((c, cI) => {
+            c.groups.forEach((g, gI) => {
+                let validItems = g.items.filter(it => !q || it.name.toLowerCase().includes(q) || g.name.toLowerCase().includes(q));
+                if(validItems.length > 0) {
+                    html += `
+                    <div class="liquid-glass app-header" onclick="document.getElementById('acc-${cI}-${gI}').style.display = document.getElementById('acc-${cI}-${gI}').style.display === 'none' ? 'block' : 'none'">
+                        <img src="${g.img}"> <span>${g.name} (${validItems.length})</span> <span style="margin-left:auto;">▼</span>
+                    </div>
+                    <div id="acc-${cI}-${gI}" class="retractable-content" style="${q ? 'display:block;' : 'display:none;'}">
+                    `;
+                    validItems.forEach(it => {
+                        html += `
+                        <div class="item-row">
+                            <span style="font-weight:bold;">${it.name}</span>
+                            <b style="color:var(--primary);">${it.price} DT</b>
+                            <button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
             });
         });
+
+        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">No items found.</p>`;
     }
 
-    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Passkey Registered!", "success"); } catch(e) {} }
-    async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
-
-    document.getElementById('cart-count').innerText = cart.length;
-    fetchData(); // Kick off the initial load
+    function addToCart(nameRaw, price) { 
+        let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw;
+        cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); 
+    }
+    function logoTrigger() { clickCount++; if(clickCount === 5) { clickCount = 0; isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; showToast("🔓 God Mode Unlocked!", "success"); } }
+    fetchData(); 
 </script>
 </body>
 </html>
