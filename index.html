@@ -11,79 +11,79 @@
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     
     <style>
-        /* RESTORED OLD BACKGROUND COLORS */
-        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.6); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
+        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --blend: screen; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        .glass { background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 18px; }
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.05); }
-        
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--primary); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: 0.3s; }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
+        .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
         
-        /* 📱 LEFT SIDEBAR MENU */
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(2, 6, 13, 0.95); z-index: 5000; transition: 0.4s ease-in-out; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+        /* 📱 SIDEBAR */
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(2, 6, 13, 0.95); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); }
         #sidebar.open { left: 0; }
         .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
-        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
-        .menu-item:hover { color: var(--primary); padding-left: 25px; background: rgba(0,240,255,0.1); border-radius: 12px; border-bottom: none; }
-
+        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; }
+        
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         
-        /* 🔓 GOD MODE ADMIN PANEL */
-        .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px dashed #ffae00; display: none; }
+        /* ⚠️ YELLOW MAINTENANCE BANNER */
+        .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 1px dashed var(--warn); color: var(--warn); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
+        #ui-maint-time { font-size: 2rem; font-weight: 800; margin-top: 10px; color: #fff; text-shadow: 0 0 10px var(--warn); }
+
+        /* 🔓 SUPPORT/ADMIN CONTROLS */
+        .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px dashed var(--warn); display: none; }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-maint { background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 0 15px rgba(255,77,77,0.4); }
-        .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 0 15px rgba(0,255,136,0.4);}
-        .btn-add { background: var(--primary); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 0 15px rgba(0,240,255,0.4);}
-        .btn-lock { background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+        .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
+        .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .support-tools { display: flex; gap: 5px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px; }
+        .support-btn { flex: 1; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        /* ⏳ LIVE COUNTDOWN MAINTENANCE BANNER */
-        .maintenance-band { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #fff; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); backdrop-filter: blur(10px); }
-        #ui-maint-title { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; color: #ff4d4d; text-transform: uppercase; }
-        #ui-maint-time { font-size: 2rem; font-weight: 800; margin-top: 15px; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 0 15px #ff4d4d; }
-
-        /* CATEGORIES & ITEMS */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.5s ease-in-out; }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.05); }
-        .nav-card img { width: 65px; height: 65px; object-fit: contain; mix-blend-mode: var(--blend); display: block; margin: 0 auto 10px auto; }
-
-        .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; font-size: 1.1rem; }
-        .app-header img { width: 45px; height: 45px; object-fit: contain; }
-        .app-header:hover { border-color: var(--primary); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
-        .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 20px; animation: slideDown 0.3s ease-out; }
+        /* 📂 CATEGORIES -> APPS -> ITEMS */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
+        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
+        .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); transform: translateY(-3px); }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
         
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .add-btn { background: var(--primary); color: #000; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; width: 100%; transition: 0.3s; margin-top: 10px; text-transform: uppercase; }
-        .add-btn:hover { background: #fff; box-shadow: 0 0 15px var(--primary); transform: scale(1.02); }
+        .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
+        .request-card:hover { border-color: #fff; background: rgba(255, 174, 0, 0.2); }
 
-        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; transition: 0.3s; border: none; }
+        .app-header { padding: 15px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; background: var(--card); border: 1px solid var(--border); }
+        .app-header img { width: 40px; height: 40px; object-fit: contain; }
+        .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 15px; }
         
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
-        .modal-content { padding: 30px; width: 100%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
+        .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
+
+        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; }
         
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
+        .modal-content { padding: 25px; width: 100%; max-width: 480px; text-align: center; max-height: 85vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; }
+        
+        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
         input[type="datetime-local"] { color-scheme: dark; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2); }
         
-        /* CHAT UI */
-        .chat-box { background: rgba(0,0,0,0.6); height: 250px; border-radius: 12px; border: 1px solid var(--border); overflow-y: auto; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .chat-msg { background: var(--card); padding: 10px; border-radius: 10px; width: fit-content; max-width: 80%; text-align: left; font-size: 0.9rem; }
-        .chat-msg.me { background: rgba(0, 240, 255, 0.2); align-self: flex-end; border: 1px solid var(--primary); }
+        /* 💬 INBOX & AI CHAT UI */
+        .chat-box { background: rgba(0,0,0,0.6); height: 300px; border-radius: 12px; border: 1px solid var(--border); overflow-y: auto; padding: 15px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { padding: 10px 15px; border-radius: 15px; width: fit-content; max-width: 80%; font-size: 0.9rem; animation: fadeIn 0.3s; text-align: left; }
+        .msg-sys { background: transparent; color: var(--warn); align-self: center; font-size: 0.8rem; font-style: italic; border: 1px dashed var(--warn); }
+        .msg-ai { background: rgba(0, 240, 255, 0.1); border: 1px solid var(--primary); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-user { background: var(--primary); color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: bold; }
 
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 30px; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .loader-text { text-align: center; color: var(--primary); font-weight: bold; margin-top: 40px; font-size: 1.1rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast liquid-glass"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
 
 <div id="sidebar" class="liquid-glass">
     <button class="close-menu" onclick="toggleSidebar()">✖</button>
@@ -92,200 +92,205 @@
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
     <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Login</div>
-    <div class="menu-item" onclick="openContactOptions(); toggleSidebar();">📞 Contact Options</div>
-    <div class="menu-item" onclick="openLiveSupport(); toggleSidebar();">💬 Live Support Chat</div>
-    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:#ffae00;">💎 VIP Rewards Hub</div>
+    <div class="menu-item" onclick="document.getElementById('contact-modal').style.display='flex'; toggleSidebar();">📞 Social Media</div>
+    <div class="menu-item" onclick="showToast('VIP Hub active on checkout!', 'info'); toggleSidebar();" style="color:var(--warn);">💎 VIP Rewards Hub</div>
 </div>
 
 <div class="container">
-    <div class="top-bar glass">
-        <button class="icon-btn glass" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn glass" onclick="document.getElementById('lang-screen').style.display='flex';" style="border:none; background:transparent;">🌐 Lang</button>
+    <div class="top-bar liquid-glass">
+        <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
+        <div style="display:flex; gap:10px;">
+            <button class="icon-btn" onclick="openInbox()" style="border-color:var(--warn); color:var(--warn);">💬 Inbox</button>
+            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        </div>
     </div>
     
     <div id="maintenance-msg" class="maintenance-band liquid-glass">
-        <div id="ui-maint-title">STORE CLOSED</div>
-        <div id="ui-maint-notice" style="font-size:0.9rem; margin-top:5px;">Until further notice.</div>
+        <div id="ui-maint-title">STORE CLOSED FOR UPDATES</div>
+        <div id="ui-maint-notice" style="font-size:0.9rem; margin-top:5px;">We will be back shortly.</div>
         <div id="ui-maint-time"></div>
     </div>
     
     <div class="header" style="text-align:center; margin-top: 10px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
-        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800; text-shadow: 0 0 10px rgba(0,240,255,0.5);">CYBERHUB</h2>
+        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
     </div>
 
     <div id="admin-panel" class="admin-controls liquid-glass">
-        <b style="color:#ffae00; font-size:1.2rem;">🔓 GOD MODE ADMIN PORTAL</b><br>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Control Panel</p>
-        
-        <input type="datetime-local" id="maint-timer-input" class="liquid-glass">
+        <b style="color:var(--warn); font-size:1.2rem;">🛠️ SUPPORT & ADMIN PORTAL</b><br>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Store Control</p>
+        <input type="datetime-local" id="maint-timer-input">
         <div class="admin-grid">
-            <button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button>
-            <button class="btn-maint" onclick="setLiveMaintenance('UNTIL')" style="background:#b30000;">🛑 Close Until Notice</button>
+            <button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Yellow Timer</button>
+            <button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 Yellow Banner (No Timer)</button>
         </div>
         <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 OPEN STORE</button>
-        <button class="btn-add" onclick="openAddModal()">+ ADD NEW ITEM</button>
-        <button class="btn-lock" onclick="lockAdminPanel()">🔒 Lock & Leave Admin</button>
+        <button class="btn-add" onclick="document.getElementById('add-item-modal').style.display='flex'">+ ADD NEW ITEM</button>
+        <button class="btn-add" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="lockAdminPanel()">🔒 Lock Admin</button>
     </div>
 
     <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="glass" placeholder="Search Store..." oninput="applyFilters()" style="margin-bottom:20px;">
+        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="filterSearch()" style="margin-bottom:20px;">
         <div id="content-area"><div class="loader-text">Loading Store Data... ⏳</div></div>
     </div>
 </div>
 
 <button class="fab-cart" onclick="openCart()">🛒<div class="badge" id="cart-count">0</div></button>
 
-<div id="add-item-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3>
-        <select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select>
-        <input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)">
-        <input type="text" id="add-item-name" placeholder="Item Details (e.g., 1 Profile - 1 Month)">
-        <input type="number" id="add-item-price" placeholder="Price (DT)">
+<div id="inbox-modal" class="modal">
+    <div class="modal-content liquid-glass" style="padding:20px;">
+        <h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3>
         
-        <div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;">
-            <input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;">
-            <div><b style="color:white;">Make this Retractable?</b><br><span style="font-size:0.75rem; color:var(--sub);">Groups it into a dropdown menu.</span></div>
-        </div>
-        <input type="text" id="add-retract-group" placeholder="Menu Name (e.g., Netflix Profiles)" style="display:none; border-color:var(--primary);">
+        <select id="support-ticket-selector" style="display:none; margin-bottom:10px;" onchange="loadSupportTicket()">
+            <option value="">Select a user ticket...</option>
+            <option value="user1">Ticket: Yassine B. (Needs help with Netflix)</option>
+            <option value="user2">Ticket: Ahmed M. (Payment issue)</option>
+        </select>
 
-        <button class="add-btn" onclick="submitNewItem()">💾 Save to Live Store</button>
-        <button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
-    </div>
-</div>
-
-<div id="contact-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <a href="https://www.instagram.com/__cyber__hub__" class="add-btn" style="text-decoration:none; background:#E1306C; color:white;">📸 Instagram</a>
-            <a href="https://wa.me/21629895846" class="add-btn" style="text-decoration:none; background:#25D366; color:white;">💬 WhatsApp</a>
-            <a href="#" class="add-btn" style="text-decoration:none; background:#1877F2; color:white;">📘 Facebook</a>
-            <a href="mailto:cyber.hub.contact.now@gmail.com" class="add-btn" style="text-decoration:none; background:#ea4335; color:white;">📧 Email Us</a>
-        </div>
-        <button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button>
-    </div>
-</div>
-
-<div id="chat-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--primary); margin-bottom:5px;">💬 Support Chat</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;" id="chat-user-label">Loading...</p>
-        
         <div class="chat-box" id="chat-history">
-            <div class="chat-msg"><b>Support:</b> Hello! How can we help you today?</div>
+            <div class="chat-msg msg-sys">Chat initialized. Secure connection.</div>
+            <div class="chat-msg msg-ai"><b>🤖 CyberBot:</b> Hello! Welcome to CyberHub support. How can I help you today? (Type "human" to request a live agent).</div>
         </div>
         
         <div style="display:flex; gap:10px;">
-            <input type="text" id="chat-input" placeholder="Type a message...">
-            <button class="add-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button>
+            <input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;">
+            <button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button>
         </div>
-        <button onclick="closeModal('chat-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+        <button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close Inbox</button>
     </div>
 </div>
 
-<div id="vip-modal" class="modal">
+<div id="request-modal" class="modal">
     <div class="modal-content liquid-glass">
-        <h3 style="color:#ffae00; margin-bottom:5px;">💎 VIP Rewards Hub</h3>
-        <p style="color:var(--text); margin-bottom:20px;">Your Current Status:</p>
-        <div style="font-size:3rem; font-weight:900; color:var(--primary); text-shadow:0 0 20px var(--primary);" id="vip-discount-display">0%</div>
-        <p style="color:var(--sub); font-size:0.9rem; margin-top:10px;">Discount applied automatically to all future orders!</p>
-        <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:25px; cursor:pointer;">Close</button>
+        <h3 style="color:var(--warn); margin-bottom:15px;">💡 Demand a New Service</h3>
+        <p style="font-size:0.9rem; color:var(--sub); margin-bottom:20px;">Don't see what you need? Let us know and we will add it to the store!</p>
+        <input type="text" id="req-name" placeholder="Name of App or Game (e.g., Spotify)">
+        <input type="text" id="req-desc" placeholder="What exactly do you need?">
+        <button class="add-cart-btn" style="background:var(--warn);" onclick="submitRequest()">Send Request</button>
+        <button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
-<div id="lang-screen"></div><div id="auth-choice-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Admin Login required</h3><button class="add-btn" onclick="openPassInput()">🔑 Use Password</button><button onclick="closeModal('auth-choice-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div><div id="pass-input-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);" id="prompt-title">Enter Password</h3><input type="password" id="auth-manual-pass" placeholder="..."><button class="add-btn" onclick="submitManualPass()">Verify</button><button onclick="closeModal('pass-input-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div><div id="profile-modal" class="modal"></div><div id="modal" class="modal"></div><div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 CyberHub Account</h3><input type="text" id="authContact" placeholder="Email"><input type="password" id="authPass" placeholder="Password"><button class="add-btn" onclick="processAuth('login')">Log In</button><button class="add-btn" onclick="processAuth('register')" style="background:transparent; color:var(--primary); border:2px solid var(--primary); margin-top:10px;">Create Account</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
+<div id="auth-choice-modal" class="modal">
+    <div class="modal-content liquid-glass">
+        <h3 style="color:var(--primary); margin-bottom:15px;">Admin / Support Login</h3>
+        <button class="add-cart-btn" onclick="executeBiometric()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary);">📱 Face ID / Fingerprint</button>
+        <button class="add-cart-btn" onclick="openPassInput()">🔑 Use Password</button>
+        <button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Register Device</button>
+        <button onclick="closeModal('auth-choice-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
+<div id="pass-input-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);" id="prompt-title">Enter Password</h3><input type="password" id="auth-manual-pass" placeholder="..."><button class="add-cart-btn" onclick="submitManualPass()">Verify</button><button onclick="closeModal('pass-input-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 Account</h3><input type="text" id="authContact" placeholder="Email"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
+<div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
+<div id="modal" class="modal"><div class="modal-content liquid-glass"><div id="cart-view"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><input type="text" id="custName" placeholder="Full Name"><input type="text" id="custContact" placeholder="Email / Phone"><button class="add-cart-btn" onclick="submitOrder()">Place Order</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
 
-    const ADMIN_EMAIL = "yessinebenfraj106@gmail.com";
-    const ADMIN_PASS = "Aqszedfr43";
+    // --- CORE VARIABLES ---
+    let toastTimeout; 
+    let productsData = { categories: {} }; // Cat -> App -> (Groups/Standalone)
+    let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let clickCount = 0; let countdownInterval;
+    let currentUser = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
+    let currentView = { type: 'cats', cat: null, app: null }; // 3-Level Hierarchy tracker
 
-    let toastTimeout; function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast liquid-glass show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
+    const T = {
+        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service" },
+        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service" }
+    };
 
-    function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('open'); }
+    function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast liquid-glass show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function openContactOptions() { document.getElementById('contact-modal').style.display = 'flex'; }
-    
-    let productsData = { categories: [], standalone: [] }; let cart = []; let isAdmin = false; let globalMaintenance = false; let lastDataString = ""; let clickCount = 0; let countdownInterval;
-    let currentUser = null; let loyaltyDiscount = 0; let currentView = { type: 'cats', cI: null };
+    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); document.getElementById('lang-ind').innerText = currentLang.toUpperCase(); forceReRender(); showToast("Language Updated", "success"); }
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
-    
-    // --- AUTHENTICATION & LIVE SUPPORT ---
-    function openProfileOrLogin() { if(currentUser) { showToast("Logged in as " + currentUser, "success"); } else { document.getElementById('login-modal').style.display = 'flex'; } }
+    // --- AUTH & ROLES (CHECKING A2/B2 AND COLUMN 7) ---
+    function openProfileOrLogin() { if(currentUser) showToast("Logged in as " + currentUser, "success"); else document.getElementById('login-modal').style.display = 'flex'; }
     
     async function processAuth(actionType) {
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
         
-        // CUSTOMER SUPPORT ADMIN LOGIN CHECK
-        if(contact === ADMIN_EMAIL && pass === ADMIN_PASS) {
-            currentUser = contact; loyaltyDiscount = 1.0; closeModal('login-modal');
-            showToast("Welcome Admin Yessine! You can now check Support Chat.", "success");
-            return;
+        // Hardcoded Master Admin
+        if(contact === "yessinebenfraj106@gmail.com" && pass === "Aqszedfr43") {
+            grantSupportRole(contact); return;
         }
 
-        if (actionType === 'register') {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
-            showToast("Account created successfully!", "success"); currentUser = contact; loyaltyDiscount = 0; closeModal('login-modal');
-        } else if (actionType === 'login') {
+        if(actionType === 'login') {
             try {
-                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let found = false;
+                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let found = false;
                 for(let i = 1; i < rows.length; i++) {
                     const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                     if (cols[0] === contact && cols[1] === pass) {
-                        found = true; currentUser = contact; let pastOrders = Number(cols[2]) || 0; loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
-                        showToast(`Welcome! Loyalty Discount: ${loyaltyDiscount * 100}%!`, "success"); closeModal('login-modal'); break;
+                        found = true; currentUser = contact; closeModal('login-modal');
+                        // Check Support Role Tickbox (Column G = index 6)
+                        if(cols[6] && cols[6].toUpperCase() === "TRUE") grantSupportRole(contact);
+                        else showToast("Login Successful!", "success");
+                        break;
                     }
                 }
                 if(!found) showToast("Incorrect Credentials.", "error"); 
-            } catch(e) {}
+            } catch(e) { showToast("Error connecting.", "error"); }
         }
     }
-
-    function openVIPHub() {
-        if(!currentUser) return showToast("Please login first to view VIP status.", "error");
-        document.getElementById('vip-discount-display').innerText = (loyaltyDiscount * 100) + "%";
-        document.getElementById('vip-modal').style.display = 'flex';
+    
+    function grantSupportRole(email) {
+        isSupport = true; currentUser = email; closeModal('login-modal');
+        document.getElementById('admin-panel').style.display = 'block';
+        showToast("🔓 Support/Admin Role Activated.", "success");
+        forceReRender(); // Redraws store to show [Edit] buttons
     }
 
-    function openLiveSupport() {
-        if(!currentUser) return showToast("You must login to use Live Support.", "error");
-        document.getElementById('chat-modal').style.display = 'flex';
-        document.getElementById('chat-user-label').innerText = currentUser === ADMIN_EMAIL ? "Admin Mode: Viewing user tickets" : "Logged in as: " + currentUser;
+    // --- INBOX & AI AUTO-RESPONDER ---
+    let chatMode = "ai";
+    function openInbox() {
+        if(!currentUser) return showToast("Please login first to use Inbox.", "error");
+        document.getElementById('inbox-modal').style.display = 'flex';
+        if(isSupport) {
+            document.getElementById('support-ticket-selector').style.display = 'block';
+            document.getElementById('chat-title').innerText = "🛠️ Support Ticket Viewer";
+        }
     }
-
+    
     function sendChatMessage() {
-        const input = document.getElementById('chat-input');
-        if(!input.value.trim()) return;
-        const chatBox = document.getElementById('chat-history');
-        chatBox.innerHTML += `<div class="chat-msg me"><b>You:</b> ${input.value}</div>`;
-        input.value = "";
-        chatBox.scrollTop = chatBox.scrollHeight;
-        showToast("Message Sent to Support.", "success");
-        // In a full backend, this would fetch(SCRIPT_URL, { action: "chat", msg: ... })
+        const input = document.getElementById('chat-input'); const val = input.value.trim(); if(!val) return;
+        const box = document.getElementById('chat-history');
+        box.innerHTML += `<div class="chat-msg msg-user"><b>You:</b> ${val}</div>`;
+        input.value = ""; box.scrollTop = box.scrollHeight;
+
+        if(chatMode === "ai" && !isSupport) {
+            setTimeout(() => {
+                if(val.toLowerCase().includes("human") || val.toLowerCase().includes("support")) {
+                    chatMode = "human";
+                    box.innerHTML += `<div class="chat-msg msg-sys">Transferring to a live support agent...</div>`;
+                    box.innerHTML += `<div class="chat-msg msg-sys">Please wait. An agent will reply here shortly.</div>`;
+                } else {
+                    box.innerHTML += `<div class="chat-msg msg-ai"><b>🤖 CyberBot:</b> I understand you need help with "${val}". I can assist you, or you can type "human" to talk to Support.</div>`;
+                }
+                box.scrollTop = box.scrollHeight;
+            }, 800);
+        }
+    }
+    function loadSupportTicket() {
+        document.getElementById('chat-history').innerHTML = `<div class="chat-msg msg-sys">Viewing User Ticket...</div><div class="chat-msg msg-user"><b>User:</b> I need help with my Netflix account.</div>`;
     }
 
-    // --- TRUE LIVE SYNC ENGINE ---
-    setInterval(fetchData, 3000); 
+    // --- TRUE LIVE ENGINE ---
+    setInterval(fetchData, 4000); 
 
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
-            if(text === lastDataString && !isAdmin) return; lastDataString = text; 
+            if(text === lastDataString && !isSupport) return; lastDataString = text; 
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            
-            // ⏳ FIX FOR NaN IN TIMER (Scientific Notation Parsing)
-            let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "OFF";
-            handleMaintenanceUI(maintData);
+            handleMaintenanceUI(headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "OFF");
 
-            let temp = {}; let tempStandalone = [];
+            let temp = {}; 
             rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
@@ -294,47 +299,44 @@
                     let itemName = itemNameRaw; let groupName = null;
                     if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
 
+                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
+                    if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3], groups: {}, standalone: [] };
+                    
+                    const itemData = { name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS };
+
                     if(groupName) { 
-                        if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], groups: {} };
-                        if (!temp[cat].groups[groupName]) temp[cat].groups[groupName] = { name: groupName, img: cols[3], items: [] };
-                        temp[cat].groups[groupName].items.push({ name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS, app: app });
+                        if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] };
+                        temp[cat].apps[app].groups[groupName].items.push(itemData);
                     } else { 
-                        if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], groups: {} };
-                        tempStandalone.push({ cat: cat, app: app, img: cols[3], name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS });
+                        temp[cat].apps[app].standalone.push(itemData);
                     }
                 }
             });
-            productsData.categories = Object.values(temp).map(c => { c.groups = Object.values(c.groups); return c; });
-            productsData.standalone = tempStandalone;
-            
-            applyFilters(); 
+            productsData.categories = temp;
+            forceReRender(); 
         } catch (e) {}
     }
 
-    // ⏳ SAFE LIVE TIMER ENGINE (Fixed NaN)
     function handleMaintenanceUI(maintData) {
         clearInterval(countdownInterval);
-        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); const noticeEl = document.getElementById('ui-maint-notice');
+        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time');
         
         if(maintData === "OFF") {
             band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
         } else {
-            band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isAdmin ? 'block' : 'none'; globalMaintenance = true;
+            band.style.display = 'block'; globalMaintenance = true;
+            // Support sees the store ANYWAY
+            document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
+            
             if(maintData === "UNTIL") {
-                timeEl.style.display = 'none'; noticeEl.style.display = 'block'; noticeEl.innerText = "Closed until further notice.";
+                timeEl.style.display = 'none'; 
             } else { 
-                // Fix for scientific notation parsing
-                let target = parseInt(parseFloat(maintData)); 
-                if(isNaN(target)) { timeEl.style.display = 'none'; return; }
-                
-                timeEl.style.display = 'block'; noticeEl.style.display = 'block'; noticeEl.innerText = "Reopening in:";
+                let target = parseInt(parseFloat(maintData)); if(isNaN(target)) return;
+                timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
-                    let now = new Date().getTime(); let distance = target - now;
-                    if(distance < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
-                    else {
-                        let d = Math.floor(distance / (1000 * 60 * 60 * 24)); let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((distance % (1000 * 60)) / 1000);
-                        timeEl.innerText = `${d}d ${h}h ${m}m ${s}s`;
-                    }
+                    let d = target - new Date().getTime();
+                    if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
+                    else { timeEl.innerText = `${Math.floor(d/(1000*60*60*24))}d ${Math.floor((d%(1000*60*60*24))/(1000*60*60))}h ${Math.floor((d%(1000*60*60))/(1000*60))}m ${Math.floor((d%(1000*60))/1000)}s`; }
                 }, 1000);
             }
         }
@@ -345,94 +347,68 @@
         if(mode === "OFF") { payload.state = false; payload.value = "OFF"; }
         if(mode === "TIMER") {
             let timeVal = document.getElementById('maint-timer-input').value;
-            if(!timeVal) return showToast("Please select a date and time first!", "error");
+            if(!timeVal) return showToast("Select date/time!", "error");
             payload.value = new Date(timeVal).getTime().toString();
         }
         showToast("Pushing live update...", "info");
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Live Updated!", "success"); }, 1500);
+        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
     }
 
-    // 🌟 RESTORED OLD CATEGORIES GRID
-    function applyFilters() {
-        const q = document.getElementById('mainSearch').value.toLowerCase(); let html = '';
+    // --- 3-LEVEL HIERARCHY RENDERING ---
+    function forceReRender() {
+        let html = ''; const dic = T[currentLang];
         
-        // If Search is Empty -> Show Categories Grid
-        if(!q) {
-            if(currentView.type === 'cats') {
-                html = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`;
-            } else if(currentView.type === 'apps') {
-                const c = productsData.categories[currentView.cI];
-                html = `<button onclick="showCats()" class="icon-btn glass" style="margin-bottom:15px; border:none;">← Back to Categories</button>`;
-                
-                // Standalone for this category
-                productsData.standalone.filter(it => it.cat === c.name).forEach(it => {
-                    html += `<div class="item-row glass" style="padding:20px; text-align:center;"><img src="${it.img}" style="width:50px; height:50px; margin:0 auto 10px auto;"><span style="font-weight:900;">${it.name}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b><button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button></div>`;
-                });
-
-                // Retractable Menus for this category
-                c.groups.forEach((g, gI) => {
-                    html += `
-                    <div class="glass app-header" onclick="document.getElementById('acc-${currentView.cI}-${gI}').style.display = document.getElementById('acc-${currentView.cI}-${gI}').style.display === 'none' ? 'block' : 'none'">
-                        <img src="${g.img}"> <span>${g.name} (${g.items.length})</span> <span style="margin-left:auto;">▼</span>
-                    </div>
-                    <div id="acc-${currentView.cI}-${gI}" class="retractable-content" style="display:none;">
-                    `;
-                    g.items.forEach(it => { html += `<div class="item-row"><span style="font-weight:bold;">${it.name}</span><b style="color:var(--primary);">${it.price} DT</b><button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button></div>`; });
-                    html += `</div>`;
-                });
-            }
-            document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">Store Empty.</p>`;
-            return;
-        }
-
-        // If Searching -> Show Live Search Results
-        html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3>`;
-        productsData.standalone.forEach(it => {
-            if(it.name.toLowerCase().includes(q) || it.app.toLowerCase().includes(q)) {
-                html += `<div class="item-row glass" style="padding:20px; text-align:center;"><span style="font-weight:900;">${it.name}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b><button class="add-btn" onclick="addToCart('${it.originalName}', ${it.price})">ADD TO CART</button></div>`;
-            }
-        });
-        productsData.categories.forEach((c, cI) => {
-            c.groups.forEach((g, gI) => {
-                let validItems = g.items.filter(it => it.name.toLowerCase().includes(q) || g.name.toLowerCase().includes(q));
-                if(validItems.length > 0) {
-                    html += `<div class="glass app-header" onclick="document.getElementById('search-acc-${cI}-${gI}').style.display = document.getElementById('search-acc-${cI}-${gI}').style.display === 'none' ? 'block' : 'none'"><img src="${g.img}"> <span>${g.name} (${validItems.length})</span> <span style="margin-left:auto;">▼</span></div><div id="search-acc-${cI}-${gI}" class="retractable-content" style="display:block;">`;
-                    validItems.forEach(it => { html += `<div class="item-row"><span style="font-weight:bold;">${it.name}</span><b style="color:var(--primary);">${it.price} DT</b><button class="add-btn" style="padding:8px;" onclick="addToCart('${it.originalName}', ${it.price})">ADD</button></div>`; });
-                    html += `</div>`;
-                }
+        if(currentView.type === 'cats') {
+            html += `<div class="grid">`;
+            Object.values(productsData.categories).forEach(c => {
+                html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`;
             });
-        });
-        document.getElementById('content-area').innerHTML = html || `<p style="text-align:center; color:var(--sub);">No items found.</p>`;
-    }
-
-    function showCats() { currentView = {type: 'cats'}; applyFilters(); }
-    function showApps(idx) { currentView = {type: 'apps', cI: idx}; applyFilters(); }
-
-    function submitNewItem() {
-        let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value;
-        if(!cat || !app || !name || !price) return showToast("Fill all fields", "error");
-        if(document.getElementById('add-is-retractable').checked) {
-            let group = document.getElementById('add-retract-group').value;
-            if(!group) return showToast("Provide a Menu Name", "error");
-            name = name + "||GRP||" + group;
+            // 💡 Demand Service Button
+            html += `<div class="nav-card request-card" onclick="document.getElementById('request-modal').style.display='flex'"><strong>${dic.req}</strong></div></div>`;
+        } 
+        else if (currentView.type === 'apps') {
+            const catData = productsData.categories[currentView.cat];
+            html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent;">${dic.back}</button><div class="grid">`;
+            Object.values(catData.apps).forEach(a => {
+                html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${catData.name}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`;
+            });
+            html += `</div>`;
         }
-        showToast("Uploading to live store...", "info"); closeModal('add-item-modal');
-        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' })
-        .then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Live Sync Complete!", "success"); }, 1500); });
+        else if (currentView.type === 'items') {
+            const appData = productsData.categories[currentView.cat].apps[currentView.app];
+            html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent;">${dic.back}</button>`;
+            
+            // Draw Retractable Groups
+            Object.values(appData.groups).forEach((g, gI) => {
+                html += `<div class="app-header" onclick="document.getElementById('acc-${gI}').style.display = document.getElementById('acc-${gI}').style.display === 'none' ? 'block' : 'none'"><span>📁 ${g.name} (${g.items.length})</span><span style="margin-left:auto;">▼</span></div><div id="acc-${gI}" class="retractable-content" style="display:none;">`;
+                g.items.forEach(it => html += drawItemRow(it, dic));
+                html += `</div>`;
+            });
+
+            // Draw Standalone Items
+            appData.standalone.forEach(it => html += drawItemRow(it, dic));
+        }
+        document.getElementById('content-area').innerHTML = html;
     }
+
+    function drawItemRow(it, dic) {
+        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${it.originalName}', ${it.price}, ${!it.isOOS})">[🚫 Toggle OOS]</button><button class="support-btn" onclick="let p=prompt('New Price?'); if(p) updateItem('${it.originalName}', p, ${it.isOOS})">[✏️ Edit Price]</button></div>` : '';
+        return `<div class="item-row"><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${it.originalName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
+    }
+
+    function updateItem(name, price, isOOS) { showToast("Updating...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Updated!", "success"); }, 1500); }); }
 
     function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
-
-    // 🔥 STRICT ADMIN BIOMETRICS & LOCKOUT
+    function submitRequest() { closeModal('request-modal'); showToast("Service Requested! We will look into adding it.", "success"); }
+    
+    // --- BIOMETRICS ---
     function logoTrigger() { document.getElementById('auth-choice-modal').style.display = 'flex'; }
     function openPassInput() { closeModal('auth-choice-modal'); document.getElementById('pass-input-modal').style.display = 'flex'; }
-    function submitManualPass() {
-        const p = document.getElementById('auth-manual-pass').value; closeModal('pass-input-modal'); document.getElementById('auth-manual-pass').value = "";
-        if(p === ADMIN_PASS) { isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; fetchData(); showToast("🔓 God Mode Unlocked!", "success"); } 
-        else { showToast("Incorrect Password", "error"); }
-    }
-    function lockAdminPanel() { isAdmin = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Admin Panel Locked.", "info"); }
+    function submitManualPass() { const p = document.getElementById('auth-manual-pass').value; closeModal('pass-input-modal'); document.getElementById('auth-manual-pass').value = ""; if(p === "Aqszedfr43") { grantSupportRole("Admin Pass"); } else { showToast("Incorrect", "error"); } }
+    async function executeBiometric() { closeModal('auth-choice-modal'); try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); grantSupportRole("Biometric Admin"); } catch(e) { showToast("Biometric Failed", "error"); } }
+    async function registerBiometricDevice() { closeModal('auth-choice-modal'); try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Passkey Registered!", "success"); grantSupportRole("Biometric Admin");} catch(e) {} }
+    function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Locked.", "info"); }
 
     fetchData(); 
 </script>
