@@ -12,16 +12,13 @@
     
     <style>
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.6); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
-        
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-y: auto; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        /* Premium Glassmorphism */
         .glass { background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 18px; }
-        
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; backdrop-filter: blur(10px); color: var(--primary); }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; backdrop-filter: blur(10px); color: var(--primary); transition: 0.3s; }
         
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
         .social-bar { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
@@ -39,15 +36,13 @@
         .add-btn:disabled { background: #1e293b !important; color: #64748b !important; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
         .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
 
-        /* Floating Cart Button */
         .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; transition: 0.3s; border: none; }
         .fab-cart:hover { transform: scale(1.1); }
         .fab-cart .badge { position: absolute; top: -2px; right: -2px; background: #ff4d4d; color: white; font-size: 13px; font-weight: bold; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg); }
 
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
-        .modal-content { background: var(--card); padding: 30px; border-radius: 24px; width: 90%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 30px rgba(0, 240, 255, 0.1); }
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 20px; }
+        .modal-content { background: var(--card); padding: 30px; border-radius: 24px; width: 100%; max-width: 480px; border: 1px solid var(--primary); text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 30px rgba(0, 240, 255, 0.1); }
         
-        /* Language Selection Screen */
         #lang-screen { display:flex; position:fixed; inset:0; background:var(--bg); z-index:3000; justify-content:center; align-items:center; flex-direction: column; }
         .lang-btn { background: transparent; border: 2px solid var(--primary); color: white; padding: 15px 30px; margin: 10px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; width: 200px; }
         .lang-btn:hover { background: var(--primary); color: #000; }
@@ -65,12 +60,27 @@
         .maintenance-band { background: #ff4d4d; color: #fff; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         
         footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: var(--sub); font-weight: bold; }
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 12px 25px; border-radius: 30px; font-size: 0.9rem; display: none; z-index: 4000; font-weight: bold; box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
+        
+        /* TOAST */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--primary); color: var(--text); padding: 12px 25px; border-radius: 30px; font-size: 0.9rem; z-index: 4000; font-weight: bold; box-shadow: 0 5px 25px rgba(0,240,255,0.4); transition: bottom 0.4s ease-in-out; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        .toast.show { bottom: 30px; }
+        .toast.error { border-color: #ff4d4d; box-shadow: 0 5px 25px rgba(255,77,77,0.4); }
+        .toast.success { border-color: #00ff88; box-shadow: 0 5px 25px rgba(0,255,136,0.4); }
+
+        /* AUTH SELECTION BUTTONS */
+        .auth-choice-btn { background: var(--card); border: 1px solid var(--border); color: white; padding: 15px; margin: 8px 0; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; transition: 0.3s; font-size: 1rem;}
+        .auth-choice-btn:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); }
+        
+        /* PROFILE STYLES */
+        .history-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 10px; border-radius: 10px; text-align: left; margin-bottom: 10px; font-size: 0.8rem; }
+        .pass-reveal-box { display: flex; align-items: center; gap: 10px; }
+        .pass-reveal-box input { flex-grow: 1; }
+        .pass-reveal-box button { background: var(--card); border: 1px solid var(--primary); color: white; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast">Action Complete! ❤️</div>
+<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
 
 <div id="lang-screen">
     <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:100px; margin-bottom:30px; border-radius:50%; border:2px solid var(--primary);">
@@ -82,17 +92,16 @@
 
 <div class="container">
     <div class="top-bar glass">
-        <button class="icon-btn" onclick="openLoginModal()" id="user-btn">👤 Login</button>
+        <button class="icon-btn" onclick="openProfileOrLogin()" id="user-btn">👤 Login</button>
         <button class="icon-btn" onclick="showLangScreen()" style="border:none; background:transparent;">🌐 Lang</button>
     </div>
     
     <div id="maintenance-msg" class="maintenance-band glass" style="display:none;">
-        ⚠️ <span id="ui-maint">STORE CLOSED FOR MAINTENANCE</span> ⚠️<br>
-        <span style="font-size: 0.8rem; font-weight: normal;">Contact us directly via the links below.</span>
+        ⚠️ <span id="ui-maint">STORE CLOSED</span> ⚠️<br>
     </div>
     
     <div class="header" style="text-align:center; margin-top: 30px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()" title="Tap 5 times for Admin">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
         <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
     </div>
 
@@ -114,7 +123,6 @@
         <input type="text" id="mainSearch" class="glass" placeholder="Search..." onkeyup="filterItems()" style="border-radius:20px; margin-bottom:20px; padding:15px 20px;">
         <div id="content-area"></div>
     </div>
-    
     <footer>Made by Yessine with ❤️</footer>
 </div>
 
@@ -122,18 +130,49 @@
     🛒<div class="badge" id="cart-count">0</div>
 </button>
 
-<div id="login-modal" class="modal">
+<div id="auth-choice-modal" class="modal">
     <div class="modal-content glass">
-        <h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 CyberHub Account</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:20px;" id="ui-auth-sub">Log in to earn stacking 2% discounts on every order!</p>
+        <h3 style="color:var(--primary); margin-bottom:15px;">Authentication</h3>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:20px;">Choose how you want to verify your identity.</p>
+        <button class="auth-choice-btn" onclick="executeBiometric()">📱 Face ID / Fingerprint</button>
+        <button class="auth-choice-btn" onclick="openPassInput()">🔑 Use Password</button>
+        <button class="auth-choice-btn" onclick="registerBiometricDevice()" style="border-style:dashed;">➕ Register Device (Passkey)</button>
+        <button onclick="closeModal('auth-choice-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
+<div id="pass-input-modal" class="modal">
+    <div class="modal-content glass">
+        <h3 style="color:var(--primary);" id="prompt-title">Enter Password</h3>
+        <input type="password" id="auth-manual-pass" placeholder="...">
+        <button class="add-btn" onclick="submitManualPass()">Verify</button>
+        <button onclick="closeModal('pass-input-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
+<div id="profile-modal" class="modal">
+    <div class="modal-content glass">
+        <h3 style="color:var(--primary); margin-bottom:5px;">👤 My Dashboard</h3>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;" id="prof-contact"></p>
         
-        <input type="text" id="authContact" placeholder="Email / Phone">
-        <input type="password" id="authPass" placeholder="Password">
+        <div class="pass-reveal-box">
+            <input type="password" id="prof-pass-display" value="••••••••" readonly>
+            <button onclick="requestPassReveal()">👁️</button>
+        </div>
+
+        <h4 style="color:var(--primary); margin-top:20px; text-align:left;">🔗 Social Links</h4>
+        <input type="text" id="prof-insta" placeholder="Instagram Username (@)">
+        <input type="text" id="prof-fb" placeholder="Facebook Profile Link">
+        <input type="text" id="prof-wa" placeholder="WhatsApp Number">
+        <button class="add-btn" onclick="saveProfile()" style="margin-bottom:20px;">Save Profile</button>
+
+        <h4 style="color:var(--primary); text-align:left; border-top:1px solid var(--border); padding-top:15px;">📦 Order History</h4>
+        <div id="prof-orders-list" style="max-height: 200px; overflow-y: auto;">
+            <p style="font-size:0.8rem; color:var(--sub);">Loading history...</p>
+        </div>
         
-        <button class="add-btn" onclick="processAuth('login')" id="ui-auth-login">Log In</button>
-        <button class="add-btn" onclick="processAuth('register')" style="background:transparent; color:var(--primary); border:2px solid var(--primary); margin-top:10px;" id="ui-auth-reg">Create Account</button>
-        
-        <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;" id="ui-auth-guest">Continue as Guest</button>
+        <button onclick="logout()" style="background:none; border:none; color:#ff4d4d; margin-top:20px; cursor:pointer; font-weight:bold;">Log Out</button>
+        <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
     </div>
 </div>
 
@@ -141,13 +180,11 @@
     <div class="modal-content glass">
         <div id="cart-view">
             <h3 id="ui-cart-title" style="color:var(--primary);">🛒 My Cart</h3>
-            <div id="cart-items-list" style="text-align:left; max-height:220px; overflow-y:auto; margin-bottom:15px; padding-right:10px;"></div>
-            
+            <div id="cart-items-list" style="text-align:left; max-height:220px; overflow-y:auto; margin-bottom:15px;"></div>
             <div class="promo-box">
                 <input type="text" id="promoCodeInput" placeholder="Promo Code?">
-                <button onclick="applyPromo()" id="ui-promo-btn">APPLY</button>
+                <button onclick="applyPromo()">APPLY</button>
             </div>
-            
             <div style="margin:20px 0; padding-top:15px; border-top:1px solid var(--border); font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem;">
                 <span id="ui-cart-total">Total:</span>
                 <span style="text-align:right;">
@@ -155,13 +192,23 @@
                     <span id="cart-total-price" style="color:var(--primary);">0</span> DT
                 </span>
             </div>
-            
             <input type="text" id="custName" placeholder="Full Name">
             <input type="text" id="custContact" placeholder="Email / Phone (Used for Loyalty)">
-            
             <button class="add-btn" onclick="submitOrder()" id="ui-checkout-btn">Place Order</button>
-            <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;" id="ui-cart-close">Close</button>
+            <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
         </div>
+    </div>
+</div>
+
+<div id="login-modal" class="modal">
+    <div class="modal-content glass">
+        <h3 style="color:var(--primary); margin-bottom:5px;" id="ui-auth-title">👤 CyberHub Account</h3>
+        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:20px;" id="ui-auth-sub">Log in to earn stacking 2% discounts on every order!</p>
+        <input type="text" id="authContact" placeholder="Email / Phone">
+        <input type="password" id="authPass" placeholder="Password">
+        <button class="add-btn" onclick="processAuth('login')" id="ui-auth-login">Log In</button>
+        <button class="add-btn" onclick="processAuth('register')" style="background:transparent; color:var(--primary); border:2px solid var(--primary); margin-top:10px;" id="ui-auth-reg">Create Account</button>
+        <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;" id="ui-auth-guest">Continue as Guest</button>
     </div>
 </div>
 
@@ -180,295 +227,178 @@
 </div>
 
 <script>
-    // --- EXACT URL SETTINGS ---
+    // --- URLs (Fully Connected) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const PROMO_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1497819206&single=true&output=csv"; 
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
+    const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv"; 
+    
     const ADMIN_PASS = "26240608"; 
 
-    // --- BILINGUAL TRANSLATION SYSTEM ---
+    function showToast(msg, type = "info") {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = msg;
+        toast.className = 'toast show';
+        if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; }
+        else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; }
+        else { document.getElementById('toast-icon').innerText = '✨'; }
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
     let currentLang = localStorage.getItem('cyberhub_lang');
     const TRANSLATIONS = {
-        en: {
-            search: "Search...",
-            loginBtn: "👤 Login",
-            authSub: "Log in to earn stacking 2% discounts on every order!",
-            authLogin: "Log In",
-            authReg: "Create Account",
-            authGuest: "Continue as Guest",
-            maint: "STORE CLOSED FOR MAINTENANCE",
-            cartTitle: "🛒 My Cart",
-            promoPlace: "Promo Code?",
-            apply: "APPLY",
-            total: "Total:",
-            namePlace: "Full Name",
-            contactPlace: "Email / Phone (Used for Loyalty)",
-            checkout: "Place Order",
-            close: "Close",
-            addCart: "ADD TO CART",
-            oos: "OUT OF STOCK",
-            back: "← Back"
-        },
-        fr: {
-            search: "Rechercher...",
-            loginBtn: "👤 Connexion",
-            authSub: "Connectez-vous pour gagner 2% de réduction cumulable !",
-            authLogin: "Se Connecter",
-            authReg: "Créer un Compte",
-            authGuest: "Continuer sans compte",
-            maint: "BOUTIQUE EN MAINTENANCE",
-            cartTitle: "🛒 Mon Panier",
-            promoPlace: "Code Promo ?",
-            apply: "APPLIQUER",
-            total: "Total :",
-            namePlace: "Nom Complet",
-            contactPlace: "Email / Téléphone (Fidélité)",
-            checkout: "Passer la commande",
-            close: "Fermer",
-            addCart: "AJOUTER AU PANIER",
-            oos: "RUPTURE",
-            back: "← Retour"
-        }
+        en: { search: "Search...", loginBtn: "👤 Login", profileBtn: "👤 Profile", authSub: "Log in to earn stacking 2% discounts on every order!", authLogin: "Log In", authReg: "Create Account", authGuest: "Continue as Guest", maint: "STORE CLOSED FOR MAINTENANCE", cartTitle: "🛒 My Cart", back: "← Back", oos: "OUT OF STOCK", addCart: "ADD TO CART" },
+        fr: { search: "Rechercher...", loginBtn: "👤 Connexion", profileBtn: "👤 Profil", authSub: "Connectez-vous pour gagner 2% de réduction cumulable !", authLogin: "Se Connecter", authReg: "Créer un Compte", authGuest: "Continuer sans compte", maint: "BOUTIQUE EN MAINTENANCE", cartTitle: "🛒 Mon Panier", back: "← Retour", oos: "RUPTURE", addCart: "AJOUTER" }
     };
 
-    function initLang() {
-        if (!currentLang) {
-            document.getElementById('lang-screen').style.display = 'flex';
+    function initLang() { if (!currentLang) { document.getElementById('lang-screen').style.display = 'flex'; } else { document.getElementById('lang-screen').style.display = 'none'; applyTranslations(); } }
+    function setLang(lang) { currentLang = lang; localStorage.setItem('cyberhub_lang', lang); document.getElementById('lang-screen').style.display = 'none'; applyTranslations(); forceReRender(); }
+    function showLangScreen() { document.getElementById('lang-screen').style.display = 'flex'; }
+    function applyTranslations() {
+        if(!currentLang) return; const t = TRANSLATIONS[currentLang];
+        document.getElementById('mainSearch').placeholder = t.search; 
+        document.getElementById('user-btn').innerText = currentUser ? t.profileBtn : t.loginBtn;
+        document.getElementById('ui-auth-sub').innerText = t.authSub; document.getElementById('ui-auth-login').innerText = t.authLogin; document.getElementById('ui-auth-reg').innerText = t.authReg; document.getElementById('ui-auth-guest').innerText = t.authGuest; document.getElementById('ui-maint').innerText = t.maint; document.getElementById('ui-cart-title').innerText = t.cartTitle; 
+    }
+
+    let PROMO_CODES = {}; let productsData = { categories: [] }; let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || []; let isAdmin = false; let globalMaintenance = false; let clickCount = 0; let currentView = { type: 'cats', cI: null, aI: null }; let lastDataString = ""; 
+    let currentUser = null; let currentPass = null; let loyaltyDiscount = 0; let activePromo = null; let activePromoDiscount = 0;
+
+    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
+    initLang(); window.onload = logVisit;
+
+    // --- PROFILE & AUTH ---
+    function openProfileOrLogin() {
+        if(currentUser) {
+            document.getElementById('prof-contact').innerText = currentUser;
+            document.getElementById('profile-modal').style.display = 'flex';
+            fetchOrderHistory();
         } else {
-            document.getElementById('lang-screen').style.display = 'none';
-            applyTranslations();
+            document.getElementById('login-modal').style.display = 'flex';
         }
     }
 
-    function setLang(lang) {
-        currentLang = lang;
-        localStorage.setItem('cyberhub_lang', lang);
-        document.getElementById('lang-screen').style.display = 'none';
-        applyTranslations();
-        forceReRender(); // Refresh products to update button languages
-    }
-
-    function showLangScreen() { document.getElementById('lang-screen').style.display = 'flex'; }
-
-    function applyTranslations() {
-        if(!currentLang) return;
-        const t = TRANSLATIONS[currentLang];
-        document.getElementById('mainSearch').placeholder = t.search;
-        document.getElementById('user-btn').innerText = currentUser ? ("👤 " + currentUser.substring(0,8) + "...") : t.loginBtn;
-        document.getElementById('ui-auth-sub').innerText = t.authSub;
-        document.getElementById('ui-auth-login').innerText = t.authLogin;
-        document.getElementById('ui-auth-reg').innerText = t.authReg;
-        document.getElementById('ui-auth-guest').innerText = t.authGuest;
-        document.getElementById('ui-maint').innerText = t.maint;
-        document.getElementById('ui-cart-title').innerText = t.cartTitle;
-        document.getElementById('promoCodeInput').placeholder = t.promoPlace;
-        document.getElementById('ui-promo-btn').innerText = t.apply;
-        document.getElementById('ui-cart-total').innerText = t.total;
-        document.getElementById('custName').placeholder = t.namePlace;
-        document.getElementById('custContact').placeholder = t.contactPlace;
-        document.getElementById('ui-checkout-btn').innerText = t.checkout;
-        document.getElementById('ui-cart-close').innerText = t.close;
-    }
-
-    // --- CORE VARIABLES ---
-    let PROMO_CODES = {}; 
-    let productsData = { categories: [] };
-    let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
-    let isAdmin = false;
-    let globalMaintenance = false;
-    let clickCount = 0;
-    let currentView = { type: 'cats', cI: null, aI: null }; 
-    let lastDataString = ""; 
-    let currentUser = null; 
-    let loyaltyDiscount = 0; 
-    let activePromo = null; 
-    let activePromoDiscount = 0;
-
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
-    
-    // Initialize
-    initLang();
-    window.onload = logVisit;
-
-    // --- OPTIONAL ACCOUNT & LOYALTY LOGIC ---
-    function openLoginModal() { document.getElementById('login-modal').style.display = 'flex'; }
-    
     async function processAuth(actionType) {
-        const contact = document.getElementById('authContact').value.trim();
-        const pass = document.getElementById('authPass').value.trim();
-        if(!contact || !pass) return alert("Please fill in both fields.");
+        const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
+        if(!contact || !pass) return showToast("Please fill in both fields.", "error");
         document.getElementById('authContact').value = "Processing...";
-        
         if (actionType === 'register') {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
-            alert(currentLang === 'fr' ? "Compte créé ! Vous êtes connecté." : "Account created successfully! You are logged in.");
-            currentUser = contact; loyaltyDiscount = 0; finishLogin();
-        } 
-        else if (actionType === 'login') {
+            showToast("Account created successfully!", "success"); currentUser = contact; currentPass = pass; loyaltyDiscount = 0; finishLogin();
+        } else if (actionType === 'login') {
             try {
-                const res = await fetch(USERS_URL + "&t=" + new Date().getTime());
-                const text = await res.text();
-                const rows = text.split('\n');
-                let found = false;
-                
+                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let found = false;
                 for(let i = 1; i < rows.length; i++) {
                     const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                     if (cols[0] === contact && cols[1] === pass) {
-                        found = true; currentUser = contact;
-                        let pastOrders = Number(cols[2]) || 0;
-                        loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
-                        
-                        alert(currentLang === 'fr' 
-                            ? `Bon retour ! Commandes : ${pastOrders}. Réduction fidélité : ${loyaltyDiscount * 100}% !`
-                            : `Welcome back! Past orders: ${pastOrders}. Loyalty discount: ${loyaltyDiscount * 100}%!`);
-                        finishLogin(); break;
+                        found = true; currentUser = contact; currentPass = pass; 
+                        let pastOrders = Number(cols[2]) || 0; loyaltyDiscount = Math.min(pastOrders * 0.02, 0.20); 
+                        document.getElementById('prof-insta').value = cols[3] || ""; document.getElementById('prof-fb').value = cols[4] || ""; document.getElementById('prof-wa').value = cols[5] || "";
+                        showToast(`Welcome! Loyalty Discount: ${loyaltyDiscount * 100}%!`, "success"); finishLogin(); break;
                     }
                 }
-                if(!found) {
-                    alert(currentLang === 'fr' ? "Email ou Mot de passe incorrect." : "Incorrect Email/Phone or Password.");
-                    document.getElementById('authContact').value = contact;
+                if(!found) { showToast("Incorrect Credentials.", "error"); document.getElementById('authContact').value = contact; }
+            } catch(e) {}
+        }
+    }
+
+    function finishLogin() { closeModal('login-modal'); applyTranslations(); document.getElementById('custContact').value = currentUser; if (loyaltyDiscount > 0) { document.getElementById('loyalty-msg').style.display = 'block'; document.getElementById('loyalty-msg').innerText = `✨ Loyalty Bonus: ${loyaltyDiscount * 100}% OFF! ✨`; } }
+    function logout() { currentUser = null; currentPass = null; loyaltyDiscount = 0; document.getElementById('loyalty-msg').style.display = 'none'; showToast("Logged Out", "info"); closeModal('profile-modal'); applyTranslations(); }
+
+    async function saveProfile() {
+        const insta = document.getElementById('prof-insta').value; const fb = document.getElementById('prof-fb').value; const wa = document.getElementById('prof-wa').value;
+        showToast("Saving...", "info");
+        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_profile", contact: currentUser, insta: insta, fb: fb, wa: wa }), mode: 'no-cors' });
+        showToast("Profile Saved!", "success");
+    }
+
+    async function fetchOrderHistory() {
+        const container = document.getElementById('prof-orders-list');
+        try {
+            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n');
+            let historyHTML = "";
+            for(let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                if(cols[2] === currentUser) { // Column C is Contact Info
+                    historyHTML += `<div class="history-card"><b>ID:</b> ${cols[0]} <br><b>Items:</b> ${cols[3]} <br><b style="color:var(--primary);">Price: ${cols[4]}</b></div>`;
                 }
-            } catch(e) {}
-        }
-    }
-
-    function finishLogin() {
-        closeModal('login-modal');
-        applyTranslations(); // Updates the top button text
-        document.getElementById('custContact').value = currentUser; 
-        if (loyaltyDiscount > 0) {
-            document.getElementById('loyalty-msg').style.display = 'block';
-            document.getElementById('loyalty-msg').innerText = currentLang === 'fr' 
-                ? `✨ Bonus Fidélité Actif : ${loyaltyDiscount * 100}% de réduction ! ✨`
-                : `✨ Active Loyalty Bonus: ${loyaltyDiscount * 100}% OFF everything! ✨`;
-        }
-    }
-
-    // --- TRACKER & NATIVE REDMI BIOMETRICS ---
-    async function logVisit() {
-        if(localStorage.getItem('admin_passkey_id')) return; 
-        let device = navigator.userAgent;
-        if (navigator.userAgentData) {
-            try {
-                const ua = await navigator.userAgentData.getHighEntropyValues(['model', 'platform', 'platformVersion']);
-                device = `${ua.platform} ${ua.model} (v${ua.platformVersion})`;
-            } catch(e) {}
-        } else {
-            if (/iPhone/i.test(device)) device = "Apple iPhone";
-            else if (/Android/i.test(device)) {
-                const match = device.match(/Android\s([0-9\.]*);.*?; (.*?) Build/);
-                device = match ? `Android ${match[1]} - ${match[2]}` : "Android Device";
             }
-        }
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "log_visit", device: device }), mode: 'no-cors' });
+            container.innerHTML = historyHTML || "<p>No past orders found.</p>";
+        } catch(e) { container.innerHTML = "<p>Error loading history.</p>"; }
     }
 
-    async function logoTrigger() {
-        clickCount++;
-        if(clickCount === 5) {
-            clickCount = 0;
-            if (localStorage.getItem('admin_passkey_id')) {
-                const success = await loginWithPasskey();
-                if (success) return grantAdmin();
-            }
-            const pass = prompt("Admin Password (or 'PASSKEY' for Biometrics):");
-            if (pass === ADMIN_PASS) { grantAdmin(); } 
-            else if (pass && pass.toUpperCase() === "PASSKEY") {
-                const verify = prompt("Verify Password:");
-                if (verify === ADMIN_PASS) { await registerPasskey(); grantAdmin(); }
-            }
-        }
+    async function requestPassReveal() {
+        const success = await loginWithPasskey();
+        if(success) { document.getElementById('prof-pass-display').type = "text"; document.getElementById('prof-pass-display').value = currentPass; setTimeout(() => { document.getElementById('prof-pass-display').type = "password"; document.getElementById('prof-pass-display').value = "••••••••"; }, 5000); } 
+        else { showToast("Biometric verification failed.", "error"); }
     }
 
-    function grantAdmin() {
-        isAdmin = true;
-        document.getElementById('admin-panel').style.display = 'block';
-        document.getElementById('shop-wrapper').style.display = 'block'; 
-        alert("🔓 Admin Access Granted!");
-        forceReRender(); 
+    // --- BIOMETRICS & ADMIN ---
+    let pendingAuthContext = null; let customCallback = null;
+
+    function logoTrigger() { clickCount++; if(clickCount === 5) { clickCount = 0; pendingAuthContext = 'admin'; document.getElementById('auth-choice-modal').style.display = 'flex'; } }
+
+    async function executeBiometric() {
+        closeModal('auth-choice-modal'); const success = await loginWithPasskey();
+        if(success && pendingAuthContext === 'admin') grantAdmin(); else if(!success) showToast("Biometric failed.", "error");
     }
 
-    // --- LIVE SYNC & RENDER LOGIC ---
+    function openPassInput(title = "Enter Password", callback = null) { 
+        closeModal('auth-choice-modal'); document.getElementById('prompt-title').innerText = title; 
+        document.getElementById('pass-input-modal').style.display = 'flex'; customCallback = callback; 
+    }
+    
+    function submitManualPass() {
+        const p = document.getElementById('auth-manual-pass').value; closeModal('pass-input-modal'); document.getElementById('auth-manual-pass').value = "";
+        if(customCallback) { customCallback(p); customCallback = null; return; }
+        if(pendingAuthContext === 'admin' && p === ADMIN_PASS) grantAdmin(); else showToast("Incorrect Password", "error");
+    }
+
+    async function registerBiometricDevice() {
+        closeModal('auth-choice-modal');
+        openPassInput("Enter Password to Register Face", async (p) => {
+            if(p === ADMIN_PASS) { await registerPasskey(); if(pendingAuthContext === 'admin') grantAdmin(); } else { showToast("Incorrect Password", "error"); }
+        });
+    }
+
+    function grantAdmin() { isAdmin = true; document.getElementById('admin-panel').style.display = 'block'; document.getElementById('shop-wrapper').style.display = 'block'; showToast("🔓 Admin Access Granted!", "success"); forceReRender(); }
+
+    // --- STORE CORE ---
+    async function logVisit() { if(localStorage.getItem('admin_passkey_id')) return; let device = navigator.userAgent; fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "log_visit", device: device }), mode: 'no-cors' }); }
+
     setInterval(fetchData, 10000); 
     async function fetchData() {
         try {
-            const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); 
-            const text = await res.text();
-            
-            try {
-                if(PROMO_URL.startsWith("http")) {
-                    const pRes = await fetch(PROMO_URL + "&t=" + new Date().getTime());
-                    const pText = await pRes.text();
-                    PROMO_CODES = {}; 
-                    pText.split('\n').slice(1).forEach(row => {
-                        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                        if(cols[0] && cols[1]) PROMO_CODES[cols[0].toUpperCase()] = parseFloat(cols[1]);
-                    });
-                }
-            } catch(e) {}
-
-            if(text === lastDataString && !isAdmin) return; 
-            lastDataString = text;
-
-            const rows = text.split('\n');
-            const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
+            try { if(PROMO_URL.startsWith("http")) { const pRes = await fetch(PROMO_URL + "&t=" + new Date().getTime()); const pText = await pRes.text(); PROMO_CODES = {}; pText.split('\n').slice(1).forEach(row => { const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols[0] && cols[1]) PROMO_CODES[cols[0].toUpperCase()] = parseFloat(cols[1]); }); } } catch(e) {}
+            if(text === lastDataString && !isAdmin) return; lastDataString = text;
+            const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             globalMaintenance = (headers.length > 15 && headers[15].replace(/^"|"$/g, '').trim() === "MAINTENANCE_ON");
-
-            if(globalMaintenance && !isAdmin) {
-                document.getElementById('shop-wrapper').style.display = 'none';
-                document.getElementById('user-btn').style.display = 'none';
-                document.getElementById('maintenance-msg').style.display = 'block';
-                return; 
-            } else {
-                document.getElementById('shop-wrapper').style.display = 'block';
-                document.getElementById('user-btn').style.display = 'block';
-                document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none';
-            }
-
+            if(globalMaintenance && !isAdmin) { document.getElementById('shop-wrapper').style.display = 'none'; document.getElementById('maintenance-msg').style.display = 'block'; return; } 
+            else { document.getElementById('shop-wrapper').style.display = 'block'; document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none'; }
             let temp = {};
             rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
-                    const cat = cols[0]; const sub = cols[2];
-                    const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
-                    const showInput = cols.some(c => c && c.toUpperCase() === "YES");
-                    let placeholder = "...";
-                    if(showInput) { const idx = cols.findIndex(c => c && c.toUpperCase() === "YES"); if(idx !== -1 && cols[idx+1] !== "OOS") placeholder = cols[idx+1]; }
-                    
-                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
-                    if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: cols[3], items: [] };
+                    const cat = cols[0]; const sub = cols[2]; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS"); const showInput = cols.some(c => c && c.toUpperCase() === "YES"); let placeholder = "..."; if(showInput) { const idx = cols.findIndex(c => c && c.toUpperCase() === "YES"); if(idx !== -1 && cols[idx+1] !== "OOS") placeholder = cols[idx+1]; }
+                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} }; if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: cols[3], items: [] };
                     temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS, showInput: showInput, placeholder: placeholder });
                 }
             });
-            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
-            forceReRender();
+            productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; }); forceReRender();
         } catch (e) {}
     }
 
-    function forceReRender() {
-        if(currentView.type === 'cats') showCats();
-        else if(currentView.type === 'apps') showApps(currentView.cI);
-        else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI);
-    }
-
-    async function syncToSheet(payload) {
-        document.getElementById('add-item-modal').style.display = 'none'; 
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-            setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); 
-        } catch(e) { }
-    }
-    
+    function forceReRender() { if(currentView.type === 'cats') showCats(); else if(currentView.type === 'apps') showApps(currentView.cI); else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI); }
+    async function syncToSheet(payload) { closeModal('add-item-modal'); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); } catch(e) {} }
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
     function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
 
     function openAddModal() {
-        const catSel = document.getElementById('add-cat-sel');
-        catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
+        const catSel = document.getElementById('add-cat-sel'); catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
         productsData.categories.forEach(c => { catSel.innerHTML += `<option value="${c.name}">${c.name}</option>`; });
-        catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`;
-        checkNewCat(); document.getElementById('add-item-modal').style.display = 'flex';
+        catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`; checkNewCat(); document.getElementById('add-item-modal').style.display = 'flex';
     }
     function checkNewCat() {
         const val = document.getElementById('add-cat-sel').value; const subSel = document.getElementById('add-app-sel');
@@ -480,29 +410,17 @@
         let cat = document.getElementById('add-cat-sel').value; if(cat === "_NEW_") cat = document.getElementById('add-cat-new').value;
         let app = document.getElementById('add-app-sel').value; if(app === "_NEW_") app = document.getElementById('add-app-new').value;
         const name = document.getElementById('add-item-name').value; const price = document.getElementById('add-item-price').value;
-        if(!cat || !app || !name || !price) return;
-        syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
+        if(!cat || !app || !name || !price) return; syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
     function filterItems() {
-        // Standard search functionality logic goes here if required 
-        // For now, filtering works per category view in standard usage.
+        // Local filtering can be implemented here based on the view
     }
 
-    function showCats() { 
-        currentView = {type: 'cats'}; 
-        document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; 
-    }
-    function showApps(idx) { 
-        currentView = {type: 'apps', cI: idx}; const c = productsData.categories[idx]; 
-        const backTxt = currentLang ? TRANSLATIONS[currentLang].back : "← Back";
-        document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">${backTxt}</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card glass" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; 
-    }
+    function showCats() { currentView = {type: 'cats'}; document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card glass" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
+    function showApps(idx) { currentView = {type: 'apps', cI: idx}; const c = productsData.categories[idx]; const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en']; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">${t.back}</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card glass" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
     function showItems(cI, aI) {
-        currentView = {type: 'items', cI: cI, aI: aI};
-        const a = productsData.categories[cI].apps[aI];
-        const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en'];
-        
+        currentView = {type: 'items', cI: cI, aI: aI}; const a = productsData.categories[cI].apps[aI]; const t = currentLang ? TRANSLATIONS[currentLang] : TRANSLATIONS['en'];
         document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cI})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">${t.back}</button>` + 
         a.items.map((it, i) => `
             <div class="item-row glass">
@@ -512,82 +430,39 @@
                 ${isAdmin ? `
                     <div style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;">
                         <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem; cursor:pointer;">Toggle OOS</button>
-                        <button onclick="var p=prompt('New Price?'); if(p) updateItem('${it.name}', p, ${it.isOOS})" style="padding:5px; font-size:0.7rem; margin-left:5px; cursor:pointer;">Edit Price</button>
+                        <button onclick="openPassInput('Edit Price (DT)', (p) => { if(p) updateItem('${it.name}', p, ${it.isOOS}) })" style="padding:5px; font-size:0.7rem; margin-left:5px; cursor:pointer;">Edit Price</button>
                     </div>` : ''}
                 <button class="add-btn" onclick="addToCart(${cI},${aI},${i})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? t.oos : t.addCart}</button>
             </div>`).join('');
     }
 
-    // --- CART & DISCOUNT LOGIC ---
-    function applyPromo() {
-        const code = document.getElementById('promoCodeInput').value.toUpperCase();
-        if (PROMO_CODES[code]) {
-            activePromo = code; activePromoDiscount = PROMO_CODES[code];
-            alert(`✅ Promo Applied! ${activePromoDiscount * 100}% off.`);
-            updateCartUI();
-        } else { alert("❌ Invalid Promo Code."); }
-    }
-
+    function applyPromo() { const code = document.getElementById('promoCodeInput').value.toUpperCase(); if (PROMO_CODES[code]) { activePromo = code; activePromoDiscount = PROMO_CODES[code]; showToast(`Promo Applied! ${activePromoDiscount * 100}% off.`, "success"); updateCartUI(); } else { showToast("Invalid Promo Code.", "error"); } }
     function updateCartUI() {
-        let rawTotal = cart.reduce((s, i) => s + i.price, 0);
-        let combinedDiscount = activePromoDiscount + loyaltyDiscount;
-        let finalTotal = rawTotal - (rawTotal * combinedDiscount);
-        
+        let rawTotal = cart.reduce((s, i) => s + i.price, 0); let combinedDiscount = activePromoDiscount + loyaltyDiscount; let finalTotal = rawTotal - (rawTotal * combinedDiscount);
         document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.75rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
-        
-        if (combinedDiscount > 0) {
-            document.getElementById('original-price').style.display = 'inline-block';
-            document.getElementById('original-price').innerText = rawTotal + " DT";
-            document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2);
-            document.getElementById('cart-total-price').style.color = '#00ff88'; 
-        } else {
-            document.getElementById('original-price').style.display = 'none';
-            document.getElementById('cart-total-price').innerText = rawTotal;
-            document.getElementById('cart-total-price').style.color = 'var(--primary)';
-        }
+        if (combinedDiscount > 0) { document.getElementById('original-price').style.display = 'inline-block'; document.getElementById('original-price').innerText = rawTotal + " DT"; document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2); document.getElementById('cart-total-price').style.color = '#00ff88'; } 
+        else { document.getElementById('original-price').style.display = 'none'; document.getElementById('cart-total-price').innerText = rawTotal; document.getElementById('cart-total-price').style.color = 'var(--primary)'; }
     }
-
-    function addToCart(c,a,i) { 
-        const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A";
-        cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price), note: val});
-        document.getElementById('cart-count').innerText = cart.length;
-        localStorage.setItem('cyberhub_cart', JSON.stringify(cart));
-    }
-
+    function addToCart(c,a,i) { const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A"; cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price), note: val}); document.getElementById('cart-count').innerText = cart.length; localStorage.setItem('cyberhub_cart', JSON.stringify(cart)); showToast("Added to Cart!", "success"); }
     function openCart() { document.getElementById('modal').style.display = 'flex'; updateCartUI(); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
     function submitOrder() {
-        const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase();
-        const name = document.getElementById('custName').value || "Unknown";
-        const contact = document.getElementById('custContact').value || "None";
-        const total = document.getElementById('cart-total-price').innerText;
-        const items = cart.map(i => `${i.name}`).join(' | ');
-        const notes = cart.map(i => i.note).join(' | ');
-        
-        let promoString = activePromo ? `\nPROMO: ${activePromo}` : "";
-        let loyaltyString = loyaltyDiscount > 0 ? `\nLOYALTY: ${loyaltyDiscount * 100}%` : "";
-
+        const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase(); const name = document.getElementById('custName').value || "Unknown"; const contact = document.getElementById('custContact').value || "None"; const total = document.getElementById('cart-total-price').innerText; const items = cart.map(i => `${i.name}`).join(' | '); const notes = cart.map(i => i.note).join(' | ');
+        let promoString = activePromo ? `\nPROMO: ${activePromo}` : ""; let loyaltyString = loyaltyDiscount > 0 ? `\nLOYALTY: ${loyaltyDiscount * 100}%` : "";
         const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT${promoString}${loyaltyString}`;
-        
-        const btn = document.getElementById('ui-checkout-btn');
-        btn.innerText = "Sending..."; btn.disabled = true;
-        
+        const btn = document.getElementById('ui-checkout-btn'); btn.innerText = "Sending..."; btn.disabled = true;
         navigator.clipboard.writeText(body).then(() => {
-            const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
             emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
                 if(currentUser) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "increment_loyalty", contact: currentUser }), mode: 'no-cors' }); }
-                alert(`Order Sent! ID: ${orderID}`);
-                cart = []; localStorage.removeItem('cyberhub_cart'); location.reload();
+                showToast(`Order Sent! ID: ${orderID}`, "success"); setTimeout(() => { cart = []; localStorage.removeItem('cyberhub_cart'); location.reload(); }, 2000);
             });
         });
     }
 
-    // --- BIOMETRICS ---
-    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered! Face Unlock configured."); } catch(e) {} }
+    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Passkey Registered!", "success"); } catch(e) {} }
     async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
 
-    fetchData();
     document.getElementById('cart-count').innerText = cart.length;
 </script>
 </body>
