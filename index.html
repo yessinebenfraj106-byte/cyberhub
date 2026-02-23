@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberHub | Digital Store</title>
-    <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
+    <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     
     <style>
         :root { --primary: #00a8ff; --bg: #020617; --card: rgba(15, 23, 42, 0.95); --border: rgba(255,255,255,0.1); --text: #ffffff; --sub: #94a3b8; --blend: screen; }
@@ -102,7 +102,6 @@
 <div id="add-item-modal" class="modal">
     <div class="modal-content">
         <h3 style="color:var(--primary); border-bottom:1px solid var(--border); padding-bottom:10px;">➕ Add New Item</h3>
-        
         <label style="display:block; text-align:left; font-size:0.8rem; color:var(--sub); margin-top:10px;">Select Category:</label>
         <select id="add-cat-sel" onchange="checkNewCat()"></select>
         <input type="text" id="add-cat-new" placeholder="Type New Category Name..." style="display:none; border-color:#ffae00;">
@@ -123,19 +122,37 @@
 </div>
 
 <script>
-    // --- SETTINGS ---
+    // --- EXACT URL SETTINGS ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
-    const ADMIN_PASS = "26240608"; // UPDATED ADMIN PASSWORD
+    const ADMIN_PASS = "26240608"; 
 
     let productsData = { categories: [] };
     let cart = JSON.parse(localStorage.getItem('cyberhub_cart')) || [];
     let isAdmin = false;
     let globalMaintenance = false;
     let clickCount = 0;
+    
+    // Tracks where the user is looking so auto-update doesn't interrupt them
+    let currentView = { type: 'cats', cI: null, aI: null }; 
+    let lastDataString = ""; // Prevents unnecessary re-renders
 
     particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "size": { "value": 1.5 }, "line_linked": { "opacity": 0.2 }, "move": { "speed": 1.2 } } });
     function toggleTheme() { document.body.classList.toggle('light-mode'); }
+
+    // --- DEVICE TRACKER (ANALYTICS) ---
+    function logVisit() {
+        if(localStorage.getItem('admin_passkey_id')) return; // Don't log yourself if you are an admin
+        let ua = navigator.userAgent;
+        let device = "Unknown Device";
+        if (/android/i.test(ua)) device = "Android Phone";
+        else if (/iPad|iPhone|iPod/.test(ua)) device = "iPhone / iPad";
+        else if (/Windows/.test(ua)) device = "Windows PC";
+        else if (/Mac OS/.test(ua)) device = "Mac OS";
+        
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "log_visit", device: device }), mode: 'no-cors' });
+    }
+    window.onload = logVisit; // Fires secretly in the background when someone opens the site
 
     // --- ADMIN LOGIC ---
     async function logoTrigger() {
@@ -159,29 +176,36 @@
     function grantAdmin() {
         isAdmin = true;
         document.getElementById('admin-panel').style.display = 'block';
-        document.getElementById('shop-wrapper').style.display = 'block'; // Admin bypasses maintenance
+        document.getElementById('shop-wrapper').style.display = 'block'; 
         alert("🔓 Admin Access Granted!");
-        showCats(); 
+        forceReRender(); 
     }
 
-    // --- SHEET DATA FETCHER (GLOBAL MAINTENANCE CHECK) ---
+    // --- SMART LIVE AUTO-UPDATER ---
+    setInterval(fetchData, 10000); // Polls Google Sheet every 10 seconds
+
     async function fetchData() {
         try {
-            const res = await fetch(SHEET_URL);
+            const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); // Bypasses browser cache
             const text = await res.text();
+            
+            // Check if data actually changed to prevent annoying screen flickering
+            if(text === lastDataString && !isAdmin) return; 
+            lastDataString = text;
+
             const rows = text.split('\n');
             const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // Check Column P (Index 15) for Global Maintenance Flag
             globalMaintenance = (headers.length > 15 && headers[15].replace(/^"|"$/g, '').trim() === "MAINTENANCE_ON");
 
             if(globalMaintenance && !isAdmin) {
                 document.getElementById('shop-wrapper').style.display = 'none';
                 document.getElementById('theme-btn').style.display = 'none';
                 document.getElementById('maintenance-msg').style.display = 'block';
-                return; // Stop loading the shop if maintenance is active for regular users
+                return; 
             } else {
                 document.getElementById('shop-wrapper').style.display = 'block';
+                document.getElementById('theme-btn').style.display = 'block';
                 document.getElementById('maintenance-msg').style.display = globalMaintenance ? 'block' : 'none';
             }
 
@@ -191,51 +215,50 @@
                 if (cols.length >= 6 && cols[0] !== "") {
                     const cat = cols[0]; const sub = cols[2];
                     const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
+                    const showInput = cols.some(c => c && c.toUpperCase() === "YES");
+                    let placeholder = "...";
+                    if(showInput) { const idx = cols.findIndex(c => c && c.toUpperCase() === "YES"); if(idx !== -1 && cols[idx+1] !== "OOS") placeholder = cols[idx+1]; }
                     
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
                     if (!temp[cat].apps[sub]) temp[cat].apps[sub] = { name: sub, img: cols[3], items: [] };
-                    temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS });
+                    temp[cat].apps[sub].items.push({ name: cols[4], price: cols[5], isOOS: isOOS, showInput: showInput, placeholder: placeholder });
                 }
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; });
-            showCats();
-        } catch (e) { document.getElementById('content-area').innerHTML = "<p style='color:red;'>Error Loading Shop Data.</p>"; }
+            forceReRender();
+        } catch (e) { console.log("Live Sync Error (Ignoring)"); }
     }
 
-    // --- GOOGLE APPS SCRIPT SYNC ---
+    // Safely updates the screen without kicking the user out of the menu they are in
+    function forceReRender() {
+        if(currentView.type === 'cats') showCats();
+        else if(currentView.type === 'apps') showApps(currentView.cI);
+        else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI);
+    }
+
     async function syncToSheet(payload) {
-        document.getElementById('add-item-modal').style.display = 'none'; // Close modal while processing
+        document.getElementById('add-item-modal').style.display = 'none'; 
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-            alert("✅ Command processing! Refreshing store data...");
-            setTimeout(fetchData, 2500); 
+            setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); // Forces a hard refresh
         } catch(e) { alert("Error syncing. Check console."); }
     }
     
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
-    
-    function toggleMaintenance() {
-        const newState = !globalMaintenance;
-        if(confirm(`Are you sure you want to turn Maintenance Mode ${newState ? 'ON' : 'OFF'} for everyone?`)) {
-            syncToSheet({ action: "maintenance", state: newState });
-        }
-    }
+    function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
 
-    // --- SMART ADD ITEM MODAL LOGIC ---
+    // --- ADD ITEM MODAL ---
     function openAddModal() {
         const catSel = document.getElementById('add-cat-sel');
         catSel.innerHTML = `<option value="">-- Choose Category --</option>`;
         productsData.categories.forEach(c => { catSel.innerHTML += `<option value="${c.name}">${c.name}</option>`; });
         catSel.innerHTML += `<option value="_NEW_">➕ Create New Category...</option>`;
-        
-        checkNewCat(); // Reset fields
+        checkNewCat(); 
         document.getElementById('add-item-modal').style.display = 'flex';
     }
-
     function checkNewCat() {
         const val = document.getElementById('add-cat-sel').value;
         const subSel = document.getElementById('add-app-sel');
-        
         if (val === "_NEW_") {
             document.getElementById('add-cat-new').style.display = 'block';
             subSel.innerHTML = `<option value="_NEW_">➕ Create New Sub-App...</option>`;
@@ -249,35 +272,27 @@
             checkNewApp();
         }
     }
-
-    function checkNewApp() {
-        document.getElementById('add-app-new').style.display = (document.getElementById('add-app-sel').value === "_NEW_") ? 'block' : 'none';
-    }
-
+    function checkNewApp() { document.getElementById('add-app-new').style.display = (document.getElementById('add-app-sel').value === "_NEW_") ? 'block' : 'none'; }
     function submitNewItem() {
-        let cat = document.getElementById('add-cat-sel').value;
-        if(cat === "_NEW_") cat = document.getElementById('add-cat-new').value;
-        
-        let app = document.getElementById('add-app-sel').value;
-        if(app === "_NEW_") app = document.getElementById('add-app-new').value;
-
-        const name = document.getElementById('add-item-name').value;
-        const price = document.getElementById('add-item-price').value;
-
+        let cat = document.getElementById('add-cat-sel').value; if(cat === "_NEW_") cat = document.getElementById('add-cat-new').value;
+        let app = document.getElementById('add-app-sel').value; if(app === "_NEW_") app = document.getElementById('add-app-new').value;
+        const name = document.getElementById('add-item-name').value; const price = document.getElementById('add-item-price').value;
         if(!cat || !app || !name || !price) { alert("Please fill all fields!"); return; }
         syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
     // --- UI RENDERING ---
-    function showCats() { document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
-    function showApps(idx) { const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
+    function showCats() { currentView = {type: 'cats'}; document.getElementById('content-area').innerHTML = `<div class="grid">${productsData.categories.map((c, i) => `<div class="nav-card" onclick="showApps(${i})"><img src="${c.img}"><strong>${c.name}</strong></div>`).join('')}</div>`; }
+    function showApps(idx) { currentView = {type: 'apps', cI: idx}; const c = productsData.categories[idx]; document.getElementById('content-area').innerHTML = `<button onclick="showCats()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button><div class="grid">${c.apps.map((a, i) => `<div class="nav-card" onclick="showItems(${idx}, ${i})"><img src="${a.img}"><strong>${a.name}</strong></div>`).join('')}</div>`; }
     function showItems(cI, aI) {
+        currentView = {type: 'items', cI: cI, aI: aI};
         const a = productsData.categories[cI].apps[aI];
         document.getElementById('content-area').innerHTML = `<button onclick="showApps(${cI})" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:10px;">← Back</button>` + 
         a.items.map((it, i) => `
             <div class="item-row">
                 <span style="font-size:0.9rem;">${it.name} ${it.isOOS ? '<span class="oos-tag">OOS</span>' : ''}</span>
                 <b style="color:var(--primary);">${it.price} DT</b>
+                ${it.showInput && !it.isOOS ? `<input type="text" id="in-${cI}-${aI}-${i}" placeholder="${it.placeholder}">` : ''}
                 ${isAdmin ? `
                     <div style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;">
                         <button onclick="updateItem('${it.name}', '${it.price}', ${!it.isOOS})" style="padding:5px; font-size:0.7rem; cursor:pointer;">Toggle OOS</button>
@@ -287,31 +302,44 @@
             </div>`).join('');
     }
 
-    // --- CART & MODAL LOGIC ---
+    // --- CART ---
     function addToCart(c,a,i) { 
-        cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price)});
+        const val = document.getElementById(`in-${c}-${a}-${i}`) ? document.getElementById(`in-${c}-${a}-${i}`).value : "N/A";
+        cart.push({name: productsData.categories[c].apps[a].items[i].name, price: parseFloat(productsData.categories[c].apps[a].items[i].price), note: val});
         document.getElementById('cart-count').innerText = cart.length;
         localStorage.setItem('cyberhub_cart', JSON.stringify(cart));
     }
     function openCart() { 
         document.getElementById('modal').style.display = 'flex';
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join('');
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:5px 0; border-bottom:1px solid var(--border);">• ${i.name} <br><i style="font-size:0.7rem; color:var(--sub);">Note: ${i.note}</i></div>`).join('');
         document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
-    // --- PASSKEY REGISTRATION (Hidden Utility) ---
-    async function registerPasskey() {
-        try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered!"); } catch(e) {}
+    function submitOrder() {
+        const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+        const name = document.getElementById('custName').value || "Unknown";
+        const contact = document.getElementById('custContact').value || "None";
+        const total = document.getElementById('cart-total-price').innerText;
+        const items = cart.map(i => `${i.name}`).join(' | ');
+        const notes = cart.map(i => i.note).join(' | ');
+
+        const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nITEMS: ${items}\nNOTES: ${notes}\nPRICE: ${total} DT`;
+        navigator.clipboard.writeText(body).then(() => {
+            const t = document.getElementById('toast'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
+            emailjs.send("service_tjvcxv4", "template_r8b7yaf", { message_body: body }).then(() => {
+                alert(`Order Sent! ID: ${orderID}`);
+                cart = []; localStorage.removeItem('cyberhub_cart'); location.reload();
+            });
+        });
     }
-    async function loginWithPasskey() {
-        try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; }
-    }
+
+    // --- PASSKEY ---
+    async function registerPasskey() { try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); alert("✅ Passkey Registered!"); } catch(e) {} }
+    async function loginWithPasskey() { try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); return true; } catch(e) { return false; } }
 
     fetchData();
     document.getElementById('cart-count').innerText = cart.length;
 </script>
 </body>
 </html>
-
-
