@@ -246,14 +246,18 @@
     
     const ADMIN_PASS = "26240608"; 
 
+    // --- UPGRADED TOAST NOTIFICATIONS ---
+    let toastTimeout;
     function showToast(msg, type = "info") {
         const toast = document.getElementById('toast');
         document.getElementById('toast-msg').innerText = msg;
         toast.className = 'toast show';
         if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; }
         else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; }
-        else { document.getElementById('toast-icon').innerText = '✨'; }
-        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        else { document.getElementById('toast-icon').innerText = '⏳'; } 
+        
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500);
     }
 
     let currentLang = localStorage.getItem('cyberhub_lang');
@@ -398,7 +402,7 @@
             });
             productsData.categories = Object.values(temp).map(c => { c.apps = Object.values(c.apps); return c; }); 
             
-            // 🔥 FIXED: Force categories to show instantly upon loading!
+            // 🔥 Force categories to show instantly upon loading!
             forceReRender(); 
             
         } catch (e) {}
@@ -410,7 +414,30 @@
         else if(currentView.type === 'items') showItems(currentView.cI, currentView.aI); 
     }
     
-    async function syncToSheet(payload) { closeModal('add-item-modal'); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); } catch(e) {} }
+    // --- UPGRADED SYNC TO SHEET WITH LIVE NOTIFICATIONS ---
+    async function syncToSheet(payload) { 
+        closeModal('add-item-modal'); 
+        
+        // 1. Show the Live "Loading" Notification
+        if(payload.action === "maintenance") showToast("Toggling Maintenance Mode... Please wait", "info");
+        else if(payload.action === "update") showToast("Updating Price/Stock... Please wait", "info");
+        else if(payload.action === "add") showToast("Adding Item to Store... Please wait", "info");
+        
+        try { 
+            // 2. Send the request to Google Sheets
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); 
+            
+            // 3. Show the "Success" Notification
+            if(payload.action === "maintenance") showToast(payload.state ? "Maintenance is now ON 🔴" : "Maintenance is now OFF 🟢", "success");
+            else showToast("Update Successful! Store is syncing...", "success");
+            
+            // 4. Force the store to refresh and show the new data instantly
+            setTimeout(() => { lastDataString = ""; fetchData(); }, 1200); 
+        } catch(e) {
+            showToast("Error connecting to server.", "error");
+        } 
+    }
+
     function updateItem(name, price, isOOS) { syncToSheet({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }); }
     function toggleMaintenance() { syncToSheet({ action: "maintenance", state: !globalMaintenance }); }
 
@@ -432,7 +459,7 @@
         if(!cat || !app || !name || !price) return; syncToSheet({ action: "add", cat: cat, app: app, name: name, price: price });
     }
 
-    // 🔥 FIXED: Powerful Live Search Function
+    // 🔥 Powerful Live Search Function
     function filterItems() {
         const q = document.getElementById('mainSearch').value.toLowerCase();
         
