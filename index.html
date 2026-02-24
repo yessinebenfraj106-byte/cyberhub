@@ -15,7 +15,6 @@
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     
     <style>
-        /* 🔥 OLD DEEP SPACE BACKGROUND RESTORED */
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
@@ -26,7 +25,6 @@
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
         
-        /* 📱 SIDEBAR */
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
         #sidebar.open { left: 0; }
         .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
@@ -34,11 +32,9 @@
         
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         
-        /* ⚠️ YELLOW MAINTENANCE BANNER */
         .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
         #ui-maint-time { font-size: 2.2rem; font-weight: 800; margin-top: 15px; color: #fff; text-shadow: 0 0 15px var(--warn); font-variant-numeric: tabular-nums; }
 
-        /* 🔓 SUPPORT/ADMIN CONTROLS */
         .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px solid var(--warn); display: none; background: rgba(0,0,0,0.5); }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
@@ -47,14 +43,12 @@
         .support-btn { flex: 1; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
 
-        /* 📂 CATEGORIES -> APPS -> ITEMS */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
         .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
         .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); transform: translateY(-3px); }
         .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
         .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
 
-        /* 📁 RETRACTABLE GROUPS */
         .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; background: var(--card); border: 1px solid var(--border); font-size: 1.1rem; }
         .app-header img { width: 45px; height: 45px; object-fit: contain; }
         .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 15px; }
@@ -71,7 +65,7 @@
         
         input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
         
-        /* 🎡 PERFECTED ICON WHEEL (Centered Emojis) */
+        /* 🎡 PERFECTED ICON WHEEL */
         .spin-wrapper { position: relative; width: 240px; height: 240px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
         .spin-wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient( #ff4d4d 0deg 90deg, #ffae00 90deg 180deg, #00ff88 180deg 270deg, #00f0ff 270deg 360deg ); }
         .wheel-icon { position: absolute; font-size: 2.2rem; width: 40px; height: 40px; line-height: 40px; text-align: center; }
@@ -152,78 +146,13 @@
 
 <button class="fab-cart" onclick="openCart()">🛒<div class="badge" id="cart-count">0</div></button>
 
-<div id="admin-auth-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3>
-        <p style="color:var(--sub); font-size:0.8rem; margin-bottom:20px;">Restricted Area.</p>
-        <button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / Face ID</button>
-        <button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button>
-        <button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button>
-        <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
-    </div>
-</div>
-<div id="admin-pass-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--warn);">Admin Password</h3>
-        <input type="password" id="admin-manual-pass" placeholder="Enter PIN...">
-        <button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button>
-        <button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
-    </div>
-</div>
+<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / Face ID</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button><button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
+<div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn);">Admin Password</h3><input type="password" id="admin-manual-pass" placeholder="Enter PIN..."><button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button><button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 
-<div id="profile-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--primary);">👤 My Profile</h3>
-        <p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p>
-        
-        <div class="pass-reveal-box" style="margin-bottom: 20px;">
-            <input type="password" id="prof-password-display" value="••••••••" readonly>
-            <button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button>
-        </div>
+<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p><div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Screen Lock, Face ID, or Fingerprint) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
+<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 
-        <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;">
-            <h4 style="margin:0 0 10px 0; color:white;">Security</h4>
-            <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Screen Lock, Face ID, or Fingerprint) for instant login.</p>
-            <button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button>
-        </div>
-
-        <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
-        <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
-    </div>
-</div>
-
-<div id="login-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p>
-        <button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button>
-        <input type="text" id="authContact" placeholder="Email or Phone Number">
-        <input type="password" id="authPass" placeholder="Password">
-        <button class="add-cart-btn" onclick="processAuth('login')">Log In</button>
-        <button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button>
-        <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
-    </div>
-</div>
-
-<div id="vip-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3>
-        <p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. IP tracking active.</p>
-        
-        <div class="spin-wrapper">
-            <div class="spin-pointer"></div>
-            <div class="spin-wheel" id="spin-wheel">
-                <div class="wheel-icon icon-1">😭</div>
-                <div class="wheel-icon icon-2">🎡</div>
-                <div class="wheel-icon icon-3">🎨</div>
-                <div class="wheel-icon icon-4">💎</div>
-            </div>
-        </div>
-
-        <button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button>
-        <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
-    </div>
-</div>
+<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. IP tracking active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
@@ -256,7 +185,6 @@
         const d = T[currentLang];
         document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
         
-        // Translate Static UI Elements
         if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search;
         if(document.getElementById('ui-maint-title')) document.getElementById('ui-maint-title').innerText = d.maintTitle;
         if(document.getElementById('ui-menu-acc')) document.getElementById('ui-menu-acc').innerHTML = `👤 ${d.acc}`;
@@ -409,7 +337,7 @@
         }, 4000);
     }
 
-    // --- 4. TRUE LIVE ENGINE & FAIL-SAFE STORE OPEN LOGIC ---
+    // --- 4. TRUE LIVE ENGINE & FAIL-SAFE MAINTENANCE ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -419,10 +347,9 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // Fix: Check for empty header properly and clean the string
-            let maintData = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
-            if (maintData === "") maintData = "FALSE";
-            handleMaintenanceUI(maintData);
+            // THE FIX: Get raw data. If it doesn't exist, assume blank.
+            let rawMaint = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "";
+            handleMaintenanceUI(rawMaint);
 
             let temp = {}; 
             rows.slice(1).forEach(row => {
@@ -451,21 +378,17 @@
         clearInterval(countdownInterval);
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time');
         
-        // Bulletproof logic: defaults to OPEN unless explicitly instructed otherwise
         let stringData = String(maintData).toUpperCase().trim();
+        let isTimer = !isNaN(parseInt(stringData)) && stringData.length > 5; 
         
-        if(!stringData || stringData === "FALSE" || stringData === "OFF" || stringData === "0" || stringData === "NULL") {
-            // OPEN
-            band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
-        } else {
-            // CLOSED
+        // ONLY Close if explicitly told to. Otherwise, default to OPEN.
+        if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) {
             band.style.display = 'block'; globalMaintenance = true;
             document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
             
-            if(stringData === "UNTIL" || stringData === "TRUE" || stringData === "ON") { timeEl.style.display = 'none'; } 
+            if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } 
             else { 
-                let target = parseInt(parseFloat(stringData)); if(isNaN(target)) { timeEl.style.display = 'none'; return; }
-                timeEl.style.display = 'block'; 
+                let target = parseInt(stringData); timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
                     let d = target - new Date().getTime();
                     if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
@@ -475,26 +398,26 @@
                     }
                 }, 1000);
             }
+        } else {
+            // ALWAYS DEFAULT TO OPEN
+            band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
         }
     }
 
     async function setLiveMaintenance(mode) {
         let payload = { action: "maintenance", state: true, value: "UNTIL" };
-        if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } // Will send FALSE to uncheck the box
+        if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } 
         if(mode === "TIMER") {
             let mins = document.getElementById('maint-timer-mins').value;
             if(!mins) return showToast("Enter minutes first!", "error");
             payload.value = (new Date().getTime() + (mins * 60000)).toString();
         }
         showToast("Pushing live update...", "info");
-        
-        // Force UI update instantly
-        handleMaintenanceUI(payload.value);
-
+        handleMaintenanceUI(payload.value); // Force instant local update
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
             setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
-        } catch(e) { showToast("Update failed.", "error"); }
+        } catch(e) {}
     }
 
     // --- 5. RENDER & SUPPORT TOOLS ---
@@ -575,7 +498,6 @@
         } catch(e) {}
     }
 
-    // Run translation logic on start to set initial text properly
     applyLang();
     fetchData(); 
 </script>
