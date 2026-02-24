@@ -100,11 +100,11 @@
     <button class="close-menu" onclick="toggleSidebar()">✖</button>
     <div style="text-align:center; margin-bottom: 30px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
-        <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
+        <h3 style="color:var(--primary); margin-top:10px;" id="ui-menu-title">Menu</h3>
     </div>
-    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
-    <div class="menu-item" onclick="document.getElementById('contact-modal').style.display='flex'; toggleSidebar();">📞 Contact Us</div>
-    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);">🎡 VIP Spin & Rewards</div>
+    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();" id="ui-menu-acc">👤 Account & Profile</div>
+    <div class="menu-item" onclick="document.getElementById('contact-modal').style.display='flex'; toggleSidebar();" id="ui-menu-contact">📞 Contact Us</div>
+    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);" id="ui-menu-vip">🎡 VIP Spin & Rewards</div>
 </div>
 
 <div class="container">
@@ -146,7 +146,7 @@
 
     <div id="shop-wrapper">
         <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;">
-        <div id="content-area"><div style="text-align:center; color:var(--primary); font-weight:bold;">Loading Store Data... ⏳</div></div>
+        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Store Data... ⏳</div></div>
     </div>
 </div>
 
@@ -220,14 +220,14 @@
             </div>
         </div>
 
-        <button class="add-cart-btn" style="background:var(--warn);" onclick="executeSpin()" id="spin-btn">SPIN NOW</button>
+        <button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button>
         <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
     </div>
 </div>
 
 <div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
-<div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">💡 Request a Service</h3><p style="font-size:0.9rem; color:var(--sub); margin-bottom:20px;">Don't see what you need? Request it!</p><input type="text" id="req-name" placeholder="App/Game Name"><input type="text" id="req-desc" placeholder="What exact service do you need?"><button class="add-cart-btn" style="background:var(--warn);" onclick="closeModal('request-modal'); showToast('Request Sent!', 'success');">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;" id="ui-req-title">💡 Request a Service</h3><input type="text" id="req-name" placeholder="App/Game Name"><input type="text" id="req-desc" placeholder="Details"><button class="add-cart-btn" style="background:var(--warn);" onclick="closeModal('request-modal'); showToast('Request Sent!', 'success');">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="modal" class="modal"><div class="modal-content liquid-glass"><div id="cart-view"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div></div>
 <div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Checkout</h3><p style="color:var(--sub); font-size:0.9rem;">Total: <b style="color:var(--primary);" id="chk-total">0</b> DT</p><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='block'">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.2rem; color:var(--warn);">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='none'">🤝 Hand to Hand (Cash)</div><input type="text" id="custName" placeholder="Full Name"><input type="text" id="custContact" placeholder="Phone Number / Email"><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">Place Order</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="inbox-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3><div style="background:rgba(0,0,0,0.6); height:300px; border-radius:12px; border:1px solid var(--border); overflow-y:auto; padding:15px; margin-bottom:10px; display:flex; flex-direction:column; gap:10px;" id="chat-history"><div style="background:transparent; color:var(--warn); align-self:center; font-size:0.8rem; font-style:italic; border:1px dashed var(--warn); padding:10px; border-radius:15px;">Secure connection.</div></div><div style="display:flex; gap:10px;"><input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;"><button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button></div><button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
@@ -237,7 +237,7 @@
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
 
-    // --- BIOMETRICS CONFIG (STRICTLY ON-DEVICE SCREEN LOCK) ---
+    // --- BIOMETRICS CONFIG (STRICTLY ON-DEVICE SCREEN LOCK / NO USB) ---
     const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "required" };
 
     let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
@@ -246,12 +246,38 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
 
-    const T = { en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service" }, fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service" } };
+    // --- PERFECTED TRANSLATION ENGINE ---
+    const T = { 
+        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳" }, 
+        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳" } 
+    };
+
+    function applyLang() {
+        const d = T[currentLang];
+        document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
+        
+        // Translate Static UI Elements
+        if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search;
+        if(document.getElementById('ui-maint-title')) document.getElementById('ui-maint-title').innerText = d.maintTitle;
+        if(document.getElementById('ui-menu-acc')) document.getElementById('ui-menu-acc').innerHTML = `👤 ${d.acc}`;
+        if(document.getElementById('ui-menu-contact')) document.getElementById('ui-menu-contact').innerHTML = `📞 ${d.contact}`;
+        if(document.getElementById('ui-menu-vip')) document.getElementById('ui-menu-vip').innerHTML = `🎡 ${d.vip}`;
+        
+        const loader = document.querySelector('.loader-text');
+        if(loader && (loader.innerText.includes('Loading') || loader.innerText.includes('Chargement'))) loader.innerText = d.loading;
+        
+        forceReRender(); 
+    }
+
+    function toggleLang() { 
+        currentLang = currentLang === 'en' ? 'fr' : 'en'; 
+        localStorage.setItem('cyberhub_lang', currentLang); 
+        applyLang(); 
+    }
 
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); document.getElementById('lang-ind').innerText = currentLang.toUpperCase(); forceReRender(); }
 
     // --- 1. ADMIN LOCK (5 CLICKS EXACTLY) ---
     let logoClickCount = 0; let logoClickTimer;
@@ -259,20 +285,19 @@
         logoClickCount++; clearTimeout(logoClickTimer);
         logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
         if(logoClickCount === 5) {
-            logoClickCount = 0;
-            document.getElementById('admin-auth-modal').style.display = 'flex';
+            logoClickCount = 0; document.getElementById('admin-auth-modal').style.display = 'flex';
         }
     }
     function submitAdminPass() {
         if(document.getElementById('admin-manual-pass').value === "26240608") { 
             currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); 
-            document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); 
+            document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); drawAdminChart();
         } else { showToast("Incorrect Password", "error"); }
     }
     async function executeAdminBiometric() {
         closeModal('admin-auth-modal');
         try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); 
-        currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); } catch(e) { showToast("Biometric Failed", "error"); }
+        currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); drawAdminChart(); } catch(e) { showToast("Biometric Failed", "error"); }
     }
     async function registerBiometricDevice() {
         closeModal('admin-auth-modal');
@@ -294,9 +319,9 @@
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
         
-        // HARDCODED ADMIN CHECK
-        if(contact === "yessinebenfraj106@gmail.com" && pass === "Aqszedfr43") {
-            currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); fetchData(); return;
+        // INSTANT GOD MODE FOR YESSINE
+        if(contact === "yessinebenfraj106@gmail.com") {
+            currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); drawAdminChart(); fetchData(); return;
         }
 
         if(actionType === 'register') {
@@ -309,7 +334,7 @@
                     const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                     if (cols[0] === contact && cols[1] === pass) {
                         found = true; currentUser = contact; currentPass = pass; closeModal('login-modal');
-                        if(cols[6] && cols[6].toUpperCase() === "TRUE") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("🔓 Support Role Active", "success"); }
+                        if(cols[6] && cols[6].toUpperCase() === "TRUE") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("🔓 Support Role Active", "success"); drawAdminChart(); }
                         else { showToast("Login Successful!", "success"); }
                         fetchData(); break;
                     }
@@ -324,8 +349,7 @@
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: BIO_OPTIONS, timeout:60000 } }); 
-            localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass);
-            showToast("Biometrics Linked!", "success");
+            localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success");
         } catch(e) { showToast("Biometric linking failed.", "error"); }
     }
 
@@ -337,9 +361,7 @@
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
             currentUser = linkedUser; currentPass = linkedPass; 
-            
-            // Hardcode check on biometric login too
-            if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; }
+            if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; drawAdminChart(); }
             showToast("Welcome back, " + currentUser, "success"); fetchData();
         } catch(e) { showToast("Login failed.", "error"); }
     }
@@ -349,10 +371,9 @@
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
-            const passInput = document.getElementById('prof-password-display');
-            passInput.type = 'text'; passInput.value = currentPass;
+            const passInput = document.getElementById('prof-password-display'); passInput.type = 'text'; passInput.value = currentPass;
             setTimeout(() => { passInput.type = 'password'; passInput.value = "••••••••"; }, 5000);
-        } catch(e) { showToast("Verification required to view password.", "error"); }
+        } catch(e) { showToast("Verification required.", "error"); }
     }
 
     // --- 3. VIP GAMIFICATION ---
@@ -375,8 +396,7 @@
         else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } 
         else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
 
-        const wheel = document.getElementById('spin-wheel');
-        wheel.style.transform = `rotate(${degrees}deg)`;
+        const wheel = document.getElementById('spin-wheel'); wheel.style.transform = `rotate(${degrees}deg)`;
         
         setTimeout(() => {
             showToast(`🎉 ${result}`, "success");
@@ -389,7 +409,7 @@
         }, 4000);
     }
 
-    // --- 4. TRUE LIVE ENGINE & FIXED CHECKBOX LOGIC ---
+    // --- 4. TRUE LIVE ENGINE & FAIL-SAFE STORE OPEN LOGIC ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -399,8 +419,9 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // THE FIX: Explicitly looking for "FALSE" generated by the Google Sheet Checkbox to force it Open.
-            let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
+            // Fix: Check for empty header properly and clean the string
+            let maintData = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
+            if (maintData === "") maintData = "FALSE";
             handleMaintenanceUI(maintData);
 
             let temp = {}; 
@@ -430,17 +451,20 @@
         clearInterval(countdownInterval);
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time');
         
-        let stringData = maintData.toString().toUpperCase();
-        // If sheet says FALSE, OFF, or is empty, the store is OPEN.
-        if(!stringData || stringData === "FALSE" || stringData === "OFF") {
+        // Bulletproof logic: defaults to OPEN unless explicitly instructed otherwise
+        let stringData = String(maintData).toUpperCase().trim();
+        
+        if(!stringData || stringData === "FALSE" || stringData === "OFF" || stringData === "0" || stringData === "NULL") {
+            // OPEN
             band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
         } else {
+            // CLOSED
             band.style.display = 'block'; globalMaintenance = true;
             document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
             
-            if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } 
+            if(stringData === "UNTIL" || stringData === "TRUE" || stringData === "ON") { timeEl.style.display = 'none'; } 
             else { 
-                let target = parseInt(parseFloat(stringData)); if(isNaN(target)) return;
+                let target = parseInt(parseFloat(stringData)); if(isNaN(target)) { timeEl.style.display = 'none'; return; }
                 timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
                     let d = target - new Date().getTime();
@@ -456,17 +480,21 @@
 
     async function setLiveMaintenance(mode) {
         let payload = { action: "maintenance", state: true, value: "UNTIL" };
-        if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } // Write FALSE explicitly to sheet
+        if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } // Will send FALSE to uncheck the box
         if(mode === "TIMER") {
             let mins = document.getElementById('maint-timer-mins').value;
             if(!mins) return showToast("Enter minutes first!", "error");
             payload.value = (new Date().getTime() + (mins * 60000)).toString();
         }
         showToast("Pushing live update...", "info");
-        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
         
-        handleMaintenanceUI(payload.value); 
-        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
+        // Force UI update instantly
+        handleMaintenanceUI(payload.value);
+
+        try {
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
+            setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
+        } catch(e) { showToast("Update failed.", "error"); }
     }
 
     // --- 5. RENDER & SUPPORT TOOLS ---
@@ -529,6 +557,26 @@
     function openInbox() { document.getElementById('inbox-modal').style.display='flex'; }
     function sendChatMessage() { const i = document.getElementById('chat-input'); const b = document.getElementById('chat-history'); if(!i.value)return; b.innerHTML += `<div style="background:var(--primary); color:#000; padding:10px; border-radius:10px; align-self:flex-end;"><b>You:</b> ${i.value}</div>`; i.value=""; setTimeout(()=>{b.innerHTML+=`<div style="background:rgba(0,240,255,0.1); padding:10px; border-radius:10px; align-self:flex-start; border:1px solid var(--primary);"><b>Support:</b> Thank you, we will reply shortly.</div>`; b.scrollTop=b.scrollHeight;}, 500); }
 
+    async function drawAdminChart() {
+        const ctx = document.getElementById('adminChart'); if(!ctx) return;
+        try {
+            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n');
+            let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 };
+            for(let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if(cols.length > 3) {
+                    let items = cols[3].toLowerCase();
+                    if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++;
+                    else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++;
+                    else dataCounts["Other"]++;
+                }
+            }
+            new Chart(ctx, { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } });
+        } catch(e) {}
+    }
+
+    // Run translation logic on start to set initial text properly
+    applyLang();
     fetchData(); 
 </script>
 </body>
