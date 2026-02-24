@@ -11,21 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     
     <style>
+        /* 🔥 OLD DEEP SPACE BACKGROUND RESTORED */
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
         
         /* 📱 SIDEBAR */
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); }
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
         #sidebar.open { left: 0; }
         .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
         .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; }
@@ -43,15 +45,16 @@
         .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
         .support-tools { display: flex; gap: 5px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px; }
         .support-btn { flex: 1; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
 
         /* 📂 CATEGORIES -> APPS -> ITEMS */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
         .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
         .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); transform: translateY(-3px); }
         .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
-        
         .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
 
+        /* 📁 RETRACTABLE GROUPS */
         .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; background: var(--card); border: 1px solid var(--border); font-size: 1.1rem; }
         .app-header img { width: 45px; height: 45px; object-fit: contain; }
         .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 15px; }
@@ -68,10 +71,14 @@
         
         input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
         
-        /* 🎡 CREATIVE ICON WHEEL */
-        .spin-wrapper { position: relative; width: 220px; height: 220px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
+        /* 🎡 PERFECTED ICON WHEEL (Centered Emojis) */
+        .spin-wrapper { position: relative; width: 240px; height: 240px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
         .spin-wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient( #ff4d4d 0deg 90deg, #ffae00 90deg 180deg, #00ff88 180deg 270deg, #00f0ff 270deg 360deg ); }
-        .wheel-icon { position: absolute; font-size: 2rem; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; left: 0; top: 0; }
+        .wheel-icon { position: absolute; font-size: 2.2rem; width: 40px; height: 40px; line-height: 40px; text-align: center; }
+        .icon-1 { top: 18%; left: 62%; transform: rotate(45deg); }
+        .icon-2 { bottom: 18%; left: 62%; transform: rotate(135deg); }
+        .icon-3 { bottom: 18%; right: 62%; transform: rotate(225deg); }
+        .icon-4 { top: 18%; right: 62%; transform: rotate(315deg); }
         .spin-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid white; z-index: 10; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
 
         .pass-reveal-box { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
@@ -103,7 +110,10 @@
 <div class="container">
     <div class="top-bar liquid-glass">
         <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        <div style="display:flex; gap:10px;">
+            <button class="icon-btn" onclick="openInbox()" style="border-color:var(--warn); color:var(--warn);">💬 Inbox</button>
+            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        </div>
     </div>
     
     <div id="maintenance-msg" class="maintenance-band liquid-glass">
@@ -126,12 +136,17 @@
         </div>
         <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 FORCE REOPEN STORE</button>
         <button class="add-cart-btn" onclick="document.getElementById('add-item-modal').style.display='flex'">+ ADD NEW ITEM</button>
-        <button class="add-cart-btn" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; margin-top:10px;" onclick="lockAdminPanel()">🔒 Lock Admin</button>
+        
+        <div class="admin-chart-container">
+            <b style="color:white; font-size:0.8rem;">Live Sales Analytics</b>
+            <canvas id="adminChart" height="150"></canvas>
+        </div>
+        <button class="add-cart-btn" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; margin-top:15px;" onclick="lockAdminPanel()">🔒 Lock Admin</button>
     </div>
 
     <div id="shop-wrapper">
         <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;">
-        <div id="content-area"><div class="loader-text">Loading Store Data... ⏳</div></div>
+        <div id="content-area"><div style="text-align:center; color:var(--primary); font-weight:bold;">Loading Store Data... ⏳</div></div>
     </div>
 </div>
 
@@ -141,8 +156,8 @@
     <div class="modal-content liquid-glass">
         <h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3>
         <p style="color:var(--sub); font-size:0.8rem; margin-bottom:20px;">Restricted Area.</p>
-        <button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Face ID / Fingerprint</button>
-        <button class="add-cart-btn" onclick="openAdminPassInput()">🔑 Use Password</button>
+        <button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / Face ID</button>
+        <button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button>
         <button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button>
         <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button>
     </div>
@@ -163,52 +178,17 @@
         
         <div class="pass-reveal-box" style="margin-bottom: 20px;">
             <input type="password" id="prof-password-display" value="••••••••" readonly>
-            <button onclick="revealPassword()" title="Use FaceID to view">👁️</button>
+            <button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button>
         </div>
 
         <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;">
             <h4 style="margin:0 0 10px 0; color:white;">Security</h4>
-            <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Face ID, Fingerprint, or Screen Lock) for instant login.</p>
+            <p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Screen Lock, Face ID, or Fingerprint) for instant login.</p>
             <button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button>
         </div>
 
         <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
         <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
-    </div>
-</div>
-
-<div id="vip-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3>
-        <p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Same IP & Phone tracking active.</p>
-        
-        <div class="spin-wrapper">
-            <div class="spin-pointer"></div>
-            <div class="spin-wheel" id="spin-wheel">
-                <div class="wheel-icon" style="transform: rotate(45deg) translate(30px, -30px); color:white;">😭</div>
-                <div class="wheel-icon" style="transform: rotate(135deg) translate(30px, 30px); color:white;">🎡</div>
-                <div class="wheel-icon" style="transform: rotate(225deg) translate(-30px, 30px); color:white;">🎨</div>
-                <div class="wheel-icon" style="transform: rotate(315deg) translate(-30px, -30px); color:white;">💎</div>
-            </div>
-        </div>
-        
-        <div style="font-size:0.75rem; color:var(--sub); margin-bottom:15px; display:flex; justify-content:space-around;">
-            <span>😭 65%</span><span>🎡 25%</span><span>🎨 8%</span><span>💎 2%</span>
-        </div>
-
-        <button class="add-cart-btn" style="background:var(--warn);" onclick="executeSpin()" id="spin-btn">SPIN NOW</button>
-        <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
-    </div>
-</div>
-
-<div id="request-modal" class="modal">
-    <div class="modal-content liquid-glass">
-        <h3 style="color:var(--warn); margin-bottom:15px;">💡 Request a Service</h3>
-        <p style="font-size:0.9rem; color:var(--sub); margin-bottom:20px;">Don't see what you need? Request it!</p>
-        <input type="text" id="req-name" placeholder="App/Game Name (e.g., Spotify)">
-        <input type="text" id="req-desc" placeholder="What exact service do you need?">
-        <button class="add-cart-btn" style="background:var(--warn);" onclick="submitRequest()">Send Request</button>
-        <button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
@@ -225,24 +205,48 @@
     </div>
 </div>
 
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title Name" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="vip-modal" class="modal">
+    <div class="modal-content liquid-glass">
+        <h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3>
+        <p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. IP tracking active.</p>
+        
+        <div class="spin-wrapper">
+            <div class="spin-pointer"></div>
+            <div class="spin-wheel" id="spin-wheel">
+                <div class="wheel-icon icon-1">😭</div>
+                <div class="wheel-icon icon-2">🎡</div>
+                <div class="wheel-icon icon-3">🎨</div>
+                <div class="wheel-icon icon-4">💎</div>
+            </div>
+        </div>
+
+        <button class="add-cart-btn" style="background:var(--warn);" onclick="executeSpin()" id="spin-btn">SPIN NOW</button>
+        <button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
+<div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">💡 Request a Service</h3><p style="font-size:0.9rem; color:var(--sub); margin-bottom:20px;">Don't see what you need? Request it!</p><input type="text" id="req-name" placeholder="App/Game Name"><input type="text" id="req-desc" placeholder="What exact service do you need?"><button class="add-cart-btn" style="background:var(--warn);" onclick="closeModal('request-modal'); showToast('Request Sent!', 'success');">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="modal" class="modal"><div class="modal-content liquid-glass"><div id="cart-view"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div></div>
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Checkout Options</h3><p style="color:var(--sub); font-size:0.9rem;">Total: <b style="color:var(--primary);" id="chk-total">0</b> DT</p><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='block'">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer exact amount to:<br><b style="font-size:1.2rem; color:var(--warn);">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='none'">🤝 Hand to Hand (Cash)</div><input type="text" id="custName" placeholder="Full Name"><input type="text" id="custContact" placeholder="Phone Number / Email"><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">Place Order</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Checkout</h3><p style="color:var(--sub); font-size:0.9rem;">Total: <b style="color:var(--primary);" id="chk-total">0</b> DT</p><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='block'">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.2rem; color:var(--warn);">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='none'">🤝 Hand to Hand (Cash)</div><input type="text" id="custName" placeholder="Full Name"><input type="text" id="custContact" placeholder="Phone Number / Email"><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">Place Order</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="inbox-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3><div style="background:rgba(0,0,0,0.6); height:300px; border-radius:12px; border:1px solid var(--border); overflow-y:auto; padding:15px; margin-bottom:10px; display:flex; flex-direction:column; gap:10px;" id="chat-history"><div style="background:transparent; color:var(--warn); align-self:center; font-size:0.8rem; font-style:italic; border:1px dashed var(--warn); padding:10px; border-radius:15px;">Secure connection.</div></div><div style="display:flex; gap:10px;"><input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;"><button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button></div><button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
 
+    // --- BIOMETRICS CONFIG (STRICTLY ON-DEVICE SCREEN LOCK) ---
+    const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "required" };
+
     let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
     let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
-    let currentView = { type: 'cats', cat: null, app: null }; 
+    let currentView = { type: 'cats', cat: null, app: null }; let selectedPaymentMethod = null;
 
-    const T = {
-        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service" },
-        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service" }
-    };
+    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
+
+    const T = { en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service" }, fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service" } };
 
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
@@ -259,21 +263,20 @@
             document.getElementById('admin-auth-modal').style.display = 'flex';
         }
     }
-    function openAdminPassInput() { closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display = 'flex'; }
     function submitAdminPass() {
         if(document.getElementById('admin-manual-pass').value === "26240608") { 
-            currentUser = "Admin Yessine"; isSupport = true; closeModal('admin-pass-modal'); 
+            currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); 
             document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); 
         } else { showToast("Incorrect Password", "error"); }
     }
     async function executeAdminBiometric() {
         closeModal('admin-auth-modal');
         try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"required", timeout:60000} }); 
-        isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); } catch(e) { showToast("Biometric Failed", "error"); }
+        currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); } catch(e) { showToast("Biometric Failed", "error"); }
     }
     async function registerBiometricDevice() {
         closeModal('admin-auth-modal');
-        try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); } catch(e) { showToast("Failed to create passkey", "error"); }
+        try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: BIO_OPTIONS, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); } catch(e) { showToast("Failed to create passkey", "error"); }
     }
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Locked.", "info"); }
 
@@ -291,6 +294,11 @@
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
         
+        // HARDCODED ADMIN CHECK
+        if(contact === "yessinebenfraj106@gmail.com" && pass === "Aqszedfr43") {
+            currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); fetchData(); return;
+        }
+
         if(actionType === 'register') {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' });
             showToast("Account Created!", "success"); currentUser = contact; currentPass = pass; closeModal('login-modal');
@@ -315,9 +323,9 @@
         if(!currentUser) return;
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
-            await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); 
+            await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: BIO_OPTIONS, timeout:60000 } }); 
             localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass);
-            showToast("Biometrics Added!", "success");
+            showToast("Biometrics Linked!", "success");
         } catch(e) { showToast("Biometric linking failed.", "error"); }
     }
 
@@ -328,12 +336,16 @@
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
-            currentUser = linkedUser; currentPass = linkedPass; showToast("Welcome back, " + currentUser, "success"); fetchData();
+            currentUser = linkedUser; currentPass = linkedPass; 
+            
+            // Hardcode check on biometric login too
+            if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; }
+            showToast("Welcome back, " + currentUser, "success"); fetchData();
         } catch(e) { showToast("Login failed.", "error"); }
     }
 
     async function revealPassword() {
-        if(!currentPass) return showToast("Password not available in this session.", "error");
+        if(!currentPass) return showToast("Password hidden in this session.", "error");
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
@@ -343,7 +355,7 @@
         } catch(e) { showToast("Verification required to view password.", "error"); }
     }
 
-    // --- 3. VIP GAMIFICATION (NEW ODDS & EMOJIS) ---
+    // --- 3. VIP GAMIFICATION ---
     function openVIPHub() {
         if(!currentUser) return showToast("Login required to spin.", "error");
         let lastSpin = localStorage.getItem(`cyberhub_spin_${currentUser}`); let now = new Date().getTime();
@@ -356,15 +368,12 @@
 
     function executeSpin() {
         const btn = document.getElementById('spin-btn'); btn.disabled = true; btn.innerText = "Spinning...";
+        let rng = Math.floor(Math.random() * 100); let result = ""; let degrees = 0;
         
-        let rng = Math.floor(Math.random() * 100);
-        let result = ""; let degrees = 0;
-        
-        // New Probabilities: 65% Better Luck, 25% Spin Again, 8% Canva, 2% 5% Discount
-        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } // Red slice
-        else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } // Orange slice
-        else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } // Green slice
-        else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; } // Blue slice
+        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } 
+        else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } 
+        else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } 
+        else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
 
         const wheel = document.getElementById('spin-wheel');
         wheel.style.transform = `rotate(${degrees}deg)`;
@@ -372,7 +381,6 @@
         setTimeout(() => {
             showToast(`🎉 ${result}`, "success");
             btn.innerText = "SPIN NOW"; btn.disabled = false; wheel.style.transform = `rotate(0deg)`; 
-            
             if(!result.includes("Again")) {
                 localStorage.setItem(`cyberhub_spin_${currentUser}`, new Date().getTime().toString());
                 fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' });
@@ -381,7 +389,7 @@
         }, 4000);
     }
 
-    // --- 4. TRUE LIVE ENGINE & STORE OPEN FIX ---
+    // --- 4. TRUE LIVE ENGINE & FIXED CHECKBOX LOGIC ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -391,8 +399,8 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // The FIX for Store Won't Open
-            let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "OFF";
+            // THE FIX: Explicitly looking for "FALSE" generated by the Google Sheet Checkbox to force it Open.
+            let maintData = headers.length > 15 ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
             handleMaintenanceUI(maintData);
 
             let temp = {}; 
@@ -422,16 +430,17 @@
         clearInterval(countdownInterval);
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time');
         
-        // Hardcheck for explicit OFF state
-        if(!maintData || maintData === "OFF" || maintData.includes("FALSE")) {
+        let stringData = maintData.toString().toUpperCase();
+        // If sheet says FALSE, OFF, or is empty, the store is OPEN.
+        if(!stringData || stringData === "FALSE" || stringData === "OFF") {
             band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false;
         } else {
             band.style.display = 'block'; globalMaintenance = true;
             document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
             
-            if(maintData === "UNTIL") { timeEl.style.display = 'none'; } 
+            if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } 
             else { 
-                let target = parseInt(parseFloat(maintData)); if(isNaN(target)) return;
+                let target = parseInt(parseFloat(stringData)); if(isNaN(target)) return;
                 timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
                     let d = target - new Date().getTime();
@@ -447,7 +456,7 @@
 
     async function setLiveMaintenance(mode) {
         let payload = { action: "maintenance", state: true, value: "UNTIL" };
-        if(mode === "OFF") { payload.state = false; payload.value = "OFF"; }
+        if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } // Write FALSE explicitly to sheet
         if(mode === "TIMER") {
             let mins = document.getElementById('maint-timer-mins').value;
             if(!mins) return showToast("Enter minutes first!", "error");
@@ -456,12 +465,11 @@
         showToast("Pushing live update...", "info");
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
         
-        // Force the UI to update locally instantly to kill the bug
         handleMaintenanceUI(payload.value); 
         setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
     }
 
-    // --- 5. RENDER, EDITORS, & "DEMAND SERVICE" ---
+    // --- 5. RENDER & SUPPORT TOOLS ---
     function forceReRender() {
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
         let html = ''; const dic = T[currentLang];
@@ -512,19 +520,14 @@
         closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); });
     }
     
-    function submitRequest() { closeModal('request-modal'); showToast("Service Requested! We'll look into adding it.", "success"); }
     function filterSearch() { forceReRender(); }
-
-    function openCart() {
-        document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2);
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join('');
-        document.getElementById('modal').style.display = 'flex';
-    }
+    function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); document.getElementById('modal').style.display = 'flex'; }
     function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
-
     function openCheckout() { closeModal('modal'); document.getElementById('checkout-modal').style.display = 'flex'; document.getElementById('chk-total').innerText = document.getElementById('cart-total-price').innerText; if(currentUser) document.getElementById('custContact').value = currentUser; }
     function selectPayment(method) { let txIdInput = document.getElementById('d17-details'); if(method === 'D17') { txIdInput.style.display = 'block'; } else { txIdInput.style.display = 'none'; } }
     function finalizeOrder() { closeModal('checkout-modal'); showToast("Order Placed!", "success"); cart = []; document.getElementById('cart-count').innerText = "0"; }
+    function openInbox() { document.getElementById('inbox-modal').style.display='flex'; }
+    function sendChatMessage() { const i = document.getElementById('chat-input'); const b = document.getElementById('chat-history'); if(!i.value)return; b.innerHTML += `<div style="background:var(--primary); color:#000; padding:10px; border-radius:10px; align-self:flex-end;"><b>You:</b> ${i.value}</div>`; i.value=""; setTimeout(()=>{b.innerHTML+=`<div style="background:rgba(0,240,255,0.1); padding:10px; border-radius:10px; align-self:flex-start; border:1px solid var(--primary);"><b>Support:</b> Thank you, we will reply shortly.</div>`; b.scrollTop=b.scrollHeight;}, 500); }
 
     fetchData(); 
 </script>
