@@ -31,12 +31,12 @@
         
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         
-        .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; }
-        #ui-maint-time { font-size: 2.2rem; font-weight: 800; margin-top: 15px; color: #fff; font-variant-numeric: tabular-nums; }
+        .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
+        #ui-maint-time { font-size: 2.2rem; font-weight: 800; margin-top: 15px; color: #fff; text-shadow: 0 0 15px var(--warn); font-variant-numeric: tabular-nums; }
 
         .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px solid var(--warn); display: none; background: rgba(0,0,0,0.5); }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
         .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
         .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
 
@@ -71,6 +71,13 @@
         .pay-option { padding: 15px; border: 1px solid var(--sub); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; }
         .pay-option:hover, .pay-option.selected { border-color: var(--primary); background: rgba(0,240,255,0.1); }
         
+        /* 💬 INBOX UI */
+        .chat-box { background: rgba(0,0,0,0.6); height: 300px; border-radius: 12px; border: 1px solid var(--border); overflow-y: auto; padding: 15px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { padding: 10px 15px; border-radius: 15px; width: fit-content; max-width: 80%; font-size: 0.9rem; text-align: left; }
+        .msg-sys { background: transparent; color: var(--warn); align-self: center; font-size: 0.8rem; font-style: italic; border: 1px dashed var(--warn); }
+        .msg-support { background: rgba(0, 240, 255, 0.1); border: 1px solid var(--primary); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-user { background: var(--primary); color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: bold; }
+
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 30px; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -94,7 +101,10 @@
 <div class="container">
     <div class="top-bar liquid-glass">
         <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        <div style="display:flex; gap:10px;">
+            <button class="icon-btn" onclick="openInbox()" style="border-color:var(--warn); color:var(--warn);">💬 Inbox</button>
+            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        </div>
     </div>
     
     <div id="maintenance-msg" class="maintenance-band liquid-glass">
@@ -124,7 +134,7 @@
     </div>
 
     <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="filterSearch()" style="margin-bottom:20px;">
+        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;">
         <div id="content-area"><div style="text-align:center; color:var(--primary);">Loading Store Data... ⏳</div></div>
     </div>
 </div>
@@ -174,7 +184,7 @@
         
         <div style="text-align:left; margin-bottom:20px; max-height:200px; overflow-y:auto;" id="order-tracking-list">
             <h4 style="color:white; margin:0 0 10px 0;">📦 Order Tracking</h4>
-            </div>
+        </div>
 
         <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;">
             <h4 style="margin:0 0 10px 0; color:white;">Security</h4>
@@ -184,6 +194,28 @@
 
         <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
         <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="inbox-modal" class="modal">
+    <div class="modal-content liquid-glass" style="padding:20px;">
+        <h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3>
+        
+        <select id="support-ticket-selector" style="display:none; margin-bottom:10px;" onchange="loadSupportTicket()">
+            <option value="">Select a user ticket...</option>
+            <option value="user1">Ticket: Yassine B.</option>
+        </select>
+
+        <div class="chat-box" id="chat-history">
+            <div class="chat-msg msg-sys">Chat initialized. Secure connection.</div>
+            <div class="chat-msg msg-support"><b>Support Team:</b> Hello! Send us a message and an agent will reply here shortly.</div>
+        </div>
+        
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;">
+            <button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button>
+        </div>
+        <button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close Inbox</button>
     </div>
 </div>
 
@@ -200,7 +232,7 @@
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
     const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv";
 
-    let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
+    let toastTimeout; let productsData = { categories: {}, standalone: [] }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
     let currentUser = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; let selectedPaymentMethod = null;
 
@@ -225,7 +257,7 @@
         else { showToast("Incorrect Password", "error"); }
     }
 
-    // --- 2. AUTH & BIOMETRICS & TRACKING ---
+    // --- 2. AUTH & BIOMETRICS ---
     function openProfileOrLogin() { 
         if(currentUser) { 
             document.getElementById('prof-email-display').innerText = "Logged in as: " + currentUser;
@@ -234,6 +266,60 @@
         } else { document.getElementById('auth-choice-modal').style.display = 'flex'; } 
     }
     
+    function logoutUser() {
+        currentUser = null; isSupport = false; document.getElementById('admin-panel').style.display = 'none';
+        closeModal('profile-modal'); showToast("Logged out successfully.", "info"); fetchData();
+    }
+
+    async function processAuth(actionType) {
+        const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
+        if(!contact || !pass) return showToast("Fill all fields", "error");
+        
+        if(contact === "yessinebenfraj106@gmail.com" && pass === "Aqszedfr43") {
+            currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; fetchData(); return;
+        }
+
+        if(actionType === 'login') {
+            try {
+                const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let found = false;
+                for(let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols[0] === contact && cols[1] === pass) {
+                        found = true; currentUser = contact; closeModal('login-modal');
+                        if(cols[6] && cols[6].toUpperCase() === "TRUE") isSupport = true;
+                        showToast("Login Successful!", "success"); fetchData(); break;
+                    }
+                }
+                if(!found) showToast("Incorrect Credentials.", "error"); 
+            } catch(e) {}
+        }
+    }
+
+    async function linkUserBiometric() {
+        if(!currentUser) return;
+        try {
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
+            await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"}, timeout:60000 } }); 
+            localStorage.setItem('cyberhub_bio_user', currentUser);
+            showToast("Biometrics Linked!", "success");
+        } catch(e) { showToast("Biometric linking failed.", "error"); }
+    }
+
+    async function executeBiometricLogin() {
+        closeModal('auth-choice-modal');
+        let linkedUser = localStorage.getItem('cyberhub_bio_user');
+        if(!linkedUser) return showToast("No account linked. Login with password first.", "error");
+
+        try {
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
+            await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
+            currentUser = linkedUser; showToast("Welcome back, " + currentUser, "success"); fetchData();
+        } catch(e) { showToast("Login failed.", "error"); }
+    }
+
+    function openPassInput() { closeModal('auth-choice-modal'); document.getElementById('login-modal').style.display = 'flex'; }
+
+    // --- 3. LIVE TRACKING ---
     async function fetchUserOrders() {
         document.getElementById('order-tracking-list').innerHTML = `<p style="color:var(--sub);">Fetching live orders...</p>`;
         try {
@@ -241,11 +327,10 @@
             let html = '<h4 style="color:white; margin:0 0 10px 0;">📦 Live Tracking</h4>'; let found = false;
             for(let i = 1; i < rows.length; i++) {
                 const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if(cols[2] === currentUser) { // Col C is Contact
-                    found = true;
-                    let status = cols[6] || "Pending"; // Assuming Col G is status
+                if(cols[2] === currentUser) {
+                    found = true; let status = cols[6] || "Pending"; 
                     let fill = status.toUpperCase() === "DELIVERED" ? "100%" : (status.toUpperCase() === "PROCESSING" ? "50%" : "20%");
-                    let color = status.toUpperCase() === "DELIVERED" ? "#00ff88" : var(--primary);
+                    let color = status.toUpperCase() === "DELIVERED" ? "#00ff88" : "var(--primary)";
                     html += `<div class="track-card"><b>ID:</b> ${cols[0]}<br><span style="font-size:0.8rem; color:var(--sub);">${cols[3]}</span><div class="progress-bar"><div class="progress-fill" style="width:${fill}; background:${color};"></div></div><div style="text-align:right; font-size:0.8rem; margin-top:5px; color:${color};">${status}</div></div>`;
                 }
             }
@@ -253,16 +338,14 @@
         } catch(e) {}
     }
 
-    // --- 3. VIP GAMIFICATION (SPIN WHEEL WITH 48H LOCK) ---
+    // --- 4. VIP WHEEL ---
     function openVIPHub() {
         if(!currentUser) return showToast("Login required to spin.", "error");
-        
         let lastSpin = localStorage.getItem(`cyberhub_spin_${currentUser}`);
         let now = new Date().getTime();
         if(lastSpin && (now - parseInt(lastSpin)) < (48 * 60 * 60 * 1000)) {
             let hoursLeft = Math.ceil(((parseInt(lastSpin) + (48*60*60*1000)) - now) / (1000 * 60 * 60));
-            showToast(`You must wait ${hoursLeft} hours to spin again.`, "error");
-            return;
+            return showToast(`You must wait ${hoursLeft} hours to spin again.`, "error");
         }
         document.getElementById('vip-modal').style.display = 'flex';
     }
@@ -271,7 +354,6 @@
         const btn = document.getElementById('spin-btn');
         btn.disabled = true; btn.innerText = "Spinning...";
         
-        // Probabilities Logic: 0-49 (Better Luck), 50-79 (Spin Again), 80-94 (Canva Pro), 95-99 (5%)
         let rng = Math.floor(Math.random() * 100);
         let result = ""; let degrees = 0;
         
@@ -284,20 +366,18 @@
         wheel.style.transform = `rotate(${degrees}deg)`;
         
         setTimeout(() => {
-            showToast(`🎉 Result: ${result}`, "success");
-            btn.innerText = "SPIN NOW"; btn.disabled = false;
-            wheel.style.transform = `rotate(0deg)`; // reset visually silently later
+            showToast(`🎉 ${result}`, "success");
+            btn.innerText = "SPIN NOW"; btn.disabled = false; wheel.style.transform = `rotate(0deg)`; 
             
             if(result !== "Spin Again!") {
                 localStorage.setItem(`cyberhub_spin_${currentUser}`, new Date().getTime().toString());
-                // Save to Google Sheet backend via Action Log
                 fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' });
             }
             closeModal('vip-modal');
         }, 4000);
     }
 
-    // --- 4. PAYMENT CHECKOUT (D17 / H2H) ---
+    // --- 5. CHECKOUT ---
     function openCheckout() {
         if(cart.length === 0) return showToast("Cart is empty", "error");
         document.getElementById('chk-total').innerText = document.getElementById('cart-total-price').innerText;
@@ -325,7 +405,6 @@
         }
 
         const btn = document.getElementById('btn-finalize'); btn.disabled = true; btn.innerText = "Processing...";
-        
         const orderID = "CH-" + Math.random().toString(36).substr(2, 6).toUpperCase(); 
         const items = cart.map(i => i.name).join(' | '); const total = document.getElementById('chk-total').innerText;
         const body = `ORDER_ID: ${orderID}\nCLIENT: ${name}\nCONTACT: ${contact}\nPAYMENT: ${selectedPaymentMethod} (TX: ${txId})\nITEMS: ${items}\nPRICE: ${total} DT`;
@@ -335,32 +414,22 @@
         });
     }
 
-    // --- 5. ADMIN ANALYTICS CHART ---
-    async function drawAdminChart() {
-        const ctx = document.getElementById('adminChart'); if(!ctx) return;
-        try {
-            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n');
-            let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 };
-            
-            for(let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if(cols.length > 3) {
-                    let items = cols[3].toLowerCase();
-                    if(items.includes("netflix") || items.includes("spotify") || items.includes("iptv")) dataCounts["Streaming"]++;
-                    else if(items.includes("valorant") || items.includes("gta") || items.includes("vbucks")) dataCounts["Gaming"]++;
-                    else dataCounts["Other"]++;
-                }
-            }
-
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } }
-            });
-        } catch(e) {}
+    // --- 6. INBOX ---
+    function openInbox() {
+        if(!currentUser) return showToast("Please login first to use Inbox.", "error");
+        document.getElementById('inbox-modal').style.display = 'flex';
+        if(isSupport) { document.getElementById('support-ticket-selector').style.display = 'block'; document.getElementById('chat-title').innerText = "🛠️ Ticket Viewer"; }
     }
+    function sendChatMessage() {
+        const input = document.getElementById('chat-input'); const val = input.value.trim(); if(!val) return;
+        const box = document.getElementById('chat-history');
+        box.innerHTML += `<div class="chat-msg msg-user"><b>You:</b> ${val}</div>`;
+        input.value = ""; box.scrollTop = box.scrollHeight;
+        if(!isSupport) { setTimeout(() => { box.innerHTML += `<div class="chat-msg msg-support"><b>Support:</b> Thank you. We will respond shortly.</div>`; box.scrollTop = box.scrollHeight; }, 500); }
+    }
+    function loadSupportTicket() { document.getElementById('chat-history').innerHTML = `<div class="chat-msg msg-sys">Viewing User Ticket...</div>`; }
 
-    // --- CORE ENGINE (Timer & Draw) ---
+    // --- CORE ENGINE ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -430,30 +499,43 @@
         }
         showToast("Pushing live update...", "info");
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
+        setTimeout(() => { lastDataString = ""; fetchData(); showToast("Updated!", "success"); }, 1500);
     }
 
     function forceReRender() {
+        const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
         let html = '';
-        if(currentView.type === 'cats') {
-            html += `<div class="grid">`;
-            Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; });
-            html += `</div>`;
-        } 
-        else if (currentView.type === 'apps') {
-            const catData = productsData.categories[currentView.cat];
-            html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button><div class="grid">`;
-            Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${catData.name}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; });
-            html += `</div>`;
-        }
-        else if (currentView.type === 'items') {
-            const appData = productsData.categories[currentView.cat].apps[currentView.app];
-            html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button>`;
-            Object.values(appData.groups).forEach((g, gI) => {
-                html += `<div class="app-header" onclick="document.getElementById('acc-${gI}').style.display = document.getElementById('acc-${gI}').style.display === 'none' ? 'block' : 'none'"><span>📁 ${g.name} (${g.items.length})</span><span style="margin-left:auto;">▼</span></div><div id="acc-${gI}" class="retractable-content" style="display:none;">`;
-                g.items.forEach(it => html += drawItemRow(it)); html += `</div>`;
+        
+        if(q) {
+            html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3><div class="grid">`;
+            Object.values(productsData.categories).forEach(c => {
+                Object.values(c.apps).forEach(a => {
+                    a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it); });
+                    Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it); }); });
+                });
             });
-            appData.standalone.forEach(it => html += drawItemRow(it));
+            html += `</div>`;
+        } else {
+            if(currentView.type === 'cats') {
+                html += `<div class="grid">`;
+                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; });
+                html += `</div>`;
+            } 
+            else if (currentView.type === 'apps') {
+                const catData = productsData.categories[currentView.cat];
+                html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button><div class="grid">`;
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; });
+                html += `</div>`;
+            }
+            else if (currentView.type === 'items') {
+                const appData = productsData.categories[currentView.cat].apps[currentView.app];
+                html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button>`;
+                Object.values(appData.groups).forEach((g, gI) => {
+                    html += `<div class="app-header" onclick="document.getElementById('acc-${gI}').style.display = document.getElementById('acc-${gI}').style.display === 'none' ? 'block' : 'none'"><span>📁 ${g.name} (${g.items.length})</span><span style="margin-left:auto;">▼</span></div><div id="acc-${gI}" class="retractable-content" style="display:none;">`;
+                    g.items.forEach(it => html += drawItemRow(it)); html += `</div>`;
+                });
+                appData.standalone.forEach(it => html += drawItemRow(it));
+            }
         }
         document.getElementById('content-area').innerHTML = html;
     }
@@ -461,6 +543,8 @@
     function drawItemRow(it) {
         return `<div class="item-row"><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">OOS</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b><button class="add-cart-btn" onclick="addToCart('${it.originalName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>ADD TO CART</button></div>`;
     }
+
+    function filterSearch() { forceReRender(); }
 
     function submitNewItem() {
         let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value;
@@ -474,6 +558,24 @@
         document.getElementById('modal').style.display = 'flex';
     }
     function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
+
+    async function drawAdminChart() {
+        const ctx = document.getElementById('adminChart'); if(!ctx) return;
+        try {
+            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n');
+            let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 };
+            for(let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if(cols.length > 3) {
+                    let items = cols[3].toLowerCase();
+                    if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++;
+                    else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++;
+                    else dataCounts["Other"]++;
+                }
+            }
+            new Chart(ctx, { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } });
+        } catch(e) {}
+    }
 
     fetchData(); 
 </script>
