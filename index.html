@@ -158,10 +158,10 @@
     </div>
 </div>
 
-<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button><button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
+<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button><button class="add-cart-btn" onclick="promptPasskeyCreation()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 <div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn);">Admin Password</h3><input type="password" id="admin-manual-pass" placeholder="Enter PIN..."><button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button><button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 
-<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p><div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (PC PIN, Face ID, or Fingerprint) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
+<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p><div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Screen Lock, Face ID, or Fingerprint) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 
 <div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Triple-Lock IP security active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
@@ -190,6 +190,7 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
 
+    // --- PERFECTED TRANSLATION ENGINE ---
     const T = { 
         en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳" }, 
         fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳" } 
@@ -212,7 +213,7 @@
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // --- 1. ADMIN LOCK ---
+    // --- 1. ADMIN LOCK (WITH PASSKEY PROTECTION) ---
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() {
         logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
@@ -225,6 +226,10 @@
     async function executeAdminBiometric() {
         closeModal('admin-auth-modal');
         try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"preferred", timeout:60000} }); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); drawAdminChart(); } catch(e) { showToast("Biometric Failed", "error"); }
+    }
+    function promptPasskeyCreation() {
+        let auth = prompt("⚠️ Security Check:\nEnter Admin Password to authorize Passkey creation:");
+        if (auth === "26240608") { registerBiometricDevice(); } else { showToast("Unauthorized", "error"); }
     }
     async function registerBiometricDevice() {
         closeModal('admin-auth-modal');
@@ -239,6 +244,7 @@
     async function processAuth(actionType) {
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
+        
         if(contact === "yessinebenfraj106@gmail.com") { currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); drawAdminChart(); fetchData(); return; }
 
         if(actionType === 'register') {
@@ -326,7 +332,7 @@
         }, 4000);
     }
 
-    // --- 4. TRUE LIVE ENGINE (CSV GLITCH FIX) ---
+    // --- 4. TRUE LIVE ENGINE & FAIL-SAFE MAINTENANCE ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -336,7 +342,6 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // FIX: SEEK AND FIND ALGORITHM FOR MAINTENANCE (Ignores columns, just looks for the command)
             let rawMaint = "FALSE";
             for(let i=0; i<headers.length; i++) {
                 let clean = headers[i].replace(/^"|"$/g, '').trim().toUpperCase();
@@ -414,7 +419,7 @@
         } catch(e) { adminForcedMaint = null; }
     }
 
-    // --- 5. RENDER, ADMIN GROUPING & SUPPORT TOOLS ---
+    // --- 5. RENDER, ADVANCED ADMIN GROUPING & SUPPORT TOOLS ---
     function forceReRender() {
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
         let html = ''; const dic = T[currentLang];
@@ -423,47 +428,59 @@
             html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3><div class="grid">`;
             Object.values(productsData.categories).forEach(c => {
                 Object.values(c.apps).forEach(a => {
-                    a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); });
-                    Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); });
+                    a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic, c.name, a.name); });
+                    Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic, c.name, a.name); }); });
                 });
             });
             html += `</div>`;
         } else {
             if(currentView.type === 'cats') {
                 html += `<div class="grid">`;
-                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; });
+                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; });
                 html += `<div class="nav-card request-card" onclick="document.getElementById('request-modal').style.display='flex'"><strong>${dic.req}</strong></div></div>`;
             } 
             else if (currentView.type === 'apps') {
                 const catData = productsData.categories[currentView.cat];
                 html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; });
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat.replace(/'/g, "\\'")}', app:'${a.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; });
                 html += `</div>`;
             }
             else if (currentView.type === 'items') {
                 const appData = productsData.categories[currentView.cat].apps[currentView.app];
-                html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
+                html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat.replace(/'/g, "\\'")}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 Object.values(appData.groups).forEach((g, gI) => {
                     html += `<div class="app-header" onclick="document.getElementById('acc-${gI}').style.display = document.getElementById('acc-${gI}').style.display === 'none' ? 'block' : 'none'"><span>📁 ${g.name} (${g.items.length})</span><span style="margin-left:auto;">▼</span></div><div id="acc-${gI}" class="retractable-content" style="display:none;">`;
-                    g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
+                    g.items.forEach(it => html += drawItemRow(it, dic, currentView.cat, currentView.app)); html += `</div>`;
                 });
-                appData.standalone.forEach(it => html += drawItemRow(it, dic));
+                appData.standalone.forEach(it => html += drawItemRow(it, dic, currentView.cat, currentView.app));
             }
         }
         document.getElementById('content-area').innerHTML = html;
     }
 
-    function drawItemRow(it, dic) {
-        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${it.originalName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" onclick="let p=prompt('New Price?'); if(p) updateItem('${it.originalName}', p, ${it.isOOS})">[✏️ Price]</button><button class="support-btn" onclick="adminGroupItem('${it.originalName}')">[🗂️ Group]</button></div>` : '';
-        return `<div class="item-row"><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${it.originalName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
+    function drawItemRow(it, dic, catName, appName) {
+        let escOldName = it.originalName.replace(/'/g, "\\'"); let escCat = catName.replace(/'/g, "\\'"); let escApp = appName.replace(/'/g, "\\'");
+        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${escOldName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" onclick="let p=prompt('New Price?'); if(p) updateItem('${escOldName}', p, ${it.isOOS})">[✏️ Price]</button><button class="support-btn" onclick="adminGroupItem('${escOldName}', '${escCat}', '${escApp}')">[🗂️ Group]</button></div>` : '';
+        return `<div class="item-row"><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${escOldName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
     }
 
-    function adminGroupItem(oldRawName) {
-        let currentCleanName = oldRawName.includes("||GRP||") ? oldRawName.split("||GRP||")[0] : oldRawName; let currentGroup = oldRawName.includes("||GRP||") ? oldRawName.split("||GRP||")[1] : "";
-        let newGroup = prompt(`Enter a Folder Name to group "${currentCleanName}"\n(Leave blank to ungroup):`, currentGroup);
+    function adminGroupItem(oldRawName, catName, appName) {
+        let currentCleanName = oldRawName.includes("||GRP||") ? oldRawName.split("||GRP||")[0] : oldRawName;
+        let currentGroup = oldRawName.includes("||GRP||") ? oldRawName.split("||GRP||")[1] : "";
+        
+        let existingGroups = [];
+        if(productsData.categories[catName] && productsData.categories[catName].apps[appName]) { existingGroups = Object.keys(productsData.categories[catName].apps[appName].groups); }
+        let msg = `Group: ${currentCleanName}\n\nExisting Groups: ${existingGroups.length > 0 ? existingGroups.join(" | ") : "None"}\n\nType an existing group to join it, type a NEW name to create one, or clear the box to ungroup:`;
+        
+        let newGroup = prompt(msg, currentGroup);
         if(newGroup !== null) { 
-            let newRawName = currentCleanName; if(newGroup.trim() !== "") { newRawName += "||GRP||" + newGroup.trim(); }
-            if(newRawName !== oldRawName) { showToast("Updating Grouping...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Group Updated!", "success"); }, 1500); }); }
+            let newRawName = currentCleanName;
+            if(newGroup.trim() !== "") { newRawName += "||GRP||" + newGroup.trim(); }
+            if(newRawName !== oldRawName) {
+                showToast("Updating Grouping...", "info");
+                fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldRawName, newName: newRawName }), mode: 'no-cors' })
+                .then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Group Updated!", "success"); }, 1500); });
+            }
         }
     }
 
