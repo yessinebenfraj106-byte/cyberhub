@@ -170,7 +170,7 @@
 <div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p><div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (Screen Lock, Face ID, or Fingerprint) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 
-<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. IP tracking active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Triple-Lock IP security active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
@@ -191,8 +191,7 @@
     let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
     let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; let selectedPaymentMethod = null;
-    
-    // CACHE LOCK TO PREVENT "TUG OF WAR" GLITCH
+    let currentVisitorIP = null; // Saves user's network IP
     let adminForcedMaint = null;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
@@ -229,12 +228,14 @@
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // --- 1. ADMIN LOCK ---
+    // --- 1. ADMIN LOCK (5 CLICKS EXACTLY) ---
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() {
         logoClickCount++; clearTimeout(logoClickTimer);
         logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
-        if(logoClickCount === 5) { logoClickCount = 0; document.getElementById('admin-auth-modal').style.display = 'flex'; }
+        if(logoClickCount === 5) {
+            logoClickCount = 0; document.getElementById('admin-auth-modal').style.display = 'flex';
+        }
     }
     function submitAdminPass() {
         if(document.getElementById('admin-manual-pass').value === "26240608") { 
@@ -253,18 +254,21 @@
     }
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Locked.", "info"); }
 
-    // --- 2. USER AUTH & BIOMETRICS ---
+    // --- 2. USER AUTH, BIOMETRICS & PASSWORD REVEAL ---
     function openProfileOrLogin() { 
         if(currentUser) { 
-            document.getElementById('prof-email-display').innerText = "Account: " + currentUser; document.getElementById('profile-modal').style.display = 'flex'; 
+            document.getElementById('prof-email-display').innerText = "Account: " + currentUser;
+            document.getElementById('profile-modal').style.display = 'flex'; 
         } else { document.getElementById('login-modal').style.display = 'flex'; } 
     }
+    
     function logoutUser() { currentUser = null; currentPass = null; isSupport = false; document.getElementById('admin-panel').style.display = 'none'; closeModal('profile-modal'); showToast("Logged out.", "info"); fetchData(); }
 
     async function processAuth(actionType) {
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
         
+        // INSTANT GOD MODE FOR YESSINE
         if(contact === "yessinebenfraj106@gmail.com") {
             currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); drawAdminChart(); fetchData(); return;
         }
@@ -301,7 +305,7 @@
     async function executeUserBiometricLogin() {
         closeModal('login-modal');
         let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass');
-        if(!linkedUser) return showToast("No biometrics linked.", "error");
+        if(!linkedUser) return showToast("No biometrics linked. Login with password first.", "error");
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
@@ -312,7 +316,7 @@
     }
 
     async function revealPassword() {
-        if(!currentPass) return showToast("Password hidden.", "error");
+        if(!currentPass) return showToast("Password hidden in this session.", "error");
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
@@ -321,13 +325,29 @@
         } catch(e) { showToast("Verification required.", "error"); }
     }
 
-    // --- 3. VIP GAMIFICATION ---
-    function openVIPHub() {
+    // --- 3. VIP GAMIFICATION (TRIPLE-LOCK ANTI CHEAT) ---
+    async function openVIPHub() {
         if(!currentUser) return showToast("Login required to spin.", "error");
-        let lastSpin = localStorage.getItem(`cyberhub_spin_${currentUser}`); let now = new Date().getTime();
-        if(lastSpin && (now - parseInt(lastSpin)) < (48 * 60 * 60 * 1000)) {
-            let hoursLeft = Math.ceil(((parseInt(lastSpin) + (48*60*60*1000)) - now) / (1000 * 60 * 60));
-            return showToast(`Please wait ${hoursLeft} hours.`, "error");
+        
+        let accSpin = localStorage.getItem(`cyberhub_spin_acc_${currentUser}`) || 0;
+        let devSpin = localStorage.getItem(`cyberhub_spin_device`) || 0;
+        let lastSpinTime = Math.max(parseInt(accSpin), parseInt(devSpin));
+
+        // IP Tracking Lock
+        try {
+            if(!currentVisitorIP) {
+                let ipRes = await fetch('https://api.ipify.org?format=json');
+                let ipData = await ipRes.json();
+                currentVisitorIP = ipData.ip;
+            }
+            let ipSpin = localStorage.getItem(`cyberhub_spin_ip_${currentVisitorIP}`) || 0;
+            lastSpinTime = Math.max(lastSpinTime, parseInt(ipSpin));
+        } catch(e) { console.log("IP Check Skipped due to blocker."); }
+
+        let now = new Date().getTime();
+        if(lastSpinTime > 0 && (now - lastSpinTime) < (48 * 60 * 60 * 1000)) {
+            let hoursLeft = Math.ceil(((lastSpinTime + (48*60*60*1000)) - now) / (1000 * 60 * 60));
+            return showToast(`Please wait ${hoursLeft} hours. Device/IP Locked.`, "error");
         }
         document.getElementById('vip-modal').style.display = 'flex';
     }
@@ -335,17 +355,32 @@
     function executeSpin() {
         const btn = document.getElementById('spin-btn'); btn.disabled = true; btn.innerText = "Spinning...";
         let rng = Math.floor(Math.random() * 100); let result = ""; let degrees = 0;
-        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
+        
+        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } 
+        else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } 
+        else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } 
+        else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
+
         const wheel = document.getElementById('spin-wheel'); wheel.style.transform = `rotate(${degrees}deg)`;
+        
         setTimeout(() => {
             showToast(`🎉 ${result}`, "success");
             btn.innerText = "SPIN NOW"; btn.disabled = false; wheel.style.transform = `rotate(0deg)`; 
-            if(!result.includes("Again")) { localStorage.setItem(`cyberhub_spin_${currentUser}`, new Date().getTime().toString()); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' }); }
+            if(!result.includes("Again")) {
+                let nowStr = new Date().getTime().toString();
+                // Engage the Triple Lock locally
+                localStorage.setItem(`cyberhub_spin_acc_${currentUser}`, nowStr);
+                localStorage.setItem(`cyberhub_spin_device`, nowStr);
+                if(currentVisitorIP) localStorage.setItem(`cyberhub_spin_ip_${currentVisitorIP}`, nowStr);
+                
+                // Log securely to Google Sheet
+                fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' });
+            }
             closeModal('vip-modal');
         }, 4000);
     }
 
-    // --- 4. TRUE LIVE ENGINE & FAIL-SAFE MAINTENANCE ---
+    // --- 4. TRUE LIVE ENGINE & TIMER FIX ---
     setInterval(fetchData, 4000); 
 
     async function fetchData() {
@@ -355,7 +390,6 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            // Fix: Pull raw data, but if Admin forced a lock, use the forced lock instead of old cached data!
             let rawMaint = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
             if (adminForcedMaint !== null) { rawMaint = adminForcedMaint; }
             handleMaintenanceUI(rawMaint);
@@ -365,10 +399,13 @@
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
                     const cat = cols[0]; const app = cols[2]; const itemNameRaw = cols[4]; const price = parseFloat(cols[5]) || 0; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
+                    
                     let itemName = itemNameRaw; let groupName = null;
                     if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
+
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
                     if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3], groups: {}, standalone: [] };
+                    
                     const itemData = { name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS };
                     if(groupName) { 
                         if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] };
@@ -385,16 +422,17 @@
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time');
         
         let stringData = String(maintData).toUpperCase().trim();
-        let isTimer = !isNaN(parseInt(stringData)) && stringData.length > 5; 
+        let isTimer = stringData.startsWith("T_"); 
         
-        // EXPLICIT CLOSE ONLY. Otherwise, assume open.
-        if(stringData === "TRUE" || stringData === "ON" || stringData === "UNTIL" || isTimer) {
+        // ONLY Close if explicitly told to. Otherwise, default to OPEN.
+        if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) {
             band.style.display = 'block'; globalMaintenance = true;
             document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
             
-            if(stringData === "UNTIL" || stringData === "TRUE" || stringData === "ON") { timeEl.style.display = 'none'; } 
-            else { 
-                let target = parseInt(stringData); timeEl.style.display = 'block'; 
+            if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } 
+            else if(isTimer) { 
+                let target = parseInt(stringData.replace("T_", "")); 
+                timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
                     let d = target - new Date().getTime();
                     if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; }
@@ -415,22 +453,17 @@
         if(mode === "TIMER") {
             let mins = document.getElementById('maint-timer-mins').value;
             if(!mins) return showToast("Enter minutes first!", "error");
-            payload.value = (new Date().getTime() + (mins * 60000)).toString();
+            payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); // T_ prefix fixes Google Sheet Bug
         }
         showToast("Pushing live update...", "info");
         
-        // Lock the UI cache so it doesn't bounce back
+        // Lock the UI cache for 8 seconds so it doesn't flicker while Google Sheets updates
         adminForcedMaint = payload.value;
         handleMaintenanceUI(payload.value);
 
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-            setTimeout(() => { 
-                adminForcedMaint = null; // Release the lock after 8 seconds
-                lastDataString = ""; 
-                fetchData(); 
-                showToast("Store Status Updated!", "success"); 
-            }, 8000);
+            setTimeout(() => { adminForcedMaint = null; lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 8000);
         } catch(e) { adminForcedMaint = null; }
     }
 
