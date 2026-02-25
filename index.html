@@ -7,385 +7,231 @@
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050b14">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
-    
     <style>
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body.modal-active { overflow: hidden; height: 100vh; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
-        .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); transition: 0.3s; }
+        .logo:active { transform: scale(0.9); }
         
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
-        #sidebar.open { left: 0; }
-        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
-        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; }
-        
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
-        
-        .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
-        #ui-maint-time { font-size: 2.2rem; font-weight: 800; margin-top: 15px; color: #fff; text-shadow: 0 0 15px var(--warn); font-variant-numeric: tabular-nums; }
-
-        .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px solid var(--warn); display: none; background: rgba(0,0,0,0.5); }
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
-        .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-        .support-tools { display: flex; gap: 5px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px; flex-wrap: wrap; }
-        .support-btn { flex: 1 1 22%; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 5px; transition: 0.2s; }
-        .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
-
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
-        .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); transform: translateY(-3px); }
-        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
-        .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
-
-        .folder-header { background: linear-gradient(90deg, rgba(0, 240, 255, 0.1), transparent); border-left: 3px solid var(--primary); padding: 16px 20px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 5px; transition: 0.3s; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .folder-header.drag-over { border: 2px dashed var(--primary); background: rgba(0, 240, 255, 0.3); }
-        .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 15px; margin-bottom: 25px; animation: fadeIn 0.3s; }
-        .chevron { transition: 0.3s transform ease; color: var(--primary); font-size: 0.8rem; }
+        /* 🔥 FOLDER UI UPGRADE */
+        .folder-header { background: rgba(255,255,255,0.03); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 1rem; margin-bottom: 8px; transition: 0.3s; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .folder-header:hover { background: rgba(0, 240, 255, 0.1); border-left-width: 8px; }
+        .folder-content { display: none; padding: 5px 0 15px 15px; border-left: 2px dashed var(--border); margin-left: 10px; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .chevron { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: var(--primary); font-size: 0.7rem; }
         .folder-open .chevron { transform: rotate(180deg); }
-        .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; }
-        .ungroup-zone.drag-over { border-color: #ff4d4d; color: #ff4d4d; background: rgba(255, 77, 77, 0.1); }
-        
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
-        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; transition: 0.3s; width: 100%; }
-        .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
-        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
 
-        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; text-transform: uppercase; width: 100%; transition: 0.3s; margin-top: 8px; }
+        .add-cart-btn:hover { box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 10px; }
+
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.98); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(20px); padding: 20px; }
+        .modal-content { padding: 30px; width: 100%; max-width: 450px; text-align: center; background: var(--bg); border: 1px solid var(--primary); border-radius: 25px; box-shadow: 0 0 50px rgba(0, 240, 255, 0.2); position: relative; max-height: 90vh; overflow-y: auto; }
         
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
-        .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 85vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; }
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
-        
-        /* FOMO TOAST */
-        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid #00ff88; color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.9rem; z-index: 3500; font-weight: 500; transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 300px; }
+        /* 🔥 POLICY UI UPGRADE */
+        .policy-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 15px; margin-bottom: 12px; text-align: left; display: flex; gap: 15px; align-items: center; transition: 0.3s; }
+        .policy-item:hover { background: rgba(255,255,255,0.06); border-color: var(--primary); }
+        .pol-icon { background: var(--primary); color: #000; min-width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .pol-text b { display: block; color: white; margin-bottom: 2px; font-size: 0.95rem; }
+        .pol-text span { color: var(--sub); font-size: 0.8rem; line-height: 1.3; }
+
+        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid var(--primary); color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.85rem; z-index: 3500; transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; }
         .fomo-toast.show { left: 0; }
-
-        .spin-wrapper { position: relative; width: 240px; height: 240px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
-        .spin-wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient( #ff4d4d 0deg 90deg, #ffae00 90deg 180deg, #00ff88 180deg 270deg, #00f0ff 270deg 360deg ); }
-        .wheel-icon { position: absolute; font-size: 2.2rem; width: 40px; height: 40px; line-height: 40px; text-align: center; }
-        .icon-1 { top: 18%; left: 62%; transform: rotate(45deg); } .icon-2 { bottom: 18%; left: 62%; transform: rotate(135deg); } .icon-3 { bottom: 18%; right: 62%; transform: rotate(225deg); } .icon-4 { top: 18%; right: 62%; transform: rotate(315deg); }
-        .spin-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid white; z-index: 10; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        
-        .pass-reveal-box { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .pass-reveal-box input { flex-grow: 1; margin: 0; }
-        .pass-reveal-box button { background: var(--card); border: 1px solid var(--primary); color: white; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.2rem; height: 48px; }
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 4000; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: white; padding: 15px 30px; border-radius: 40px; z-index: 99999; font-weight: bold; transition: 0.4s; }
         .toast.show { bottom: 30px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .loader-text { text-align: center; color: var(--primary); font-weight: bold; margin-top: 40px; font-size: 1.1rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; border: none; z-index: 1000; }
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5,11,20,0.98); z-index: 8000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); }
+        #sidebar.open { left: 0; }
     </style>
 </head>
-<body>
+<body id="main-body">
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
-
-<div id="fomo-toast" class="fomo-toast">
-    <div style="font-size:1.8rem;">🛒</div>
-    <div id="fomo-msg" style="line-height:1.4;">Someone bought something!</div>
-</div>
+<div id="toast" class="toast"><span id="toast-msg">Message</span></div>
+<div id="fomo-toast" class="fomo-toast">🛒 <div id="fomo-msg">Notification</div></div>
 
 <div id="sidebar" class="liquid-glass">
-    <button class="close-menu" onclick="toggleSidebar()">✖</button>
-    <div style="text-align:center; margin-bottom: 30px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
-        <h3 style="color:var(--primary); margin-top:10px;" id="ui-menu-title">Menu</h3>
-    </div>
-    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();" id="ui-menu-acc">👤 Account & Profile</div>
-    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();" id="ui-menu-contact">📞 Contact Us</div>
-    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);" id="ui-menu-vip">🎡 VIP Spin & Rewards</div>
+    <div style="text-align:center; margin-bottom: 30px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:70px; border-radius:50%; border:2px solid var(--primary);"><h3 style="color:var(--primary);">Menu</h3></div>
+    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();" id="ui-menu-acc">👤 Account</div>
+    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();" id="ui-menu-contact">📞 Contact</div>
+    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" id="ui-menu-vip" style="color:var(--warn);">🎡 VIP Spin</div>
+    <div class="menu-item" onclick="toggleSidebar(); openModal('policy-modal');" style="font-size:0.8rem; opacity:0.6;">📜 Store Policy</div>
+    <button class="close-menu" onclick="toggleSidebar()" style="top:10px; right:10px;">✖</button>
 </div>
 
 <div class="container">
-    <div class="top-bar liquid-glass">
-        <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <div style="display:flex; gap:10px;">
-            <button class="icon-btn" onclick="openInbox()" style="border-color:var(--warn); color:var(--warn);">💬 Inbox</button>
-            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
-        </div>
-    </div>
+    <div class="top-bar liquid-glass"><button class="icon-btn" onclick="toggleSidebar()">☰</button><button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button></div>
     
-    <div id="maintenance-msg" class="maintenance-band liquid-glass"><div id="ui-maint-title">STORE CLOSED FOR UPDATES</div><div id="ui-maint-time"></div></div>
+    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()"><h2 style="color:var(--primary); letter-spacing: 4px;">CYBERHUB</h2></div>
+
+    <div id="admin-panel" class="admin-controls liquid-glass" style="padding:20px; border:1px solid var(--warn);">
+        <b style="color:var(--warn);">🛠️ GOD-MODE</b><br>
+        <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin-bottom:10px;">📦 ORDERS</button>
+        <button class="add-cart-btn" onclick="clearTestOrders()" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.7rem;">🧹 WIPE TESTS</button>
+        <div class="admin-grid"><button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 CLOSE</button><button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 OPEN</button></div>
+        <button class="add-cart-btn" onclick="openModal('add-item-modal')" style="background:var(--primary); color:#000;">+ ADD ITEM</button>
+        <button class="add-cart-btn" onclick="lockAdminPanel()" style="background:none; border:1px solid var(--sub); color:var(--sub); font-size:0.7rem;">🔒 LOCK</button>
+    </div>
+
+    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search..." oninput="forceReRender()" style="width:100%; margin-bottom:20px;"><div id="content-area"></div></div>
     
-    <div class="header" style="text-align:center; margin-top: 10px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
-        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
-    </div>
-
-    <div id="admin-panel" class="admin-controls liquid-glass">
-        <b style="color:var(--warn); font-size:1.2rem;">🛠️ GOD-MODE ADMIN</b><br>
-        <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Store Control</p>
-        <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin-bottom:10px;">📦 VIEW ALL PURCHASES</button>
-        <button class="support-btn" style="color:#ff4d4d; border-color:#ff4d4d; width:100%; padding:10px; margin-bottom:15px; font-size:1rem;" onclick="clearTestOrders()">🧹 CLEAR TEST ORDERS</button>
-        <input type="number" id="maint-timer-mins" placeholder="Minutes to close (e.g. 60)">
-        <div class="admin-grid"><button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button><button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 Close (No Timer)</button></div>
-        <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 FORCE REOPEN STORE</button>
-        <button class="add-cart-btn" onclick="openModal('add-item-modal')">+ ADD NEW ITEM</button>
-        <div class="admin-chart-container"><b style="color:white; font-size:0.8rem;">Live Sales Analytics</b><canvas id="adminChart" height="150"></canvas></div>
-        <button class="add-cart-btn" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; margin-top:15px;" onclick="lockAdminPanel()">🔒 Lock Admin</button>
-    </div>
-
-    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;"><div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Store Data... ⏳</div></div></div>
-
-    <div id="footer-credit" style="text-align: center; margin-top: 50px; padding-bottom: 10px; color: var(--sub); font-size: 0.95rem; font-weight: bold; letter-spacing: 1px;">
-        Made by Yessine ❤️
-    </div>
+    <div style="text-align:center; margin-top:60px; color:var(--sub); font-weight:800; font-size:0.9rem;" id="footer-credit">Made by Yessine ❤️</div>
 </div>
 
-<button class="fab-cart" onclick="openCart()">🛒<div class="badge" id="cart-count">0</div></button>
+<button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" style="position:absolute; top:-5px; right:-5px; background:white; color:black; font-size:0.7rem; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800;">0</div></button>
 
 <div id="policy-modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 style="color:var(--primary); margin-bottom:15px;" id="ui-pol-title">Privacy Policy & Terms</h3>
-    <div style="text-align:left; font-size:0.9rem; color:var(--sub); margin-bottom: 20px; line-height:1.6; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
-        <p style="margin-top:0;"><b style="color:white;" id="ui-pol-d-title">Data Privacy:</b> <span id="ui-pol-d-desc">Your data is shared securely with our automation & payment partners.</span></p>
-        <p><b style="color:white;" id="ui-pol-l-title">Delivery:</b> <span id="ui-pol-l-desc">Instant up to 48 hours maximum.</span></p>
-        <p style="margin-bottom:0;"><b style="color:white;" id="ui-pol-s-title">Support:</b> <span id="ui-pol-s-desc">After-sales service (SAV) is guaranteed.</span></p>
-    </div>
-    <button class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="width:100%;">I Accept</button>
+    <h3 id="ui-pol-title" style="color:var(--primary); margin-bottom:25px;">Store Agreement</h3>
+    <div class="policy-item"><div class="pol-icon">🛡️</div><div class="pol-text"><b id="ui-pol-d-title">Privacy</b><span id="ui-pol-d-desc">Data is shared with our automated delivery & payment partners.</span></div></div>
+    <div class="policy-item"><div class="pol-icon">⚡</div><div class="pol-text"><b id="ui-pol-l-title">Delivery</b><span id="ui-pol-l-desc">Items are delivered instantly or within 48 hours maximum.</span></div></div>
+    <div class="policy-item"><div class="pol-icon">🛠️</div><div class="pol-text"><b id="ui-pol-s-title">SAV</b><span id="ui-pol-s-desc">Full after-sales support is guaranteed for all purchases.</span></div></div>
+    <button class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I AGREE & ENTER</button>
 </div></div>
 
-<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 All Purchases</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-
-<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-
-<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal');">🔑 Use Password</button><button class="add-cart-btn" onclick="promptPasskeyCreation()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
-<div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn);">Admin Password</h3><input type="password" id="admin-manual-pass" placeholder="Enter PIN..."><button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button><button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-
-<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 15px;" id="prof-email-display"></p>
-    <button class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:20px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
-    <div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (PC PIN, Face ID) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
-<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
-
-<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Triple-Lock IP security active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
-<div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;" id="ui-req-title">💡 Request a Service</h3><input type="text" id="req-name" placeholder="App/Game Name"><input type="text" id="req-desc" placeholder="Details"><button class="add-cart-btn" style="background:var(--warn);" onclick="closeModal('request-modal'); showToast('Request Sent!', 'success');">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="modal" class="modal"><div class="modal-content liquid-glass"><div id="cart-view"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div></div>
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Checkout</h3><p style="color:var(--sub); font-size:0.9rem;">Total: <b style="color:var(--primary);" id="chk-total">0</b> DT</p><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='block'">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.2rem; color:var(--warn);">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:10px; cursor:pointer;" onclick="document.getElementById('d17-details').style.display='none'">🤝 Hand to Hand (Cash)</div><input type="text" id="custName" placeholder="Full Name"><input type="text" id="custContact" placeholder="Phone Number / Email"><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">Place Order</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="inbox-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3><div style="background:rgba(0,0,0,0.6); height:300px; border-radius:12px; border:1px solid var(--border); overflow-y:auto; padding:15px; margin-bottom:10px; display:flex; flex-direction:column; gap:10px;" id="chat-history"><div style="background:transparent; color:var(--warn); align-self:center; font-size:0.8rem; font-style:italic; border:1px dashed var(--warn); padding:10px; border-radius:15px;">Secure connection.</div></div><div style="display:flex; gap:10px;"><input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;"><button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button></div><button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass"><h3>Orders</h3><div id="admin-orders-list" style="text-align:left;"></div><button onclick="closeModal('admin-orders-modal')">Close</button></div></div>
+<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass"><h3>My Orders</h3><div id="user-orders-list" style="text-align:left;"></div><button onclick="closeModal('user-orders-modal')">Close</button></div></div>
+<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3>Auth</h3><button class="add-cart-btn" onclick="executeAdminBiometric()">📱 PIN/Biometric</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal')">🔑 Password</button></div></div>
+<div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3>PIN</h3><input type="password" id="admin-manual-pass"><button class="add-cart-btn" onclick="submitAdminPass()">Login</button></div></div>
+<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 id="prof-email-display">Profile</h3><button class="add-cart-btn" onclick="openUserOrders()">📦 My Orders</button><button onclick="logoutUser()" style="color:red; background:none; border:none; margin-top:20px;">Logout</button></div></div>
+<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3>Login</h3><button class="add-cart-btn" onclick="executeUserBiometricLogin()">📱 Biometric</button><input id="authContact" placeholder="Contact"><input type="password" id="authPass" placeholder="Pass"><button class="add-cart-btn" onclick="processAuth('login')">Go</button></div></div>
+<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3>Spin</h3><div id="spin-wheel" style="width:200px; height:200px; margin:auto; border-radius:50%; background:conic-gradient(red, orange, green, blue); transition:4s;"></div><button class="add-cart-btn" onclick="executeSpin()">SPIN</button></div></div>
+<div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3>Contact</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="background:#25D366; text-decoration:none;">WhatsApp</a><button onclick="closeModal('contact-modal')">Close</button></div></div>
+<div id="modal" class="modal"><div class="modal-content liquid-glass"><h3>Cart</h3><div id="cart-items-list"></div><button class="add-cart-btn" onclick="openCheckout()">Checkout</button></div></div>
+<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3>Checkout</h3><p>Total: <b id="chk-total"></b> DT</p><input id="custName" placeholder="Full Name"><button class="add-cart-btn" onclick="finalizeOrder()">Confirm Order</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
     const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv";
+    const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "preferred" };
+    
+    let toastTimeout, productsData = { categories: {} }, cart = [], isSupport = false, currentUser = null, currentLang = localStorage.getItem('cyberhub_lang') || 'en', currentView = { type: 'cats', cat: null, app: null };
 
-    const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "preferred", residentKey: "preferred" };
+    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
 
-    let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
-    let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
-    let currentView = { type: 'cats', cat: null, app: null }; let selectedPaymentMethod = null;
-    let currentVisitorIP = null; let adminForcedMaint = null; let draggedItemRawName = null;
+    // --- MODAL ENGINE ---
+    const openModal = (id) => { document.getElementById(id).style.display='flex'; document.body.classList.add('modal-active'); };
+    const closeModal = (id) => { document.getElementById(id).style.display='none'; document.body.classList.remove('modal-active'); };
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
+    // --- POLICY ENGINE ---
+    setTimeout(() => { if(!localStorage.getItem('cyberhub_v23_pol')) openModal('policy-modal'); }, 3000);
+    const acceptPolicy = () => { localStorage.setItem('cyberhub_v23_pol', 'true'); closeModal('policy-modal'); };
 
-    // --- MODAL SCROLL ENGINE FIX ---
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
-
-    // --- 📜 POLICY ENGINE ---
-    setTimeout(() => { if (!localStorage.getItem('cyberhub_policy_accepted')) { openModal('policy-modal'); } }, 3000);
-    function acceptPolicy() { localStorage.setItem('cyberhub_policy_accepted', 'true'); closeModal('policy-modal'); }
-
-    // --- ⚡ UPGRADED FOMO ENGINE (Shows Category > App > Item) ---
-    const tunisianCities = ["Tunis", "Sfax", "Sousse", "Bizerte", "Nabeul", "Ariana", "Monastir", "Hammamet", "Djerba", "Ben Arous"];
+    // --- FOMO ENGINE ---
+    const cities = ["Tunis", "Sfax", "Sousse", "Bizerte", "Nabeul", "Ariana"];
     setInterval(() => {
-        if(Object.keys(productsData.categories).length > 0 && Math.random() > 0.3) {
-            let itemsPath = []; 
-            Object.values(productsData.categories).forEach(c => { 
-                Object.values(c.apps).forEach(a => { 
-                    a.standalone.forEach(i => itemsPath.push({c: c.name, a: a.name, i: i.name})); 
-                    Object.values(a.groups).forEach(g => g.items.forEach(i => itemsPath.push({c: c.name, a: a.name, i: i.name}))); 
-                }); 
-            });
-            if(itemsPath.length > 0) {
-                let randPath = itemsPath[Math.floor(Math.random() * itemsPath.length)]; 
-                let randCity = tunisianCities[Math.floor(Math.random() * tunisianCities.length)];
-                let fomoToast = document.getElementById('fomo-toast'); 
-                document.getElementById('fomo-msg').innerHTML = `Someone from <b style="color:var(--primary);">${randCity}</b><br>just bought <br><span style="color:var(--sub); font-size:0.75rem;">${randPath.c} > ${randPath.a}</span><br><b>${randPath.i}</b>`;
-                fomoToast.classList.add('show'); setTimeout(() => fomoToast.classList.remove('show'), 5000);
+        if(Object.keys(productsData.categories).length > 0 && Math.random() > 0.4) {
+            let p = []; Object.values(productsData.categories).forEach(c => Object.values(c.apps).forEach(a => a.standalone.forEach(i => p.push({c:c.name, a:a.name, i:i.name}))));
+            if(p.length > 0) {
+                let r = p[Math.floor(Math.random()*p.length)];
+                document.getElementById('fomo-msg').innerHTML = `Someone in <b style="color:var(--primary);">${cities[Math.floor(Math.random()*6)]}</b> bought:<br><span style="font-size:0.7rem; opacity:0.6;">${r.c} > ${r.a}</span><br><b>${r.i}</b>`;
+                document.getElementById('fomo-toast').classList.add('show');
+                setTimeout(() => document.getElementById('fomo-toast').classList.remove('show'), 5000);
             }
         }
-    }, 35000); 
+    }, 35000);
 
-    // --- TRANSLATION ENGINE ---
     const T = { 
-        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳", credit: "Made by Yessine ❤️", polTitle: "Privacy Policy & Terms", polDTitle: "Data Privacy:", polDDesc: "Your data is shared securely with our automation & payment partners.", polLTitle: "Delivery:", polLDesc: "Instant up to 48 hours maximum.", polSTitle: "Support:", polSDesc: "After-sales service (SAV) is guaranteed.", polBtn: "I Accept" }, 
-        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳", credit: "Fait par Yessine ❤️", polTitle: "Confidentialité et Conditions", polDTitle: "Données:", polDDesc: "Vos données sont partagées en toute sécurité (automatisation & paiements).", polLTitle: "Livraison:", polLDesc: "Instantanée jusqu'à 48 heures maximum.", polSTitle: "Support:", polSDesc: "Service après-vente (SAV) garanti.", polBtn: "J'accepte" } 
+        en: { back: "← Back", search: "Search Store...", acc: "Account", contact: "Contact", vip: "VIP Spin", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polBtn: "I AGREE & ENTER" }, 
+        fr: { back: "← Retour", search: "Rechercher...", acc: "Compte", contact: "Contact", vip: "Tour VIP", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polBtn: "J'ACCEPTE & ENTRER" } 
     };
 
-    function applyLang() { 
-        const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase(); 
-        if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search; 
-        if(document.getElementById('ui-maint-title')) document.getElementById('ui-maint-title').innerText = d.maintTitle; 
-        if(document.getElementById('ui-menu-acc')) document.getElementById('ui-menu-acc').innerHTML = `👤 ${d.acc}`; 
-        if(document.getElementById('ui-menu-contact')) document.getElementById('ui-menu-contact').innerHTML = `📞 ${d.contact}`; 
-        if(document.getElementById('ui-menu-vip')) document.getElementById('ui-menu-vip').innerHTML = `🎡 ${d.vip}`; 
-        if(document.getElementById('footer-credit')) document.getElementById('footer-credit').innerText = d.credit;
-        
-        if(document.getElementById('ui-pol-title')) document.getElementById('ui-pol-title').innerText = d.polTitle;
-        if(document.getElementById('ui-pol-d-title')) document.getElementById('ui-pol-d-title').innerText = d.polDTitle;
-        if(document.getElementById('ui-pol-d-desc')) document.getElementById('ui-pol-d-desc').innerText = d.polDDesc;
-        if(document.getElementById('ui-pol-l-title')) document.getElementById('ui-pol-l-title').innerText = d.polLTitle;
-        if(document.getElementById('ui-pol-l-desc')) document.getElementById('ui-pol-l-desc').innerText = d.polLDesc;
-        if(document.getElementById('ui-pol-s-title')) document.getElementById('ui-pol-s-title').innerText = d.polSTitle;
-        if(document.getElementById('ui-pol-s-desc')) document.getElementById('ui-pol-s-desc').innerText = d.polSDesc;
-        if(document.getElementById('ui-pol-btn')) document.getElementById('ui-pol-btn').innerText = d.polBtn;
+    const applyLang = () => {
+        const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
+        document.getElementById('mainSearch').placeholder = d.search; document.getElementById('footer-credit').innerText = d.credit;
+        document.getElementById('ui-pol-title').innerText = d.polTitle; document.getElementById('ui-pol-btn').innerText = d.polBtn;
+        forceReRender();
+    };
+    const toggleLang = () => { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); };
+    const showToast = (m) => { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
+    const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
 
-        const loader = document.querySelector('.loader-text'); if(loader && (loader.innerText.includes('Loading') || loader.innerText.includes('Chargement'))) loader.innerText = d.loading; forceReRender(); 
-    }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
-    function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
-    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    // --- ADMIN ---
+    let lC = 0, lT;
+    const logoTrigger = () => { lC++; clearTimeout(lT); lT = setTimeout(()=>lC=0,1500); if(lC===5) openModal('admin-auth-modal'); };
+    const submitAdminPass = () => { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-panel').style.display = 'block'; fetchData(); } };
+    const lockAdminPanel = () => { isSupport = false; document.getElementById('admin-panel').style.display='none'; };
 
-    let logoClickCount = 0; let logoClickTimer;
-    function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-auth-modal'); } }
-    function submitAdminPass() { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); drawAdminChart(); } else { showToast("Incorrect Password", "error"); } }
-    async function executeAdminBiometric() { closeModal('admin-auth-modal'); try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"preferred", timeout:60000} }); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); fetchData(); drawAdminChart(); } catch(e) { showToast("Biometric Failed", "error"); } }
-    function promptPasskeyCreation() { let auth = prompt("⚠️ Security Check:\nEnter Admin Password to authorize Passkey creation:"); if (auth === "26240608") { registerBiometricDevice(); } else { showToast("Unauthorized", "error"); } }
-    async function registerBiometricDevice() { closeModal('admin-auth-modal'); try { const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); const cred=await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: BIO_OPTIONS, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); } catch(e) { showToast("Failed to create passkey", "error"); } }
-    function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Locked.", "info"); }
-
-    function openProfileOrLogin() { if(currentUser) { document.getElementById('prof-email-display').innerText = "Account: " + currentUser; openModal('profile-modal'); } else { openModal('login-modal'); } }
-    function logoutUser() { currentUser = null; currentPass = null; isSupport = false; document.getElementById('admin-panel').style.display = 'none'; closeModal('profile-modal'); showToast("Logged out.", "info"); fetchData(); }
-    async function processAuth(actionType) {
-        const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
-        if(!contact || !pass) return showToast("Fill all fields", "error");
-        if(contact === "yessinebenfraj106@gmail.com") { currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); drawAdminChart(); fetchData(); return; }
-        if(actionType === 'register') { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register", contact: contact, password: pass }), mode: 'no-cors' }); showToast("Account Created!", "success"); currentUser = contact; currentPass = pass; closeModal('login-modal');
-        } else if(actionType === 'login') {
-            try { const res = await fetch(USERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let found = false;
-                for(let i = 1; i < rows.length; i++) { const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                    if (cols[0] === contact && cols[1] === pass) { found = true; currentUser = contact; currentPass = pass; closeModal('login-modal'); if(cols[6] && cols[6].toUpperCase() === "TRUE") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; showToast("🔓 Support Role Active", "success"); drawAdminChart(); } else { showToast("Login Successful!", "success"); } fetchData(); break; }
-                } if(!found) showToast("Incorrect Credentials.", "error"); 
-            } catch(e) {}
-        }
-    }
-    async function linkUserBiometric() { if(!currentUser) return; try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: BIO_OPTIONS, timeout:60000 } }); localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success"); } catch(e) { showToast("Biometric linking failed.", "error"); } }
-    async function executeUserBiometricLogin() { closeModal('login-modal'); let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass'); if(!linkedUser) return showToast("No biometrics linked.", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); currentUser = linkedUser; currentPass = linkedPass; if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; drawAdminChart(); } showToast("Welcome back, " + currentUser, "success"); fetchData(); } catch(e) { showToast("Login failed.", "error"); } }
-    async function revealPassword() { if(!currentPass) return showToast("Password hidden in this session.", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); const passInput = document.getElementById('prof-password-display'); passInput.type = 'text'; passInput.value = currentPass; setTimeout(() => { passInput.type = 'password'; passInput.value = "••••••••"; }, 5000); } catch(e) { showToast("Verification required.", "error"); } }
-
-    async function openVIPHub() { if(!currentUser) return showToast("Login required to spin.", "error"); let accSpin = localStorage.getItem(`cyberhub_spin_acc_${currentUser}`) || 0; let devSpin = localStorage.getItem(`cyberhub_spin_device`) || 0; let lastSpinTime = Math.max(parseInt(accSpin), parseInt(devSpin)); try { if(!currentVisitorIP) { let ipRes = await fetch('https://api.ipify.org?format=json'); let ipData = await ipRes.json(); currentVisitorIP = ipData.ip; } let ipSpin = localStorage.getItem(`cyberhub_spin_ip_${currentVisitorIP}`) || 0; lastSpinTime = Math.max(lastSpinTime, parseInt(ipSpin)); } catch(e) {} let now = new Date().getTime(); if(lastSpinTime > 0 && (now - lastSpinTime) < (48 * 60 * 60 * 1000)) { let hoursLeft = Math.ceil(((lastSpinTime + (48*60*60*1000)) - now) / (1000 * 60 * 60)); return showToast(`Please wait ${hoursLeft} hours. Device/IP Locked.`, "error"); } openModal('vip-modal'); }
-    function executeSpin() { const btn = document.getElementById('spin-btn'); btn.disabled = true; btn.innerText = "Spinning..."; let rng = Math.floor(Math.random() * 100); let result = ""; let degrees = 0; if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; } const wheel = document.getElementById('spin-wheel'); wheel.style.transform = `rotate(${degrees}deg)`; setTimeout(() => { showToast(`🎉 ${result}`, "success"); btn.innerText = "SPIN NOW"; btn.disabled = false; wheel.style.transform = `rotate(0deg)`; if(!result.includes("Again")) { let nowStr = new Date().getTime().toString(); localStorage.setItem(`cyberhub_spin_acc_${currentUser}`, nowStr); localStorage.setItem(`cyberhub_spin_device`, nowStr); if(currentVisitorIP) localStorage.setItem(`cyberhub_spin_ip_${currentVisitorIP}`, nowStr); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' }); } closeModal('vip-modal'); }, 4000); }
-
-    setInterval(fetchData, 4000); 
+    // --- DATA ---
+    setInterval(fetchData, 5000);
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
-            if(text === lastDataString && !isSupport) return; lastDataString = text; 
-            const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            let rawMaint = "FALSE"; for(let i=0; i<headers.length; i++) { let clean = headers[i].replace(/^"|"$/g, '').trim().toUpperCase(); if(clean === "TRUE" || clean === "UNTIL" || clean.startsWith("T_")) { rawMaint = clean; break; } }
-            if (adminForcedMaint !== null) { rawMaint = adminForcedMaint; } handleMaintenanceUI(rawMaint);
-            let temp = {}; 
+            const rows = text.split('\n'); let temp = {};
             rows.slice(1).forEach(row => {
-                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if (cols.length >= 6 && cols[0] !== "") {
-                    const cat = cols[0]; const app = cols[2]; const itemNameRaw = cols[4]; const price = parseFloat(cols[5]) || 0; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
-                    let itemName = itemNameRaw; let groupName = null;
-                    if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
-                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} }; if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3], groups: {}, standalone: [] };
-                    const itemData = { name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS };
-                    if(groupName) { if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] }; temp[cat].apps[app].groups[groupName].items.push(itemData); } else { temp[cat].apps[app].standalone.push(itemData); }
+                const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/^"|"$/g, ''));
+                if (c[0]) {
+                    const cat = c[0], app = c[2], raw = c[4], pr = parseFloat(c[5]) || 0, oos = c[6] === "OOS";
+                    let name = raw, grp = raw.includes("||GRP||") ? raw.split("||GRP||")[1] : null;
+                    if(grp) name = raw.split("||GRP||")[0];
+                    if (!temp[cat]) temp[cat] = { name: cat, img: c[1], apps: {} };
+                    if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: c[3], groups: {}, standalone: [] };
+                    const it = { name, originalName: raw, price: pr, isOOS: oos };
+                    if(grp) { if(!temp[cat].apps[app].groups[grp]) temp[cat].apps[app].groups[grp] = { name: grp, items: [] }; temp[cat].apps[app].groups[grp].items.push(it); }
+                    else temp[cat].apps[app].standalone.push(it);
                 }
             });
-            productsData.categories = temp; forceReRender(); 
-        } catch (e) {}
+            productsData.categories = temp; forceReRender();
+        } catch(e){}
     }
-    function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing live update...", "info"); adminForcedMaint = payload.value; handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { adminForcedMaint = null; lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 8000); } catch(e) { adminForcedMaint = null; } }
-
-    function handleDragStart(e, rawName) { draggedItemRawName = rawName; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
-    function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
-    function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-    function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroup) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { showToast("Moving item...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Moved!", "success"); }, 1500); }); } draggedItemRawName = null; }
 
     function forceReRender() {
-        const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
-        let html = ''; const dic = T[currentLang];
+        const q = document.getElementById('mainSearch').value.toLowerCase(); let html = '';
         if(q) {
-            html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3><div class="grid">`;
-            Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => {
-                a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); });
-                Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q) || a.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); });
-            }); }); html += `</div>`;
+            Object.values(productsData.categories).forEach(c => Object.values(c.apps).forEach(a => {
+                a.standalone.forEach(i => { if(i.name.toLowerCase().includes(q)) html += drawItem(i); });
+                Object.values(a.groups).forEach(g => g.items.forEach(i => { if(i.name.toLowerCase().includes(q)) html += drawItem(i); }));
+            }));
+        } else if(currentView.type === 'cats') {
+            Object.values(productsData.categories).forEach(c => html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><b>${c.name}</b></div>`);
+        } else if(currentView.type === 'apps') {
+            html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:none;">${T[currentLang].back}</button><div class="grid">`;
+            Object.values(productsData.categories[currentView.cat].apps).forEach(a => html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><b>${a.name}</b></div>`);
+            html += `</div>`;
         } else {
-            if(currentView.type === 'cats') {
-                html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; });
-                html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
-            } else if (currentView.type === 'apps') {
-                const catData = productsData.categories[currentView.cat]; html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat.replace(/'/g, "\\'")}', app:'${a.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
-            } else if (currentView.type === 'items') {
-                const appData = productsData.categories[currentView.cat].apps[currentView.app];
-                html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat.replace(/'/g, "\\'")}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
-                if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
-                Object.values(appData.groups).forEach((g, gI) => {
-                    let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${g.name.replace(/'/g, "\\'")}')"` : "";
-                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
-                    g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
-                });
-                appData.standalone.forEach(it => html += drawItemRow(it, dic));
-            }
+            const app = productsData.categories[currentView.cat].apps[currentView.app];
+            html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:none;">${T[currentLang].back}</button>`;
+            Object.values(app.groups).forEach((g, i) => {
+                html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c=document.getElementById('f-${i}'); c.style.display=c.style.display==='block'?'none':'block';">📁 ${g.name} (${g.items.length}) <span class="chevron">▼</span></div><div id="f-${i}" class="folder-content">`;
+                g.items.forEach(it => html += drawItem(it)); html += `</div>`;
+            });
+            app.standalone.forEach(it => html += drawItem(it));
         }
-        document.getElementById('content-area').innerHTML = html;
+        document.getElementById('content-area').innerHTML = `<div class="grid">${html}</div>`;
     }
 
-    function drawItemRow(it, dic) {
-        let escOldName = it.originalName.replace(/'/g, "\\'"); let dragProps = isSupport ? `draggable="true" ondragstart="handleDragStart(event, '${escOldName}')" ondragend="handleDragEnd(event)"` : "";
-        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${escOldName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" onclick="let p=prompt('New Price?'); if(p) updateItem('${escOldName}', p, ${it.isOOS})">[✏️ Price]</button><button class="support-btn" style="color:#ff4d4d; border-color:#ff4d4d;" onclick="deleteItem('${escOldName}')">[🗑️ Delete]</button></div>` : '';
-        return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${escOldName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
+    function drawItem(it) {
+        let adm = isSupport ? `<button onclick="deleteItem('${it.originalName}')" style="color:red; border:none; background:none;">🗑️</button>` : '';
+        return `<div class="item-row"><b>${it.name} ${it.isOOS ? '<span style="color:red; font-size:0.6rem;">[OOS]</span>':''}</b><span style="color:var(--primary); font-weight:800; margin:5px 0;">${it.price} DT</span>${adm}<button class="add-cart-btn" onclick="addToCart('${it.name}', ${it.price})" ${it.isOOS?'disabled':''}>ADD</button></div>`;
     }
 
-    function updateItem(name, price, isOOS) { showToast("Updating...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Updated!", "success"); }, 1500); }); }
-    function deleteItem(name) { if(confirm("Permanently delete this item?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Deleted!", "success"); }, 1500); }); } }
-    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) name += "||GRP||" + group; } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); }); }
+    function addToCart(n, p) { cart.push({n, p}); document.getElementById('cart-count').innerText = cart.length; showToast("Added to Cart"); }
+    function openCart() { document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:10px; border-bottom:1px solid #222;">${i.n} - ${i.p}DT</div>`).join(''); openModal('modal'); }
+    function openCheckout() { closeModal('modal'); document.getElementById('chk-total').innerText = cart.reduce((s,i)=>s+i.p, 0); openModal('checkout-modal'); }
+    function finalizeOrder() {
+        let id = currentUser === "yessinebenfraj106@gmail.com" ? "TEST-"+Math.random() : "CH-"+Math.floor(Math.random()*9000);
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "place_order", orderId: id, client: document.getElementById('custName').value, contact: currentUser||"Guest", items: cart.map(i=>i.n).join(','), price: document.getElementById('chk-total').innerText, payment: "Cash" }), mode: 'no-cors' }).then(() => { closeModal('checkout-modal'); cart=[]; document.getElementById('cart-count').innerText="0"; showToast("Success!"); });
+    }
+
+    async function openUserOrders() { openModal('user-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let h = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) h += `<div style="border:1px solid #222; padding:10px; border-radius:10px; margin-bottom:10px;">${c[0]}: ${c[3]} (${c[6]})</div>`; }); document.getElementById('user-orders-list').innerHTML = h || "No orders."; }
+    async function openAdminOrders() { openModal('admin-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let h = ""; rows.slice(1).forEach(r => { let c = r.split(','); if(c[0]) h += `<div style="border-bottom:1px solid #222; padding:10px;">${c[0]}: ${c[1]} <button onclick="deliverOrder('${c[0]}')">Deliver</button></div>`; }); document.getElementById('admin-orders-list').innerHTML = h; }
+    function clearTestOrders() { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(()=>showToast("Tests Cleared")); }
+    function deleteItem(n) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: n }), mode: 'no-cors' }).then(()=>fetchData()); }
     
-    // --- USER DASHBOARD ---
-    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading your orders... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; let hasOrders = false; for(let i = rows.length - 1; i > 0; i--) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols[2] === currentUser) { hasOrders = true; let isDelivered = cols[6] === 'Delivered'; let statusColor = isDelivered ? '#00ff88' : 'var(--warn)'; let credBox = isDelivered ? `<div style="background:rgba(0,255,136,0.1); border:1px dashed #00ff88; padding:10px; border-radius:8px; margin-top:10px;"><b style="color:#00ff88;">Credentials / Digital Key:</b><br><span style="font-family:monospace; font-size:1.1rem; color:white; word-break:break-all;">${cols[8] || "Sent via WhatsApp"}</span></div>` : `<div style="font-size:0.8rem; color:var(--sub); margin-top:8px;">Processing... Check back soon.</div>`; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:15px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><b style="color:var(--primary);">${cols[0]}</b><span style="color:${statusColor}; font-weight:bold;">${cols[6] || "Pending"}</span></div><b style="color:white;">Items:</b> <span style="color:var(--sub);">${cols[3]}</span><br><b style="color:white;">Total:</b> <span style="color:var(--primary);">${cols[4]} DT</span>${credBox}</div>`; } } document.getElementById('user-orders-list').innerHTML = hasOrders ? html : "<p style='color:var(--sub); text-align:center;'>You have no orders yet.</p>"; } catch(e) { document.getElementById('user-orders-list').innerHTML = "Failed to load orders."; } }
-
-    // --- ADMIN ORDERS & DELIVERY ---
-    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${o.id}</b> | <span style="color:var(--warn);">${o.status}</span><br><b>User:</b> ${o.client} (${o.contact})<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found in database."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
-    function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
-
-    // --- CHECKOUT & WHITELIST TESTS ---
-    function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); openModal('modal'); }
-    function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
-    function openCheckout() { closeModal('modal'); openModal('checkout-modal'); document.getElementById('chk-total').innerText = document.getElementById('cart-total-price').innerText; if(currentUser) document.getElementById('custContact').value = currentUser; }
-    function selectPayment(method) { let txIdInput = document.getElementById('d17-details'); if(method === 'D17') { txIdInput.style.display = 'block'; } else { txIdInput.style.display = 'none'; } }
-    function finalizeOrder() { 
-        if(cart.length === 0) return showToast("Cart is empty!", "error");
-        let name = document.getElementById('custName').value || "Unknown"; let contact = document.getElementById('custContact').value || currentUser || "Guest"; let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; let total = document.getElementById('cart-total-price').innerText; let itemsStr = cart.map(i => i.name).join(" + ");
-        let orderId = "CH-" + Math.floor(1000 + Math.random() * 9000); let isTest = false;
-        
-        if(currentUser === "yessinebenfraj106@gmail.com") { orderId = "TEST-" + Math.floor(1000 + Math.random() * 9000); isTest = true; } 
-        
-        showToast(isTest ? "Generating Test Order..." : "Processing...", "info");
-        let payload = { action: "place_order", orderId: orderId, client: name, contact: contact, items: itemsStr, price: total, payment: method };
-        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }).then(() => { closeModal('checkout-modal'); cart = []; document.getElementById('cart-count').innerText = "0"; document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; showToast(isTest ? "Test Order Generated!" : "Order Placed!", "success"); setTimeout(() => { if(isSupport) openAdminOrders(); }, 1500); }); 
-    }
-    function clearTestOrders() { if(confirm("Wipe all TEST orders from the database?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Tests Wiped!", "success"); }, 1500); }); } }
-
-    function openInbox() { openModal('inbox-modal'); }
-    function sendChatMessage() { const i = document.getElementById('chat-input'); const b = document.getElementById('chat-history'); if(!i.value)return; b.innerHTML += `<div style="background:var(--primary); color:#000; padding:10px; border-radius:10px; align-self:flex-end;"><b>You:</b> ${i.value}</div>`; i.value=""; setTimeout(()=>{b.innerHTML+=`<div style="background:rgba(0,240,255,0.1); padding:10px; border-radius:10px; align-self:flex-start; border:1px solid var(--primary);"><b>Support:</b> Thank you, we will reply shortly.</div>`; b.scrollTop=b.scrollHeight;}, 500); }
-
-    async function drawAdminChart() { const ctx = document.getElementById('adminChart'); if(!ctx) return; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; for(let i = 1; i < rows.length; i++) { const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; } } new Chart(ctx, { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); } catch(e) {} }
-
-    applyLang();
-    fetchData(); 
+    currentView.type = 'cats'; fetchData(); applyLang();
 </script>
 </body>
 </html>
