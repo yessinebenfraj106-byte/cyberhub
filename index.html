@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050b14">
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -41,7 +41,6 @@
         .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
         .support-tools { display: flex; gap: 5px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px; flex-wrap: wrap; }
         .support-btn { flex: 1 1 22%; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 5px; transition: 0.2s; }
-        .support-btn:hover { background: rgba(0,240,255,0.1); }
         .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
@@ -50,9 +49,7 @@
         .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
         .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
 
-        /* DRAG & DROP FOLDER UI */
         .folder-header { background: linear-gradient(90deg, rgba(0, 240, 255, 0.1), transparent); border-left: 3px solid var(--primary); padding: 16px 20px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 5px; transition: 0.3s; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .folder-header:hover { background: rgba(0, 240, 255, 0.2); box-shadow: 0 0 15px rgba(0,240,255,0.1); }
         .folder-header.drag-over { border: 2px dashed var(--primary); background: rgba(0, 240, 255, 0.3); }
         .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 15px; margin-bottom: 25px; animation: fadeIn 0.3s; }
         .chevron { transition: 0.3s transform ease; color: var(--primary); font-size: 0.8rem; }
@@ -67,10 +64,15 @@
         .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
 
         .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; }
+        
         .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:2000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
         .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 85vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; }
         input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
         
+        /* ⚡ NEW FOMO TOAST */
+        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid #00ff88; color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.9rem; z-index: 3500; font-weight: 500; transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 260px; }
+        .fomo-toast.show { left: 0; }
+
         .spin-wrapper { position: relative; width: 240px; height: 240px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
         .spin-wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient( #ff4d4d 0deg 90deg, #ffae00 90deg 180deg, #00ff88 180deg 270deg, #00f0ff 270deg 360deg ); }
         .wheel-icon { position: absolute; font-size: 2.2rem; width: 40px; height: 40px; line-height: 40px; text-align: center; }
@@ -90,6 +92,11 @@
 <body>
 <div id="particles-js"></div>
 <div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
+
+<div id="fomo-toast" class="fomo-toast">
+    <div style="font-size:1.8rem;">🛒</div>
+    <div id="fomo-msg" style="line-height:1.4;">Someone bought something!</div>
+</div>
 
 <div id="sidebar" class="liquid-glass">
     <button class="close-menu" onclick="toggleSidebar()">✖</button>
@@ -111,10 +118,7 @@
         </div>
     </div>
     
-    <div id="maintenance-msg" class="maintenance-band liquid-glass">
-        <div id="ui-maint-title">STORE CLOSED FOR UPDATES</div>
-        <div id="ui-maint-time"></div>
-    </div>
+    <div id="maintenance-msg" class="maintenance-band liquid-glass"><div id="ui-maint-title">STORE CLOSED FOR UPDATES</div><div id="ui-maint-time"></div></div>
     
     <div class="header" style="text-align:center; margin-top: 10px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
@@ -124,40 +128,33 @@
     <div id="admin-panel" class="admin-controls liquid-glass">
         <b style="color:var(--warn); font-size:1.2rem;">🛠️ GOD-MODE ADMIN</b><br>
         <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Live Store Control</p>
-        
         <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin-bottom:15px;">📦 VIEW ALL PURCHASES</button>
-
         <input type="number" id="maint-timer-mins" placeholder="Minutes to close (e.g. 60)">
-        <div class="admin-grid">
-            <button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button>
-            <button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 Close (No Timer)</button>
-        </div>
+        <div class="admin-grid"><button class="btn-maint" onclick="setLiveMaintenance('TIMER')">⏳ Set Timer</button><button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 Close (No Timer)</button></div>
         <button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 FORCE REOPEN STORE</button>
         <button class="add-cart-btn" onclick="document.getElementById('add-item-modal').style.display='flex'">+ ADD NEW ITEM</button>
-        
-        <div class="admin-chart-container">
-            <b style="color:white; font-size:0.8rem;">Live Sales Analytics</b>
-            <canvas id="adminChart" height="150"></canvas>
-        </div>
+        <div class="admin-chart-container"><b style="color:white; font-size:0.8rem;">Live Sales Analytics</b><canvas id="adminChart" height="150"></canvas></div>
         <button class="add-cart-btn" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; margin-top:15px;" onclick="lockAdminPanel()">🔒 Lock Admin</button>
     </div>
 
-    <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;">
-        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Store Data... ⏳</div></div>
-    </div>
+    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px;"><div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Store Data... ⏳</div></div></div>
 </div>
 
 <button class="fab-cart" onclick="openCart()">🛒<div class="badge" id="cart-count">0</div></button>
 
 <div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 All Purchases</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+
+<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+
 <div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); document.getElementById('admin-pass-modal').style.display='flex';">🔑 Use Password</button><button class="add-cart-btn" onclick="promptPasskeyCreation()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub);">➕ Create New Passkey</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 <div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn);">Admin Password</h3><input type="password" id="admin-manual-pass" placeholder="Enter PIN..."><button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button><button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 
-<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 5px;" id="prof-email-display"></p><div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (PC PIN, Face ID, or Fingerprint) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
+<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 15px;" id="prof-email-display"></p>
+    <button class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:20px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
+    <div class="pass-reveal-box" style="margin-bottom: 20px;"><input type="password" id="prof-password-display" value="••••••••" readonly><button onclick="revealPassword()" title="Use Screen Lock to view">👁️</button></div><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;"><h4 style="margin:0 0 10px 0; color:white;">Security</h4><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Add Biometrics (PC PIN, Face ID) for instant login.</p><button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0;">🔗 Add Biometrics</button></div><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login or use Biometrics if added.</p><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
-<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Triple-Lock IP security active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
+<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h. Triple-Lock IP security active.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Details"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
 <div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;" id="ui-req-title">💡 Request a Service</h3><input type="text" id="req-name" placeholder="App/Game Name"><input type="text" id="req-desc" placeholder="Details"><button class="add-cart-btn" style="background:var(--warn);" onclick="closeModal('request-modal'); showToast('Request Sent!', 'success');">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
@@ -180,22 +177,26 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
 
-    const T = { 
-        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳" }, 
-        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳" } 
-    };
+    // --- FOMO POPUP SYSTEM ---
+    const tunisianCities = ["Tunis", "Sfax", "Sousse", "Bizerte", "Nabeul", "Ariana", "Monastir", "Hammamet", "Djerba", "Ben Arous"];
+    setInterval(() => {
+        if(Object.keys(productsData.categories).length > 0 && Math.random() > 0.3) {
+            let items = []; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(i => items.push(i.name)); Object.values(a.groups).forEach(g => g.items.forEach(i => items.push(i.name))); }); });
+            if(items.length > 0) {
+                let randItem = items[Math.floor(Math.random() * items.length)];
+                let randCity = tunisianCities[Math.floor(Math.random() * tunisianCities.length)];
+                let fomoToast = document.getElementById('fomo-toast');
+                document.getElementById('fomo-msg').innerHTML = `Someone from <b style="color:var(--primary);">${randCity}</b><br>just bought <b>${randItem}</b>!`;
+                fomoToast.classList.add('show');
+                setTimeout(() => fomoToast.classList.remove('show'), 5000);
+            }
+        }
+    }, 35000); // Pops up every 35 seconds
 
-    function applyLang() {
-        const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
-        if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search;
-        if(document.getElementById('ui-maint-title')) document.getElementById('ui-maint-title').innerText = d.maintTitle;
-        if(document.getElementById('ui-menu-acc')) document.getElementById('ui-menu-acc').innerHTML = `👤 ${d.acc}`;
-        if(document.getElementById('ui-menu-contact')) document.getElementById('ui-menu-contact').innerHTML = `📞 ${d.contact}`;
-        if(document.getElementById('ui-menu-vip')) document.getElementById('ui-menu-vip').innerHTML = `🎡 ${d.vip}`;
-        const loader = document.querySelector('.loader-text'); if(loader && (loader.innerText.includes('Loading') || loader.innerText.includes('Chargement'))) loader.innerText = d.loading;
-        forceReRender(); 
-    }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
+    const T = { en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳" } };
+
+    function applyLang() { const d = T['en']; document.getElementById('lang-ind').innerText = 'EN'; if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search; if(document.getElementById('ui-maint-title')) document.getElementById('ui-maint-title').innerText = d.maintTitle; if(document.getElementById('ui-menu-acc')) document.getElementById('ui-menu-acc').innerHTML = `👤 ${d.acc}`; if(document.getElementById('ui-menu-contact')) document.getElementById('ui-menu-contact').innerHTML = `📞 ${d.contact}`; if(document.getElementById('ui-menu-vip')) document.getElementById('ui-menu-vip').innerHTML = `🎡 ${d.vip}`; const loader = document.querySelector('.loader-text'); if(loader && (loader.innerText.includes('Loading') || loader.innerText.includes('Chargement'))) loader.innerText = d.loading; forceReRender(); }
+    function toggleLang() { applyLang(); }
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") { toast.classList.add('error'); document.getElementById('toast-icon').innerText = '❌'; } else if(type === "success") { toast.classList.add('success'); document.getElementById('toast-icon').innerText = '✅'; } else { document.getElementById('toast-icon').innerText = '⏳'; } clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -264,7 +265,7 @@
 
     function forceReRender() {
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
-        let html = ''; const dic = T[currentLang];
+        let html = ''; const dic = T['en'];
         if(q) {
             html += `<h3 style="color:var(--primary); margin-bottom:15px;">Search Results:</h3><div class="grid">`;
             Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => {
@@ -303,7 +304,49 @@
     function deleteItem(name) { if(confirm("Permanently delete this item?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); showToast("Deleted!", "success"); }, 1500); }); } }
     function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) name += "||GRP||" + group; } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: name, price: price }), mode: 'no-cors' }).then(() => { setTimeout(() => { lastDataString = ""; fetchData(); }, 1500); }); }
     
-    async function openAdminOrders() { document.getElementById('admin-orders-modal').style.display = 'flex'; document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${o.id}</b> | <span style="color:var(--warn);">${o.status}</span><br><b>User:</b> ${o.client} (${o.contact})<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found in database."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
+    // --- USER ORDERS DASHBOARD ---
+    async function openUserOrders() {
+        closeModal('profile-modal'); document.getElementById('user-orders-modal').style.display = 'flex';
+        document.getElementById('user-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading your orders... ⏳</p>`;
+        try {
+            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; let hasOrders = false;
+            for(let i = rows.length - 1; i > 0; i--) { // Reverse loop so newest shows first
+                if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                if(cols[2] === currentUser) { 
+                    hasOrders = true; let isDelivered = cols[6] === 'Delivered'; let statusColor = isDelivered ? '#00ff88' : 'var(--warn)';
+                    let credBox = isDelivered ? `<div style="background:rgba(0,255,136,0.1); border:1px dashed #00ff88; padding:10px; border-radius:8px; margin-top:10px;"><b style="color:#00ff88;">Credentials / Digital Key:</b><br><span style="font-family:monospace; font-size:1.1rem; color:white; word-break:break-all;">${cols[8] || "Sent via WhatsApp"}</span></div>` : `<div style="font-size:0.8rem; color:var(--sub); margin-top:8px;">Processing... Check back soon.</div>`;
+                    html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:15px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><b style="color:var(--primary);">${cols[0]}</b><span style="color:${statusColor}; font-weight:bold;">${cols[6] || "Pending"}</span></div><b style="color:white;">Items:</b> <span style="color:var(--sub);">${cols[3]}</span><br><b style="color:white;">Total:</b> <span style="color:var(--primary);">${cols[4]} DT</span>${credBox}</div>`;
+                }
+            }
+            document.getElementById('user-orders-list').innerHTML = hasOrders ? html : "<p style='color:var(--sub); text-align:center;'>You have no orders yet.</p>";
+        } catch(e) { document.getElementById('user-orders-list').innerHTML = "Failed to load orders."; }
+    }
+
+    // --- ADMIN ORDERS & DELIVERY SYSTEM ---
+    async function openAdminOrders() { 
+        document.getElementById('admin-orders-modal').style.display = 'flex'; document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; 
+        try { 
+            const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; 
+            for(let i = 1; i < rows.length; i++) { 
+                if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); 
+                if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } 
+            } 
+            orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; 
+            orders.forEach(o => { 
+                let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`;
+                html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${o.id}</b> | <span style="color:var(--warn);">${o.status}</span><br><b>User:</b> ${o.client} (${o.contact})<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; 
+            }); 
+            document.getElementById('admin-orders-list').innerHTML = html || "No orders found in database."; 
+        } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } 
+    }
+    
+    function deliverOrder(orderId) {
+        let creds = document.getElementById(`cred-${orderId}`).value;
+        if(!creds) return showToast("Enter credentials first!", "error");
+        showToast("Delivering...", "info");
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); });
+    }
+
     function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); document.getElementById('modal').style.display = 'flex'; }
     function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
     function openCheckout() { closeModal('modal'); document.getElementById('checkout-modal').style.display = 'flex'; document.getElementById('chk-total').innerText = document.getElementById('cart-total-price').innerText; if(currentUser) document.getElementById('custContact').value = currentUser; }
