@@ -3,113 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberHub | Digital Store</title>
+    <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#050b14">
+    <meta name="theme-color" content="#020617">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     <style>
-        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        body.modal-active { overflow: hidden; height: 100vh; }
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); transition: 0.3s; }
-        .logo:active { transform: scale(0.9); }
+        :root { --primary: #00f0ff; --bg: #020617; --card: rgba(15, 23, 42, 0.6); --border: rgba(0, 240, 255, 0.2); --text: #f8fafc; --sub: #94a3b8; --warn: #fbbf24; --accent: #8b5cf6; }
         
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; min-height: 100vh; overflow-x: hidden; }
+        body.modal-active { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+
+        /* ✨ CINEMATIC BACKGROUND */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%); }
+        
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); backdrop-filter: blur(10px); border-radius: 20px; }
+        .icon-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 10px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .icon-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+
+        .logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 40px rgba(0, 240, 255, 0.3); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .logo:hover { transform: rotate(10deg) scale(1.05); border-width: 4px; }
+
+        /* 🔥 CATEGORY CARD UPGRADE */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; animation: fadeIn 0.4s ease-out; }
+        .nav-card { position: relative; padding: 25px 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 24px; background: var(--card); backdrop-filter: blur(10px); transition: 0.4s; overflow: hidden; }
+        .nav-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.05)); opacity: 0; transition: 0.3s; }
+        .nav-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 12px 30px rgba(0, 240, 255, 0.15); }
+        .nav-card:hover::before { opacity: 1; }
+        .nav-card img { width: 65px; height: 65px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .nav-card b { font-size: 1.1rem; letter-spacing: 0.5px; display: block; color: #fff; }
+
         /* 🔥 FOLDER UI UPGRADE */
-        .folder-header { background: rgba(255,255,255,0.03); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 1rem; margin-bottom: 8px; transition: 0.3s; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .folder-header:hover { background: rgba(0, 240, 255, 0.1); border-left-width: 8px; }
-        .folder-content { display: none; padding: 5px 0 15px 15px; border-left: 2px dashed var(--border); margin-left: 10px; animation: slideDown 0.3s ease-out; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .chevron { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: var(--primary); font-size: 0.7rem; }
+        .folder-header { background: linear-gradient(90deg, rgba(0, 240, 255, 0.08), transparent); border: 1px solid var(--border); border-left: 5px solid var(--primary); padding: 20px; border-radius: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; margin-top: 15px; transition: 0.3s; }
+        .folder-header:hover { background: rgba(0, 240, 255, 0.15); }
+        .folder-content { display: none; padding: 10px 0 20px 15px; border-left: 2px dashed var(--border); margin-left: 12px; animation: slideIn 0.3s ease-out; }
+        .chevron { color: var(--primary); transition: 0.4s; }
         .folder-open .chevron { transform: rotate(180deg); }
 
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; text-transform: uppercase; width: 100%; transition: 0.3s; margin-top: 8px; }
-        .add-cart-btn:hover { box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
-        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 10px; }
+        .item-row { padding: 20px; margin-bottom: 15px; background: rgba(15, 23, 42, 0.8); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .price-tag { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin: 10px 0; display: block; }
+        .add-cart-btn { background: var(--primary); color: #020617; border: none; padding: 15px; border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .add-cart-btn:active { transform: scale(0.95); }
 
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.98); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(20px); padding: 20px; }
-        .modal-content { padding: 30px; width: 100%; max-width: 450px; text-align: center; background: var(--bg); border: 1px solid var(--primary); border-radius: 25px; box-shadow: 0 0 50px rgba(0, 240, 255, 0.2); position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.9); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 20px; }
+        .modal-content { padding: 35px 25px; width: 100%; max-width: 450px; text-align: center; background: #0f172a; border: 1px solid var(--primary); border-radius: 30px; box-shadow: 0 0 60px rgba(0, 240, 255, 0.2); }
         
-        /* 🔥 POLICY UI UPGRADE */
-        .policy-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 15px; margin-bottom: 12px; text-align: left; display: flex; gap: 15px; align-items: center; transition: 0.3s; }
-        .policy-item:hover { background: rgba(255,255,255,0.06); border-color: var(--primary); }
-        .pol-icon { background: var(--primary); color: #000; min-width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-        .pol-text b { display: block; color: white; margin-bottom: 2px; font-size: 0.95rem; }
-        .pol-text span { color: var(--sub); font-size: 0.8rem; line-height: 1.3; }
+        .policy-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 18px; margin-bottom: 15px; text-align: left; display: flex; gap: 15px; align-items: center; }
+        .pol-icon { font-size: 1.5rem; background: rgba(0,240,255,0.1); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
 
-        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid var(--primary); color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.85rem; z-index: 3500; transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; }
+        .fomo-toast { position: fixed; bottom: 100px; left: -400px; background: #1e293b; border-left: 4px solid var(--primary); color: white; padding: 16px; border-radius: 0 16px 16px 0; font-size: 0.85rem; z-index: 3000; transition: 0.6s; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 15px; max-width: 320px; }
         .fomo-toast.show { left: 0; }
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: white; padding: 15px 30px; border-radius: 40px; z-index: 99999; font-weight: bold; transition: 0.4s; }
-        .toast.show { bottom: 30px; }
-        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; border: none; z-index: 1000; }
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5,11,20,0.98); z-index: 8000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); }
+        
+        #sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100vh; background: #020617; z-index: 8000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 25px; border-right: 1px solid var(--border); }
         #sidebar.open { left: 0; }
+        .menu-item { padding: 20px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; }
+        .menu-item:hover { color: var(--primary); padding-left: 30px; }
+
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 16px 32px; border-radius: 50px; font-weight: 800; z-index: 10000; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,240,255,0.3); }
+        .toast.show { bottom: 40px; }
+
+        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: #fff; color: #000; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); cursor: pointer; border: none; z-index: 5000; transition: 0.3s; }
+        .fab-cart:active { transform: scale(0.9); }
+        .badge { position: absolute; top: 0; right: 0; background: var(--primary); color: #000; width: 24px; height: 24px; border-radius: 50%; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body id="main-body">
+<body>
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast"><span id="toast-msg">Success</span></div>
 <div id="fomo-toast" class="fomo-toast">🛒 <div id="fomo-msg">Notification</div></div>
 
-<div id="sidebar" class="liquid-glass">
-    <div style="text-align:center; margin-bottom: 30px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:70px; border-radius:50%; border:2px solid var(--primary);"><h3 style="color:var(--primary);">Menu</h3></div>
-    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();" id="ui-menu-acc">👤 Account</div>
-    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();" id="ui-menu-contact">📞 Contact</div>
-    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" id="ui-menu-vip" style="color:var(--warn);">🎡 VIP Spin</div>
-    <div class="menu-item" onclick="toggleSidebar(); openModal('policy-modal');" style="font-size:0.8rem; opacity:0.6;">📜 Store Policy</div>
-    <button class="close-menu" onclick="toggleSidebar()" style="top:10px; right:10px;">✖</button>
+<div id="sidebar">
+    <div style="text-align:center; margin-bottom: 40px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; border-radius:50%; border:2px solid var(--primary);"><h3 style="color:var(--primary); margin-top:15px;">CYBERHUB</h3></div>
+    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 My Profile</div>
+    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();">📞 Contact Us</div>
+    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);">🎡 VIP Rewards</div>
+    <div class="menu-item" onclick="toggleSidebar(); openModal('policy-modal');" style="opacity:0.5; font-size:0.8rem;">📜 Terms & Policy</div>
+    <button onclick="toggleSidebar()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:white; font-size:1.5rem;">✖</button>
 </div>
 
 <div class="container">
-    <div class="top-bar liquid-glass"><button class="icon-btn" onclick="toggleSidebar()">☰</button><button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button></div>
+    <div class="top-bar"><button class="icon-btn" onclick="toggleSidebar()">MENU</button><button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button></div>
     
-    <div class="header" style="text-align:center;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()"><h2 style="color:var(--primary); letter-spacing: 4px;">CYBERHUB</h2></div>
-
-    <div id="admin-panel" class="admin-controls liquid-glass" style="padding:20px; border:1px solid var(--warn);">
-        <b style="color:var(--warn);">🛠️ GOD-MODE</b><br>
-        <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin-bottom:10px;">📦 ORDERS</button>
-        <button class="add-cart-btn" onclick="clearTestOrders()" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.7rem;">🧹 WIPE TESTS</button>
-        <div class="admin-grid"><button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 CLOSE</button><button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 OPEN</button></div>
-        <button class="add-cart-btn" onclick="openModal('add-item-modal')" style="background:var(--primary); color:#000;">+ ADD ITEM</button>
-        <button class="add-cart-btn" onclick="lockAdminPanel()" style="background:none; border:1px solid var(--sub); color:var(--sub); font-size:0.7rem;">🔒 LOCK</button>
+    <div style="text-align:center; margin-bottom:40px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
+        <h1 style="color:var(--primary); letter-spacing: 6px; font-weight: 900; margin-top:20px;">CYBERHUB</h1>
     </div>
 
-    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search..." oninput="forceReRender()" style="width:100%; margin-bottom:20px;"><div id="content-area"></div></div>
+    <div id="admin-panel" class="admin-controls liquid-glass" style="padding:25px; margin-bottom:30px; border-color:var(--warn);">
+        <b style="color:var(--warn); font-size:1.2rem;">🛠️ ADMIN COMMAND</b><br>
+        <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin-bottom:10px;">📦 LIVE ORDERS</button>
+        <button class="add-cart-btn" onclick="clearTestOrders()" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.7rem;">🧹 WIPE TEST DATA</button>
+        <div class="admin-grid"><button class="btn-maint" onclick="setLiveMaintenance('UNTIL')">🛑 CLOSE STORE</button><button class="btn-open" onclick="setLiveMaintenance('OFF')">🟢 REOPEN</button></div>
+        <button class="add-cart-btn" onclick="openModal('add-item-modal')" style="background:var(--primary); color:#000;">+ ADD NEW ITEM</button>
+        <button class="add-cart-btn" onclick="lockAdminPanel()" style="background:none; border:none; color:var(--sub); font-size:0.7rem;">🔒 LOCK CONSOLE</button>
+    </div>
+
+    <div id="shop-wrapper">
+        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="width:100%; padding:18px; margin-bottom:30px; font-size:1rem; border-radius:18px;">
+        <div id="content-area"></div>
+    </div>
     
-    <div style="text-align:center; margin-top:60px; color:var(--sub); font-weight:800; font-size:0.9rem;" id="footer-credit">Made by Yessine ❤️</div>
+    <div style="text-align:center; margin-top:80px; color:var(--sub); font-weight:800; font-size:0.95rem; letter-spacing:1px;" id="footer-credit">Made by Yessine ❤️</div>
 </div>
 
-<button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" style="position:absolute; top:-5px; right:-5px; background:white; color:black; font-size:0.7rem; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800;">0</div></button>
+<button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" class="badge">0</div></button>
 
 <div id="policy-modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 id="ui-pol-title" style="color:var(--primary); margin-bottom:25px;">Store Agreement</h3>
-    <div class="policy-item"><div class="pol-icon">🛡️</div><div class="pol-text"><b id="ui-pol-d-title">Privacy</b><span id="ui-pol-d-desc">Data is shared with our automated delivery & payment partners.</span></div></div>
-    <div class="policy-item"><div class="pol-icon">⚡</div><div class="pol-text"><b id="ui-pol-l-title">Delivery</b><span id="ui-pol-l-desc">Items are delivered instantly or within 48 hours maximum.</span></div></div>
-    <div class="policy-item"><div class="pol-icon">🛠️</div><div class="pol-text"><b id="ui-pol-s-title">SAV</b><span id="ui-pol-s-desc">Full after-sales support is guaranteed for all purchases.</span></div></div>
-    <button class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I AGREE & ENTER</button>
+    <h2 style="color:var(--primary); margin-bottom:30px;">Digital Agreement</h2>
+    <div class="policy-item"><div class="pol-icon">🛡️</div><div><b>Secure Privacy</b><span>Data is strictly shared with our delivery partners only.</span></div></div>
+    <div class="policy-item"><div class="pol-icon">⚡</div><div><b>Fast Delivery</b><span>Instant to 48 hours maximum delivery window.</span></div></div>
+    <div class="policy-item"><div class="pol-icon">🛠️</div><div><b>SAV Support</b><span>Premium after-sales service is always guaranteed.</span></div></div>
+    <button class="add-cart-btn" onclick="acceptPolicy()" style="margin-top:20px;">I ACCEPT & PROCEED</button>
 </div></div>
 
-<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass"><h3>Orders</h3><div id="admin-orders-list" style="text-align:left;"></div><button onclick="closeModal('admin-orders-modal')">Close</button></div></div>
-<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass"><h3>My Orders</h3><div id="user-orders-list" style="text-align:left;"></div><button onclick="closeModal('user-orders-modal')">Close</button></div></div>
-<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3>Auth</h3><button class="add-cart-btn" onclick="executeAdminBiometric()">📱 PIN/Biometric</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal')">🔑 Password</button></div></div>
-<div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3>PIN</h3><input type="password" id="admin-manual-pass"><button class="add-cart-btn" onclick="submitAdminPass()">Login</button></div></div>
-<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 id="prof-email-display">Profile</h3><button class="add-cart-btn" onclick="openUserOrders()">📦 My Orders</button><button onclick="logoutUser()" style="color:red; background:none; border:none; margin-top:20px;">Logout</button></div></div>
-<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3>Login</h3><button class="add-cart-btn" onclick="executeUserBiometricLogin()">📱 Biometric</button><input id="authContact" placeholder="Contact"><input type="password" id="authPass" placeholder="Pass"><button class="add-cart-btn" onclick="processAuth('login')">Go</button></div></div>
-<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3>Spin</h3><div id="spin-wheel" style="width:200px; height:200px; margin:auto; border-radius:50%; background:conic-gradient(red, orange, green, blue); transition:4s;"></div><button class="add-cart-btn" onclick="executeSpin()">SPIN</button></div></div>
-<div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3>Contact</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="background:#25D366; text-decoration:none;">WhatsApp</a><button onclick="closeModal('contact-modal')">Close</button></div></div>
-<div id="modal" class="modal"><div class="modal-content liquid-glass"><h3>Cart</h3><div id="cart-items-list"></div><button class="add-cart-btn" onclick="openCheckout()">Checkout</button></div></div>
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3>Checkout</h3><p>Total: <b id="chk-total"></b> DT</p><input id="custName" placeholder="Full Name"><button class="add-cart-btn" onclick="finalizeOrder()">Confirm Order</button></div></div>
+<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width:550px;"><h3>Live Orders</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto;"></div><button onclick="closeModal('admin-orders-modal')" class="add-cart-btn">Close</button></div></div>
+<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass"><h3>Your History</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto;"></div><button onclick="closeModal('user-orders-modal')" class="add-cart-btn">Close</button></div></div>
+<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3>Security Verification</h3><button class="add-cart-btn" onclick="executeAdminBiometric()">📱 USE PC PIN / FACEID</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal')" style="opacity:0.7;">🔑 USE PASSWORD</button></div></div>
+<div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3>Enter PIN</h3><input type="password" id="admin-manual-pass"><button class="add-cart-btn" onclick="submitAdminPass()">UNLOCK</button></div></div>
+<div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 id="prof-email-display">User</h3><button class="add-cart-btn" onclick="openUserOrders()">📦 MY ORDERS</button><button onclick="logoutUser()" style="color:red; background:none; border:none; margin-top:25px; font-weight:800; cursor:pointer;">LOGOUT</button></div></div>
+<div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3>Login</h3><button class="add-cart-btn" onclick="executeUserBiometricLogin()">📱 LOGIN WITH PIN</button><div style="margin:15px; opacity:0.3;">OR</div><input id="authContact" placeholder="Email / Phone"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">LOGIN</button><button onclick="processAuth('register')" style="color:var(--primary); background:none; border:none; margin-top:15px; cursor:pointer;">No account? Register</button></div></div>
+<div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3>Daily Rewards</h3><div id="spin-wheel" style="width:220px; height:220px; margin:20px auto; border-radius:50%; background:conic-gradient(var(--primary), var(--accent), var(--warn), var(--primary)); border:5px solid white; transition:4s;"></div><button class="add-cart-btn" onclick="executeSpin()">SPIN WHEEL</button></div></div>
+<div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3>Help Desk</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="background:#25D366; text-decoration:none; display:block;">WHATSAPP SUPPORT</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px;">Close</button></div></div>
+<div id="modal" class="modal"><div class="modal-content liquid-glass"><h3>Your Cart</h3><div id="cart-items-list" style="margin-bottom:20px;"></div><button class="add-cart-btn" onclick="openCheckout()">PROCEED TO CHECKOUT</button></div></div>
+<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3>Checkout</h3><p>Total Amount: <b id="chk-total"></b> DT</p><input id="custName" placeholder="Full Name"><button class="add-cart-btn" onclick="finalizeOrder()">PLACE ORDER</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
@@ -117,27 +140,27 @@
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
     const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv";
     const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "preferred" };
-    
-    let toastTimeout, productsData = { categories: {} }, cart = [], isSupport = false, currentUser = null, currentLang = localStorage.getItem('cyberhub_lang') || 'en', currentView = { type: 'cats', cat: null, app: null };
+    let productsData = { categories: {} }, cart = [], isSupport = false, currentUser = null, currentLang = localStorage.getItem('cyberhub_lang') || 'en', currentView = { type: 'cats', cat: null, app: null };
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 50 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
+    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.2 }, "line_linked": { "opacity": 0.1 } } });
 
-    // --- MODAL ENGINE ---
+    // --- SYSTEM LOGIC ---
     const openModal = (id) => { document.getElementById(id).style.display='flex'; document.body.classList.add('modal-active'); };
     const closeModal = (id) => { document.getElementById(id).style.display='none'; document.body.classList.remove('modal-active'); };
+    
+    setTimeout(() => { if(!localStorage.getItem('cyberhub_v24_pol')) openModal('policy-modal'); }, 3000);
+    const acceptPolicy = () => { localStorage.setItem('cyberhub_v24_pol', 'true'); closeModal('policy-modal'); };
 
-    // --- POLICY ENGINE ---
-    setTimeout(() => { if(!localStorage.getItem('cyberhub_v23_pol')) openModal('policy-modal'); }, 3000);
-    const acceptPolicy = () => { localStorage.setItem('cyberhub_v23_pol', 'true'); closeModal('policy-modal'); };
+    const showToast = (m) => { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
+    const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
 
-    // --- FOMO ENGINE ---
-    const cities = ["Tunis", "Sfax", "Sousse", "Bizerte", "Nabeul", "Ariana"];
+    // --- FOMO POPUP ---
     setInterval(() => {
         if(Object.keys(productsData.categories).length > 0 && Math.random() > 0.4) {
             let p = []; Object.values(productsData.categories).forEach(c => Object.values(c.apps).forEach(a => a.standalone.forEach(i => p.push({c:c.name, a:a.name, i:i.name}))));
             if(p.length > 0) {
                 let r = p[Math.floor(Math.random()*p.length)];
-                document.getElementById('fomo-msg').innerHTML = `Someone in <b style="color:var(--primary);">${cities[Math.floor(Math.random()*6)]}</b> bought:<br><span style="font-size:0.7rem; opacity:0.6;">${r.c} > ${r.a}</span><br><b>${r.i}</b>`;
+                document.getElementById('fomo-msg').innerHTML = `Someone in <b style="color:var(--primary);">Tunis</b> bought:<br><small>${r.c} > ${r.a}</small><br><b>${r.i}</b>`;
                 document.getElementById('fomo-toast').classList.add('show');
                 setTimeout(() => document.getElementById('fomo-toast').classList.remove('show'), 5000);
             }
@@ -145,19 +168,16 @@
     }, 35000);
 
     const T = { 
-        en: { back: "← Back", search: "Search Store...", acc: "Account", contact: "Contact", vip: "VIP Spin", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polBtn: "I AGREE & ENTER" }, 
-        fr: { back: "← Retour", search: "Rechercher...", acc: "Compte", contact: "Contact", vip: "Tour VIP", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polBtn: "J'ACCEPTE & ENTRER" } 
+        en: { back: "← Back", search: "Search Store...", credit: "Made by Yessine ❤️" }, 
+        fr: { back: "← Retour", search: "Rechercher...", credit: "Fait par Yessine ❤️" } 
     };
 
     const applyLang = () => {
         const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
         document.getElementById('mainSearch').placeholder = d.search; document.getElementById('footer-credit').innerText = d.credit;
-        document.getElementById('ui-pol-title').innerText = d.polTitle; document.getElementById('ui-pol-btn').innerText = d.polBtn;
         forceReRender();
     };
     const toggleLang = () => { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); };
-    const showToast = (m) => { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
-    const toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
 
     // --- ADMIN ---
     let lC = 0, lT;
@@ -165,7 +185,7 @@
     const submitAdminPass = () => { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-panel').style.display = 'block'; fetchData(); } };
     const lockAdminPanel = () => { isSupport = false; document.getElementById('admin-panel').style.display='none'; };
 
-    // --- DATA ---
+    // --- DATA FETCHING ---
     setInterval(fetchData, 5000);
     async function fetchData() {
         try {
@@ -198,15 +218,14 @@
         } else if(currentView.type === 'cats') {
             Object.values(productsData.categories).forEach(c => html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name}'}; forceReRender();"><img src="${c.img}"><b>${c.name}</b></div>`);
         } else if(currentView.type === 'apps') {
-            html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:none;">${T[currentLang].back}</button><div class="grid">`;
+            html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="grid-column: span 2; margin-bottom:10px;">${T[currentLang].back}</button>`;
             Object.values(productsData.categories[currentView.cat].apps).forEach(a => html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat}', app:'${a.name}'}; forceReRender();"><img src="${a.img}"><b>${a.name}</b></div>`);
-            html += `</div>`;
         } else {
             const app = productsData.categories[currentView.cat].apps[currentView.app];
-            html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:none;">${T[currentLang].back}</button>`;
+            html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat}'}; forceReRender();" class="icon-btn" style="grid-column: span 2; margin-bottom:10px;">${T[currentLang].back}</button>`;
             Object.values(app.groups).forEach((g, i) => {
-                html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c=document.getElementById('f-${i}'); c.style.display=c.style.display==='block'?'none':'block';">📁 ${g.name} (${g.items.length}) <span class="chevron">▼</span></div><div id="f-${i}" class="folder-content">`;
-                g.items.forEach(it => html += drawItem(it)); html += `</div>`;
+                html += `<div style="grid-column: span 2;"><div class="folder-header" onclick="this.classList.toggle('folder-open'); let c=document.getElementById('f-${i}'); c.style.display=c.style.display==='block'?'none':'block';">📁 ${g.name} <span class="chevron">▼</span></div><div id="f-${i}" class="folder-content">`;
+                g.items.forEach(it => html += drawItem(it)); html += `</div></div>`;
             });
             app.standalone.forEach(it => html += drawItem(it));
         }
@@ -214,22 +233,22 @@
     }
 
     function drawItem(it) {
-        let adm = isSupport ? `<button onclick="deleteItem('${it.originalName}')" style="color:red; border:none; background:none;">🗑️</button>` : '';
-        return `<div class="item-row"><b>${it.name} ${it.isOOS ? '<span style="color:red; font-size:0.6rem;">[OOS]</span>':''}</b><span style="color:var(--primary); font-weight:800; margin:5px 0;">${it.price} DT</span>${adm}<button class="add-cart-btn" onclick="addToCart('${it.name}', ${it.price})" ${it.isOOS?'disabled':''}>ADD</button></div>`;
+        let adm = isSupport ? `<button onclick="deleteItem('${it.originalName}')" style="color:red; background:none; border:none; margin-bottom:10px;">🗑️ DELETE</button>` : '';
+        return `<div class="item-row"><b>${it.name} ${it.isOOS ? '<span style="color:red;">[OOS]</span>':''}</b><span class="price-tag">${it.price} DT</span>${adm}<button class="add-cart-btn" onclick="addToCart('${it.name}', ${it.price})" ${it.isOOS?'disabled':''}>ADD TO CART</button></div>`;
     }
 
     function addToCart(n, p) { cart.push({n, p}); document.getElementById('cart-count').innerText = cart.length; showToast("Added to Cart"); }
-    function openCart() { document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:10px; border-bottom:1px solid #222;">${i.n} - ${i.p}DT</div>`).join(''); openModal('modal'); }
+    function openCart() { document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:15px; border-bottom:1px solid #222;">${i.n} - ${i.p}DT</div>`).join(''); openModal('modal'); }
     function openCheckout() { closeModal('modal'); document.getElementById('chk-total').innerText = cart.reduce((s,i)=>s+i.p, 0); openModal('checkout-modal'); }
     function finalizeOrder() {
-        let id = currentUser === "yessinebenfraj106@gmail.com" ? "TEST-"+Math.random() : "CH-"+Math.floor(Math.random()*9000);
-        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "place_order", orderId: id, client: document.getElementById('custName').value, contact: currentUser||"Guest", items: cart.map(i=>i.n).join(','), price: document.getElementById('chk-total').innerText, payment: "Cash" }), mode: 'no-cors' }).then(() => { closeModal('checkout-modal'); cart=[]; document.getElementById('cart-count').innerText="0"; showToast("Success!"); });
+        let id = currentUser === "yessinebenfraj106@gmail.com" ? "TEST-"+Math.floor(Math.random()*9999) : "CH-"+Math.floor(Math.random()*9999);
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "place_order", orderId: id, client: document.getElementById('custName').value, contact: currentUser||"Guest", items: cart.map(i=>i.n).join(','), price: document.getElementById('chk-total').innerText, payment: "Cash" }), mode: 'no-cors' }).then(() => { closeModal('checkout-modal'); cart=[]; document.getElementById('cart-count').innerText="0"; showToast("Order Success!"); });
     }
 
-    async function openUserOrders() { openModal('user-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let h = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) h += `<div style="border:1px solid #222; padding:10px; border-radius:10px; margin-bottom:10px;">${c[0]}: ${c[3]} (${c[6]})</div>`; }); document.getElementById('user-orders-list').innerHTML = h || "No orders."; }
-    async function openAdminOrders() { openModal('admin-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let h = ""; rows.slice(1).forEach(r => { let c = r.split(','); if(c[0]) h += `<div style="border-bottom:1px solid #222; padding:10px;">${c[0]}: ${c[1]} <button onclick="deliverOrder('${c[0]}')">Deliver</button></div>`; }); document.getElementById('admin-orders-list').innerHTML = h; }
-    function clearTestOrders() { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(()=>showToast("Tests Cleared")); }
-    function deleteItem(n) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: n }), mode: 'no-cors' }).then(()=>fetchData()); }
+    async function openUserOrders() { openModal('user-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); let h = ""; text.split('\n').forEach(r => { let c = r.split(','); if(c[2] === currentUser) h += `<div style="border:1px solid #222; padding:15px; border-radius:15px; margin-bottom:10px;">${c[0]}: ${c[3]} (${c[6]})</div>`; }); document.getElementById('user-orders-list').innerHTML = h || "No orders."; }
+    async function openAdminOrders() { openModal('admin-orders-modal'); const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); let h = ""; text.split('\n').slice(1).forEach(r => { let c = r.split(','); if(c[0]) h += `<div style="border-bottom:1px solid #222; padding:15px;">${c[0]}: ${c[1]} <button onclick="deliverOrder('${c[0]}')">Deliver</button></div>`; }); document.getElementById('admin-orders-list').innerHTML = h; }
+    function clearTestOrders() { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(()=>showToast("Cleared")); }
+    function deleteItem(n) { if(confirm("Delete?")) fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: n }), mode: 'no-cors' }).then(()=>fetchData()); }
     
     currentView.type = 'cats'; fetchData(); applyLang();
 </script>
