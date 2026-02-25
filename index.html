@@ -15,6 +15,7 @@
     <script>(function(){ emailjs.init("aVLHyVhILMDCu8T99"); })();</script> 
     
     <style>
+        /* 🔥 OLD DEEP SPACE BACKGROUND RESTORED */
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
@@ -25,6 +26,7 @@
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
         
+        /* 📱 SIDEBAR */
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
         #sidebar.open { left: 0; }
         .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 20px; right: 20px; cursor: pointer; }
@@ -32,9 +34,11 @@
         
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         
+        /* ⚠️ YELLOW MAINTENANCE BANNER */
         .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
         #ui-maint-time { font-size: 2.2rem; font-weight: 800; margin-top: 15px; color: #fff; text-shadow: 0 0 15px var(--warn); font-variant-numeric: tabular-nums; }
 
+        /* 🔓 SUPPORT/ADMIN CONTROLS */
         .admin-controls { padding: 20px; text-align: center; margin-bottom: 20px; border: 2px solid var(--warn); display: none; background: rgba(0,0,0,0.5); }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
@@ -43,12 +47,14 @@
         .support-btn { flex: 1 1 30%; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 5px; }
         .admin-chart-container { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 10px; margin-top: 15px; border: 1px dashed var(--sub); }
 
+        /* 📂 CATEGORIES -> APPS -> ITEMS */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
         .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
         .nav-card:hover { border-color: var(--primary); background: rgba(0, 240, 255, 0.1); transform: translateY(-3px); }
         .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
         .request-card { background: rgba(255, 174, 0, 0.1); border-color: var(--warn); color: var(--warn); }
 
+        /* 📁 RETRACTABLE GROUPS */
         .app-header { padding: 18px; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: bold; background: var(--card); border: 1px solid var(--border); font-size: 1.1rem; }
         .app-header img { width: 45px; height: 45px; object-fit: contain; }
         .retractable-content { display: none; padding-left: 15px; border-left: 2px solid var(--primary); margin-bottom: 20px; margin-left: 15px; }
@@ -185,6 +191,9 @@
     let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
     let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; let selectedPaymentMethod = null;
+    
+    // CACHE LOCK TO PREVENT "TUG OF WAR" GLITCH
+    let adminForcedMaint = null;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "size": { "value": 2 }, "line_linked": { "opacity": 0.1, "color": "#00f0ff" }, "move": { "speed": 1 } } });
 
@@ -220,14 +229,12 @@
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // --- 1. ADMIN LOCK (5 CLICKS EXACTLY) ---
+    // --- 1. ADMIN LOCK ---
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() {
         logoClickCount++; clearTimeout(logoClickTimer);
         logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
-        if(logoClickCount === 5) {
-            logoClickCount = 0; document.getElementById('admin-auth-modal').style.display = 'flex';
-        }
+        if(logoClickCount === 5) { logoClickCount = 0; document.getElementById('admin-auth-modal').style.display = 'flex'; }
     }
     function submitAdminPass() {
         if(document.getElementById('admin-manual-pass').value === "26240608") { 
@@ -246,21 +253,18 @@
     }
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; fetchData(); showToast("🔒 Locked.", "info"); }
 
-    // --- 2. USER AUTH, BIOMETRICS & PASSWORD REVEAL ---
+    // --- 2. USER AUTH & BIOMETRICS ---
     function openProfileOrLogin() { 
         if(currentUser) { 
-            document.getElementById('prof-email-display').innerText = "Account: " + currentUser;
-            document.getElementById('profile-modal').style.display = 'flex'; 
+            document.getElementById('prof-email-display').innerText = "Account: " + currentUser; document.getElementById('profile-modal').style.display = 'flex'; 
         } else { document.getElementById('login-modal').style.display = 'flex'; } 
     }
-    
     function logoutUser() { currentUser = null; currentPass = null; isSupport = false; document.getElementById('admin-panel').style.display = 'none'; closeModal('profile-modal'); showToast("Logged out.", "info"); fetchData(); }
 
     async function processAuth(actionType) {
         const contact = document.getElementById('authContact').value.trim(); const pass = document.getElementById('authPass').value.trim();
         if(!contact || !pass) return showToast("Fill all fields", "error");
         
-        // INSTANT GOD MODE FOR YESSINE
         if(contact === "yessinebenfraj106@gmail.com") {
             currentUser = contact; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); drawAdminChart(); fetchData(); return;
         }
@@ -297,7 +301,7 @@
     async function executeUserBiometricLogin() {
         closeModal('login-modal');
         let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass');
-        if(!linkedUser) return showToast("No biometrics linked. Login with password first.", "error");
+        if(!linkedUser) return showToast("No biometrics linked.", "error");
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
@@ -308,7 +312,7 @@
     }
 
     async function revealPassword() {
-        if(!currentPass) return showToast("Password hidden in this session.", "error");
+        if(!currentPass) return showToast("Password hidden.", "error");
         try {
             const challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
             await navigator.credentials.get({ publicKey:{challenge, userVerification:"required", timeout:60000} }); 
@@ -331,21 +335,12 @@
     function executeSpin() {
         const btn = document.getElementById('spin-btn'); btn.disabled = true; btn.innerText = "Spinning...";
         let rng = Math.floor(Math.random() * 100); let result = ""; let degrees = 0;
-        
-        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } 
-        else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } 
-        else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } 
-        else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
-
+        if(rng < 65) { result = "Better luck tomorrow 😭"; degrees = 360 * 4 + 45; } else if(rng < 90) { result = "Spin Again! 🎡"; degrees = 360 * 4 + 135; } else if(rng < 98) { result = "1 Year Free Canva Pro! 🎨"; degrees = 360 * 4 + 225; } else { result = "5% Permanent Discount! 💎"; degrees = 360 * 4 + 315; }
         const wheel = document.getElementById('spin-wheel'); wheel.style.transform = `rotate(${degrees}deg)`;
-        
         setTimeout(() => {
             showToast(`🎉 ${result}`, "success");
             btn.innerText = "SPIN NOW"; btn.disabled = false; wheel.style.transform = `rotate(0deg)`; 
-            if(!result.includes("Again")) {
-                localStorage.setItem(`cyberhub_spin_${currentUser}`, new Date().getTime().toString());
-                fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' });
-            }
+            if(!result.includes("Again")) { localStorage.setItem(`cyberhub_spin_${currentUser}`, new Date().getTime().toString()); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_spin", user: currentUser, prize: result }), mode: 'no-cors' }); }
             closeModal('vip-modal');
         }, 4000);
     }
@@ -360,7 +355,9 @@
             
             const rows = text.split('\n'); const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
             
-            let rawMaint = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "";
+            // Fix: Pull raw data, but if Admin forced a lock, use the forced lock instead of old cached data!
+            let rawMaint = (headers.length > 15 && headers[15]) ? headers[15].replace(/^"|"$/g, '').trim() : "FALSE";
+            if (adminForcedMaint !== null) { rawMaint = adminForcedMaint; }
             handleMaintenanceUI(rawMaint);
 
             let temp = {}; 
@@ -368,13 +365,10 @@
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if (cols.length >= 6 && cols[0] !== "") {
                     const cat = cols[0]; const app = cols[2]; const itemNameRaw = cols[4]; const price = parseFloat(cols[5]) || 0; const isOOS = cols.some(c => c && c.toUpperCase() === "OOS");
-                    
                     let itemName = itemNameRaw; let groupName = null;
                     if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
-
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} };
                     if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3], groups: {}, standalone: [] };
-                    
                     const itemData = { name: itemName, originalName: itemNameRaw, price: price, isOOS: isOOS };
                     if(groupName) { 
                         if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] };
@@ -393,11 +387,12 @@
         let stringData = String(maintData).toUpperCase().trim();
         let isTimer = !isNaN(parseInt(stringData)) && stringData.length > 5; 
         
-        if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) {
+        // EXPLICIT CLOSE ONLY. Otherwise, assume open.
+        if(stringData === "TRUE" || stringData === "ON" || stringData === "UNTIL" || isTimer) {
             band.style.display = 'block'; globalMaintenance = true;
             document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; 
             
-            if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } 
+            if(stringData === "UNTIL" || stringData === "TRUE" || stringData === "ON") { timeEl.style.display = 'none'; } 
             else { 
                 let target = parseInt(stringData); timeEl.style.display = 'block'; 
                 countdownInterval = setInterval(() => {
@@ -423,11 +418,20 @@
             payload.value = (new Date().getTime() + (mins * 60000)).toString();
         }
         showToast("Pushing live update...", "info");
+        
+        // Lock the UI cache so it doesn't bounce back
+        adminForcedMaint = payload.value;
         handleMaintenanceUI(payload.value);
+
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
-            setTimeout(() => { lastDataString = ""; fetchData(); showToast("Store Status Updated!", "success"); }, 1500);
-        } catch(e) {}
+            setTimeout(() => { 
+                adminForcedMaint = null; // Release the lock after 8 seconds
+                lastDataString = ""; 
+                fetchData(); 
+                showToast("Store Status Updated!", "success"); 
+            }, 8000);
+        } catch(e) { adminForcedMaint = null; }
     }
 
     // --- 5. RENDER, ADMIN GROUPING & SUPPORT TOOLS ---
@@ -509,7 +513,7 @@
                 const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
                 if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A" }); }
             }
-            orders.sort((a, b) => b.id.localeCompare(a.id)); // Sort newest ID first
+            orders.sort((a, b) => b.id.localeCompare(a.id));
             let html = "";
             orders.forEach(o => {
                 html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;">
