@@ -70,7 +70,7 @@
         input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
         
         /* FOMO TOAST */
-        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid #00ff88; color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.9rem; z-index: 3500; font-weight: 500; transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 260px; }
+        .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid #00ff88; color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.9rem; z-index: 3500; font-weight: 500; transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 300px; }
         .fomo-toast.show { left: 0; }
 
         .spin-wrapper { position: relative; width: 240px; height: 240px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--warn); overflow: hidden; box-shadow: 0 0 30px rgba(255,174,0,0.3); }
@@ -197,19 +197,25 @@
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
 
     // --- 📜 POLICY ENGINE ---
-    setTimeout(() => {
-        if (!localStorage.getItem('cyberhub_policy_accepted')) { openModal('policy-modal'); }
-    }, 3000);
+    setTimeout(() => { if (!localStorage.getItem('cyberhub_policy_accepted')) { openModal('policy-modal'); } }, 3000);
     function acceptPolicy() { localStorage.setItem('cyberhub_policy_accepted', 'true'); closeModal('policy-modal'); }
 
-    // --- ⚡ FOMO ENGINE ---
+    // --- ⚡ UPGRADED FOMO ENGINE (Shows Category > App > Item) ---
     const tunisianCities = ["Tunis", "Sfax", "Sousse", "Bizerte", "Nabeul", "Ariana", "Monastir", "Hammamet", "Djerba", "Ben Arous"];
     setInterval(() => {
         if(Object.keys(productsData.categories).length > 0 && Math.random() > 0.3) {
-            let items = []; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(i => items.push(i.name)); Object.values(a.groups).forEach(g => g.items.forEach(i => items.push(i.name))); }); });
-            if(items.length > 0) {
-                let randItem = items[Math.floor(Math.random() * items.length)]; let randCity = tunisianCities[Math.floor(Math.random() * tunisianCities.length)];
-                let fomoToast = document.getElementById('fomo-toast'); document.getElementById('fomo-msg').innerHTML = `Someone from <b style="color:var(--primary);">${randCity}</b><br>just bought <b>${randItem}</b>!`;
+            let itemsPath = []; 
+            Object.values(productsData.categories).forEach(c => { 
+                Object.values(c.apps).forEach(a => { 
+                    a.standalone.forEach(i => itemsPath.push({c: c.name, a: a.name, i: i.name})); 
+                    Object.values(a.groups).forEach(g => g.items.forEach(i => itemsPath.push({c: c.name, a: a.name, i: i.name}))); 
+                }); 
+            });
+            if(itemsPath.length > 0) {
+                let randPath = itemsPath[Math.floor(Math.random() * itemsPath.length)]; 
+                let randCity = tunisianCities[Math.floor(Math.random() * tunisianCities.length)];
+                let fomoToast = document.getElementById('fomo-toast'); 
+                document.getElementById('fomo-msg').innerHTML = `Someone from <b style="color:var(--primary);">${randCity}</b><br>just bought <br><span style="color:var(--sub); font-size:0.75rem;">${randPath.c} > ${randPath.a}</span><br><b>${randPath.i}</b>`;
                 fomoToast.classList.add('show'); setTimeout(() => fomoToast.classList.remove('show'), 5000);
             }
         }
@@ -365,7 +371,7 @@
         let name = document.getElementById('custName').value || "Unknown"; let contact = document.getElementById('custContact').value || currentUser || "Guest"; let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; let total = document.getElementById('cart-total-price').innerText; let itemsStr = cart.map(i => i.name).join(" + ");
         let orderId = "CH-" + Math.floor(1000 + Math.random() * 9000); let isTest = false;
         
-        if(currentUser === "yessinebenfraj106@gmail.com") { orderId = "TEST-" + Math.floor(1000 + Math.random() * 9000); isTest = true; } // God-Mode Whitelist
+        if(currentUser === "yessinebenfraj106@gmail.com") { orderId = "TEST-" + Math.floor(1000 + Math.random() * 9000); isTest = true; } 
         
         showToast(isTest ? "Generating Test Order..." : "Processing...", "info");
         let payload = { action: "place_order", orderId: orderId, client: name, contact: contact, items: itemsStr, price: total, payment: method };
