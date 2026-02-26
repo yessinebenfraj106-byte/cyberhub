@@ -119,7 +119,7 @@
         <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
     </div>
 
-    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;"><div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Store Data... ⏳</div></div></div>
+    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;"><div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center; font-size:1.2rem;">Connecting to Server... ⏳</div></div></div>
 
     <div id="footer-credit" style="text-align: center; margin-top: 50px; color: var(--sub); font-size: 0.95rem; font-weight: bold; letter-spacing: 1px;">
         Made by Yessine ❤️
@@ -209,6 +209,7 @@
             <div class="c-btn" id="c-ph" onclick="selContact('ph')">📞 Phone</div>
         </div>
     </div>
+
     <button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button>
     <button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
 </div></div>
@@ -242,13 +243,14 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
 
+    // --- MODAL ENGINE ---
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-    setTimeout(() => { if (!localStorage.getItem('cyberhub_v33_pol')) { openModal('policy-modal'); } }, 3000);
-    function acceptPolicy() { localStorage.setItem('cyberhub_v33_pol', 'true'); closeModal('policy-modal'); }
+    setTimeout(() => { if (!localStorage.getItem('cyberhub_v34_pol')) { openModal('policy-modal'); } }, 3000);
+    function acceptPolicy() { localStorage.setItem('cyberhub_v34_pol', 'true'); closeModal('policy-modal'); }
 
-    // 🛡️ THE CRASH-PREVENTION ENCODER (Apostrophe shield)
+    // 🛡️ THE CRASH-PREVENTION ENCODER 
     const safeEnc = (str) => { return str ? encodeURIComponent(String(str)).replace(/'/g, "%27") : ""; };
     const setText = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
@@ -272,7 +274,7 @@
     function toggleLang() { 
         currentLang = currentLang === 'en' ? 'fr' : 'en'; 
         localStorage.setItem('cyberhub_lang', currentLang); 
-        applyLang(); forceSync(); // Forces re-fetch and re-render safely
+        applyLang(); forceSync(); 
     }
     
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") toast.style.borderColor = "red"; if(type === "success") toast.style.borderColor = "#00ff88"; clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
@@ -291,8 +293,18 @@
 
     function syncCartToCloud(status) { let c = currentUser || currentVisitorIP || "Unknown"; let str = cart.map(i => i.name).join(" + "); let t = cart.reduce((s,i)=>s+i.price, 0); if (cart.length === 0 && status === "Pending") return; fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_cart", contact: c, items: str, total: t, status: status }), mode: 'no-cors' }); }
 
+    // --- CART & CHECKOUT ---
     function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); openModal('modal'); }
-    function addToCart(encodedName, price) { let cleanName = decodeURIComponent(encodedName).split("||GRP||")[0]; cart.push({name: cleanName, price: parseFloat(price)}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); syncCartToCloud("Pending"); }
+    
+    // 🛡️ SAFE ADD TO CART
+    function addToCart(encodedName, price) { 
+        let cleanName = decodeURIComponent(encodedName).split("||GRP||")[0]; 
+        cart.push({name: cleanName, price: parseFloat(price)}); 
+        document.getElementById('cart-count').innerText = cart.length; 
+        showToast("Added!", "success"); 
+        syncCartToCloud("Pending"); 
+    }
+    
     function clearCart() { cart = []; document.getElementById('cart-count').innerText = "0"; document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; syncCartToCloud("Cleared"); showToast("Cart Emptied", "info"); closeModal('modal'); }
     
     function setPayment(m) { selectedPaymentMethod = m; document.getElementById('d17-details').style.display = (m === 'D17') ? 'block' : 'none'; }
@@ -339,11 +351,22 @@
     async function processAuth(type) { const c = document.getElementById('authContact').value.trim(); const p = document.getElementById('authPass').value.trim(); if(c === "yessinebenfraj106@gmail.com") { currentUser = c; isSupport = true; closeModal('login-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); return; } currentUser = c; closeModal('login-modal'); forceSync(); }
     function logoutUser() { currentUser = null; isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('profile-modal'); showToast("Logged out.", "info"); forceSync(); }
     
-    // --- SAFE DATABASE ENGINE ---
+    // 🛡️ SAFE CSV PARSER (Prevents Regex Infinite Loops)
+    function safeCsvParse(str) {
+        let result = []; let current = ''; let inQuotes = false;
+        for (let i = 0; i < str.length; i++) {
+            if (str[i] === '"') { inQuotes = !inQuotes; }
+            else if (str[i] === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+            else { current += str[i]; }
+        }
+        result.push(current.trim());
+        return result;
+    }
+
     function forceSync() { 
         lastDataString = ""; 
         productsData = { categories: {} }; 
-        currentView = { type: 'cats', cat: null, app: null }; // ALWAYS reset to Home on Sync
+        currentView = { type: 'cats', cat: null, app: null }; // Reset to Home
         const ca = document.getElementById('content-area');
         if(ca) ca.innerHTML = `<div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Syncing Database... ⏳</div>`; 
         fetchData(); 
@@ -356,22 +379,22 @@
             const res = await fetch(SHEET_URL + "&cb=" + new Date().getTime()); 
             const text = await res.text();
             
-            if(text.trim().startsWith('<')) throw new Error("Google blocked the request (HTML returned).");
+            if(text.trim().startsWith('<')) throw new Error("Google blocked the request.");
             if(!text.includes(',')) throw new Error("Invalid CSV Format.");
             
             if(text === lastDataString && !isSupport) return; 
             lastDataString = text; 
             
-            const rows = text.split('\n').filter(r => r.trim() !== ''); // Remove Empty Rows
+            const rows = text.split('\n').filter(r => r.trim() !== '');
             if(rows.length === 0) throw new Error("Sheet is empty.");
 
             let temp = {}; 
-            const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+            const headers = safeCsvParse(rows[0]);
             let maintState = headers.length > 15 ? headers[15] : "FALSE";
             let bannedList = [];
             
             rows.slice(1).forEach(row => {
-                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
+                const cols = safeCsvParse(row);
                 if (cols.length > 16 && cols[16]) bannedList.push(cols[16]); 
                 
                 if (cols.length >= 5 && cols[0]) {
@@ -427,6 +450,7 @@
     }
 
     function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
 
     function forceReRender() {
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
@@ -444,15 +468,15 @@
                 html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
             } else if (currentView.type === 'apps') {
                 const catData = productsData.categories[currentView.cat]; 
-                if(!catData) return navTo('cats'); // 🛡️ CRASH PROTECTOR
+                if(!catData) return navTo('cats'); 
                 html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
                 Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); 
                 html += `</div>`;
             } else if (currentView.type === 'items') {
                 const catData = productsData.categories[currentView.cat];
-                if(!catData) return navTo('cats'); // 🛡️ CRASH PROTECTOR
+                if(!catData) return navTo('cats'); 
                 const appData = catData.apps[currentView.app];
-                if(!appData) return navTo('apps', safeEnc(currentView.cat)); // 🛡️ CRASH PROTECTOR
+                if(!appData) return navTo('apps', safeEnc(currentView.cat)); 
                 
                 html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
@@ -481,18 +505,11 @@
     
     // --- ADMIN DASHBOARD TOOLS ---
     function banUserPrompt() { let target = prompt("Enter IP Address or User Contact to ban:"); if (target) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "ban_user", target: target }), mode: 'no-cors' }).then(() => { showToast("Target Banned! 🔨", "success"); }); } }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
-    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
+    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = safeCsvParse(rows[i]); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
     function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
     function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
 
-    function handleDragStart(e, rawName) { draggedItemRawName = decodeURIComponent(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
-    function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
-    function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-    function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? decodeURIComponent(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { showToast("Moving item...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { forceSync(); showToast("Moved!", "success"); }, 1500); }); } draggedItemRawName = null; }
-
-    async function drawAdminChart() { try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; for(let i = 1; i < rows.length; i++) { const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[6] && cols[6].trim() === "Delivered") { let d = new Date(cols[7]).toLocaleDateString(undefined, {weekday: 'short', month: 'short', day: 'numeric'}); let p = parseFloat(cols[4].replace(/[^0-9.]/g, '')); if (!isNaN(p)) revByDay[d] = (revByDay[d] || 0) + p; } } } if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); } catch(e) {} }
+    async function drawAdminChart() { try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[6] && cols[6].trim() === "Delivered") { let d = new Date(cols[7]).toLocaleDateString(undefined, {weekday: 'short', month: 'short', day: 'numeric'}); let p = parseFloat(cols[4].replace(/[^0-9.]/g, '')); if (!isNaN(p)) revByDay[d] = (revByDay[d] || 0) + p; } } } if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); } catch(e) {} }
 
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-auth-modal'); } }
@@ -500,7 +517,7 @@
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('admin-dashboard-modal'); showToast("🔒 Locked.", "info"); forceSync(); }
     function openAdminDashboard() { openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 500); }
 
-    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
+    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; rows.forEach(r => { let c = safeCsvParse(r); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
     
     async function linkUserBiometric() { if(!currentUser) return; try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success"); } catch(e) { alert("Setup Failed: Ensure your device has a PIN or FaceID."); } }
     function resetBiometrics() { localStorage.removeItem('cyberhub_bio_user'); localStorage.removeItem('cyberhub_bio_pass'); linkUserBiometric(); }
