@@ -25,9 +25,12 @@
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+        /* 🔥 UPGRADED SIDEBAR WITH FLEXBOX FOR BOTTOM MENU */
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; }
         #sidebar.open { left: 0; }
+        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 15px; right: 15px; cursor: pointer; z-index: 10; }
         .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
+        .menu-item:hover { color: var(--primary); padding-left: 20px; }
         
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
         .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
@@ -39,7 +42,6 @@
         
         .request-card { grid-column: span 2; background: linear-gradient(45deg, rgba(255, 174, 0, 0.1), rgba(255, 174, 0, 0.02)); border: 1px dashed var(--warn); color: var(--warn); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; }
 
-        /* 🔥 PREMIUM FOLDER UI */
         .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
         .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
@@ -67,7 +69,6 @@
         .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .c-btn.active { background: rgba(0,240,255,0.15); border-color: var(--primary); color: var(--primary); }
 
-        /* 🔥 CLEAN ADMIN UI */
         .admin-section { background:rgba(0,0,0,0.4); border-radius:15px; padding:15px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.05); text-align:left; }
         .admin-section-title { font-size:0.85rem; color:var(--sub); margin-bottom:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px; }
         .admin-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -88,18 +89,20 @@
 <div id="fomo-toast" class="fomo-toast"><div style="font-size:1.8rem;">🛒</div><div id="fomo-msg">Someone bought!</div></div>
 
 <div id="sidebar" class="liquid-glass">
-    <button class="close-menu" onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:2rem; position:absolute; right:15px; top:15px;">✖</button>
-    <div style="text-align:center; margin-bottom: 30px; margin-top:10px;">
+    <button class="close-menu" onclick="toggleSidebar()">✖</button>
+    <div style="text-align:center; margin-bottom: 30px; margin-top:20px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
+    
     <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
     <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();">📞 Contact Us</div>
     <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);">🎡 VIP Rewards</div>
+    <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:15px;">🛠️ Admin Console</div>
     
-    <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:20px;">🛠️ Admin Console</div>
+    <div style="flex-grow: 1;"></div>
     
-    <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();" style="position: absolute; bottom: 30px; left: 20px; width: calc(100% - 40px); justify-content: center; border: 1px dashed var(--primary); opacity: 0.8; border-radius: 12px; background: rgba(0,240,255,0.05);">📜 Store Policy</div>
+    <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();" style="justify-content: center; border: 1px dashed var(--primary); opacity: 0.8; border-radius: 12px; background: rgba(0,240,255,0.05); margin-bottom: 20px;">📜 Store Policy</div>
 </div>
 
 <div class="container">
@@ -168,6 +171,9 @@
     <div style="background:rgba(255, 174, 0, 0.05); border:1px solid var(--warn); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
         <div style="background:var(--warn); color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">⚡</div><div><b id="ui-pol-l-title" style="color:var(--warn); display:block; font-size:0.9rem;">Delivery Time</b><span id="ui-pol-l-desc" style="color:white; font-weight:bold; font-size:0.75rem;">Immediate up to 48 hours.</span></div>
     </div>
+    <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white; display:block; font-size:0.9rem;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem;">Full after-sales service is guaranteed.</span></div>
+    </div>
     <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
         <div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d; display:block; font-size:0.9rem;">Refunds</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem;">No refunds after delivery.</span></div>
     </div>
@@ -219,6 +225,7 @@
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Biometrics</button><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 <div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><div style="position:relative; width:200px; height:200px; margin:20px auto; border-radius:50%; border:4px solid var(--warn); overflow:hidden;"><div id="spin-wheel" style="width:100%; height:100%; border-radius:50%; transition:transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); background:conic-gradient(#ff4d4d 0deg 90deg, #ffae00 90deg 180deg, #00ff88 180deg 270deg, #00f0ff 270deg 360deg);"></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
+<div id="request-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;" id="ui-req-title">💡 Request a Service</h3><p style="color:var(--sub); font-size:0.8rem; margin-bottom:15px;">Can't find what you need? Ask us and we will add it!</p><input type="text" id="req-name" placeholder="App / Game / Service Name"><input type="text" id="req-desc" placeholder="Details (Duration, Region, etc.)"><button class="add-cart-btn" style="background:var(--warn);" onclick="submitRequest()" id="btn-submit-req">Send Request</button><button onclick="closeModal('request-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
@@ -238,18 +245,16 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
 
-    // --- MODAL ENGINE ---
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-    setTimeout(() => { if (!localStorage.getItem('cyberhub_v31_pol')) { openModal('policy-modal'); } }, 3000);
-    function acceptPolicy() { localStorage.setItem('cyberhub_v31_pol', 'true'); closeModal('policy-modal'); }
+    setTimeout(() => { if (!localStorage.getItem('cyberhub_v32_pol')) { openModal('policy-modal'); } }, 3000);
+    function acceptPolicy() { localStorage.setItem('cyberhub_v32_pol', 'true'); closeModal('policy-modal'); }
 
-    // --- SAFE TEXT RENDERER ---
+    // 🛡️ MASTER ENCODING ENGINE (Fixes the Apostrophe Bug Forever)
+    const safeEnc = (str) => { return str ? encodeURIComponent(str).replace(/'/g, "%27") : ""; };
+
     const setText = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
-
-    // --- MASTER ESCAPE FUNCTION (Fixes Apostrophe crash) ---
-    const escStr = (str) => { return str ? String(str).replace(/'/g, "\\'") : ""; };
 
     const T = { 
         en: { back: "← Back", search: "Search Store...", req: "💡 Request a New Service", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely.", polLTitle: "Delivery Time", polLDesc: "Immediate up to 48 hours.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed.", polRTitle: "Refunds", polRDesc: "No refunds after delivery.", polBtn: "I ACCEPT" }, 
@@ -259,7 +264,7 @@
     function applyLang() { 
         const d = T[currentLang]; setText('lang-ind', currentLang.toUpperCase());
         const sb = document.getElementById('mainSearch'); if(sb) sb.placeholder = d.search;
-        setText('footer-credit', `${d.credit}<br><span onclick="openModal('policy-modal')" style="font-size:0.8rem; display:inline-block; margin-top:15px; cursor:pointer; opacity:0.6;">📜 Store Policy / Terms</span>`);
+        setText('footer-credit', `${d.credit}`);
         setText('ui-pol-title', d.polTitle); setText('ui-pol-d-title', d.polDTitle); setText('ui-pol-d-desc', d.polDDesc);
         setText('ui-pol-l-title', d.polLTitle); setText('ui-pol-l-desc', d.polLDesc);
         setText('ui-pol-s-title', d.polSTitle); setText('ui-pol-s-desc', d.polSDesc);
@@ -271,9 +276,14 @@
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") toast.style.borderColor = "red"; if(type === "success") toast.style.borderColor = "#00ff88"; clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
+    // --- NAVIGATION HELPERS ---
+    function navTo(type, cat, app) {
+        currentView = { type: type, cat: cat ? decodeURIComponent(cat) : null, app: app ? decodeURIComponent(app) : null };
+        forceReRender();
+    }
+
     function syncCartToCloud(status) { let c = currentUser || currentVisitorIP || "Unknown"; let str = cart.map(i => i.name).join(" + "); let t = cart.reduce((s,i)=>s+i.price, 0); if (cart.length === 0 && status === "Pending") return; fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_cart", contact: c, items: str, total: t, status: status }), mode: 'no-cors' }); }
 
-    // --- CART & CHECKOUT ---
     function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); openModal('modal'); }
     function addToCart(encodedName, price) { let cleanName = decodeURIComponent(encodedName).split("||GRP||")[0]; cart.push({name: cleanName, price: parseFloat(price)}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); syncCartToCloud("Pending"); }
     function clearCart() { cart = []; document.getElementById('cart-count').innerText = "0"; document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; syncCartToCloud("Cleared"); showToast("Cart Emptied", "info"); closeModal('modal'); }
@@ -346,12 +356,12 @@
         if(newRawName !== draggedItemRawName) { showToast("Moving item...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { forceSync(); showToast("Moved!", "success"); }, 1500); }); } draggedItemRawName = null; 
     }
 
-    // --- DATA & RENDER ---
-    function forceSync() { lastDataString = ""; productsData = { categories: {} }; showToast("Syncing...", "info"); fetchData(); }
-    setInterval(fetchData, 6000); 
+    function forceSync() { lastDataString = ""; productsData = { categories: {} }; document.getElementById('content-area').innerHTML = `<div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Syncing... ⏳</div>`; fetchData(); }
+    
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&t=" + new Date().getTime()); const text = await res.text();
+            if(!text || !text.includes(',')) throw new Error("Invalid CSV");
             if(text === lastDataString && !isSupport) return; lastDataString = text; 
             const rows = text.split('\n'); let temp = {}; 
             const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
@@ -382,15 +392,18 @@
             }
 
             productsData.categories = temp; 
-            isWhitelisted = isSupport; 
-            if(!isWhitelisted && !sessionStorage.getItem('visit_logged') && currentVisitorIP) {
+            
+            if(!isSupport && !sessionStorage.getItem('visit_logged') && currentVisitorIP) {
                 fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_visit", ip: currentVisitorIP, device: navigator.userAgent }), mode: 'no-cors' });
                 sessionStorage.setItem('visit_logged', 'true');
             }
-            if(isWhitelisted) maintState = "FALSE";
+            if(isSupport) maintState = "FALSE";
             handleMaintenanceUI(maintState); forceReRender(); 
-        } catch (e) {}
+        } catch (e) { console.log(e); }
     }
+    
+    // Auto-fetch loop
+    setInterval(fetchData, 6000); 
 
     function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
     async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
@@ -407,17 +420,17 @@
         } else {
             if(currentView.type === 'cats') {
                 html += `<div class="grid">`; 
-                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${escStr(c.name)}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); 
+                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); 
                 html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
             } else if (currentView.type === 'apps') {
-                const catData = productsData.categories[currentView.cat]; html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${escStr(currentView.cat)}', app:'${escStr(a.name)}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
+                const catData = productsData.categories[currentView.cat]; html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
             } else if (currentView.type === 'items') {
                 const appData = productsData.categories[currentView.cat].apps[currentView.app];
-                html += `<button onclick="currentView={type:'apps', cat:'${escStr(currentView.cat)}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
+                html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
                 Object.values(appData.groups).forEach((g, gI) => {
-                    let safeGrp = encodeURIComponent(g.name);
+                    let safeGrp = safeEnc(g.name);
                     let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
                     html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
                     g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
@@ -429,7 +442,7 @@
     }
 
     function drawItemRow(it, dic) {
-        let safeName = encodeURIComponent(it.originalName); 
+        let safeName = safeEnc(it.originalName); 
         let dragProps = isSupport ? `draggable="true" ondragstart="handleDragStart(event, '${safeName}')" ondragend="handleDragEnd(event)"` : "";
         let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${safeName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" style="color:#ff4d4d; border-color:#ff4d4d;" onclick="deleteItem('${safeName}')">[🗑️ Delete]</button></div>` : '';
         return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${safeName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
@@ -437,22 +450,6 @@
 
     function updateItem(encodedName, price, isOOS) { let name = decodeURIComponent(encodedName); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => { forceSync(); }); }
     function deleteItem(encodedName) { let name = decodeURIComponent(encodedName); if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { forceSync(); }); } }
-
-    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value; let finalName = name; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) finalName += "||GRP||" + group; } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: finalName, price: price }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Item Saved!", "success"); }); }
-    
-    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
-    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
-    function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
-    function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
-    
-    function openProfileOrLogin() { if(currentUser) { document.getElementById('prof-email-display').innerText = "Account: " + currentUser; openModal('profile-modal'); } else { openModal('login-modal'); } }
-    async function processAuth(type) { const c = document.getElementById('authContact').value.trim(); const p = document.getElementById('authPass').value.trim(); if(c === "yessinebenfraj106@gmail.com") { currentUser = c; isSupport = true; closeModal('login-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); return; } currentUser = c; closeModal('login-modal'); forceSync(); }
-    function logoutUser() { currentUser = null; isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('profile-modal'); showToast("Logged out.", "info"); forceSync(); }
-    async function executeUserBiometricLogin() { closeModal('login-modal'); let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass'); if(!linkedUser) return showToast("No biometrics linked.", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); currentUser = linkedUser; currentPass = linkedPass; if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-sidebar-btn').style.display = 'block'; } showToast("Welcome back!", "success"); forceSync(); } catch(e) { showToast("Login failed.", "error"); } }
-    async function linkUserBiometric() { if(!currentUser) return; try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success"); } catch(e) { alert("Setup Failed: Ensure your device has a PIN or FaceID."); } }
-    function resetBiometrics() { localStorage.removeItem('cyberhub_bio_user'); localStorage.removeItem('cyberhub_bio_pass'); linkUserBiometric(); }
-    async function registerBiometricDevice() { let auth = prompt("Admin PIN to authorize Biometric Setup:"); if(auth !== "26240608") return showToast("Unauthorized", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); const cred = await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); closeModal('admin-auth-modal'); } catch(e) { alert("Failed to create passkey."); } }
-    async function executeAdminBiometric() { closeModal('admin-auth-modal'); try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"preferred", timeout:60000} }); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Unlocked", "success"); forceSync(); } catch(e) { showToast("Biometric Failed", "error"); } }
     
     applyLang(); fetchData(); 
 </script>
