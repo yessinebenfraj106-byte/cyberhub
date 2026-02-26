@@ -100,7 +100,6 @@
     <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:15px;">🛠️ Admin Console</div>
     
     <div style="flex-grow: 1;"></div>
-    
     <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();" style="justify-content: center; border: 1px dashed var(--primary); opacity: 0.8; border-radius: 12px; background: rgba(0,240,255,0.05); margin-bottom: 20px;">📜 Store Policy</div>
 </div>
 
@@ -158,7 +157,6 @@
             <button class="admin-sub-btn" onclick="clearTestOrders()">🧹 Wipe Tests</button>
         </div>
     </div>
-
     <button onclick="lockAdminPanel()" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">🔒 Lock Console & Close</button>
 </div></div>
 
@@ -211,7 +209,6 @@
             <div class="c-btn" id="c-ph" onclick="selContact('ph')">📞 Phone</div>
         </div>
     </div>
-
     <button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button>
     <button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
 </div></div>
@@ -248,13 +245,11 @@
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-    setTimeout(() => { if (!localStorage.getItem('cyberhub_v32_pol')) { openModal('policy-modal'); } }, 3000);
-    function acceptPolicy() { localStorage.setItem('cyberhub_v32_pol', 'true'); closeModal('policy-modal'); }
+    setTimeout(() => { if (!localStorage.getItem('cyberhub_v33_pol')) { openModal('policy-modal'); } }, 3000);
+    function acceptPolicy() { localStorage.setItem('cyberhub_v33_pol', 'true'); closeModal('policy-modal'); }
 
-    // 🛡️ THE CRASH-PREVENTION ENCODER
-    // This perfectly shields apostrophes ('), spaces, and weird symbols from breaking the buttons
-    const safeEnc = (str) => { return str ? encodeURIComponent(str).replace(/'/g, "%27") : ""; };
-
+    // 🛡️ THE CRASH-PREVENTION ENCODER (Apostrophe shield)
+    const safeEnc = (str) => { return str ? encodeURIComponent(String(str)).replace(/'/g, "%27") : ""; };
     const setText = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
     const T = { 
@@ -273,34 +268,31 @@
         setText('ui-pol-btn', d.polBtn);
         if(Object.keys(productsData.categories).length > 0) forceReRender(); 
     }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); forceSync(); }
+    
+    function toggleLang() { 
+        currentLang = currentLang === 'en' ? 'fr' : 'en'; 
+        localStorage.setItem('cyberhub_lang', currentLang); 
+        applyLang(); forceSync(); // Forces re-fetch and re-render safely
+    }
+    
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") toast.style.borderColor = "red"; if(type === "success") toast.style.borderColor = "#00ff88"; clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
     // --- NAVIGATION LOGIC ---
     function navTo(type, safeCat = null, safeApp = null) {
-        currentView = { 
-            type: type, 
-            cat: safeCat ? decodeURIComponent(safeCat) : null, 
-            app: safeApp ? decodeURIComponent(safeApp) : null 
-        };
-        forceReRender();
+        try {
+            currentView = { type: type, cat: safeCat ? decodeURIComponent(safeCat) : null, app: safeApp ? decodeURIComponent(safeApp) : null };
+            forceReRender();
+        } catch(e) {
+            currentView = { type: 'cats', cat: null, app: null };
+            forceReRender();
+        }
     }
 
     function syncCartToCloud(status) { let c = currentUser || currentVisitorIP || "Unknown"; let str = cart.map(i => i.name).join(" + "); let t = cart.reduce((s,i)=>s+i.price, 0); if (cart.length === 0 && status === "Pending") return; fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_cart", contact: c, items: str, total: t, status: status }), mode: 'no-cors' }); }
 
-    // --- CART & CHECKOUT ---
     function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); openModal('modal'); }
-    
-    // 🛡️ SAFE ADD TO CART
-    function addToCart(encodedName, price) { 
-        let cleanName = decodeURIComponent(encodedName).split("||GRP||")[0]; 
-        cart.push({name: cleanName, price: parseFloat(price)}); 
-        document.getElementById('cart-count').innerText = cart.length; 
-        showToast("Added!", "success"); 
-        syncCartToCloud("Pending"); 
-    }
-    
+    function addToCart(encodedName, price) { let cleanName = decodeURIComponent(encodedName).split("||GRP||")[0]; cart.push({name: cleanName, price: parseFloat(price)}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); syncCartToCloud("Pending"); }
     function clearCart() { cart = []; document.getElementById('cart-count').innerText = "0"; document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; syncCartToCloud("Cleared"); showToast("Cart Emptied", "info"); closeModal('modal'); }
     
     function setPayment(m) { selectedPaymentMethod = m; document.getElementById('d17-details').style.display = (m === 'D17') ? 'block' : 'none'; }
@@ -347,52 +339,62 @@
     async function processAuth(type) { const c = document.getElementById('authContact').value.trim(); const p = document.getElementById('authPass').value.trim(); if(c === "yessinebenfraj106@gmail.com") { currentUser = c; isSupport = true; closeModal('login-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); return; } currentUser = c; closeModal('login-modal'); forceSync(); }
     function logoutUser() { currentUser = null; isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('profile-modal'); showToast("Logged out.", "info"); forceSync(); }
     
+    // --- SAFE DATABASE ENGINE ---
     function forceSync() { 
-        lastDataString = ""; productsData = { categories: {} }; 
-        currentView = { type: 'cats', cat: null, app: null }; // Reset to home
-        document.getElementById('content-area').innerHTML = `<div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Syncing Database... ⏳</div>`; 
+        lastDataString = ""; 
+        productsData = { categories: {} }; 
+        currentView = { type: 'cats', cat: null, app: null }; // ALWAYS reset to Home on Sync
+        const ca = document.getElementById('content-area');
+        if(ca) ca.innerHTML = `<div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Syncing Database... ⏳</div>`; 
         fetchData(); 
     }
 
-    // --- DATA PARSING & RENDERING ---
-    const safeCol = (arr, index) => (arr.length > index && arr[index]) ? String(arr[index]).trim() : "";
+    setInterval(fetchData, 6000); 
 
     async function fetchData() {
         try {
-            const res = await fetch(SHEET_URL + "&cb=" + new Date().getTime()); // Cache buster
-            if(!res.ok) throw new Error("Network Issue");
+            const res = await fetch(SHEET_URL + "&cb=" + new Date().getTime()); 
             const text = await res.text();
+            
+            if(text.trim().startsWith('<')) throw new Error("Google blocked the request (HTML returned).");
+            if(!text.includes(',')) throw new Error("Invalid CSV Format.");
             
             if(text === lastDataString && !isSupport) return; 
             lastDataString = text; 
-            const rows = text.split('\n'); let temp = {}; 
             
+            const rows = text.split('\n').filter(r => r.trim() !== ''); // Remove Empty Rows
+            if(rows.length === 0) throw new Error("Sheet is empty.");
+
+            let temp = {}; 
             const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-            let maintState = safeCol(headers, 15) || "FALSE";
+            let maintState = headers.length > 15 ? headers[15] : "FALSE";
             let bannedList = [];
             
             rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                let banVal = safeCol(cols, 16); if(banVal) bannedList.push(banVal);
+                if (cols.length > 16 && cols[16]) bannedList.push(cols[16]); 
                 
-                if (cols.length >= 5 && safeCol(cols, 0) !== "") {
-                    let catFr = safeCol(cols, 0) || "Uncategorized"; let catEn = safeCol(cols, 6) || catFr;
-                    let appFr = safeCol(cols, 2) || "General"; let appEn = safeCol(cols, 7) || appFr; 
-                    let itemFr = safeCol(cols, 4) || "Item"; let itemEn = safeCol(cols, 8) || itemFr;
+                if (cols.length >= 5 && cols[0]) {
+                    let catFr = cols[0]; let catEn = cols.length > 6 && cols[6] ? cols[6] : catFr;
+                    let appFr = cols[2] ? cols[2] : "General"; let appEn = cols.length > 7 && cols[7] ? cols[7] : appFr; 
+                    let itemFr = cols[4]; let itemEn = cols.length > 8 && cols[8] ? cols[8] : itemFr;
                     
                     const cat = currentLang === 'en' ? catEn : catFr; 
                     const app = currentLang === 'en' ? appEn : appFr; 
                     let itemNameRaw = currentLang === 'en' ? itemEn : itemFr; 
-                    const price = parseFloat(safeCol(cols, 5)) || 0; 
-                    const isOOS = (safeCol(cols, 14).toUpperCase() === "OOS"); 
+                    const price = parseFloat(cols[5]) || 0; 
+                    const isOOS = (cols.length > 14 && cols[14] && cols[14].toUpperCase().includes("OOS")); 
                     
                     let itemName = itemNameRaw; let groupName = null;
-                    if(itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0]; groupName = parts[1]; }
+                    if(itemNameRaw && itemNameRaw.includes("||GRP||")) { 
+                        let parts = itemNameRaw.split("||GRP||"); 
+                        itemName = parts[0]; groupName = parts[1]; 
+                    }
                     
-                    if (!temp[cat]) temp[cat] = { name: cat, img: safeCol(cols, 1), apps: {} }; 
-                    if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: safeCol(cols, 3), groups: {}, standalone: [] };
+                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1] || '', apps: {} }; 
+                    if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3] || '', groups: {}, standalone: [] };
                     
-                    const itemData = { name: itemName, originalName: safeCol(cols, 4), price: price, isOOS: isOOS }; 
+                    const itemData = { name: itemName, originalName: cols[4], price: price, isOOS: isOOS }; 
                     
                     if(groupName) { 
                         if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] }; 
@@ -408,16 +410,21 @@
             }
 
             productsData.categories = temp; 
+            
+            if(!isSupport && !sessionStorage.getItem('visit_logged') && currentVisitorIP) {
+                fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_visit", ip: currentVisitorIP, device: navigator.userAgent }), mode: 'no-cors' }).catch(e=>{});
+                sessionStorage.setItem('visit_logged', 'true');
+            }
             if(isSupport) maintState = "FALSE";
             handleMaintenanceUI(maintState); forceReRender(); 
         } catch (e) {
-            if(Object.keys(productsData.categories).length === 0) {
-                document.getElementById('content-area').innerHTML = `<div style="text-align:center; color:#ff4d4d; margin-top:30px;"><b>⚠️ Connection Error</b><br>Could not load store data. Please refresh.</div>`;
+            console.log("Fetch Error:", e);
+            const ca = document.getElementById('content-area');
+            if(ca && Object.keys(productsData.categories).length === 0) {
+                ca.innerHTML = `<div style="text-align:center; color:#ff4d4d; margin-top:30px; font-weight:bold;">⚠️ Database Connection Error<br><span style="font-size:0.8rem; color:var(--sub);">Google Sheets is not responding. Automatically retrying...</span></div>`;
             }
         }
     }
-    
-    setInterval(fetchData, 6000); 
 
     function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
 
@@ -437,22 +444,25 @@
                 html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
             } else if (currentView.type === 'apps') {
                 const catData = productsData.categories[currentView.cat]; 
+                if(!catData) return navTo('cats'); // 🛡️ CRASH PROTECTOR
                 html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                if(catData) { Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); }
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); 
                 html += `</div>`;
             } else if (currentView.type === 'items') {
-                const appData = productsData.categories[currentView.cat]?.apps[currentView.app];
+                const catData = productsData.categories[currentView.cat];
+                if(!catData) return navTo('cats'); // 🛡️ CRASH PROTECTOR
+                const appData = catData.apps[currentView.app];
+                if(!appData) return navTo('apps', safeEnc(currentView.cat)); // 🛡️ CRASH PROTECTOR
+                
                 html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
-                if(appData) {
-                    if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
-                    Object.values(appData.groups).forEach((g, gI) => {
-                        let safeGrp = safeEnc(g.name);
-                        let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
-                        html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
-                        g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
-                    });
-                    appData.standalone.forEach(it => html += drawItemRow(it, dic));
-                }
+                if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
+                Object.values(appData.groups).forEach((g, gI) => {
+                    let safeGrp = safeEnc(g.name);
+                    let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
+                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
+                    g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
+                });
+                appData.standalone.forEach(it => html += drawItemRow(it, dic));
             }
         }
         document.getElementById('content-area').innerHTML = html;
@@ -467,6 +477,36 @@
 
     function updateItem(encodedName, price, isOOS) { let name = decodeURIComponent(encodedName); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => { forceSync(); }); }
     function deleteItem(encodedName) { let name = decodeURIComponent(encodedName); if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { forceSync(); }); } }
+    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value; let finalName = name; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) finalName += "||GRP||" + group; } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: finalName, price: price }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Item Saved!", "success"); }); }
+    
+    // --- ADMIN DASHBOARD TOOLS ---
+    function banUserPrompt() { let target = prompt("Enter IP Address or User Contact to ban:"); if (target) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "ban_user", target: target }), mode: 'no-cors' }).then(() => { showToast("Target Banned! 🔨", "success"); }); } }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
+    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
+    function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
+    function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
+
+    function handleDragStart(e, rawName) { draggedItemRawName = decodeURIComponent(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
+    function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
+    function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+    function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? decodeURIComponent(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { showToast("Moving item...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { forceSync(); showToast("Moved!", "success"); }, 1500); }); } draggedItemRawName = null; }
+
+    async function drawAdminChart() { try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; for(let i = 1; i < rows.length; i++) { const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[6] && cols[6].trim() === "Delivered") { let d = new Date(cols[7]).toLocaleDateString(undefined, {weekday: 'short', month: 'short', day: 'numeric'}); let p = parseFloat(cols[4].replace(/[^0-9.]/g, '')); if (!isNaN(p)) revByDay[d] = (revByDay[d] || 0) + p; } } } if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); } catch(e) {} }
+
+    let logoClickCount = 0; let logoClickTimer;
+    function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-auth-modal'); } }
+    function submitAdminPass() { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); } }
+    function lockAdminPanel() { isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('admin-dashboard-modal'); showToast("🔒 Locked.", "info"); forceSync(); }
+    function openAdminDashboard() { openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 500); }
+
+    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
+    
+    async function linkUserBiometric() { if(!currentUser) return; try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success"); } catch(e) { alert("Setup Failed: Ensure your device has a PIN or FaceID."); } }
+    function resetBiometrics() { localStorage.removeItem('cyberhub_bio_user'); localStorage.removeItem('cyberhub_bio_pass'); linkUserBiometric(); }
+    async function registerBiometricDevice() { let auth = prompt("Admin PIN to authorize Biometric Setup:"); if(auth !== "26240608") return showToast("Unauthorized", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); const cred = await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); closeModal('admin-auth-modal'); } catch(e) { alert("Failed to create passkey."); } }
+    async function executeAdminBiometric() { closeModal('admin-auth-modal'); try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"preferred", timeout:60000} }); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Unlocked", "success"); forceSync(); } catch(e) { showToast("Biometric Failed", "error"); } }
+    async function executeUserBiometricLogin() { closeModal('login-modal'); let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass'); if(!linkedUser) return showToast("No biometrics linked.", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); currentUser = linkedUser; currentPass = linkedPass; if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-sidebar-btn').style.display = 'block'; } showToast("Welcome back!", "success"); forceSync(); } catch(e) { showToast("Login failed.", "error"); } }
 
     async function initIPLogging() { try { let res = await fetch('https://api.ipify.org?format=json'); let data = await res.json(); currentVisitorIP = data.ip; } catch(e) {} }
     initIPLogging(); applyLang(); fetchData(); 
