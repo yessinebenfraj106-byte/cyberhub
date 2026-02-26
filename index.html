@@ -34,13 +34,10 @@
         
         .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; box-shadow: 0 0 30px rgba(255, 174, 0, 0.3); }
 
-        /* 🔥 HOMEPAGE ADMIN CONTROLS */
         .admin-controls { padding: 20px; margin-bottom: 25px; border: 2px solid var(--warn); display: none; background: rgba(0,0,0,0.5); }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .btn-maint { background: var(--warn); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
         .btn-open { background: #00ff88; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
-        .support-tools { display: flex; gap: 5px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px; flex-wrap: wrap; }
-        .support-btn { flex: 1 1 22%; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.75rem; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 5px; transition: 0.2s; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
         .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -89,9 +86,11 @@
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
-    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();" id="ui-menu-acc">👤 Account & Profile</div>
-    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();" id="ui-menu-contact">📞 Contact Us</div>
-    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);" id="ui-menu-vip">🎡 VIP Rewards</div>
+    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
+    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();">📞 Contact Us</div>
+    <div class="menu-item" onclick="openVIPHub(); toggleSidebar();" style="color:var(--warn);">🎡 VIP Rewards</div>
+    <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();" style="opacity:0.6; font-size:0.9rem;">📜 Store Policy</div>
+    <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:20px;">🛠️ Admin Console</div>
 </div>
 
 <div class="container">
@@ -113,7 +112,6 @@
     <div id="admin-panel" class="admin-controls liquid-glass">
         <b style="color:var(--warn); font-size:1.2rem;">🛠️ GOD-MODE CONSOLE</b><br>
         <p style="font-size:0.8rem; color:var(--sub); margin-bottom: 15px;">Store Management</p>
-        
         <div class="admin-grid" style="grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
             <button class="add-cart-btn" onclick="openAdminOrders()" style="background:var(--warn); margin:0;">📦 ORDERS</button>
             <button class="add-cart-btn" onclick="openModal('add-item-modal')" style="background:var(--primary); margin:0;">➕ ITEM</button>
@@ -122,7 +120,6 @@
             <button class="add-cart-btn" onclick="forceSync()" style="background:transparent; border:1px solid var(--primary); color:white; margin:0;">🔄 FORCE SYNC</button>
             <button class="add-cart-btn" onclick="clearTestOrders()" style="background:transparent; border:1px dashed #ff4d4d; color:#ff4d4d; margin:0;">🧹 WIPE TESTS</button>
         </div>
-        
         <div style="background:rgba(0,0,0,0.4); border-radius:12px; padding:10px; margin-bottom:15px; border:1px dashed var(--sub);"><canvas id="adminChart" height="120"></canvas></div>
         <button class="add-cart-btn" style="background:transparent; border:none; color:var(--sub);" onclick="lockAdminPanel()">🔒 Lock Console</button>
     </div>
@@ -147,6 +144,12 @@
     </div>
     <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
         <div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white; display:block; font-size:0.9rem;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem;">Full after-sales service is guaranteed for every purchase.</span></div>
+    </div>
+    <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d; display:block; font-size:0.9rem;">Refund Policy</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem;">No refunds after the digital product has been delivered.</span></div>
+    </div>
+    <div style="background:rgba(0, 255, 136, 0.05); border:1px solid #00ff88; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:#00ff88; color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">✅</div><div><b id="ui-pol-w-title" style="color:#00ff88; display:block; font-size:0.9rem;">Warranty</b><span id="ui-pol-w-desc" style="color:white; font-size:0.75rem;">Replacement guaranteed if the account stops working.</span></div>
     </div>
     <button class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I ACCEPT</button>
 </div></div>
@@ -186,10 +189,15 @@
     
     <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--sub); margin-bottom:20px; text-align:left;">
         <h4 style="margin:0 0 5px 0; color:white;">🔗 Link Your Socials</h4>
-        <p style="font-size:0.75rem; color:var(--sub); margin-bottom:10px;">Link your accounts for faster contact when you buy.</p>
         <input type="text" id="link-wa" placeholder="WhatsApp Number (e.g., 216...)" style="padding:10px; font-size:0.85rem; margin-bottom:5px;">
         <input type="text" id="link-ig" placeholder="Instagram Username (@...)" style="padding:10px; font-size:0.85rem; margin-bottom:10px;">
         <button class="add-cart-btn" onclick="saveLinks()" style="margin:0; padding:10px; font-size:0.85rem; background:transparent; color:white; border:1px solid white;">Save Links</button>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); margin-bottom:20px;">
+        <h4 style="margin:0 0 10px 0; color:white;">Security</h4>
+        <button class="add-cart-btn" onclick="linkUserBiometric()" style="margin:0 0 10px 0;">🔗 Login with Biometrics</button>
+        <button class="add-cart-btn" onclick="resetBiometrics()" style="margin:0; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Setup New Biometrics</button>
     </div>
 
     <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
@@ -199,7 +207,8 @@
 <div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3>
     <select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select>
     <input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)">
-    <input type="text" id="add-item-name" placeholder="Item Name (e.g. 1 Month 4K)">
+    <input type="text" id="add-item-name" placeholder="Item Name EN">
+    <input type="text" id="add-item-name-fr" placeholder="Item Name FR">
     <input type="number" id="add-item-price" placeholder="Price (DT)">
     <div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b><br><span style="font-size:0.75rem; color:var(--sub);">Makes this item retractable.</span></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);">
     <button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
@@ -216,12 +225,13 @@
 
 <div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 All Purchases</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading orders...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal');">🔑 Use Password</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
+<div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal');">🔑 Use Password</button><button class="add-cart-btn" onclick="registerBiometricDevice()" style="background:transparent; border:1px dashed var(--sub); color:var(--sub); margin-top:10px; font-size:0.8rem;">⚙️ Setup New Admin Biometrics</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 <div id="admin-pass-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn);">Admin Password</h3><input type="password" id="admin-manual-pass" placeholder="Enter PIN..."><button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Verify</button><button onclick="closeModal('admin-pass-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;">👤 User Account</h3><p style="font-size:0.8rem; color:var(--sub); margin-bottom:15px;">Login to buy faster.</p><input type="text" id="authContact" placeholder="Email or Phone Number"><input type="password" id="authPass" placeholder="Password"><button class="add-cart-btn" onclick="processAuth('login')">Log In</button><button class="add-cart-btn" onclick="processAuth('register')" style="background:transparent; border:1px solid var(--primary); color:var(--primary);">Register</button><button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
 <div id="vip-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">🎡 Daily Spin</h3><p style="color:var(--sub); font-size:0.8rem;">1 Spin / 48h.</p><div class="spin-wrapper"><div class="spin-pointer"></div><div class="spin-wheel" id="spin-wheel"><div class="wheel-icon icon-1">😭</div><div class="wheel-icon icon-2">🎡</div><div class="wheel-icon icon-3">🎨</div><div class="wheel-icon icon-4">💎</div></div></div><button class="add-cart-btn" style="background:var(--warn); margin-top:20px;" onclick="executeSpin()" id="spin-btn">SPIN NOW</button><button onclick="closeModal('vip-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="contact-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px;">📞 Contact Us</h3><a href="https://wa.me/21629895846" class="add-cart-btn" style="text-decoration:none; display:block; background:#25D366; color:white;">WhatsApp</a><a href="mailto:cyber.hub.contact.now@gmail.com" class="add-cart-btn" style="text-decoration:none; display:block; background:#ea4335; color:white;">Email</a><button onclick="closeModal('contact-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Close</button></div></div>
 <div id="modal" class="modal"><div class="modal-content liquid-glass"><div id="cart-view"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div></div>
+<div id="inbox-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:5px;" id="chat-title">💬 Support Inbox</h3><div style="background:rgba(0,0,0,0.6); height:300px; border-radius:12px; border:1px solid var(--border); overflow-y:auto; padding:15px; margin-bottom:10px; display:flex; flex-direction:column; gap:10px;" id="chat-history"><div style="background:transparent; color:var(--warn); align-self:center; font-size:0.8rem; font-style:italic; border:1px dashed var(--warn); padding:10px; border-radius:15px;">Secure connection.</div></div><div style="display:flex; gap:10px;"><input type="text" id="chat-input" placeholder="Type a message..." style="margin:0;"><button class="add-cart-btn" style="width:auto; margin:0;" onclick="sendChatMessage()">Send</button></div><button onclick="closeModal('inbox-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
@@ -229,53 +239,51 @@
     const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
     const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv";
 
-    const BIO_OPTIONS = { authenticatorAttachment: "platform", userVerification: "preferred" };
     const ADMIN_PHONE = "21629895846";
     const ADMIN_IG = "yessine_ben_fraj";
 
-    let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; 
-    let currentUser = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
+    let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; let countdownInterval;
+    let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; 
     let currentVisitorIP = null; let isWhitelisted = false;
     
     let selectedPaymentMethod = "D17"; let selectedContactMethod = "wa";
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 70 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
+    particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-    setTimeout(() => { if (!localStorage.getItem('cyberhub_v27_pol')) { openModal('policy-modal'); } }, 3000);
-    function acceptPolicy() { localStorage.setItem('cyberhub_v27_pol', 'true'); closeModal('policy-modal'); }
+    setTimeout(() => { if (!localStorage.getItem('cyberhub_v28_pol')) { openModal('policy-modal'); } }, 3000);
+    function acceptPolicy() { localStorage.setItem('cyberhub_v28_pol', 'true'); closeModal('policy-modal'); }
 
-    // 📡 IP FETCH & WHITELIST CHECK
-    async function initIPLogging() {
-        try {
-            let res = await fetch('https://api.ipify.org?format=json');
-            let data = await res.json();
-            currentVisitorIP = data.ip;
-        } catch(e) {}
-    }
-    initIPLogging();
-
-    // 🌐 TRANSLATION ENGINE
+    // 🌐 FIXED TRANSLATION ENGINE (Forces Sync on Switch)
     const T = { 
-        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request a New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely with our automation & payment partners only.", polLTitle: "Delivery Time", polLDesc: "Delivery is from immediate up to 48 hours maximum.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed for every purchase.", polBtn: "I ACCEPT" }, 
-        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polDTitle: "Confidentialité", polDDesc: "Vos données sont partagées en toute sécurité uniquement avec nos partenaires.", polLTitle: "Délai de Livraison", polLDesc: "Livraison de immédiate jusqu'à 48 heures maximum.", polSTitle: "Support (SAV)", polSDesc: "Un service après-vente complet est garanti pour chaque achat.", polBtn: "J'ACCEPTE" } 
+        en: { oos: "OUT OF STOCK", add: "ADD TO CART", back: "← Back", req: "💡 Request a New Service", search: "Search Store...", maintTitle: "STORE CLOSED FOR UPDATES", acc: "Account & Profile", contact: "Contact Us", vip: "VIP Spin & Rewards", loading: "Loading Store Data... ⏳", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely with our automation & payment partners only.", polLTitle: "Delivery Time", polLDesc: "Delivery is from immediate up to 48 hours maximum.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed for every purchase.", polRTitle: "Refund Policy", polRDesc: "No refunds after the digital product has been delivered.", polWTitle: "Warranty", polWDesc: "Replacement guaranteed if the account stops working during the subscription.", polBtn: "I ACCEPT" }, 
+        fr: { oos: "RUPTURE", add: "AJOUTER", back: "← Retour", req: "💡 Demander un Service", search: "Rechercher...", maintTitle: "BOUTIQUE EN MAINTENANCE", acc: "Compte et Profil", contact: "Contactez-nous", vip: "Tour VIP et Récompenses", loading: "Chargement... ⏳", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polDTitle: "Confidentialité", polDDesc: "Vos données sont partagées en toute sécurité uniquement avec nos partenaires.", polLTitle: "Délai de Livraison", polLDesc: "Livraison de immédiate jusqu'à 48 heures maximum.", polSTitle: "Support (SAV)", polSDesc: "Un service après-vente complet est garanti pour chaque achat.", polRTitle: "Remboursement", polRDesc: "Aucun remboursement après la livraison du produit numérique.", polWTitle: "Garantie", polWDesc: "Remplacement garanti si le compte cesse de fonctionner pendant l'abonnement.", polBtn: "J'ACCEPTE" } 
     };
 
     function applyLang() { 
         const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
         if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search;
+        document.getElementById('footer-credit').innerHTML = `${d.credit}<br><span onclick="openModal('policy-modal')" style="font-size:0.8rem; display:inline-block; margin-top:15px; cursor:pointer; opacity:0.6;">📜 Store Policy / Terms</span>`;
         document.getElementById('ui-pol-title').innerText = d.polTitle;
         document.getElementById('ui-pol-d-title').innerText = d.polDTitle; document.getElementById('ui-pol-d-desc').innerText = d.polDDesc;
         document.getElementById('ui-pol-l-title').innerText = d.polLTitle; document.getElementById('ui-pol-l-desc').innerText = d.polLDesc;
         document.getElementById('ui-pol-s-title').innerText = d.polSTitle; document.getElementById('ui-pol-s-desc').innerText = d.polSDesc;
+        document.getElementById('ui-pol-r-title').innerText = d.polRTitle; document.getElementById('ui-pol-r-desc').innerText = d.polRDesc;
+        document.getElementById('ui-pol-w-title').innerText = d.polWTitle; document.getElementById('ui-pol-w-desc').innerText = d.polWDesc;
         document.getElementById('ui-pol-btn').innerText = d.polBtn;
         if(document.getElementById('ui-req-title')) document.getElementById('ui-req-title').innerText = d.req;
-        forceReRender(); 
     }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
+    
+    function toggleLang() { 
+        currentLang = currentLang === 'en' ? 'fr' : 'en'; 
+        localStorage.setItem('cyberhub_lang', currentLang); 
+        applyLang(); 
+        forceSync(); // Forces re-fetch and re-render with new language
+    }
+    
     function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") toast.style.borderColor = "red"; if(type === "success") toast.style.borderColor = "#00ff88"; clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
@@ -328,6 +336,7 @@
         });
     }
 
+    // --- BIOMETRICS & PROFILES ---
     function openProfileOrLogin() { 
         if(currentUser) { 
             document.getElementById('prof-email-display').innerText = "Account: " + currentUser; 
@@ -338,13 +347,52 @@
     }
     function saveLinks() { localStorage.setItem(`wa_${currentUser}`, document.getElementById('link-wa').value); localStorage.setItem(`ig_${currentUser}`, document.getElementById('link-ig').value); showToast("Socials Linked!", "success"); }
 
+    async function linkUserBiometric() { 
+        if(!currentUser) return; 
+        try { 
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); 
+            await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); 
+            localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); 
+            showToast("Biometrics Linked!", "success"); 
+        } catch(e) { alert("Biometric Setup Failed: You must have a screen lock/PIN enabled on your device."); } 
+    }
+    
+    function resetBiometrics() {
+        localStorage.removeItem('cyberhub_bio_user'); localStorage.removeItem('cyberhub_bio_pass');
+        linkUserBiometric();
+    }
+
+    async function executeUserBiometricLogin() { 
+        closeModal('login-modal'); 
+        let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass'); 
+        if(!linkedUser) return showToast("No biometrics linked.", "error"); 
+        try { 
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); 
+            await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); 
+            currentUser = linkedUser; currentPass = linkedPass; 
+            if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-panel').style.display = 'block'; } 
+            showToast("Welcome back, " + currentUser, "success"); forceSync(); 
+        } catch(e) { showToast("Login failed.", "error"); } 
+    }
+
     // --- ADMIN TOOLS ---
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-auth-modal'); } }
     function submitAdminPass() { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Unlocked", "success"); forceSync(); } }
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-panel').style.display = 'none'; showToast("🔒 Locked.", "info"); forceSync(); }
     
-    function forceSync() { lastDataString = ""; productsData = { categories: {} }; showToast("Force Syncing...", "info"); fetchData(); }
+    async function registerBiometricDevice() { 
+        let auth = prompt("Admin PIN to authorize Biometric Reset:");
+        if(auth !== "26240608") return showToast("Unauthorized", "error");
+        try { 
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); 
+            const cred = await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); 
+            localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); 
+            showToast("Admin Passkey Created!", "success"); closeModal('admin-auth-modal');
+        } catch(e) { alert("Failed to create passkey. Ensure your device has a lock screen."); } 
+    }
+
+    function forceSync() { lastDataString = ""; productsData = { categories: {} }; showToast("Syncing...", "info"); fetchData(); }
 
     function submitNewItem() { 
         let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; 
@@ -355,7 +403,7 @@
         fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: finalName, price: price }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Item Saved!", "success"); }); 
     }
 
-    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:var(--primary);">${o.id}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
+    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, '')); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
     function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
     function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
 
@@ -363,9 +411,8 @@
     function addToCart(nameRaw, price) { let cleanName = nameRaw.includes("||GRP||") ? nameRaw.split("||GRP||")[0] : nameRaw; cart.push({name: cleanName, price: price}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
     function openCheckout() { closeModal('modal'); openModal('checkout-modal'); document.getElementById('chk-total').innerText = document.getElementById('cart-total-price').innerText; if(currentUser) document.getElementById('custName').value = currentUser.split('@')[0]; }
     async function processAuth(type) { const c = document.getElementById('authContact').value.trim(); const p = document.getElementById('authPass').value.trim(); if(c === "yessinebenfraj106@gmail.com") { currentUser = c; isSupport = true; closeModal('login-modal'); document.getElementById('admin-panel').style.display = 'block'; showToast("God Mode Active", "success"); forceSync(); return; } currentUser = c; closeModal('login-modal'); forceSync(); }
-    function logoutUser() { currentUser = null; isSupport = false; document.getElementById('admin-panel').style.display = 'none'; closeModal('profile-modal'); showToast("Logged out.", "info"); forceSync(); }
-
-    // --- FETCH DATA & DUAL-LANG PARSER ---
+    
+    // --- DATA FETCHING (Correct Dual-Language Parsing) ---
     setInterval(fetchData, 6000); 
     async function fetchData() {
         try {
@@ -373,29 +420,21 @@
             if(text === lastDataString && !isSupport) return; lastDataString = text; 
             const rows = text.split('\n'); let temp = {}; 
             
-            // Extract Headers for Maintenance
             const headers = rows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-            let maintState = headers[15] || "FALSE";
-            
-            // Extract IP Whitelist (Stored in Column P, starting row 2)
-            let whitelistedIPs = [];
+            handleMaintenanceUI(headers[15] || "FALSE");
             
             rows.slice(1).forEach(row => {
                 const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ''));
-                if (cols[15]) whitelistedIPs.push(cols[15]); // Log IPs in column P
-                
-                if (cols.length >= 6 && cols[0] !== "") {
-                    // DUAL LANGUAGE PARSING LOGIC based on sheet columns
-                    let catFr = cols[0]; let catEn = cols[6] || catFr;
-                    let appFr = cols[2] ? cols[2] : "General"; let appEn = cols[7] ? cols[7] : appFr; // "Autres" Fix
-                    let itemFr = cols[4]; let itemEn = cols[8] || itemFr;
+                if (cols.length >= 5 && cols[0] !== "") {
+                    // Safe parsing for both languages
+                    let catFr = cols[0] || "Uncategorized"; let catEn = cols[6] || catFr;
+                    let appFr = cols[2] ? cols[2] : "General"; let appEn = cols[7] ? cols[7] : appFr; 
+                    let itemFr = cols[4] || "Item"; let itemEn = cols[8] || itemFr;
                     
                     const cat = currentLang === 'en' ? catEn : catFr; 
                     const app = currentLang === 'en' ? appEn : appFr; 
                     let itemNameRaw = currentLang === 'en' ? itemEn : itemFr; 
                     const price = parseFloat(cols[5]) || 0; 
-                    
-                    // STRICT OOS FIX (Only look at Column O)
                     const isOOS = (cols[14] && cols[14].toUpperCase() === "OOS"); 
                     
                     let itemName = itemNameRaw; let groupName = null;
@@ -403,26 +442,16 @@
                     
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1], apps: {} }; 
                     if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3], groups: {}, standalone: [] };
-                    const itemData = { name: itemName, originalName: cols[4], price: price, isOOS: isOOS }; // Note: Keep cols[4] for OriginalName for DB updates
+                    const itemData = { name: itemName, originalName: cols[4], price: price, isOOS: isOOS }; 
                     if(groupName) { if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] }; temp[cat].apps[app].groups[groupName].items.push(itemData); } else { temp[cat].apps[app].standalone.push(itemData); }
                 }
             });
-            productsData.categories = temp; 
-            
-            // Run Maintenance & Whitelist Check
-            isWhitelisted = whitelistedIPs.includes(currentVisitorIP) || isSupport;
-            if(!isWhitelisted && !sessionStorage.getItem('visit_logged') && currentVisitorIP) {
-                fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_visit", ip: currentVisitorIP, device: navigator.userAgent }), mode: 'no-cors' });
-                sessionStorage.setItem('visit_logged', 'true');
-            }
-            if(isWhitelisted) maintState = "FALSE";
-            handleMaintenanceUI(maintState);
-            forceReRender(); 
+            productsData.categories = temp; forceReRender(); 
         } catch (e) {}
     }
 
     function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); adminForcedMaint = payload.value; handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { adminForcedMaint = null; forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) { adminForcedMaint = null; } }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
 
     function forceReRender() {
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
@@ -463,8 +492,6 @@
     function deleteItem(name) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { forceSync(); }); } }
     async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let html = ""; rows.forEach(r => { let c = r.split(','); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
     
-    async function drawAdminChart() { const ctx = document.getElementById('adminChart'); if(!ctx) return; try { const res = await fetch(ORDERS_URL + "&t=" + new Date().getTime()); const rows = (await res.text()).split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; for(let i = 1; i < rows.length; i++) { const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; } } new Chart(ctx, { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); } catch(e) {} }
-
     applyLang(); fetchData(); 
 </script>
 </body>
