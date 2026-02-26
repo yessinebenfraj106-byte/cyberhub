@@ -36,7 +36,10 @@
         .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .nav-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15); }
         .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        
+        .request-card { grid-column: span 2; background: linear-gradient(45deg, rgba(255, 174, 0, 0.1), rgba(255, 174, 0, 0.02)); border: 1px dashed var(--warn); color: var(--warn); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; }
 
+        /* 🔥 PREMIUM FOLDER UI */
         .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
         .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
@@ -46,7 +49,7 @@
         .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; font-weight: bold; }
         .ungroup-zone.drag-over { border-color: #ff4d4d; color: #ff4d4d; background: rgba(255, 77, 77, 0.1); }
         
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: grab; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: grab; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
         .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
         
         .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; transition: 0.3s; width: 100%; letter-spacing: 1px; }
@@ -82,7 +85,6 @@
 <body>
 <div id="particles-js"></div>
 <div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
-
 <div id="fomo-toast" class="fomo-toast"><div style="font-size:1.8rem;">🛒</div><div id="fomo-msg">Someone bought!</div></div>
 
 <div id="sidebar" class="liquid-glass">
@@ -246,15 +248,18 @@
     // --- SAFE TEXT RENDERER ---
     const setText = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
+    // --- MASTER ESCAPE FUNCTION (Fixes Apostrophe crash) ---
+    const escStr = (str) => { return str ? String(str).replace(/'/g, "\\'") : ""; };
+
     const T = { 
-        en: { back: "← Back", search: "Search Store...", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely.", polLTitle: "Delivery Time", polLDesc: "Immediate up to 48 hours.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed.", polRTitle: "Refunds", polRDesc: "No refunds after delivery.", polBtn: "I ACCEPT" }, 
-        fr: { back: "← Retour", search: "Rechercher...", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polDTitle: "Confidentialité", polDDesc: "Vos données sont partagées en toute sécurité.", polLTitle: "Livraison", polLDesc: "Immédiate jusqu'à 48 heures.", polSTitle: "Support (SAV)", polSDesc: "Service après-vente complet garanti.", polRTitle: "Remboursements", polRDesc: "Aucun remboursement après livraison.", polBtn: "J'ACCEPTE" } 
+        en: { back: "← Back", search: "Search Store...", req: "💡 Request a New Service", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely.", polLTitle: "Delivery Time", polLDesc: "Immediate up to 48 hours.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed.", polRTitle: "Refunds", polRDesc: "No refunds after delivery.", polBtn: "I ACCEPT" }, 
+        fr: { back: "← Retour", search: "Rechercher...", req: "💡 Demander un Service", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polDTitle: "Confidentialité", polDDesc: "Vos données sont partagées en toute sécurité.", polLTitle: "Livraison", polLDesc: "Immédiate jusqu'à 48 heures.", polSTitle: "Support (SAV)", polSDesc: "Service après-vente complet garanti.", polRTitle: "Remboursements", polRDesc: "Aucun remboursement après livraison.", polBtn: "J'ACCEPTE" } 
     };
 
     function applyLang() { 
         const d = T[currentLang]; setText('lang-ind', currentLang.toUpperCase());
         const sb = document.getElementById('mainSearch'); if(sb) sb.placeholder = d.search;
-        setText('footer-credit', d.credit);
+        setText('footer-credit', `${d.credit}<br><span onclick="openModal('policy-modal')" style="font-size:0.8rem; display:inline-block; margin-top:15px; cursor:pointer; opacity:0.6;">📜 Store Policy / Terms</span>`);
         setText('ui-pol-title', d.polTitle); setText('ui-pol-d-title', d.polDTitle); setText('ui-pol-d-desc', d.polDDesc);
         setText('ui-pol-l-title', d.polLTitle); setText('ui-pol-l-desc', d.polLDesc);
         setText('ui-pol-s-title', d.polSTitle); setText('ui-pol-s-desc', d.polSDesc);
@@ -328,13 +333,13 @@
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('admin-dashboard-modal'); showToast("🔒 Locked.", "info"); forceSync(); }
     function openAdminDashboard() { openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 500); }
     
-    // --- DRAG AND DROP ENGINE ---
     function handleDragStart(e, rawName) { draggedItemRawName = decodeURIComponent(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
     function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
     function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
     function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroup) { 
+    function handleDrop(e, targetGroupRaw) { 
         e.preventDefault(); e.currentTarget.classList.remove('drag-over'); 
+        let targetGroup = targetGroupRaw ? decodeURIComponent(targetGroupRaw) : "";
         if(!draggedItemRawName) return; 
         let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; 
         let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); 
@@ -401,16 +406,19 @@
             }); }); html += `</div>`;
         } else {
             if(currentView.type === 'cats') {
-                html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${c.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `</div>`;
+                html += `<div class="grid">`; 
+                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="currentView={type:'apps', cat:'${escStr(c.name)}'}; forceReRender();"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); 
+                html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
             } else if (currentView.type === 'apps') {
                 const catData = productsData.categories[currentView.cat]; html += `<button onclick="currentView={type:'cats'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${currentView.cat.replace(/'/g, "\\'")}', app:'${a.name.replace(/'/g, "\\'")}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="currentView={type:'items', cat:'${escStr(currentView.cat)}', app:'${escStr(a.name)}'}; forceReRender();"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
             } else if (currentView.type === 'items') {
                 const appData = productsData.categories[currentView.cat].apps[currentView.app];
-                html += `<button onclick="currentView={type:'apps', cat:'${currentView.cat.replace(/'/g, "\\'")}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
+                html += `<button onclick="currentView={type:'apps', cat:'${escStr(currentView.cat)}'}; forceReRender();" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
                 Object.values(appData.groups).forEach((g, gI) => {
-                    let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${g.name.replace(/'/g, "\\'")}')"` : "";
+                    let safeGrp = encodeURIComponent(g.name);
+                    let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
                     html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
                     g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
                 });
