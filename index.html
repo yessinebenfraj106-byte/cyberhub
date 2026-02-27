@@ -14,36 +14,54 @@
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
         #particles-js{position:fixed;width:100%;height:100%;z-index:-1;top:0;left:0;}
         .container{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
-        .liquid-glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--border);border-radius:20px;padding:15px;margin-bottom:20px;}
-        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
-        .icon-btn{background:var(--card);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:bold;transition:0.2s;}
-        .logo{width:100px;height:100px;border-radius:50%;border:3px solid var(--primary);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 20px rgba(0,240,255,0.3);}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-        .nav-card{background:var(--card);border:1px solid var(--border);padding:15px;border-radius:15px;text-align:center;cursor:pointer;transition:0.2s;}
-        .nav-card img{width:50px;height:50px;margin-bottom:8px;object-fit:contain;}
-        .folder-header{background:rgba(0,240,255,0.1);border-left:4px solid var(--primary);padding:15px;border-radius:10px;margin-bottom:8px;font-weight:bold;cursor:pointer;display:flex;justify-content:space-between;}
-        .item-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);padding:15px;border-radius:12px;margin-bottom:10px;}
-        .btn{background:var(--primary);color:#000;border:none;padding:12px;border-radius:10px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;}
-        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(10px);padding:15px;}
-        .modal-content{background:var(--bg);border:1px solid var(--primary);padding:20px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
-        input,select,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.6);color:#fff;box-sizing:border-box;}
-        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--primary);color:#000;padding:12px 25px;border-radius:30px;font-weight:bold;transition:0.4s;z-index:20000;}
-        .toast.show{bottom:30px;}
-        .admin-bar{display:none;background:#ffae00;color:#000;padding:8px;text-align:center;font-weight:bold;border-radius:10px;margin-bottom:15px;}
-        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:#fff;padding:10px;border-radius:8px;text-align:center;cursor:pointer;flex:1;}
-        .c-btn.active{background:rgba(0,240,255,0.2);border-color:var(--primary);color:var(--primary);}
-        .footer{text-align:center;color:var(--sub);font-size:0.9rem;font-weight:bold;margin-top:30px;}
-        .oos-tag{color:#ff4d4d;border:1px solid #ff4d4d;padding:2px 6px;border-radius:5px;font-size:0.7rem;margin-left:5px;}
-        #sidebar{position:fixed;top:0;left:-300px;width:250px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.3s;padding:20px;border-right:1px solid var(--primary);}
+        .liquid-glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--border);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
+        
+        /* HEADER & MENU */
+        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px;}
+        .icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;transition:0.3s;}
+        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--primary);margin:auto;display:block;background:#000;cursor:pointer;box-shadow:0 0 30px rgba(0,240,255,0.4);}
+        #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s;padding:30px 20px;border-right:1px solid var(--primary);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
-        .menu-item{padding:15px;color:#fff;font-weight:bold;border-bottom:1px solid var(--border);cursor:pointer;}
-        .banner{display:none;padding:15px;border-radius:12px;text-align:center;font-weight:bold;margin-bottom:15px;}
+        .close-menu{background:none;border:none;color:white;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;z-index:10;}
+        .menu-item{padding:18px;font-size:1.1rem;font-weight:bold;color:white;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
+        
+        /* ITEMS & FOLDERS (V47 Alignment Restored) */
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+        .nav-card{padding:20px;text-align:center;cursor:pointer;border:1px solid var(--border);border-radius:15px;background:var(--card);transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+        .nav-card img{width:55px;height:55px;object-fit:contain;margin:0 auto 10px auto;display:block;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
+        .folder-header{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.01));border:1px solid var(--border);border-left:4px solid var(--primary);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
+        .folder-content{display:none;padding-left:15px;border-left:2px dashed rgba(255,255,255,0.15);margin-left:10px;margin-bottom:25px;}
+        .item-row{padding:15px;margin-bottom:12px;display:flex;flex-direction:column;background:rgba(0,0,0,0.5);border-radius:12px;border:1px solid rgba(255,255,255,0.05);transition:0.2s;box-shadow:inset 0 0 10px rgba(0,0,0,0.5);}
+        .add-cart-btn{background:var(--primary);color:#000;border:none;padding:14px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:10px;text-transform:uppercase;width:100%;letter-spacing:1px;position:relative;z-index:10;}
+        .add-cart-btn:disabled{background:#333;color:#777;cursor:not-allowed;}
+        .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;}
+        .fab-cart{position:fixed;bottom:30px;right:30px;background:var(--primary);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
+        
+        /* MODALS & FORMS */
+        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
+        .modal-content{padding:25px;width:100%;max-width:550px;text-align:center;max-height:90vh;overflow-y:auto;background:var(--bg);border:1px solid var(--primary);border-radius:20px;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
+        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,0.5);color:var(--text);box-sizing:border-box;font-size:1rem;font-family:inherit;}
+        .auth-flow-section{display:none;} .auth-flow-section.active{display:block;}
         .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
+        
+        /* POLICY LAYOUT (V47 Restored) */
+        .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:15px;padding:15px;margin-bottom:10px;text-align:left;display:flex;gap:12px;align-items:center;}
+        .pol-icon{background:var(--primary);color:#000;min-width:35px;height:35px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:bold;}
+        
+        /* ADMIN & CRM */
+        .admin-section{background:rgba(0,0,0,0.4);border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,255,255,0.05);text-align:left;}
         .emoji-db-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;background:rgba(0,0,0,0.4);padding:15px;border-radius:12px;max-height:220px;overflow-y:auto;margin-bottom:15px;}
         .emoji-slot{font-size:1.5rem;text-align:center;cursor:pointer;padding:5px;border-radius:8px;border:1px solid transparent;}
         .emoji-slot.active{border-color:var(--warn);background:rgba(255,174,0,0.2);}
-        .drag-over{background:rgba(0,240,255,0.3); border-left-width:8px;}
-        .dragging{opacity:0.4; border:2px dashed var(--primary); transform:scale(0.98);}
+        
+        /* MISC */
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;}
+        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:white;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer;text-align:center;}
+        .c-btn.active{background:rgba(0,240,255,0.15);border-color:var(--primary);color:var(--primary);}
+        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);border:1px solid var(--primary);background:var(--bg);color:var(--text);padding:15px 25px;border-radius:30px;font-size:1rem;z-index:20000;font-weight:bold;transition:bottom 0.4s ease;}
+        .toast.show{bottom:30px;}
+        .footer-credit{text-align:center;margin-top:40px;color:var(--sub);font-size:0.9rem;font-weight:bold;letter-spacing:1px;}
+        .banner{display:none;padding:15px;border-radius:12px;text-align:center;font-weight:bold;margin-bottom:15px;}
     </style>
 </head>
 <body>
@@ -51,164 +69,154 @@
 <div id="toast" class="toast"><span id="t-msg"></span></div>
 
 <div id="sidebar">
-    <button onclick="toggleSidebar()" style="background:none;border:none;color:#fff;font-size:1.5rem;float:right;cursor:pointer;">✖</button>
-    <div style="text-align:center;margin-top:40px;margin-bottom:20px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:70px;border-radius:50%;border:2px solid var(--primary);"></div>
+    <button onclick="toggleSidebar()" class="close-menu">✖</button>
+    <div style="text-align:center;margin-top:40px;margin-bottom:30px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--primary);"></div>
     <div class="menu-item" onclick="openProfile()">👤 Account & Profile</div>
     <div class="menu-item" onclick="openPolicy(true)">📜 Store Policy</div>
     <div class="menu-item" onclick="fetchUserOrders()">📦 My Orders</div>
-    <div id="admin-menu-btn" class="menu-item" style="display:none;color:#ffae00;border-color:#ffae00;" onclick="openModal('admin-dash')">🛠️ God-Mode Console</div>
+    <div id="admin-menu-btn" class="menu-item" style="display:none;color:#ffae00;border-top:1px dashed #ffae00;margin-top:15px;" onclick="openModal('admin-dash');toggleSidebar();setTimeout(drawCharts,300);">🛠️ God-Mode Console</div>
 </div>
 
 <div class="container">
     <div class="top-bar liquid-glass">
         <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn" onclick="openCart()" style="font-size:1.2rem;position:relative;">🛒 <span id="c-count" style="position:absolute;top:-5px;right:-5px;background:#fff;color:#000;border-radius:10px;padding:2px 6px;font-size:0.7rem;">0</span></button>
-    </div>
-
-    <div id="admin-tools" class="liquid-glass" style="display:none; border-color:var(--warn);">
-        <b style="color:var(--warn);display:block;margin-bottom:5px;">Admin Commands:</b>
-        <div style="display:flex;gap:5px;">
-            <button class="btn" style="margin:0;background:#ff4d4d;color:#fff;" onclick="setMaint('UNTIL')">Close</button>
-            <button class="btn" style="margin:0;background:#00ff88;color:#000;" onclick="setMaint('OFF')">Open</button>
-            <button class="btn" style="margin:0;background:#8b5cf6;color:#fff;" onclick="triggerBroadcast()">📢 Msg</button>
+        <div style="display:flex;gap:10px;">
+            <button class="icon-btn" onclick="openProfile()" style="border-color:var(--primary);color:var(--primary);">👤</button>
+            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
         </div>
     </div>
 
-    <div id="maint-banner" class="banner"></div>
-    <div id="loyalty-banner" class="banner" style="background:linear-gradient(90deg,#ffae00,#ff4d4d);color:#fff;">🎉 Loyalty Unlocked: <span id="l-pct">0</span>% OFF!</div>
+    <div id="admin-tools" class="liquid-glass" style="display:none;border-color:var(--warn);padding:10px;text-align:center;">
+        <b style="color:var(--warn);display:block;margin-bottom:5px;font-size:0.9rem;">Admin Quick Commands:</b>
+        <div style="display:flex;gap:5px;justify-content:center;">
+            <button class="add-cart-btn" style="margin:0;background:#ff4d4d;color:#fff;padding:8px;" onclick="setMaint('UNTIL')">Close</button>
+            <button class="add-cart-btn" style="margin:0;background:#00ff88;color:#000;padding:8px;" onclick="setMaint('OFF')">Open</button>
+            <button class="add-cart-btn" style="margin:0;background:#8b5cf6;color:#fff;padding:8px;" onclick="triggerMsg()">📢 Msg</button>
+        </div>
+    </div>
+    <div id="maint-banner" class="banner" style="border:2px dashed var(--warn);background:rgba(255,174,0,0.1);color:var(--warn);"><div id="ui-m-title" style="font-size:1.5rem;">STORE CLOSED</div><div id="ui-m-time"></div></div>
+    <div id="loy-banner" class="banner" style="background:linear-gradient(90deg,#ffae00,#ff4d4d);color:#fff;">🎉 Loyalty Unlocked: <span id="l-pct">0</span>% OFF!</div>
 
     <div class="header" style="text-align:center;margin-bottom:20px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoClick()">
-        <h2 style="color:var(--primary);letter-spacing:2px;margin-top:10px;">CYBERHUB</h2>
+        <h2 style="color:var(--primary);letter-spacing:3px;margin-top:10px;">CYBERHUB</h2>
     </div>
 
-    <input type="text" id="searchBar" class="liquid-glass" placeholder="Search Store..." oninput="render()" style="width:100%;margin-bottom:15px;">
-
+    <input type="text" id="searchBar" class="liquid-glass" placeholder="Search Store..." oninput="render()" style="width:100%;margin-bottom:20px;">
+    
     <div id="store-content"><div style="text-align:center;color:var(--primary);font-weight:bold;padding:40px;">Syncing Secure Database... ⏳</div></div>
 
-    <div class="liquid-glass" style="text-align:center;margin-top:40px;border-style:dashed;">
-        <h3 style="margin-top:0;">📞 Contact Us</h3>
-        <div style="display:flex;gap:10px;justify-content:center;">
-            <button class="btn" style="background:#25D366;color:#fff;width:auto;padding:10px 20px;" onclick="window.open('https://wa.me/21629895846')">WhatsApp</button>
-            <button class="btn" style="background:#E1306C;color:#fff;width:auto;padding:10px 20px;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">Instagram</button>
+    <div class="liquid-glass" style="text-align:center;margin-top:40px;border-style:dashed;border-color:var(--primary);">
+        <h3 style="margin-top:0;color:#fff;">📞 Need Help? Contact Us</h3>
+        <div style="display:flex;justify-content:center;gap:10px;">
+            <button class="add-cart-btn" style="width:auto;margin:0;background:#25D366;color:#fff;" onclick="window.open('https://wa.me/21629895846')">WhatsApp</button>
+            <button class="add-cart-btn" style="width:auto;margin:0;background:#E1306C;color:#fff;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">Instagram</button>
         </div>
     </div>
-    
-    <div class="footer">Made by Yessine ❤️</div>
+    <div class="footer-credit">Made by Yessine ❤️</div>
 </div>
 
+<button class="fab-cart" onclick="openCart()">🛒<div id="c-count" style="position:absolute;top:-5px;right:-5px;background:#fff;color:#000;font-size:0.75rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;">0</div></button>
+
 <div id="login-modal" class="modal"><div class="modal-content">
-    <div id="login-step">
+    <div id="login-step" class="auth-flow-section active">
         <h3 style="color:var(--primary);margin-top:0;">Sign In</h3>
+        <button class="add-cart-btn" style="background:var(--card);color:var(--primary);border:1px solid var(--primary);margin-bottom:15px;" onclick="bioLogin(false)">📱 Login with Passkey/Biometrics</button>
         <form onsubmit="event.preventDefault(); execLogin();">
             <input type="text" id="logEmail" autocomplete="username" placeholder="Email or Phone" required>
             <div style="position:relative;"><input type="password" id="logPass" autocomplete="current-password" placeholder="Password" required><span class="pwd-eye" onclick="togglePwd('logPass')">👁️</span></div>
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="add-cart-btn">Log In</button>
         </form>
-        <div style="display:flex;justify-content:space-between;margin-top:15px;font-size:0.8rem;font-weight:bold;">
+        <div style="display:flex;justify-content:space-between;margin-top:15px;font-weight:bold;font-size:0.85rem;">
             <span style="color:var(--primary);cursor:pointer;" onclick="switchAuth('reg-step')">Create Account</span>
             <span style="color:var(--warn);cursor:pointer;" onclick="switchAuth('reset-step')">Forgot Password?</span>
         </div>
     </div>
-    <div id="reg-step" style="display:none;">
+    <div id="reg-step" class="auth-flow-section">
         <h3 style="color:var(--primary);margin-top:0;">Create Account</h3>
-        <div style="display:flex;gap:5px;margin-bottom:10px;">
-            <button class="btn" style="margin:0;background:rgba(0,240,255,0.2);color:#fff;" onclick="rMode='email';document.getElementById('regContact').placeholder='Email'">Email</button>
-            <button class="btn" style="margin:0;background:rgba(255,255,255,0.05);color:#fff;" onclick="rMode='phone';document.getElementById('regContact').placeholder='Phone'">Phone</button>
+        <div style="display:flex;gap:10px;margin-bottom:15px;">
+            <button type="button" class="add-cart-btn" style="margin:0;background:rgba(0,240,255,0.2);color:#fff;" id="btn-reg-email" onclick="setRegM('email')">Email</button>
+            <button type="button" class="add-cart-btn" style="margin:0;background:rgba(255,255,255,0.05);color:#fff;" id="btn-reg-phone" onclick="setRegM('phone')">Phone</button>
         </div>
         <form onsubmit="event.preventDefault(); execReg();">
             <input type="text" id="regContact" autocomplete="username" placeholder="Email Address" required>
             <div style="position:relative;"><input type="password" id="regPass" autocomplete="new-password" placeholder="Create Password" required><span class="pwd-eye" onclick="togglePwd('regPass')">👁️</span></div>
-            <button type="submit" class="btn" id="btn-reg">Proceed</button>
+            <button type="submit" class="add-cart-btn" id="btn-reg">Send Code</button>
         </form>
-        <div style="margin-top:15px;color:var(--sub);font-size:0.8rem;cursor:pointer;" onclick="switchAuth('login-step')">Back to Login</div>
+        <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" onclick="switchAuth('login-step')">Back to Login</div>
     </div>
-    <div id="reset-step" style="display:none;">
+    <div id="reset-step" class="auth-flow-section">
         <h3 style="color:var(--warn);margin-top:0;">Reset Password</h3>
         <form onsubmit="event.preventDefault(); reqCode(true);">
             <input type="email" id="resEmail" autocomplete="username" placeholder="Account Email" required>
             <div style="position:relative;"><input type="password" id="resPass" autocomplete="new-password" placeholder="New Password" required><span class="pwd-eye" onclick="togglePwd('resPass')">👁️</span></div>
-            <button type="submit" class="btn" style="background:var(--warn);">Send Reset Code</button>
+            <button type="submit" class="add-cart-btn" style="background:var(--warn);">Send Reset Code</button>
         </form>
-        <div style="margin-top:15px;color:var(--sub);font-size:0.8rem;cursor:pointer;" onclick="switchAuth('login-step')">Back to Login</div>
+        <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" onclick="switchAuth('login-step')">Back to Login</div>
     </div>
-    <div id="code-step" style="display:none;">
+    <div id="code-step" class="auth-flow-section">
         <h3 style="color:var(--primary);margin-top:0;">Enter Code</h3>
         <input type="number" id="vCode" placeholder="6-Digit Code" style="text-align:center;letter-spacing:5px;font-size:1.5rem;">
-        <button class="btn" onclick="verifyCode()">Verify</button>
+        <button class="add-cart-btn" onclick="verifyCode()">Verify & Login</button>
     </div>
-    <div id="admin-sec-step" style="display:none;">
+    <div id="admin-sec-step" class="auth-flow-section">
         <h3 style="color:#ff4d4d;margin-top:0;">God Mode Auth</h3>
+        <button class="add-cart-btn" style="background:var(--card);color:var(--warn);border:1px solid var(--warn);margin-bottom:10px;" onclick="bioLogin(true)">📱 God Mode via Passkey</button>
         <input type="password" id="admPass" placeholder="Admin Override Password">
-        <button class="btn" style="background:#ff4d4d;color:#fff;" onclick="execAdminLogin()">Engage</button>
+        <button class="add-cart-btn" style="background:#ff4d4d;color:#fff;margin-bottom:10px;" onclick="execAdm()">🔑 Login via Password</button>
+        <button class="add-cart-btn" style="background:transparent;color:#00ff88;border:1px solid #00ff88;" onclick="bioSetup(true)">➕ Add Biometrics / Passkey</button>
     </div>
-    <button onclick="closeModal('login-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
+    <button onclick="closeModal('login-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Cancel</button>
 </div></div>
 
 <div id="profile-modal" class="modal"><div class="modal-content">
     <h3 style="color:var(--primary);margin-top:0;">My Profile</h3>
     <p style="color:var(--sub);margin-bottom:15px;" id="p-uid"></p>
-    <button class="btn" onclick="fetchUserOrders()" style="background:var(--card);border:1px solid var(--primary);color:var(--primary);">📦 View My Orders</button>
-    <button class="btn" onclick="logout()" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;margin-top:15px;">Log Out</button>
+    <button class="add-cart-btn" onclick="fetchUserOrders()" style="background:var(--card);border:1px solid var(--primary);color:var(--primary);margin-bottom:10px;">📦 View My Orders</button>
+    <button class="add-cart-btn" onclick="bioSetup(false)" style="background:transparent;border:1px solid var(--warn);color:var(--warn);margin-bottom:15px;font-size:0.85rem;">⚙️ Setup Login Passkey</button>
+    <button class="add-cart-btn" onclick="logout()" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;">Log Out</button>
     <button onclick="closeModal('profile-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Close</button>
 </div></div>
 
 <div id="cart-modal" class="modal"><div class="modal-content">
     <h3 style="color:var(--primary);margin-top:0;">🛒 Cart</h3>
     <div id="cart-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
-    
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:0.9rem;text-align:left;margin-bottom:10px;">
         <div style="display:flex;justify-content:space-between;"><span>Subtotal:</span><b id="m-sub">0 DT</b></div>
         <div id="m-promo-r" style="display:none;justify-content:space-between;color:var(--primary);"><span>Promo (<span id="m-promo-p">0</span>%):</span><b id="m-promo-v">-0 DT</b></div>
         <div id="m-loy-r" style="display:none;justify-content:space-between;color:var(--warn);"><span>Loyalty (<span id="m-loy-p">0</span>%):</span><b id="m-loy-v">-0 DT</b></div>
         <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:5px;font-size:1.1rem;color:var(--primary);"><span>Total:</span><b id="m-tot">0 DT</b></div>
     </div>
-    
-    <div style="display:flex;gap:5px;margin-bottom:10px;"><input type="text" id="promoInp" placeholder="Promo Code?" style="margin:0;"><button onclick="applyPromo()" style="background:var(--primary);color:#000;border:none;border-radius:10px;font-weight:bold;cursor:pointer;padding:0 15px;">Apply</button></div>
-    <button class="btn" onclick="openCheckout()">Checkout</button>
+    <div style="display:flex;gap:5px;margin-bottom:10px;"><input type="text" id="promoInp" placeholder="Promo Code?" style="margin:0;"><button class="add-cart-btn" style="margin:0;width:auto;padding:0 15px;" onclick="applyPromo()">Apply</button></div>
+    <button class="add-cart-btn" onclick="openCheckout()">Checkout</button>
     <button onclick="cart=[];updateCartUI();closeModal('cart-modal')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:pointer;margin-right:15px;">Clear Cart</button>
     <button onclick="closeModal('cart-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;">Close</button>
 </div></div>
 
 <div id="checkout-modal" class="modal"><div class="modal-content">
     <h3 style="color:var(--primary);margin-top:0;">Secure Checkout</h3>
-    <div style="display:flex;gap:5px;margin-bottom:10px;">
-        <div class="c-btn active" id="pay-d17" onclick="selPay('D17')">📱 D17</div>
-        <div class="c-btn" id="pay-cash" onclick="selPay('Cash')">🤝 Cash</div>
-    </div>
+    <div style="display:flex;gap:5px;margin-bottom:10px;"><div class="c-btn active" id="pay-d17" onclick="selPay('D17')">📱 D17</div><div class="c-btn" id="pay-cash" onclick="selPay('Cash')">🤝 Cash</div></div>
     <div id="d17-box" style="background:rgba(0,0,0,0.5);border-radius:10px;padding:10px;margin-bottom:10px;">Transfer exactly to: <b style="color:var(--warn);font-size:1.2rem;letter-spacing:2px;">21 357 058</b></div>
     <input type="text" id="coName" placeholder="Full Name">
     <div style="background:rgba(0,0,0,0.4);padding:10px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
-        <b style="font-size:0.8rem;">Contact Method:</b>
-        <div style="display:flex;gap:5px;margin:5px 0;">
-            <div class="c-btn active" id="cm-wa" onclick="selContact('wa')">WhatsApp</div>
-            <div class="c-btn" id="cm-ig" onclick="selContact('ig')">Instagram</div>
-            <div class="c-btn" id="cm-fb" onclick="selContact('fb')">Facebook</div>
-        </div>
+        <b style="font-size:0.8rem;color:#fff;">Contact Method:</b>
+        <div class="contact-grid" style="margin:5px 0;"><div class="c-btn active" id="cm-wa" onclick="selContact('wa')">WhatsApp</div><div class="c-btn" id="cm-ig" onclick="selContact('ig')">Instagram</div><div class="c-btn" id="cm-fb" onclick="selContact('fb')">Facebook</div></div>
         <input type="text" id="coContact" placeholder="@handle or Number" style="margin:0;">
     </div>
     <textarea id="coNotes" placeholder="Comments or Player IDs" style="height:60px;"></textarea>
-    <button class="btn" id="btn-fin" onclick="finalizeOrder()">PLACE ORDER</button>
+    <button class="add-cart-btn" id="btn-fin" onclick="finalizeOrder()">PLACE ORDER</button>
     <button onclick="closeModal('checkout-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
 </div></div>
 
 <div id="policy-modal" class="modal"><div class="modal-content">
     <button id="pol-x" onclick="closeModal('policy-modal')" style="position:absolute;top:15px;right:15px;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;display:none;">✖</button>
     <h3 style="color:var(--primary);margin-top:0;">Store Agreement</h3>
-    <div style="text-align:left;font-size:0.9rem;background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--border);">
-        <p>🛡️ <b>Data Privacy:</b> Encrypted & Secure.</p>
-        <p>⚡ <b>Delivery:</b> 0 to 48 hours maximum.</p>
-        <p>🤝 <b>Support:</b> Full SAV included.</p>
-        <p style="color:#ff4d4d;">❌ <b>Refunds:</b> No refunds post-delivery.</p>
-    </div>
-    <div id="pol-cnt" style="display:none;margin-top:15px;">
-        <b style="color:#fff;">Need Help?</b>
-        <div style="display:flex;gap:5px;margin-top:5px;">
-            <button class="btn" style="background:#25D366;color:#fff;margin:0;" onclick="window.open('https://wa.me/21629895846')">WA</button>
-            <button class="btn" style="background:#E1306C;color:#fff;margin:0;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">IG</button>
-        </div>
-    </div>
-    <button id="pol-btn" class="btn" onclick="acceptPolicy()">I ACCEPT</button>
+    <div class="pol-row"><div class="pol-icon">🛡️</div><div><b style="color:#fff;">Data Privacy</b><span style="color:var(--sub);font-size:0.75rem;display:block;">Encrypted & Secure.</span></div></div>
+    <div class="pol-row" style="border-color:var(--warn);"><div class="pol-icon" style="background:var(--warn);">⚡</div><div><b style="color:var(--warn);">Delivery Time</b><span style="color:#fff;font-weight:bold;font-size:0.75rem;display:block;">0 to 48 hours max.</span></div></div>
+    <div class="pol-row"><div class="pol-icon">🤝</div><div><b style="color:#fff;">Support (SAV)</b><span style="color:var(--sub);font-size:0.75rem;display:block;">Full after-sales included.</span></div></div>
+    <div class="pol-row" style="border-color:#ff4d4d;"><div class="pol-icon" style="background:#ff4d4d;color:#fff;">❌</div><div><b style="color:#ff4d4d;">Refunds</b><span style="color:#fff;font-size:0.75rem;display:block;">No refunds post-delivery.</span></div></div>
+    <div id="pol-cnt" style="display:none;margin-top:15px;"><b style="color:#fff;font-size:0.9rem;">Need Help?</b><div class="contact-grid" style="margin-top:5px;"><button class="add-cart-btn" style="margin:0;background:#25D366;color:#fff;" onclick="window.open('https://wa.me/21629895846')">WhatsApp</button><button class="add-cart-btn" style="margin:0;background:#E1306C;color:#fff;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">Instagram</button></div></div>
+    <button id="pol-btn" class="add-cart-btn" onclick="acceptPolicy()">I ACCEPT</button>
 </div></div>
 
 <div id="data-modal" class="modal"><div class="modal-content" style="max-width:700px;">
@@ -219,38 +227,32 @@
 
 <div id="admin-dash" class="modal"><div class="modal-content" style="max-width:700px;">
     <h2 style="color:var(--warn);margin-top:0;">God-Mode Console</h2>
-    <div style="display:flex;gap:10px;margin-bottom:15px;">
-        <div style="width:40%;"><canvas id="adminChart" height="120"></canvas></div>
-        <div style="width:60%;"><canvas id="revenueChart" height="120"></canvas></div>
+    <div class="admin-section">
+        <b style="color:var(--sub);font-size:0.8rem;text-transform:uppercase;">Interactive Finance</b>
+        <div style="display:flex;gap:10px;margin:10px 0;"><div style="width:40%;"><canvas id="adminChart" height="120"></canvas></div><div style="width:60%;"><canvas id="revenueChart" height="120"></canvas></div></div>
+        <div id="fin-tab" style="max-height:100px;overflow-y:auto;font-size:0.8rem;background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;"></div>
     </div>
     <div class="grid">
-        <button class="btn" style="background:rgba(255,174,0,0.1);color:var(--warn);border:1px solid var(--warn);" onclick="fetchAdminData('orders')">📦 Manage Orders</button>
-        <button class="btn" style="background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fetchAdminData('users')">👥 CRM (Users)</button>
-        <button class="btn" style="background:rgba(0,240,255,0.1);color:var(--primary);border:1px solid var(--primary);" onclick="openMarketing()">🎟️ Promos & Loyalty</button>
-        <button class="btn" style="background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="syncData()">🔄 Sync Database</button>
+        <button class="add-cart-btn" style="margin:0;background:rgba(255,174,0,0.1);color:var(--warn);border:1px solid var(--warn);" onclick="fetchAdmin('orders')">📦 Manage Orders</button>
+        <button class="add-cart-btn" style="margin:0;background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fetchAdmin('users')">👥 CRM (Users)</button>
+        <button class="add-cart-btn" style="margin:0;background:rgba(0,240,255,0.1);color:var(--primary);border:1px solid var(--primary);" onclick="openMark()">🎟️ Promos & Loyalty</button>
+        <button class="add-cart-btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="syncData()">🔄 Sync Database</button>
     </div>
     <button onclick="closeModal('admin-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
 
-<div id="marketing-modal" class="modal"><div class="modal-content">
+<div id="mark-modal" class="modal"><div class="modal-content">
     <h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing Manager</h3>
-    <div style="background:rgba(0,0,0,0.5);padding:10px;border-radius:10px;border:1px solid var(--border);text-align:left;margin-bottom:10px;">
-        <b>Promo Codes</b>
-        <div id="p-list" style="margin-bottom:10px;"></div>
-        <div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;" onclick="addPromo()">Add</button></div>
-    </div>
-    <div style="background:rgba(0,0,0,0.5);padding:10px;border-radius:10px;border:1px solid var(--border);text-align:left;">
-        <b>Loyalty Settings</b>
-        <div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div>
-    </div>
-    <button onclick="closeModal('marketing-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
+    <div class="admin-section"><b>Promo Codes</b><div id="p-list" style="margin:10px 0;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="add-cart-btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div>
+    <div class="admin-section"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div>
+    <button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
 <div id="edit-folder-modal" class="modal"><div class="modal-content">
     <h3 style="color:var(--warn);margin-top:0;">✏️ Edit Folder</h3>
     <div class="emoji-db-grid" id="icon-db"></div>
-    <input type="text" id="edit-folder-name" placeholder="Folder Name">
-    <button class="btn" style="background:var(--warn);" onclick="executeFolderRename()">💾 Update</button>
+    <input type="text" id="ef-name" placeholder="Folder Name">
+    <button class="add-cart-btn" style="background:var(--warn);" onclick="execFRen()">💾 Update</button>
     <button onclick="closeModal('edit-folder-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
 </div></div>
 
@@ -258,268 +260,168 @@
     // 🔥 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec";
     
-    // Core Variables
-    let db={inv:[], promo:{}, loy:{}}; let cart=[]; let cView={t:'cats',c:null,a:null};
+    let db={inv:[], promo:{}, loy:{}, ord:[]}; let cart=[]; let cView={t:'cats',c:null,a:null};
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass');
-    let uOrders=parseInt(localStorage.getItem('ch_ord')||0);
-    let pCode="", pPct=0, payM="D17", conM="wa", rMode="email";
+    let uOrders=parseInt(localStorage.getItem('ch_ord')||0); let pCode="", pPct=0, payM="D17", conM="wa", rMode="email";
     let lClicks=0, lTimer, isReset=false, pEmail, pPass;
-    const FOLDER_EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','📺','🎬','🍿','🎵','🎧','🛒','🛍️','💎','🎁','🔥','🚀','⚡','🌟','👤','👥','🗣️','👨‍💻','👩‍💻'];
-    let selectedFolderEmoji = '📁'; let editGrpCtx = null; let dragItm = null;
+    const EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','📺','🎬','🍿','🎵','🎧','🛒','🛍️','💎','🎁','🔥','🚀','⚡','🌟','👤','👥','🗣️','👨‍💻','👩‍💻'];
+    let selEmo='📁', eCtx=null, dItm=null, c1=null, c2=null;
 
-    // UI Helpers
-    particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#00f0ff"},"size":{"value":1},"line_linked":{"opacity":0.1}}});
-    function toast(m, err=false){let t=document.getElementById('toast');document.getElementById('t-msg').innerText=m;t.style.background=err?"#ff4d4d":"var(--primary)";t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-    function openModal(id){document.getElementById(id).style.display='flex';document.body.classList.add('modal-open');}
-    function closeModal(id){document.getElementById(id).style.display='none';document.body.classList.remove('modal-open');}
-    function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
-    function togglePwd(id){let el=document.getElementById(id);el.type=el.type==="password"?"text":"password";}
-    function switchAuth(id){['login-step','reg-step','reset-step','code-step','admin-sec-step'].forEach(x=>document.getElementById(x).style.display='none');document.getElementById(id).style.display='block';}
-    function openPolicy(menu){document.getElementById('pol-btn').style.display=menu?'none':'block';document.getElementById('pol-x').style.display=menu?'block':'none';document.getElementById('pol-cnt').style.display=menu?'block':'none';openModal('policy-modal');}
+    function el(id){return document.getElementById(id);}
+    function toast(m, err=false){let t=el('toast');el('t-msg').innerText=m;t.style.background=err?"#ff4d4d":"var(--primary)";t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    function openModal(id){el(id).style.display='flex';document.body.classList.add('modal-open');}
+    function closeModal(id){el(id).style.display='none';document.body.classList.remove('modal-open');}
+    function toggleSidebar(){el('sidebar').classList.toggle('open');}
+    function togglePwd(id){el(id).type=el(id).type==="password"?"text":"password";}
+    function switchAuth(id){['login-step','reg-step','reset-step','code-step','admin-sec-step'].forEach(x=>el(x).style.display='none');el(id).style.display='block';}
+    function openPolicy(m){el('pol-btn').style.display=m?'none':'block';el('pol-x').style.display=m?'block':'none';el('pol-cnt').style.display=m?'block':'none';openModal('policy-modal');}
     function acceptPolicy(){localStorage.setItem('ch_pol','true');closeModal('policy-modal');}
 
-    function checkUI(){
-        if(role==="Admin"||role==="Support"){document.getElementById('admin-tools').style.display='flex';document.getElementById('admin-menu-btn').style.display='block';}
-        let n=uOrders+1; let lp=db.loy[n]||0;
-        let lb=document.getElementById('loyalty-banner'); if(lb){lb.style.display=lp>0?'block':'none';document.getElementById('l-pct').innerText=lp;}
+    particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#00f0ff"},"size":{"value":1},"line_linked":{"opacity":0.1}}});
+
+    // --- BIOMETRICS (WebAuthn) ---
+    async function bioSetup(isAdm){
+        if(isAdm && el('admPass').value!=="26240608") return toast("Need Admin Pass to link",true);
+        try {
+            const chal = new Uint8Array(32); crypto.getRandomValues(chal);
+            await navigator.credentials.create({publicKey:{challenge:chal,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:isAdm?"Admin":user,displayName:isAdm?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],timeout:60000}});
+            if(isAdm){localStorage.setItem('ch_bio_adm','true');closeModal('login-modal');} else {localStorage.setItem('ch_bio_usr',user);}
+            toast("Biometrics Linked!","success");
+        } catch(e){toast("Setup Cancelled/Failed",true);}
+    }
+    async function bioLogin(isAdm){
+        if(isAdm && !localStorage.getItem('ch_bio_adm')) return toast("No Admin Passkey found",true);
+        if(!isAdm && !localStorage.getItem('ch_bio_usr')) return toast("No Passkey found for device",true);
+        try {
+            const chal = new Uint8Array(32); crypto.getRandomValues(chal);
+            await navigator.credentials.get({publicKey:{challenge:chal,timeout:60000}});
+            if(isAdm){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('login-modal');toast("God Mode Unlocked");checkUI();openModal('admin-dash');setTimeout(drawCharts,300);}
+            else {user=localStorage.getItem('ch_bio_usr');role="User";closeModal('login-modal');toast("Welcome back!");checkUI();}
+            localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role);
+        } catch(e){toast("Biometrics Rejected",true);}
     }
 
-    // --- MAIN DB ENGINE ---
+    // --- CORE DB ---
+    function checkUI(){
+        if(role==="Admin"||role==="Support"){el('admin-tools').style.display='block';el('admin-menu-btn').style.display='block';}
+        let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}
+    }
+
     async function syncData(){
-        document.getElementById('store-content').innerHTML = `<div style="text-align:center;padding:50px;color:var(--primary);font-weight:bold;">Securely Syncing... ⏳</div>`;
+        el('store-content').innerHTML=`<div style="text-align:center;padding:40px;color:var(--primary);font-weight:bold;">Securely Syncing... ⏳</div>`;
         try{
-            let r=await fetch(SCRIPT_URL+"?action=get_public_data"); let d=await r.json();
-            if(d.status!=="success") throw "API Err";
+            let r=await fetch(SCRIPT_URL+"?action=get_public_data"); let d=await r.json(); if(d.status!=="success") throw "Err";
             db.inv=d.inv; db.promo={}; db.loy={};
             d.promo.slice(1).forEach(x=>{if(x[0]) db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]);});
             d.loy.slice(1).forEach(x=>{if(x[0]) db.loy[parseInt(x[0])]=parseFloat(x[1]);});
-            
-            let maint = d.inv[0][15]||"FALSE"; handleMaint(maint);
-            checkUI(); render();
-        }catch(e){document.getElementById('store-content').innerHTML = `<div style="text-align:center;padding:50px;color:#ff4d4d;font-weight:bold;">Database Error ❌ Check Script URL</div>`;}
+            handleMaint(d.inv[0][15]||"FALSE"); checkUI(); render();
+        }catch(e){el('store-content').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌ Check Script URL</div>`;}
     }
 
     function render(){
-        let html=""; let area=document.getElementById('store-content'); let q=document.getElementById('searchBar').value.toLowerCase();
-        let cats={}, apps={}, groups={}, standalone=[];
-        
+        let html=""; let area=el('store-content'); let q=el('searchBar').value.toLowerCase();
+        let cats={}, apps={}, grps={}, sAlone=[];
         db.inv.slice(1).forEach(r=>{
-            if(r.length<5 || !r[0]) return;
-            let c=r[0], a=r[2]||"General", n=r[4], p=r[5]||0, oos=String(r[14]).includes("OOS");
+            if(r.length<5||!r[0])return; let c=r[0], a=r[2]||"General", n=r[4], p=r[5]||0, oos=String(r[14]).includes("OOS");
             let grp=null; if(n.includes("||GRP||")){let pts=n.split("||GRP||"); n=pts[0].trim(); grp=pts[1].trim();}
-            
-            if(q){ if(n.toLowerCase().includes(q)) standalone.push({on:r[4],n,p,oos}); return;}
-            if(cView.t==='cats'){ cats[c]=r[1]||''; }
-            else if(cView.t==='apps' && cView.c===c){ apps[a]=r[3]||''; }
-            else if(cView.t==='items' && cView.c===c && cView.a===a){ 
-                if(grp){if(!groups[grp])groups[grp]=[]; groups[grp].push({on:r[4],n,p,oos});} else standalone.push({on:r[4],n,p,oos}); 
-            }
+            if(q){if(n.toLowerCase().includes(q)) sAlone.push({on:r[4],n,p,oos}); return;}
+            if(cView.t==='cats') cats[c]=r[1]||'';
+            else if(cView.t==='apps'&&cView.c===c) apps[a]=r[3]||'';
+            else if(cView.t==='items'&&cView.c===c&&cView.a===a) {if(grp){if(!grps[grp])grps[grp]=[]; grps[grp].push({on:r[4],n,p,oos});} else sAlone.push({on:r[4],n,p,oos});}
         });
 
-        if(q){
-            if(standalone.length===0) html=`<div style="text-align:center;color:var(--sub);">No items found.</div>`;
-            else standalone.forEach(i=>html+=drawRow(i));
-        } else if(cView.t==='cats'){
-            html+=`<div class="grid">`; for(let c in cats) html+=`<div class="nav-card" onclick="cView.t='apps';cView.c='${c}';render();"><img src="${cats[c]}"><b>${c}</b></div>`; html+=`</div>`;
-        } else if(cView.t==='apps'){
-            html+=`<button class="icon-btn" onclick="cView.t='cats';render();" style="margin-bottom:15px;background:transparent;">← Back</button><div class="grid">`;
-            for(let a in apps) html+=`<div class="nav-card" onclick="cView.t='items';cView.a='${a}';render();"><img src="${apps[a]}"><b>${a}</b></div>`; html+=`</div>`;
-        } else if(cView.t==='items'){
+        if(q){ if(sAlone.length===0) html=`<div style="text-align:center;color:var(--sub);">No items found.</div>`; else sAlone.forEach(i=>html+=drawR(i)); } 
+        else if(cView.t==='cats'){ html+=`<div class="grid">`; for(let c in cats) html+=`<div class="nav-card" onclick="cView.t='apps';cView.c='${c}';render();"><img src="${cats[c]}"><b>${c}</b></div>`; html+=`</div>`; } 
+        else if(cView.t==='apps'){ html+=`<button class="icon-btn" onclick="cView.t='cats';render();" style="margin-bottom:15px;background:transparent;">← Back</button><div class="grid">`; for(let a in apps) html+=`<div class="nav-card" onclick="cView.t='items';cView.a='${a}';render();"><img src="${apps[a]}"><b>${a}</b></div>`; html+=`</div>`; } 
+        else if(cView.t==='items'){
             html+=`<button class="icon-btn" onclick="cView.t='apps';render();" style="margin-bottom:15px;background:transparent;">← Back</button>`;
-            let drgProp = (role==="Admin"||role==="Support") ? `ondragover="eDragOver(event)" ondragleave="eDragLeave(event)" ondrop="eDrop(event,'')"` : "";
-            if(role==="Admin"||role==="Support") html+=`<div class="ungroup-zone" style="display:block;" ${drgProp}>⏬ Drag items here to UNGROUP</div>`;
-            for(let g in groups){
-                let sGrp=encodeURIComponent(g); let dProp = (role==="Admin"||role==="Support") ? `ondragover="eDragOver(event)" ondragleave="eDragLeave(event)" ondrop="eDrop(event,'${sGrp}')"` : "";
-                let eBtn = (role==="Admin"||role==="Support") ? `<span onclick="event.stopPropagation();openFEdit('${sGrp}')" style="margin-right:10px;background:rgba(0,0,0,0.5);padding:3px;border-radius:5px;">✏️</span>` : "";
+            let dP=(role==="Admin"||role==="Support")?`ondragover="eDO(event)" ondragleave="eDL(event)" ondrop="eDp(event,'')"`:"";
+            if(role==="Admin"||role==="Support") html+=`<div class="ungroup-zone" style="display:block;" ${dP}>⏬ Drag items here to UNGROUP</div>`;
+            for(let g in grps){
+                let sG=encodeURIComponent(g); let dP2=(role==="Admin"||role==="Support")?`ondragover="eDO(event)" ondragleave="eDL(event)" ondrop="eDp(event,'${sG}')"`:"";
+                let eB=(role==="Admin"||role==="Support")?`<span onclick="event.stopPropagation();opFE('${sG}')" style="margin-right:10px;background:rgba(0,0,0,0.5);padding:3px;border-radius:5px;">✏️</span>`:"";
                 let rId="grp-"+g.replace(/\s/g,'');
-                html+=`<div class="folder-header" onclick="let e=document.getElementById('${rId}'); e.style.display=e.style.display==='block'?'none':'block';" ${dProp}><span>${eBtn}${g} (${groups[g].length})</span><span style="color:var(--primary);font-size:0.8rem;">▼</span></div><div id="${rId}" class="folder-content">`;
-                groups[g].forEach(i=>html+=drawRow(i)); html+=`</div>`;
+                html+=`<div class="folder-header" onclick="let e=document.getElementById('${rId}'); e.style.display=e.style.display==='block'?'none':'block';" ${dP2}><span>${eB}${g} (${grps[g].length})</span><span style="color:var(--primary);font-size:0.8rem;">▼</span></div><div id="${rId}" class="folder-content">`;
+                grps[g].forEach(i=>html+=drawR(i)); html+=`</div>`;
             }
-            standalone.forEach(i=>html+=drawRow(i));
-        }
-        area.innerHTML = html;
+            sAlone.forEach(i=>html+=drawR(i));
+        } area.innerHTML=html;
     }
 
-    function drawRow(i){
-        let encOn=encodeURIComponent(i.on), encN=encodeURIComponent(i.n);
-        let btn = i.oos ? `<button class="btn" style="background:#333;color:#777;" disabled>OOS</button>` : `<button class="btn" onclick="addCart('${encOn}',${i.p},'${encN}')">ADD TO CART</button>`;
-        let adm = (role==="Admin"||role==="Support") ? `<div style="display:flex;gap:5px;margin-top:10px;border-top:1px dashed #333;padding-top:10px;"><button class="btn" style="margin:0;padding:5px;background:none;border:1px solid var(--warn);color:var(--warn);" onclick="postAPI('update',{itemName:decodeURIComponent('${encOn}'),newPrice:${i.p},isOOS:${!i.oos}})">🚫 OOS</button> ${role==="Admin"?`<button class="btn" style="margin:0;padding:5px;background:none;border:1px solid #ff4d4d;color:#ff4d4d;" onclick="if(confirm('Delete?')) postAPI('delete_item',{itemName:decodeURIComponent('${encOn}')})">🗑️</button>`:''}</div>` : "";
-        let drag = (role==="Admin"||role==="Support") ? `draggable="true" ondragstart="dragItm=decodeURIComponent('${encOn}');event.target.classList.add('dragging')" ondragend="event.target.classList.remove('dragging');document.querySelectorAll('.drag-over').forEach(e=>e.classList.remove('drag-over'))"` : "";
-        return `<div class="item-row" ${drag}><div><b>${i.n}</b>${i.oos?'<span class="oos-tag">OOS</span>':''}<br><span style="color:var(--primary);font-weight:bold;font-size:1.2rem;">${i.p} DT</span></div>${adm}${btn}</div>`;
+    function drawR(i){
+        let eOn=encodeURIComponent(i.on), eN=encodeURIComponent(i.n);
+        let btn=i.oos?`<button class="add-cart-btn" style="background:#333;color:#777;" disabled>OOS</button>`:`<button class="add-cart-btn" onclick="addCart('${eOn}',${i.p},'${eN}')">ADD TO CART</button>`;
+        let adm=(role==="Admin"||role==="Support")?`<div style="display:flex;gap:5px;margin-top:10px;border-top:1px dashed #333;padding-top:10px;"><button class="add-cart-btn" style="margin:0;padding:5px;background:none;border:1px solid var(--warn);color:var(--warn);" onclick="pAPI('update',{itemName:decodeURIComponent('${eOn}'),newPrice:${i.p},isOOS:${!i.oos}})">🚫 OOS</button> ${role==="Admin"?`<button class="add-cart-btn" style="margin:0;padding:5px;background:none;border:1px solid #ff4d4d;color:#ff4d4d;" onclick="if(confirm('Delete?')) pAPI('delete_item',{itemName:decodeURIComponent('${eOn}')})">🗑️</button>`:''}</div>`:"";
+        let drg=(role==="Admin"||role==="Support")?`draggable="true" ondragstart="dItm=decodeURIComponent('${eOn}');event.target.classList.add('dragging')" ondragend="event.target.classList.remove('dragging');document.querySelectorAll('.drag-over').forEach(e=>e.classList.remove('drag-over'))"`:"";
+        return `<div class="item-row" ${drg}><div style="display:flex;justify-content:space-between;align-items:center;"><div><span style="font-weight:bold;">${i.n}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}<br><b style="color:var(--primary);font-size:1.2rem;margin-top:5px;display:block;">${i.p} DT</b></div><div style="width:140px;">${btn}</div></div>${adm}</div>`;
     }
 
-    // Drag & Drop Handlers
-    function eDragOver(e){e.preventDefault(); e.currentTarget.classList.add('drag-over');}
-    function eDragLeave(e){e.currentTarget.classList.remove('drag-over');}
-    function eDrop(e, tGrpEnc){
-        e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-        if(!dragItm) return;
-        let tGrp = decodeURIComponent(tGrpEnc);
-        let clean = dragItm.includes("||GRP||") ? dragItm.split("||GRP||")[0] : dragItm;
-        let nName = clean + (tGrp ? "||GRP||"+tGrp : "");
-        if(nName !== dragItm) postAPI('rename_item', {oldName:dragItm, newName:nName});
-        dragItm = null;
-    }
+    function eDO(e){e.preventDefault(); e.currentTarget.classList.add('drag-over');} function eDL(e){e.currentTarget.classList.remove('drag-over');}
+    function eDp(e,tG){e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(!dItm)return; let tg=decodeURIComponent(tG), cln=dItm.includes("||GRP||")?dItm.split("||GRP||")[0]:dItm, nn=cln+(tg?"||GRP||"+tg:""); if(nn!==dItm) pAPI('rename_item',{oldName:dItm,newName:nn}); dItm=null;}
+    function opFE(g){eCtx=decodeURIComponent(g); let c=eCtx; if(EMOJIS.some(e=>c.startsWith(e))){let p=c.split(" "); p.shift(); c=p.join(" ");} el('ef-name').value=c; el('icon-db').innerHTML=EMOJIS.map(e=>`<div class="emoji-slot ${e==='📁'?'active':''}" onclick="selEmoji(this,'${e}')">${e}</div>`).join(''); openModal('edit-folder-modal');}
+    function selEmoji(elx,i){document.querySelectorAll('.emoji-slot').forEach(n=>n.classList.remove('active')); elx.classList.add('active'); selEmo=i;}
+    function execFRen(){let n=el('ef-name').value.trim(); if(!n)return; let f=(selEmo+" "+n).trim(); if(f===eCtx)return closeModal('edit-folder-modal'); let u=[]; db.inv.slice(1).forEach(r=>{if(r[4]&&r[4].includes("||GRP||"+eCtx))u.push(r[4]);}); u.forEach(o=>{let c=o.split("||GRP||")[0]; pAPI('rename_item',{oldName:o,newName:c+"||GRP||"+f},true);}); closeModal('edit-folder-modal'); toast("Folder Updated"); setTimeout(()=>syncData(),1000);}
 
-    function initEmoji(){let b=document.getElementById('icon-db'); if(b){b.innerHTML=FOLDER_EMOJIS.map(e=>`<div class="emoji-slot ${e==='📁'?'active':''}" onclick="selEmoji(this,'${e}')">${e}</div>`).join('');}}
-    function selEmoji(el, i){document.querySelectorAll('.emoji-slot').forEach(n=>n.classList.remove('active')); el.classList.add('active'); selectedFolderEmoji=i;}
-    function openFEdit(g){editGrpCtx=decodeURIComponent(g); let clean=editGrpCtx; if(FOLDER_EMOJIS.some(e=>clean.startsWith(e))){let p=clean.split(" "); p.shift(); clean=p.join(" ");} document.getElementById('edit-folder-name').value=clean; initEmoji(); openModal('edit-folder-modal');}
-    function executeFolderRename(){
-        let n=document.getElementById('edit-folder-name').value.trim(); if(!n)return;
-        let f=(selectedFolderEmoji+" "+n).trim(); if(f===editGrpCtx) return closeModal('edit-folder-modal');
-        let toUpd=[]; db.inv.slice(1).forEach(r=>{if(r[4]&&r[4].includes("||GRP||"+editGrpCtx)) toUpd.push(r[4]);});
-        toUpd.forEach(old=>{ let clean=old.split("||GRP||")[0]; postAPI('rename_item',{oldName:old, newName:clean+"||GRP||"+f},true); });
-        closeModal('edit-folder-modal'); toast("Folder Updated"); setTimeout(()=>syncData(),1000);
-    }
-
-    // --- AUTH & SECURITY ---
-    function openProfile(){toggleSidebar(); if(user){document.getElementById('p-uid').innerText="User: "+user; openModal('profile-modal');} else {openModal('login-modal'); switchAuth('login-step');}}
+    // --- AUTH ---
+    function openProfile(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; openModal('profile-modal');} else {openModal('login-modal'); switchAuth('login-step');}}
     function logoClick(){lClicks++; clearTimeout(lTimer); lTimer=setTimeout(()=>lClicks=0,1500); if(lClicks===5){lClicks=0;openModal('login-modal');switchAuth('admin-sec-step');}}
     function logout(){localStorage.clear(); user=null; role=null; pass=null; uOrders=0; checkUI(); closeModal('profile-modal'); toast("Logged Out"); render();}
     
-    async function execLogin(){
-        let e=document.getElementById('logEmail').value, p=document.getElementById('logPass').value; if(!e||!p) return toast("Fill fields",true);
-        let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'login',contact:e,password:p})}); let d=await r.json();
-        if(d.status==="success"){user=e; pass=p; role=d.role; uOrders=parseInt(d.orders); localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); closeModal('login-modal'); toast("Logged In"); checkUI(); render();}
-        else if(d.status==="banned") toast("Account Banned",true); else toast("Invalid Creds",true);
-    }
+    async function execLogin(){let e=el('logEmail').value, p=el('logPass').value; if(!e||!p)return toast("Fill fields",true); let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'login',contact:e,password:p})}); let d=await r.json(); if(d.status==="success"){user=e; pass=p; role=d.role; uOrders=parseInt(d.orders); localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); closeModal('login-modal'); toast("Logged In"); checkUI(); render();} else if(d.status==="banned") toast("Account Banned",true); else toast("Invalid Creds",true);}
+    function execAdm(){let p=el('admPass').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('login-modal'); toast("God Mode Unlocked"); checkUI(); openModal('admin-dash'); setTimeout(drawCharts,300);} else toast("Denied",true);}
+    function setRegM(m){rMode=m; el('btn-reg-email').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('btn-reg-phone').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('regContact').placeholder=m==='email'?'Email':'Phone'; el('btn-reg').innerText=m==='email'?'Send Code':'Create Account';}
+    async function execReg(){pEmail=el('regContact').value; pPass=el('regPass').value; if(!pEmail||!pPass)return toast("Fill fields",true); isReset=false; if(rMode==='phone'){el('btn-reg').disabled=true; let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'register_phone',contact:pEmail,password:pPass})}); let d=await r.json(); el('btn-reg').disabled=false; if(d.status==='success'){user=pEmail;pass=pPass;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('login-modal');toast("Created!");checkUI();} else toast("Exists",true);} else {el('btn-reg').disabled=true; await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'send_code',email:pEmail,isReset:false})}); el('btn-reg').disabled=false; switchAuth('code-step'); toast("Code sent");}}
+    async function reqCode(res){isReset=res; pEmail=res?el('resEmail').value:pEmail; pPass=res?el('resPass').value:pPass; await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'send_code',email:pEmail,isReset:isReset})}); switchAuth('code-step'); toast("Code Sent");}
+    async function verifyCode(){let c=el('vCode').value; if(!c)return; let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'verify_and_register',contact:pEmail,password:pPass,code:c})}); let d=await r.json(); if(d.status==='success'){user=pEmail;pass=pPass;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('login-modal');toast("Verified!");checkUI();} else toast("Invalid Code",true);}
+
+    // --- ADMIN & CHARTS ---
+    function triggerMsg(){let c=prompt("Color:\n1=RED (Urgent)\n2=YELLOW\n3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Message:"); if(!m)return; setLiveMaintenance(`ANNOUNCE|||${cn}|||${m}`);}
+    function handleMaint(mD){let b=el('maint-banner'), t=el('ui-m-time'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';t.style.textShadow='0 0 10px #ff4d4d';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';t.style.textShadow='0 0 10px #00ff88';}else{b.style.borderColor='var(--warn)';b.style.color='var(--warn)';b.style.background='rgba(255,174,0,0.1)';t.style.textShadow='0 0 10px var(--warn)';} el('ui-m-title').innerHTML="📢 ANNOUNCEMENT"; t.style.display='block'; t.innerHTML=m; el('shop-wrapper').style.display='block'; return;} el('ui-m-title').innerHTML="STORE CLOSED"; b.style.borderColor='var(--warn)'; b.style.color='var(--warn)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('shop-wrapper').style.display=(role==='Admin'||role==='Support')?'block':'none'; t.style.display='none';} else {b.style.display='none'; el('shop-wrapper').style.display='block';}}
+    function setLiveMaintenance(mode){let val=(mode==="OFF")?"FALSE":mode; pAPI('maintenance',{value:val}); handleMaint(val);}
+    async function pAPI(act, pay, noS){pay.action=act; pay.adminUser=user; pay.adminPass=pass; toast("Exec...","info"); try{let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(pay)}); let d=await r.json(); if(d.status==='success'){toast("Success"); if(!noS)syncData();} else toast("Error",true);}catch(e){toast("Err",true);}}
+
+    async function fetchAdmin(type){el('data-title').innerText=type==="orders"?"📦 Orders":"👥 CRM"; el('data-box').innerHTML="Loading..."; openModal('data-modal'); try{let r=await fetch(SCRIPT_URL+`?action=get_admin_data&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json(); if(d.status!=="success")throw "Err"; db.ord=d.ord; let h=""; if(type==="orders"){let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); os.forEach(o=>{let dm=o[3]; let p=String(o[2]).toLowerCase(); let cr=String(o[3]).replace('@',''); if(p==='ig')dm=`<a href="https://ig.me/m/${cr}" target="_blank" style="color:#E1306C;font-weight:bold;">DM IG</a>`; else if(p==='wa')dm=`<a href="https://wa.me/${cr}" target="_blank" style="color:#25D366;font-weight:bold;">DM WA</a>`; let sl=`<select id="st-${o[0]}" onchange="pAPI('update_order_status',{orderId:'${o[0]}',itemName:'${o[4]}',status:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Delivered</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds..."><button class="add-cart-btn" style="padding:8px;margin-top:5px;" onclick="let v=document.getElementById('cr-${o[0]}').value;if(v)pAPI('update_order_status',{orderId:'${o[0]}',itemName:'${o[4]}',status:'Delivered',credentials:v},true);else toast('Creds needed',true);">Mark Delivered</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;margin-top:5px;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Delete?')){pAPI('delete_order',{orderId:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;cursor:pointer;">🗑️</button>`:""; h+=`<div class="item-row" style="display:block;"><div style="display:flex;justify-content:space-between;"><b style="color:var(--primary);">${o[0]}</b>${dl}</div>User: ${o[1]} | ${dm}<br>Item: <span style="color:var(--warn)">${o[4]}</span><br>Paid: ${o[8]} DT<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});} else {d.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('update_user_role',{target:'${u[0]}',role:this.value},true)"><option value="User" ${u[3]==='User'?'selected':''}>User</option><option value="Support" ${u[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="item-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="add-cart-btn" style="background:#ffae00;padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="add-cart-btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('delete_user',{target:'${u[0]}'},true)">Del</button></div></div>`;}});} el('data-box').innerHTML=h||"Empty.";}catch(e){el('data-box').innerHTML="Err.";}}
+    async function fetchUserOrders(){closeModal('profile-modal'); el('data-title').innerText="📦 My Orders"; el('data-box').innerHTML="Loading..."; openModal('data-modal'); try{let r=await fetch(SCRIPT_URL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="add-cart-btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel_order',{orderId:'${o[0]}',userEmail:'${user}'},true);event.target.innerText='Cancelled';}">Cancel Order</button>`:""; h+=`<div class="item-row" style="display:block;"><b style="color:var(--primary);">${o[0]}</b> (${o[9]})<br>Item: ${o[4]}<br>Total: ${o[8]} DT${cnl}</div>`;});} el('data-box').innerHTML=h||"No Orders.";}catch(e){}}
     
-    function execAdminLogin(){
-        let p=document.getElementById('admPass').value;
-        if(p==="26240608"){ user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('login-modal'); toast("God Mode Unlocked"); checkUI(); openAdminDashboard(); } 
-        else toast("Denied",true);
-    }
+    function drawCharts(){if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; let iR={}; db.ord.slice(1).forEach(o=>{if(o.length>3){let ir=String(o[4]); let l=ir.toLowerCase(); if(l.includes("netflix")||l.includes("spotify"))dC["Streaming"]++; else if(l.includes("valorant")||l.includes("gta"))dC["Gaming"]++; else dC["Other"]++; if(o[9]==="Delivered"){let dt=new Date(o[10]).toLocaleDateString(undefined,{weekday:'short',day:'numeric'}); let p=parseFloat(String(o[8]).replace(/[^0-9.]/g,'')); if(!isNaN(p)){rD[dt]=(rD[dt]||0)+p; iR[ir]=(iR[ir]||0)+p;}}}}); let h=`<table style="width:100%;text-align:left;border-collapse:collapse;">`; for(let k in iR) h+=`<tr><td style="border-bottom:1px solid #333;padding:4px;">${k}</td><td style="border-bottom:1px solid #333;padding:4px;color:#00ff88;font-weight:bold;">${iR[k].toFixed(2)} DT</td></tr>`; h+=`</table>`; el('fin-tab').innerHTML=h; if(c1)c1.destroy(); c1=new Chart(el('adminChart'),{type:'doughnut',data:{labels:Object.keys(dC),datasets:[{data:Object.values(dC),backgroundColor:['#00f0ff','#ffae00','#fff']}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#fff'}}}}}); if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); c2=new Chart(el('revenueChart'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});}
+    function openMark(){if(role!=="Admin")return; openModal('mark-modal'); let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('delete_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="add-cart-btn" style="width:auto;padding:5px;margin:0;" onclick="pAPI('update_loyalty',{orderNum:${i},discount:el('lv-${i}').value})">Save</button></div>`; el('l-list').innerHTML=l;}
+    function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,discount:p});}
 
-    function setRegMode(m){rMode=m; document.getElementById('btn-reg-email-tab').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; document.getElementById('btn-reg-phone-tab').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; document.getElementById('regContact').placeholder=m==='email'?'Email':'Phone'; document.getElementById('btn-reg').innerText=m==='email'?'Send Code':'Create Account';}
-    async function execReg(){
-        pEmail=document.getElementById('regContact').value; pPass=document.getElementById('regPass').value; if(!pEmail||!pPass) return toast("Fill fields",true); isReset=false;
-        if(rMode==='phone'){ document.getElementById('btn-reg').disabled=true; let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'register_phone',contact:pEmail,password:pPass})}); let d=await r.json(); document.getElementById('btn-reg').disabled=false; if(d.status==='success'){user=pEmail;pass=pPass;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('login-modal');toast("Created!");checkUI();} else toast("Exists",true); }
-        else { document.getElementById('btn-reg').disabled=true; await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'send_code',email:pEmail,isReset:false})}); document.getElementById('btn-reg').disabled=false; switchAuth('code-step'); toast("Code sent to email"); }
-    }
-    async function reqCode(res){
-        isReset=res; pEmail=res?document.getElementById('resEmail').value:pEmail; pPass=res?document.getElementById('resPass').value:pPass;
-        await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'send_code',email:pEmail,isReset:isReset})}); switchAuth('code-step'); toast("Code Sent");
-    }
-    async function verifyCode(){
-        let c=document.getElementById('vCode').value; if(!c) return;
-        let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'verify_and_register',contact:pEmail,password:pPass,code:c})}); let d=await r.json();
-        if(d.status==='success'){user=pEmail;pass=pPass;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('login-modal');toast("Verified!");checkUI();} else toast("Invalid Code",true);
-    }
-
-    // --- ANNOUNCEMENTS & ADMIN ACTIONS ---
-    function openAdminDashboard(){closeModal('sidebar'); openModal('admin-dash');}
-    function triggerBroadcast(){let c=prompt("Color:\n1=RED (Urgent)\n2=YELLOW (Warn)\n3=GREEN (Success)"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Message:"); if(!m)return; setLiveMaintenance(`ANNOUNCE|||${cn}|||${m}`);}
-    function handleMaint(mD){
-        let b=document.getElementById('maintenance-msg'), t=document.getElementById('ui-maint-time'), s=String(mD).toUpperCase().trim();
-        if(!b||!t)return;
-        if(s.startsWith("ANNOUNCE|||")){
-            let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block';
-            if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';t.style.textShadow='0 0 10px #ff4d4d';}
-            else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';t.style.textShadow='0 0 10px #00ff88';}
-            else {b.style.borderColor='var(--warn)';b.style.color='var(--warn)';b.style.background='rgba(255,174,0,0.1)';t.style.textShadow='0 0 10px var(--warn)';}
-            document.getElementById('ui-maint-title').innerHTML="📢 ANNOUNCEMENT"; t.style.display='block'; t.innerHTML=m; document.getElementById('shop-wrapper').style.display='block'; return;
-        }
-        document.getElementById('ui-maint-title').innerHTML="STORE CLOSED"; b.style.borderColor='var(--warn)'; b.style.color='var(--warn)'; b.style.background='rgba(255,174,0,0.1)';
-        if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; document.getElementById('shop-wrapper').style.display=(role==='Admin'||role==='Support')?'block':'none'; t.style.display='none';} else {b.style.display='none'; document.getElementById('shop-wrapper').style.display='block';}
-    }
-    function setLiveMaintenance(mode){let val=(mode==="OFF")?"FALSE":mode; postAPI('maintenance',{value:val}); handleMaint(val);}
-
-    // Universal API Poster for Admin Actions
-    async function postAPI(act, pay, noSync){
-        pay.action=act; pay.adminUser=user; pay.adminPass=pass; toast("Executing...","info");
-        try{ let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(pay)}); let d=await r.json(); if(d.status==='success'){toast("Success"); if(!noSync) syncData();} else toast("Error/Unauthorized",true); } catch(e){toast("Network Err",true);}
-    }
-
-    // --- SMART CART ---
-    function applyPromo(){let c=document.getElementById('promoInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast("Promo Applied!");updateCartUI();} else {pPct=0;pCode="";toast("Invalid Code",true);updateCartUI();}}
+    // --- CART ---
+    function checkLoyalty(){let n=uOrders+1; return db.loy[n]||0;}
+    function applyPromo(){let c=el('promoInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast("Applied!");updateCartUI();} else {pPct=0;pCode="";toast("Invalid Code",true);updateCartUI();}}
     function openCart(){updateCartUI(); openModal('cart-modal');}
-    function addCart(eOn, p, eN){cart.push({id:decodeURIComponent(eOn), n:decodeURIComponent(eN), p:parseFloat(p)}); document.getElementById('c-count').innerText=cart.length; toast("Added!");}
+    function addCart(eO, p, eN){cart.push({id:decodeURIComponent(eO), n:decodeURIComponent(eN), p:parseFloat(p)}); el('c-count').innerText=cart.length; toast("Added!");}
     function updateCartUI(){
         let raw=cart.reduce((s,i)=>s+i.p,0); let lPct=checkLoyalty(); let hPct=Math.max(pPct,lPct);
-        document.getElementById('m-sub').innerText=raw.toFixed(2)+" DT";
-        let pr=document.getElementById('m-promo-r'), lr=document.getElementById('m-loy-r');
-        if(pPct>0){pr.style.display='flex';document.getElementById('m-promo-p').innerText=pPct;document.getElementById('m-promo-v').innerText="-"+(raw*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none';
-        if(lPct>0){lr.style.display='flex';document.getElementById('m-loy-p').innerText=lPct;document.getElementById('m-loy-v').innerText="-"+(raw*(lPct/100)).toFixed(2)+" DT";} else lr.style.display='none';
-        document.getElementById('m-tot').innerText=(raw-(raw*(hPct/100))).toFixed(2)+" DT";
-        document.getElementById('cart-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
+        el('m-sub').innerText=raw.toFixed(2)+" DT"; let pr=el('m-promo-r'), lr=el('m-loy-r');
+        if(pPct>0){pr.style.display='flex';el('m-promo-p').innerText=pPct;el('m-promo-v').innerText="-"+(raw*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none';
+        if(lPct>0){lr.style.display='flex';el('m-loy-p').innerText=lPct;el('m-loy-v').innerText="-"+(raw*(lPct/100)).toFixed(2)+" DT";} else lr.style.display='none';
+        el('m-tot').innerText=(raw-(raw*(hPct/100))).toFixed(2)+" DT";
+        el('cart-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
     }
-    
-    function selPay(m){payM=m; document.getElementById('pay-d17').classList.remove('active'); document.getElementById('pay-cash').classList.remove('active'); document.getElementById(m==='D17'?'pay-d17':'pay-cash').classList.add('active'); document.getElementById('d17-box').style.display=m==='D17'?'block':'none';}
-    function selContact(c){conM=c; ['wa','ig','fb'].forEach(x=>document.getElementById('cm-'+x).classList.remove('active')); document.getElementById('cm-'+c).classList.add('active');}
+    function selPay(m){payM=m; el('pay-d17').classList.remove('active'); el('pay-cash').classList.remove('active'); el(m==='D17'?'pay-d17':'pay-cash').classList.add('active'); el('d17-box').style.display=m==='D17'?'block':'none';}
+    function selContact(c){conM=c; ['wa','ig','fb'].forEach(x=>el('cm-'+x).classList.remove('active')); el('cm-'+c).classList.add('active');}
     function openCheckout(){if(cart.length===0) return toast("Cart Empty",true); closeModal('cart-modal'); openModal('checkout-modal');}
 
     async function finalizeOrder(){
-        let n=document.getElementById('coName').value, c=document.getElementById('coContact').value, cm=document.getElementById('coNotes').value;
-        if(!n||!c) return toast("Name & Contact required",true);
+        let n=el('coName').value, c=el('coContact').value, cm=el('coNotes').value; if(!n||!c) return toast("Name/Contact required",true);
         let oid=(user==="yessinebenfraj106@gmail.com"?"TEST-":"CH-")+Math.floor(1000+Math.random()*9000);
         let hPct=Math.max(checkLoyalty(), pPct); cart.forEach(i=>{i.name=i.id; i.price=i.p; i.finalPrice=i.p-(i.p*(hPct/100));});
         let t=cart.reduce((s,i)=>s+i.finalPrice,0).toFixed(2);
-        
-        document.getElementById('btn-fin').innerText="Processing..."; document.getElementById('btn-fin').disabled=true;
+        el('btn-fin').innerText="Processing..."; el('btn-fin').disabled=true;
         let payl={action:"place_order",orderId:oid,client:n,platform:conM,contact:c,items:cart,promoCode:pCode,loyaltyPct:checkLoyalty(),payment:payM,comments:cm,userEmail:user||"Guest"};
         try {
             await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payl)}); 
             let msg=`CyberHub 🛒\nID: ${oid}\nTotal: ${t} DT`; navigator.clipboard.writeText(msg).catch(e=>{});
             setTimeout(()=>{
                 if(conM==='wa') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`);
-                closeModal('checkout-modal'); cart=[]; document.getElementById('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); checkUI();} toast("Success!"); document.getElementById('btn-fin').innerText="PLACE ORDER"; document.getElementById('btn-fin').disabled=false;
+                closeModal('checkout-modal'); cart=[]; el('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); checkUI();} toast("Success!"); el('btn-fin').innerText="PLACE ORDER"; el('btn-fin').disabled=false;
             },1000);
-        } catch(e){document.getElementById('btn-fin').innerText="PLACE ORDER"; document.getElementById('btn-fin').disabled=false; toast("Error",true);}
+        } catch(e){el('btn-fin').innerText="PLACE ORDER"; el('btn-fin').disabled=false; toast("Error",true);}
     }
 
-    // --- DATA VIEWER (CRM & ORDERS) ---
-    async function fetchAdminData(type){
-        document.getElementById('data-title').innerText = type==="orders"?"📦 Orders":"👥 CRM"; document.getElementById('data-box').innerHTML="Loading DB..."; openModal('data-modal');
-        try{
-            let r=await fetch(SCRIPT_URL+`?action=get_admin_data&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json();
-            if(d.status!=="success") throw "Err"; let html="";
-            if(type==="orders"){
-                let ords=[]; d.ord.slice(1).forEach(o=>{if(o[0])ords.push(o);}); ords.sort((a,b)=>b[0].localeCompare(a[0]));
-                ords.forEach(o=>{
-                    let dm=o[3]; let p=String(o[2]).toLowerCase(); let cr=String(o[3]).replace('@','');
-                    if(p==='ig') dm=`<a href="https://ig.me/m/${cr}" target="_blank" style="color:#E1306C;font-weight:bold;">DM IG</a>`; else if(p==='wa') dm=`<a href="https://wa.me/${cr}" target="_blank" style="color:#25D366;font-weight:bold;">DM WA</a>`;
-                    let sel=`<select id="st-${o[0]}-${encodeURIComponent(o[4])}" onchange="postAPI('update_order_status',{orderId:'${o[0]}',itemName:'${o[4]}',status:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Delivered</option></select>`;
-                    let cred=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}-${encodeURIComponent(o[4])}" placeholder="Creds..."><button class="btn" style="padding:8px;margin-top:5px;" onclick="let v=document.getElementById('cr-${o[0]}-${encodeURIComponent(o[4])}').value; if(v) postAPI('update_order_status',{orderId:'${o[0]}',itemName:'${o[4]}',status:'Delivered',credentials:v},true); else toast('Enter Creds',true);">Mark Delivered</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;margin-top:5px;">Creds: ${o[12]}</div>`;
-                    let del=(role==='Admin')?`<button onclick="if(confirm('Delete?')) postAPI('delete_order',{orderId:'${o[0]}'},true); event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;cursor:pointer;">🗑️</button>`:"";
-                    html+=`<div class="item-row" style="display:block;">${del}<b style="color:var(--primary);">${o[0]}</b><br>User: ${o[1]} | ${dm}<br>Item: <span style="color:var(--warn)">${o[4]}</span><br>Paid: ${o[8]} DT<div style="margin-top:5px;">${sel}</div>${cred}</div>`;
-                });
-            } else {
-                d.usr.slice(1).forEach(u=>{if(u[0]){
-                    let s=`<select onchange="postAPI('update_user_role',{target:'${u[0]}',role:this.value},true)"><option value="User" ${u[3]==='User'?'selected':''}>User</option><option value="Support" ${u[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${u[3]==='Admin'?'selected':''}>Admin</option></select>`;
-                    html+=`<div class="item-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:#ffae00;padding:8px;" onclick="postAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;" onclick="if(confirm('Del?')) postAPI('delete_user',{target:'${u[0]}'},true)">Del</button></div></div>`;
-                }});
-            }
-            document.getElementById('data-box').innerHTML=html||"Empty.";
-        }catch(e){document.getElementById('data-box').innerHTML="Err.";}
-    }
-
-    async function fetchUserOrders(){
-        closeModal('profile-modal'); document.getElementById('data-title').innerText="📦 My Orders"; document.getElementById('data-box').innerHTML="Loading..."; openModal('data-modal');
-        try{
-            let r=await fetch(SCRIPT_URL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let html="";
-            if(d.status==="success" && d.ord.length>0){
-                d.ord.forEach(o=>{
-                    let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')) {postAPI('client_cancel_order',{orderId:'${o[0]}',userEmail:'${user}'},true); event.target.innerText='Cancelled';}">Cancel</button>`:"";
-                    html+=`<div class="item-row" style="display:block;"><b style="color:var(--primary);">${o[0]}</b> (${o[9]})<br>Item: ${o[4]}<br>Total: ${o[8]} DT${cnl}</div>`;
-                });
-            }
-            document.getElementById('data-box').innerHTML=html||"No Orders.";
-        }catch(e){}
-    }
-
-    function openMarketing(){
-        if(role!=="Admin")return; openModal('marketing-modal');
-        let ph=""; for(let c in db.promo) ph+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="postAPI('delete_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;">✖</button></div>`;
-        document.getElementById('p-list').innerHTML=ph||"None";
-        let lh=""; for(let i=1;i<=20;i++) lh+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;" onclick="postAPI('update_loyalty',{orderNum:${i},discount:document.getElementById('lv-${i}').value})">Save</button></div>`;
-        document.getElementById('l-list').innerHTML=lh;
-    }
-    function addPromo(){let c=document.getElementById('np-code').value.toUpperCase(), p=document.getElementById('np-pct').value; if(c&&p) postAPI('add_promo',{code:c,discount:p});}
-
-    window.onload = () => {
-        if(!localStorage.getItem('ch_pol')) openPolicy(false);
-        syncData();
-    };
+    window.onload=()=>{ if(!localStorage.getItem('ch_pol')) openPolicy(false); syncData(); };
 </script>
 </body>
 </html>
