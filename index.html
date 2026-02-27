@@ -21,7 +21,7 @@
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
         .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
         
@@ -42,17 +42,11 @@
         .request-card { grid-column: span 2; background: linear-gradient(45deg, rgba(255, 174, 0, 0.1), rgba(255, 174, 0, 0.02)); border: 1px dashed var(--warn); color: var(--warn); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; }
 
         .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
         .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
         .chevron { transition: 0.3s transform cubic-bezier(0.175, 0.885, 0.32, 1.275); color: var(--primary); font-size: 0.8rem; }
         .folder-open .chevron { transform: rotate(180deg); }
         
-        .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; font-weight: bold; }
-        .ungroup-zone.drag-over { border-color: #ff4d4d; color: #ff4d4d; background: rgba(255, 77, 77, 0.1); }
-        
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: grab; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
-        
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
         .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; transition: 0.3s; width: 100%; letter-spacing: 1px; }
         .add-cart-btn:active { transform: scale(0.97); }
         .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; transform: none; }
@@ -72,12 +66,9 @@
         .admin-section-title { font-size:0.85rem; color:var(--sub); margin-bottom:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px; }
         .admin-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .admin-sub-btn { background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer; transition:0.2s; font-size:0.85rem; }
-        .admin-sub-btn:hover { background:rgba(0,240,255,0.1); border-color:var(--primary); }
-
-        /* 🔥 MASSIVE EMOJI DB STYLES */
+        
         .emoji-db-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; max-height: 220px; overflow-y: auto; margin-bottom: 15px; border: 1px dashed var(--border); }
         .emoji-slot { font-size: 1.5rem; text-align: center; cursor: pointer; padding: 5px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; background:rgba(255,255,255,0.02); }
-        .emoji-slot:hover { transform: scale(1.1); background:rgba(0,240,255,0.1); }
         .emoji-slot.active { border-color: var(--warn); background: rgba(255, 174, 0, 0.2); }
 
         .fomo-toast { position: fixed; bottom: 110px; left: -350px; background: rgba(10, 15, 30, 0.95); border-left: 4px solid #00ff88; color: white; padding: 15px; border-radius: 0 12px 12px 0; font-size: 0.9rem; z-index: 3500; font-weight: 500; transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 5px 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 300px; }
@@ -151,8 +142,10 @@
         <div class="admin-btn-grid">
             <button class="admin-sub-btn" onclick="openAdminOrders()" style="color:var(--warn); border-color:var(--warn);">📦 View Orders</button>
             <button class="admin-sub-btn" onclick="openModal('add-item-modal')" style="color:var(--primary); border-color:var(--primary);">➕ Add Item</button>
-            <button class="admin-sub-btn" onclick="forceSync()">🔄 Force Sync DB</button>
+            <button class="admin-sub-btn" onclick="openAdminUsers()" style="color:#8b5cf6; border-color:#8b5cf6;">👥 View Users (CRM)</button>
+            <button class="admin-sub-btn" onclick="triggerBroadcast()" style="color:#00ff88; border-color:#00ff88;">📢 Broadcast Msg</button>
             <button class="admin-sub-btn" onclick="setLiveMaintenance('UNTIL')">🛑 Enable Maint.</button>
+            <button class="admin-sub-btn" onclick="forceSync()">🔄 Force Sync DB</button>
         </div>
     </div>
 
@@ -224,13 +217,13 @@
             <div class="c-btn" id="c-ph" onclick="selContact('ph')">📞 Phone</div>
         </div>
     </div>
-
     <button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button>
     <button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
 </div></div>
 
+<div id="admin-users-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:#8b5cf6; margin-bottom:15px;">👥 Registered Users</h3><div id="admin-users-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading CRM...</div><button onclick="closeModal('admin-users-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="profile-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">👤 My Profile</h3><p style="color:var(--text); margin-bottom: 15px;" id="prof-email-display"></p><button class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:20px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button><button class="add-cart-btn" onclick="resetBiometrics()" style="margin:0 0 15px 0; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Setup Biometrics</button><button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button><button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app" placeholder="App/Brand (e.g., Netflix)"><input type="text" id="add-item-name" placeholder="Item Name EN"><input type="text" id="add-item-name-fr" placeholder="Item Name FR"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app-fr" placeholder="App/Brand FR (e.g. Jeux)"><input type="text" id="add-app-en" placeholder="App/Brand EN (e.g. Games)"><input type="text" id="add-item-name-fr" placeholder="Item Name FR (Master)"><input type="text" id="add-item-name-en" placeholder="Item Name EN (Optional)"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
 <div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 All Purchases</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 <div id="admin-auth-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3><button class="add-cart-btn" onclick="executeAdminBiometric()" style="background:var(--card); color:var(--warn); border:1px solid var(--warn);">📱 Screen Lock / PC PIN</button><button class="add-cart-btn" onclick="closeModal('admin-auth-modal'); openModal('admin-pass-modal');">🔑 Use Password</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:var(--sub); margin-top:20px; cursor:pointer;">Cancel</button></div></div>
@@ -250,13 +243,13 @@
     const ADMIN_PHONE = "21629895846"; const ADMIN_IG = "yessine_ben_fraj";
 
     let toastTimeout; let productsData = { categories: {} }; let cart = []; let isSupport = false; let globalMaintenance = false; let lastDataString = ""; 
-    let currentUser = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
+    let currentUser = null; let currentPass = null; let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; 
     let currentVisitorIP = null; let isWhitelisted = false; let draggedItemRawName = null;
     let adminChart1 = null, adminChart2 = null; let countdownInterval = null;
     let selectedPaymentMethod = "D17"; let selectedContactMethod = "wa";
 
-    // 🌟 MASSIVE EMOJI DATABASE ENGINE (ADDED PROFILE/PEOPLE EMOJIS)
+    // 🌟 MASSIVE EMOJI DATABASE ENGINE 
     const FOLDER_EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','⚔️','🛡️','📺','🎬','🍿','🎵','🎧','🎙️','🎨','🎫','🛒','🛍️','💳','💸','💰','💎','🎁','📦','🚚','🔥','🚀','⚡','🌟','✨','🔑','🔒','⚙️','🛠️','💡','📌','🔴','🔵','🟢','🟣','🟡','🟠','⚫','⚪','🟥','🟦','🟩','🟪','🟨','🟧', '👤', '👥', '🗣️', '👦', '👧', '👨', '👩', '👨‍👩‍👦', '👪', '🧑‍🤝‍🧑', '👨‍💻', '👩‍💻', '🦸', '🦹', '🧙', '🧚', '🧛'];
     let selectedFolderEmoji = '📁'; let currentEditingGroupCtx = null;
 
@@ -272,9 +265,9 @@
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
 
-    // 🛡️ THE BULLETPROOF ENCODER (Base64)
-    const safeEnc = (str) => { return str ? btoa(unescape(encodeURIComponent(String(str).trim()))) : ""; };
-    const safeDec = (str) => { return str ? decodeURIComponent(escape(atob(str))) : ""; };
+    // 🛡️ NATIVE UTF-8 ENCODER (Will never crash on emojis or accents!)
+    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()) : ""; };
+    const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
     const setText = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
     // 🌐 FULL TRANSLATION DICTIONARY
@@ -306,30 +299,19 @@
     }
 
     // --- CART LOGIC WITH SMART PERSISTENCE ---
-    function syncCartToCloud(status) { let c = currentUser || currentVisitorIP || "Unknown"; let str = cart.map(i => i.name).join(" + "); let t = cart.reduce((s,i)=>s+i.price, 0); if (cart.length === 0 && status === "Pending") return; fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_cart", contact: c, items: str, total: t, status: status }), mode: 'no-cors' }); }
+    function syncCartToCloud(status) { let c = currentUser || currentVisitorIP || "Unknown"; let str = cart.map(i => i.id).join(" + "); let t = cart.reduce((s,i)=>s+i.price, 0); if (cart.length === 0 && status === "Pending") return; fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_cart", contact: c, items: str, total: t, status: status }), mode: 'no-cors' }); }
     
-    function updateCartCount() {
-        document.getElementById('cart-count').innerText = cart.length;
-        localStorage.setItem('cyberhub_saved_cart', JSON.stringify(cart));
-    }
-
+    function updateCartCount() { document.getElementById('cart-count').innerText = cart.length; localStorage.setItem('cyberhub_saved_cart', JSON.stringify(cart)); }
     function openCart() { document.getElementById('cart-total-price').innerText = cart.reduce((s, i) => s + i.price, 0).toFixed(2); document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name}</div>`).join(''); openModal('modal'); }
     
-    function addToCart(encodedName, price) { 
-        let cleanName = safeDec(encodedName).split("||GRP||")[0]; 
-        cart.push({name: cleanName, price: parseFloat(price)}); 
-        updateCartCount();
-        showToast("Added!", "success"); 
-        syncCartToCloud("Pending"); 
+    function addToCart(encodedName, price, encodedDisplay) { 
+        let masterId = safeDec(encodedName).split("||GRP||")[0]; 
+        let display = safeDec(encodedDisplay);
+        cart.push({id: masterId, name: display, price: parseFloat(price)}); 
+        updateCartCount(); showToast("Added!", "success"); syncCartToCloud("Pending"); 
     }
     
-    function clearCart() { 
-        cart = []; updateCartCount(); 
-        document.getElementById('cart-total-price').innerText = "0"; 
-        document.getElementById('cart-items-list').innerHTML = ""; 
-        syncCartToCloud("Cleared"); showToast("Cart Emptied", "info"); closeModal('modal'); 
-    }
-    
+    function clearCart() { cart = []; updateCartCount(); document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; syncCartToCloud("Cleared"); showToast("Cart Emptied", "info"); closeModal('modal'); }
     function setPayment(m) { selectedPaymentMethod = m; document.getElementById('d17-details').style.display = (m === 'D17') ? 'block' : 'none'; }
     function selContact(c) { selectedContactMethod = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); document.getElementById('c-'+c).classList.add('active'); }
     
@@ -337,7 +319,7 @@
         if(cart.length === 0) return showToast("Cart is empty!", "error");
         let name = document.getElementById('custName').value || "Unknown"; let contact = currentUser || "Guest"; 
         let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; 
-        let total = document.getElementById('cart-total-price').innerText; let itemsStr = cart.map(i => i.name).join(" + ");
+        let total = document.getElementById('cart-total-price').innerText; let itemsStr = cart.map(i => i.id).join(" + ");
         let orderId = (currentUser === "yessinebenfraj106@gmail.com" ? "TEST-" : "CH-") + Math.floor(1000 + Math.random() * 9000); 
         let btn = document.getElementById('btn-finalize'); btn.innerText = "Processing..."; btn.disabled = true; showToast("Sending to database...", "info");
         let payload = { action: "place_order", orderId: orderId, client: name, contact: contact, items: itemsStr, price: total, payment: method };
@@ -347,6 +329,7 @@
             let msg = `Hello CyberHub! 🛒\nI just placed an order on the site.\n\n*Order ID:* ${orderId}\n*Name:* ${name}\n*Items:* ${itemsStr}\n*Total:* ${total} DT\n*Method:* ${method}\n\nPlease confirm!`;
             navigator.clipboard.writeText(msg).catch(e => console.log("Clipboard skip"));
             showToast("Receipt Copied! Opening App...", "success");
+
             setTimeout(() => {
                 if(selectedContactMethod === 'wa') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
                 else if(selectedContactMethod === 'ig') { alert("Receipt copied! Paste it in our Instagram DMs."); window.open(`https://instagram.com/${ADMIN_IG}`, '_blank'); }
@@ -390,11 +373,19 @@
                     let itemFr = String(cols[4]).trim(); let itemEn = (cols.length > 8 && cols[8]) ? String(cols[8]).trim() : itemFr;
                     
                     const cat = currentLang === 'en' ? catEn : catFr; const app = currentLang === 'en' ? appEn : appFr; 
-                    let itemNameRaw = currentLang === 'en' ? itemEn : itemFr; const price = parseFloat(cols[5]) || 0; 
-                    const isOOS = (cols.length > 14 && String(cols[14]).toUpperCase().includes("OOS")); 
                     
-                    let itemName = itemNameRaw; let groupName = null;
-                    if(itemNameRaw && itemNameRaw.includes("||GRP||")) { let parts = itemNameRaw.split("||GRP||"); itemName = parts[0].trim(); groupName = parts[1].trim(); }
+                    // 🔥 SMART INHERITANCE: Always extract ||GRP|| from the French master!
+                    let masterItemFr = itemFr; let groupName = null;
+                    if(masterItemFr.includes("||GRP||")) { 
+                        let parts = masterItemFr.split("||GRP||"); 
+                        masterItemFr = parts[0].trim(); groupName = parts[1].trim(); 
+                    }
+                    // Clean up English name if it doesn't have the group tag manually added
+                    let masterItemEn = itemEn.includes("||GRP||") ? itemEn.split("||GRP||")[0].trim() : itemEn;
+                    
+                    let itemName = currentLang === 'en' ? masterItemEn : masterItemFr; 
+                    const price = parseFloat(cols[5]) || 0; 
+                    const isOOS = (cols.length > 14 && String(cols[14]).toUpperCase().includes("OOS")); 
                     
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1] || '', apps: {} }; 
                     if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3] || '', groups: {}, standalone: [] };
@@ -407,54 +398,36 @@
 
             productsData.categories = temp; 
             if(!isSupport && !sessionStorage.getItem('visit_logged') && currentVisitorIP) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "log_visit", ip: currentVisitorIP, device: navigator.userAgent }), mode: 'no-cors' }).catch(e=>{}); sessionStorage.setItem('visit_logged', 'true'); }
-            if(isSupport) maintState = "FALSE";
+            
+            if(isSupport && maintState !== "FALSE" && !maintState.startsWith("ANNOUNCE")) maintState = "FALSE";
+            
             handleMaintenanceUI(maintState); lastDataString = text; forceReRender(); 
         } catch (e) {
+            console.error("Database Fetch Error:", e);
             const ca = document.getElementById('content-area');
             if(ca && Object.keys(productsData.categories).length === 0) { ca.innerHTML = `<div style="text-align:center; color:#ff4d4d; margin-top:30px; font-weight:bold;">⚠️ Server Busy<br><span style="font-size:0.8rem; color:var(--sub);">Reconnecting automatically...</span></div>`; }
         }
     }
     setInterval(fetchData, 6000); 
 
-    function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
+    function handleMaintenanceUI(maintData) { clearInterval(countdownInterval); const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); let isTimer = stringData.startsWith("T_"); if(stringData.startsWith("ANNOUNCE|||")) { band.style.display = 'block'; band.style.borderColor = '#00ff88'; band.style.color = '#00ff88'; band.style.background = 'rgba(0, 255, 136, 0.05)'; document.getElementById('ui-maint-title').innerHTML = "📢 ANNOUNCEMENT"; timeEl.style.display = 'block'; timeEl.style.fontSize = '1.2rem'; timeEl.style.textShadow = '0 0 10px #00ff88'; timeEl.innerHTML = String(maintData).split("|||")[1] || ""; document.getElementById('shop-wrapper').style.display = 'block'; return; } document.getElementById('ui-maint-title').innerHTML = T[currentLang].maintTitle; band.style.borderColor = 'var(--warn)'; band.style.color = 'var(--warn)'; band.style.background = 'rgba(255, 174, 0, 0.1)'; timeEl.style.fontSize = '2.2rem'; timeEl.style.textShadow = '0 0 15px var(--warn)'; if(stringData === "TRUE" || stringData === "UNTIL" || isTimer) { band.style.display = 'block'; globalMaintenance = true; document.getElementById('shop-wrapper').style.display = isSupport ? 'block' : 'none'; if(stringData === "UNTIL" || stringData === "TRUE") { timeEl.style.display = 'none'; } else if(isTimer) { let target = parseInt(stringData.replace("T_", "")); timeEl.style.display = 'block'; countdownInterval = setInterval(() => { let d = target - new Date().getTime(); if(d < 0) { clearInterval(countdownInterval); timeEl.innerText = "Opening shortly..."; } else { let hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60)); let mins = Math.floor((d%(1000*60*60))/(1000*60)); let secs = Math.floor((d%(1000*60))/1000); timeEl.innerText = `${hrs > 0 ? hrs + 'h ' : ''}${mins}m ${secs}s`; } }, 1000); } } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; globalMaintenance = false; } }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } if(mode === "TIMER") { let mins = document.getElementById('maint-timer-mins').value; if(!mins) return showToast("Enter minutes first!", "error"); payload.value = "T_" + (new Date().getTime() + (mins * 60000)).toString(); } if(mode === "ANNOUNCE") { let msg = prompt("Enter announcement text:"); if(!msg) return; payload.value = "ANNOUNCE|||" + msg; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); showToast("Store Updated!", "success"); }, 2000); } catch(e) {} }
 
-    // 🔥 NEW FOLDER RENAME LOGIC
     function openFolderEdit(safeCat, safeApp, safeGrp) {
         currentEditingGroupCtx = { cat: safeDec(safeCat), app: safeDec(safeApp), grp: safeDec(safeGrp) };
         let cleanName = currentEditingGroupCtx.grp;
-        if(FOLDER_EMOJIS.some(e => cleanName.startsWith(e))) {
-            let parts = cleanName.split(" ");
-            let icon = parts.shift();
-            document.getElementById('edit-folder-name').value = parts.join(" ");
-            selEmoji(document.querySelector('.emoji-slot.active') || document.querySelector('.emoji-slot'), icon); 
-        } else {
-            document.getElementById('edit-folder-name').value = cleanName;
-        }
-        initEmojiGrid();
-        openModal('edit-folder-modal');
+        if(FOLDER_EMOJIS.some(e => cleanName.startsWith(e))) { let parts = cleanName.split(" "); let icon = parts.shift(); document.getElementById('edit-folder-name').value = parts.join(" "); selEmoji(document.querySelector('.emoji-slot.active') || document.querySelector('.emoji-slot'), icon); } else { document.getElementById('edit-folder-name').value = cleanName; }
+        initEmojiGrid(); openModal('edit-folder-modal');
     }
 
     async function executeFolderRename() {
-        let newName = document.getElementById('edit-folder-name').value.trim();
-        if(!newName) return;
-        let fullNewGroup = (selectedFolderEmoji + " " + newName).trim();
-        if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal');
-        
-        let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true;
-        let itemsToUpdate = [];
+        let newName = document.getElementById('edit-folder-name').value.trim(); if(!newName) return;
+        let fullNewGroup = (selectedFolderEmoji + " " + newName).trim(); if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal');
+        let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true; let itemsToUpdate = [];
         const catData = productsData.categories[currentEditingGroupCtx.cat];
-        if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) {
-            catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); });
-        }
-        
-        for(let oldName of itemsToUpdate) {
-            let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup;
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName }), mode: 'no-cors' });
-        }
-        
-        closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false;
-        forceSync(); showToast("Folder Updated!", "success");
+        if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) { catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); }); }
+        for(let oldName of itemsToUpdate) { let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup; await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName }), mode: 'no-cors' }); }
+        closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false; forceSync(); showToast("Folder Updated!", "success");
     }
 
     function forceReRender() {
@@ -468,31 +441,21 @@
             }); }); html += `</div>`;
         } else {
             if(currentView.type === 'cats') {
-                html += `<div class="grid">`; 
-                Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); 
-                html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
+                html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `<div class="nav-card request-card" onclick="openModal('request-modal')"><strong>${dic.req}</strong></div></div>`;
             } else if (currentView.type === 'apps') {
-                const catData = productsData.categories[currentView.cat]; 
-                if(!catData) return navTo('cats'); 
+                const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); 
                 html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
-                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); 
-                html += `</div>`;
+                Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
             } else if (currentView.type === 'items') {
-                const catData = productsData.categories[currentView.cat];
-                if(!catData) return navTo('cats'); 
-                const appData = catData.apps[currentView.app];
-                if(!appData) return navTo('apps', safeEnc(currentView.cat)); 
+                const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); 
+                const appData = catData.apps[currentView.app]; if(!appData) return navTo('apps', safeEnc(currentView.cat)); 
                 
                 html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 if(isSupport) { html += `<div class="ungroup-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
                 Object.values(appData.groups).forEach((g, gI) => {
-                    let safeGrp = safeEnc(g.name);
-                    let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
+                    let safeGrp = safeEnc(g.name); let folderDrop = isSupport ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
                     let editBtn = isSupport ? `<span onclick="event.stopPropagation(); openFolderEdit('${safeEnc(currentView.cat)}', '${safeEnc(currentView.app)}', '${safeGrp}')" style="margin-right:10px; cursor:pointer; font-size:1.1rem; border:1px solid rgba(255,255,255,0.1); padding:4px; border-radius:6px; background:rgba(0,0,0,0.5);">✏️</span>` : "";
-                    
-                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}>
-                                <span>${editBtn}${g.name} (${g.items.length})</span><span class="chevron">▼</span>
-                             </div><div id="acc-${gI}" class="folder-content">`;
+                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>${editBtn}${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
                     g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
                 });
                 appData.standalone.forEach(it => html += drawItemRow(it, dic));
@@ -502,57 +465,59 @@
     }
 
     function drawItemRow(it, dic) {
-        let safeName = safeEnc(it.originalName); 
-        let dragProps = isSupport ? `draggable="true" ondragstart="handleDragStart(event, '${safeName}')" ondragend="handleDragEnd(event)"` : "";
-        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${safeName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" style="color:#ff4d4d; border-color:#ff4d4d;" onclick="deleteItem('${safeName}')">[🗑️ Delete]</button></div>` : '';
-        return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${safeName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
+        let safeOrigName = safeEnc(it.originalName); 
+        let safeDispName = safeEnc(it.name);
+        let dragProps = isSupport ? `draggable="true" ondragstart="handleDragStart(event, '${safeOrigName}')" ondragend="handleDragEnd(event)"` : "";
+        let adminTools = isSupport ? `<div class="support-tools"><button class="support-btn" onclick="updateItem('${safeOrigName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button><button class="support-btn" style="color:#ff4d4d; border-color:#ff4d4d;" onclick="deleteItem('${safeOrigName}')">[🗑️ Delete]</button></div>` : '';
+        return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${safeOrigName}', ${it.price}, '${safeDispName}')" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
     }
 
     function updateItem(encodedName, price, isOOS) { let name = safeDec(encodedName); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: name, newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => { forceSync(); }); }
     function deleteItem(encodedName) { let name = safeDec(encodedName); if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: name }), mode: 'no-cors' }).then(() => { forceSync(); }); } }
-    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let app = document.getElementById('add-app').value; let name = document.getElementById('add-item-name').value; let price = document.getElementById('add-item-price').value; let finalName = name; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) finalName += "||GRP||" + group; } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", cat: cat, app: app, name: finalName, price: price }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Item Saved!", "success"); }); }
+    function submitNewItem() { 
+        let catFr = document.getElementById('add-cat-sel').value; 
+        let appFr = document.getElementById('add-app-fr').value; let appEn = document.getElementById('add-app-en').value || appFr; 
+        let nameFr = document.getElementById('add-item-name-fr').value; let nameEn = document.getElementById('add-item-name-en').value || nameFr; 
+        let price = document.getElementById('add-item-price').value; 
+        let finalNameFr = nameFr; let finalNameEn = nameEn;
+        if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) { finalNameFr += "||GRP||" + group; finalNameEn += "||GRP||" + group; } } 
+        closeModal('add-item-modal'); 
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", catFr: catFr, catEn: catFr, appFr: appFr, appEn: appEn, nameFr: finalNameFr, nameEn: finalNameEn, price: price }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Item Saved!", "success"); }); 
+    }
     
+    function triggerBroadcast() { setLiveMaintenance('ANNOUNCE'); }
+    async function openAdminUsers() { openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `<p style="color:#8b5cf6; text-align:center;">Loading Users... ⏳</p>`; try { const res = await fetch(USERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols.length > 0 && cols[0]) { html += `<div style="border:1px solid rgba(139, 92, 246, 0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br><b>Admin:</b> ${cols[6] === "TRUE" ? "✅ Yes" : "❌ No"}</div>`; } } document.getElementById('admin-users-list').innerHTML = html || "No registered users."; } catch(e) { document.getElementById('admin-users-list').innerHTML = "Failed to load CRM."; } }
+
+    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = safeCsvParse(rows[i]); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
+    function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
+    function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
+
     function handleDragStart(e, rawName) { draggedItemRawName = safeDec(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
     function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
     function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
     function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
     function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { showToast("Moving item...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => { setTimeout(() => { forceSync(); showToast("Moved!", "success"); }, 1500); }); } draggedItemRawName = null; }
 
-    async function openAdminOrders() { openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let orders = []; for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = safeCsvParse(rows[i]); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], contact: cols[2], items: cols[3], price: cols[4], payment: cols[5], status: cols[6] || "Pending", date: cols[7] || "N/A", creds: cols[8] || "" }); } } orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; orders.forEach(o => { let isTest = o.id.startsWith("TEST-"); let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:10px; border-color:var(--primary);"><button onclick="deliverOrder('${o.id}')" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials Delivered:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; let contactBtn = o.contact !== 'Guest' && o.contact.includes('+') ? `<button onclick="window.open('https://wa.me/${o.contact.replace('+','')}', '_blank')" style="background:#25D366; color:white; border:none; border-radius:5px; font-size:0.7rem; padding:5px; cursor:pointer; margin-left:10px;">Contact WA</button>` : ''; html += `<div style="background:rgba(0,0,0,0.5); border:1px solid ${isTest ? '#ff4d4d' : 'var(--border)'}; padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:${isTest ? '#ff4d4d' : 'var(--primary)'};">${o.id} ${isTest ? '[TEST]' : ''}</b> <span style="color:var(--warn);">${o.status}</span></div><b>User:</b> ${o.client} (${o.contact}) ${contactBtn}<br><b>Items:</b> ${o.items}<br><b>Total:</b> ${o.price} DT | <b>Method:</b> ${o.payment}${deliverBox}</div>`; }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } }
-    function deliverOrder(orderId) { let creds = document.getElementById(`cred-${orderId}`).value; if(!creds) return showToast("Enter credentials first!", "error"); showToast("Delivering...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "deliver_order", orderId: orderId, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Delivered!", "success"); }, 1500); }); }
-    function clearTestOrders() { if(confirm("Wipe all TEST orders?")) { showToast("Clearing Tests...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "clear_tests" }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Tests Wiped!", "success"); }); } }
-
     async function drawAdminChart() { try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols.length > 3) { let items = cols[3].toLowerCase(); if(items.includes("netflix") || items.includes("spotify")) dataCounts["Streaming"]++; else if(items.includes("valorant") || items.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[6] && cols[6].trim() === "Delivered") { let d = new Date(cols[7]).toLocaleDateString(undefined, {weekday: 'short', month: 'short', day: 'numeric'}); let p = parseFloat(cols[4].replace(/[^0-9.]/g, '')); if (!isNaN(p)) revByDay[d] = (revByDay[d] || 0) + p; } } } if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); } catch(e) {} }
 
     let logoClickCount = 0; let logoClickTimer;
     function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-auth-modal'); } }
-    function submitAdminPass() { if(document.getElementById('admin-manual-pass').value === "26240608") { currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); } }
+    function submitAdminPass() { if(document.getElementById('admin-manual-pass').value === "26240608") { window.acceptPolicy(); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; closeModal('admin-pass-modal'); document.getElementById('admin-sidebar-btn').style.display='block'; openAdminDashboard(); showToast("God Mode Active", "success"); forceSync(); } }
     function lockAdminPanel() { isSupport = false; document.getElementById('admin-sidebar-btn').style.display='none'; closeModal('admin-dashboard-modal'); showToast("🔒 Locked.", "info"); forceSync(); }
     function openAdminDashboard() { openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 500); }
 
     async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; rows.forEach(r => { let c = safeCsvParse(r); if(c[2] === currentUser) html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[6]})<br>Items: ${c[3]}<br>Total: ${c[4]} DT</div>`; }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
     
-    // --- ON INIT (Restores persistent cart & instantly loads policy) ---
-    window.onload = () => {
-        if (!localStorage.getItem('cyberhub_v37_pol')) { openModal('policy-modal'); }
-        
-        try {
-            let stored = localStorage.getItem('cyberhub_saved_cart');
-            if (stored) {
-                let parsed = JSON.parse(stored);
-                if (parsed.length > 0) {
-                    cart = parsed;
-                    document.getElementById('cart-count').innerText = cart.length;
-                    setTimeout(() => showToast("🛒 You left items in your cart!", "info"), 1500);
-                }
-            }
-        } catch(e) {}
-        
-        initIPLogging(); 
-        applyLang(); 
-        fetchData();
-    };
+    async function linkUserBiometric() { if(!currentUser) return; try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name:currentUser, displayName:currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('cyberhub_bio_user', currentUser); localStorage.setItem('cyberhub_bio_pass', currentPass); showToast("Biometrics Linked!", "success"); } catch(e) { alert("Setup Failed: Ensure your device has a PIN or FaceID."); } }
+    function resetBiometrics() { localStorage.removeItem('cyberhub_bio_user'); localStorage.removeItem('cyberhub_bio_pass'); linkUserBiometric(); }
+    async function registerBiometricDevice() { let auth = prompt("Admin PIN to authorize Biometric Setup:"); if(auth !== "26240608") return showToast("Unauthorized", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); const cred = await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub Admin"}, user:{id:new Uint8Array(16), name:"admin", displayName:"Admin"}, pubKeyCredParams:[{type:"public-key",alg:-7}], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "preferred" }, timeout:60000 } }); localStorage.setItem('admin_passkey_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast("Admin Passkey Created!", "success"); closeModal('admin-auth-modal'); } catch(e) { alert("Failed to create passkey."); } }
+    async function executeAdminBiometric() { closeModal('admin-auth-modal'); try { const id=Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c=>c.charCodeAt(0)); const challenge=new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, allowCredentials:[{type:"public-key",id}], userVerification:"preferred", timeout:60000} }); currentUser = "yessinebenfraj106@gmail.com"; isSupport = true; document.getElementById('admin-sidebar-btn').style.display='block'; window.acceptPolicy(); openAdminDashboard(); showToast("God Mode Unlocked", "success"); forceSync(); } catch(e) { showToast("Biometric Failed", "error"); } }
+    async function executeUserBiometricLogin() { closeModal('login-modal'); let linkedUser = localStorage.getItem('cyberhub_bio_user'); let linkedPass = localStorage.getItem('cyberhub_bio_pass'); if(!linkedUser) return showToast("No biometrics linked.", "error"); try { const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); await navigator.credentials.get({ publicKey:{challenge, userVerification:"preferred", timeout:60000} }); currentUser = linkedUser; currentPass = linkedPass; if(currentUser === "yessinebenfraj106@gmail.com") { isSupport = true; document.getElementById('admin-sidebar-btn').style.display = 'block'; } showToast("Welcome back!", "success"); forceSync(); } catch(e) { showToast("Login failed.", "error"); } }
 
+    window.onload = () => {
+        try { let stored = localStorage.getItem('cyberhub_saved_cart'); if (stored) { let parsed = JSON.parse(stored); if (parsed.length > 0) { cart = parsed; document.getElementById('cart-count').innerText = cart.length; setTimeout(() => showToast("🛒 You left items in your cart!", "info"), 1500); } } } catch(e) {}
+        initIPLogging(); applyLang(); fetchData();
+    };
 </script>
 </body>
 </html>
