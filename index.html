@@ -5,72 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#050b14">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
-        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); display: flex; flex-direction: column; }
-        #sidebar.open { left: 0; }
-        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 15px; right: 15px; cursor: pointer; z-index: 10; }
-        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
+        :root{--primary:#00f0ff;--bg:#050b14;--card:rgba(10,15,30,0.7);--border:rgba(0,240,255,0.15);--text:#ffffff;--sub:#94a3b8;--warn:#ffae00;}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;padding-bottom:50px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+        body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
+        #particles-js{position:fixed;width:100%;height:100%;z-index:-1;top:0;left:0;}
+        .container{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
+        .liquid-glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.15);border-radius:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
+        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px;}
+        .icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;transition:0.3s;}
+        #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:5000;transition:0.4s;padding:30px 20px;border-right:1px solid var(--primary);display:flex;flex-direction:column;}
+        #sidebar.open{left:0;}
+        .close-menu{background:none;border:none;color:white;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;z-index:10;}
+        .menu-item{padding:18px;font-size:1.1rem;font-weight:bold;color:white;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
+        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--primary);margin:auto;display:block;background:#000;cursor:pointer;box-shadow:0 0 30px rgba(0,240,255,0.4);}
         
-        #quick-admin-bar { display: none; background: rgba(0,0,0,0.8); border: 1px solid var(--warn); padding: 10px; border-radius: 12px; margin-bottom: 15px; text-align: center; justify-content:space-between; align-items:center; }
-        .maintenance-band { padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; transition: 0.3s; }
+        #quick-admin-bar{display:none;background:rgba(0,0,0,0.8);border:1px solid var(--warn);padding:10px;border-radius:12px;margin-bottom:15px;text-align:center;justify-content:space-between;align-items:center;}
+        .maintenance-band{padding:25px;border-radius:15px;text-align:center;margin-bottom:20px;display:none;transition:0.3s;}
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .nav-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15); }
-        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+        .nav-card{padding:20px;text-align:center;cursor:pointer;border:1px solid var(--border);border-radius:15px;background:var(--card);transition:0.3s;}
+        .nav-card img{width:55px;height:55px;object-fit:contain;margin:0 auto 10px auto;display:block;}
+        .folder-header{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.01));border:1px solid var(--border);border-left:4px solid var(--primary);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;margin-bottom:8px;}
+        .folder-content{display:none;padding-left:15px;border-left:2px dashed rgba(255,255,255,0.15);margin-left:10px;margin-bottom:25px;}
+        .ungroup-zone{border:2px dashed var(--sub);padding:20px;text-align:center;color:var(--sub);border-radius:12px;margin-bottom:15px;font-weight:bold;display:none;}
+        .item-row{padding:15px;margin-bottom:12px;display:flex;flex-direction:column;background:rgba(0,0,0,0.5);border-radius:12px;border:1px solid rgba(255,255,255,0.05);transition:0.2s;}
+        .item-row.dragging{opacity:0.4; border:2px dashed var(--primary); transform:scale(0.98);}
+        .add-cart-btn{background:var(--primary);color:#000;border:none;padding:14px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:10px;text-transform:uppercase;width:100%;letter-spacing:1px;}
+        .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;}
+        .fab-cart{position:fixed;bottom:30px;right:30px;background:var(--primary);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
         
-        .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
-        .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
-        .chevron { transition: 0.3s transform ease; color: var(--primary); font-size: 0.8rem; }
-        .folder-open .chevron { transform: rotate(180deg); }
-        
-        .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; font-weight: bold; display: none; }
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: grab; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
-        
-        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; width: 100%; letter-spacing: 1px; }
-        .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
-        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
-        
-        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; transition: 0.3s; }
-        
-        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:9000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 15px; }
-        .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 90vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; position: relative; }
-        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; font-family:inherit; }
-        
-        .auth-flow-section { display: none; } .auth-flow-section.active { display: block; animation: fadeIn 0.3s; }
-        .admin-section { background:rgba(0,0,0,0.4); border-radius:15px; padding:15px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.05); text-align:left; }
-        .admin-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .emoji-db-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; max-height: 220px; overflow-y: auto; margin-bottom: 15px; }
-        .emoji-slot { font-size: 1.5rem; text-align: center; cursor: pointer; padding: 5px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
-        .emoji-slot.active { border-color: var(--warn); background: rgba(255, 174, 0, 0.2); }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 10px; }
-        .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; text-align:center; }
-        .c-btn.active { background: rgba(0,240,255,0.15); border-color: var(--primary); color: var(--primary); }
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 99999; font-weight: bold; transition: bottom 0.4s ease; display: flex; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .toast.show { bottom: 30px; }
-        .pwd-eye { position:absolute; right:15px; top:20px; cursor:pointer; font-size:1.2rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:9000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
+        .modal-content{padding:25px;width:100%;max-width:550px;text-align:center;max-height:90vh;overflow-y:auto;background:var(--bg);border:1px solid var(--primary);border-radius:20px;position:relative;}
+        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,0.5);color:var(--text);box-sizing:border-box;font-size:1rem;font-family:inherit;}
+        .auth-flow-section{display:none;} .auth-flow-section.active{display:block;}
+        .admin-section{background:rgba(0,0,0,0.4);border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,255,255,0.05);text-align:left;}
+        .emoji-db-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;background:rgba(0,0,0,0.4);padding:15px;border-radius:12px;max-height:220px;overflow-y:auto;margin-bottom:15px;}
+        .emoji-slot{font-size:1.5rem;text-align:center;cursor:pointer;padding:5px;border-radius:8px;border:1px solid transparent;}
+        .emoji-slot.active{border-color:var(--warn);background:rgba(255,174,0,0.2);}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;}
+        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:white;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer;text-align:center;}
+        .c-btn.active{background:rgba(0,240,255,0.15);border-color:var(--primary);color:var(--primary);}
+        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);border:1px solid var(--primary);background:var(--bg);color:var(--text);padding:15px 25px;border-radius:30px;font-size:1rem;z-index:99999;font-weight:bold;transition:bottom 0.4s ease;}
+        .toast.show{bottom:30px;}
+        .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
+        .footer-credit{text-align:center;margin-top:40px;color:var(--sub);font-size:0.9rem;font-weight:bold;letter-spacing:1px;}
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast"><span id="toast-msg">Message</span></div>
 
 <div id="sidebar" class="liquid-glass">
     <button class="close-menu" onclick="toggleSidebar()">✖</button>
@@ -96,9 +83,9 @@
     <div id="quick-admin-bar" class="liquid-glass">
         <span style="color:var(--warn); font-weight:bold; font-size:0.9rem;">Admin Commands:</span>
         <div style="display:flex; gap:5px;">
-            <button onclick="setLiveMaintenance('UNTIL')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer;">Close</button>
-            <button onclick="setLiveMaintenance('OFF')" style="background:#00ff88; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer;">Open</button>
-            <button onclick="triggerBroadcast()" style="background:#8b5cf6; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer;">📢 Msg</button>
+            <button onclick="setLiveMaintenance('UNTIL')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer;">Close</button>
+            <button onclick="setLiveMaintenance('OFF')" style="background:#00ff88; color:black; border:none; padding:5px; border-radius:5px; cursor:pointer;">Open</button>
+            <button onclick="triggerBroadcast()" style="background:#8b5cf6; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer;">📢 Msg</button>
         </div>
     </div>
 
@@ -112,7 +99,7 @@
 
     <div id="shop-wrapper">
         <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;">
-        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Data... ⏳</div></div>
+        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Initializing API... ⏳</div></div>
         
         <div id="home-contact-section" style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px dashed var(--primary);">
             <h3 style="color:white; margin-top:0; margin-bottom:15px;">📞 Need Help? Contact Us</h3>
@@ -121,8 +108,7 @@
                 <button onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Instagram</button>
             </div>
         </div>
-        
-        <div id="footer-credit" style="text-align: center; margin-top: 30px; color: var(--sub); font-size: 0.95rem; font-weight: bold; letter-spacing: 1px;">Made by Yessine ❤️</div>
+        <div class="footer-credit">Made by Yessine ❤️</div>
     </div>
 </div>
 
@@ -183,6 +169,7 @@
     <div style="background:rgba(255, 174, 0, 0.05); border:1px solid var(--warn); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--warn); color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">⚡</div><div><b id="ui-pol-l-title" style="color:var(--warn);">Delivery Time</b><span id="ui-pol-l-desc" style="color:white; font-weight:bold; font-size:0.75rem; display:block;">Immediate up to 48 hours.</span></div></div>
     <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Full after-sales service is guaranteed.</span></div></div>
     <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d;">Refunds</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem; display:block;">No refunds after delivery.</span></div></div>
+    <div id="ui-pol-contact" style="display:none; margin-top:15px;"><b style="color:white; font-size:0.9rem;">Contact Support</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn" onclick="window.open('https://wa.me/21629895846', '_blank')" style="background:#25D366; border:none;">WhatsApp</div><div class="c-btn" onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; border:none;">Instagram</div><div class="c-btn" onclick="window.location.href='mailto:cyber.hub.contact.now@gmail.com'" style="background:#ff4d4d; border:none;">Email</div></div></div>
     <button type="button" class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I ACCEPT</button>
 </div></div>
 
@@ -203,13 +190,6 @@
 
 <div id="profile-modal" class="modal"><div class="modal-content liquid-glass">
     <h3 style="color:var(--primary); margin-bottom:5px;">👤 My Profile</h3>
-    <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px solid var(--border); margin-bottom:15px; text-align:left;">
-        <p style="margin:0 0 10px 0; color:var(--sub); font-size:0.8rem;">Primary Contact / ID:</p>
-        <input type="text" id="prof-primary" style="margin-top:0;">
-        <p style="margin:10px 0 10px 0; color:var(--sub); font-size:0.8rem;">Secondary Contact (Optional):</p>
-        <input type="text" id="prof-secondary" style="margin-top:0;">
-        <button type="button" class="add-cart-btn" onclick="updateProfileData()" style="margin-bottom:0;">💾 Save Changes</button>
-    </div>
     <button type="button" class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:10px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
     <button type="button" class="add-cart-btn" onclick="setupNewPasskey(false)" style="margin-bottom:15px; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Add / Reset Passkey</button>
     <button type="button" onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
@@ -256,24 +236,18 @@
 <div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button type="button" onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <script>
-    // 🔥 UPDATE THESE URLS TO YOUR NEW UNIFIED SPREADSHEET TABS
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv"; 
-    const ORDERS_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_ORDERS_GID"; 
-    const LOYALTY_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_LOYALTY_GID"; 
-    const PROMO_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_PROMO_GID"; 
-    const USERS_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_USERS_GID"; 
-
+    // 🔥 1. REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT DEPLOYMENT URL
+    const SCRIPT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv"; 
+    
+    // 🛡️ NO MORE CSV LINKS FOR SENSITIVE DATA. THE BACKEND API HANDLES IT SECURELY NOW.
+    
     const ADMIN_PHONE = "21629895846"; 
-    let productsData = { categories: {} }; let cart = []; let lastDataString = ""; 
+    let productsData = { categories: {} }; let cart = []; 
     let currentUser = localStorage.getItem('cyberhub_user') || null; 
     let currentUserRole = localStorage.getItem('cyberhub_role') || "User"; 
     let currentUserOrderCount = parseInt(localStorage.getItem('cyberhub_orders')) || 0;
-    let currentPrimary = localStorage.getItem('cyberhub_primary') || currentUser;
-    let currentSecondary = localStorage.getItem('cyberhub_secondary') || "";
     let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; let adminChart1 = null, adminChart2 = null; 
-    
     let loyaltySettings = {}; let promoSettings = {}; let activePromoDiscount = 0; let activePromoCodeName = "";
     let selectedPaymentMethod = "D17"; let selectedContactMethod = "wa"; let regMethod = 'email'; let pendingAuthEmail = ""; let pendingAuthPass = ""; let isAuthReset = false;
 
@@ -284,11 +258,7 @@
 
     particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
     
-    // 🛡️ SAFE ENCODERS
-    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; }; 
-    const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
-    
-    // 🛡️ UI UTILITIES WITH NULL CHECKS
+    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; }; const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
     function openModal(id) { let el=document.getElementById(id); if(el) { el.style.display='flex'; document.body.classList.add('modal-open'); } }
     function closeModal(id) { let el=document.getElementById(id); if(el) { el.style.display='none'; document.body.classList.remove('modal-open'); } }
     function showToast(msg, type = "info") { const t = document.getElementById('toast'); if(!t) return; document.getElementById('toast-msg').innerText = msg; t.className = 'toast show'; if(type==="error") t.style.borderColor="red"; if(type==="success") t.style.borderColor="#00ff88"; setTimeout(() => t.classList.remove('show'), 3500); }
@@ -302,32 +272,28 @@
         else { if(btn) btn.style.display='block'; if(cx) cx.style.display='none'; if(cnt) cnt.style.display='none'; }
         openModal('policy-modal');
     }
-    function acceptPolicy() { localStorage.setItem('cyberhub_v47_pol', 'true'); closeModal('policy-modal'); }
+    function acceptPolicy() { localStorage.setItem('cyberhub_v50_pol', 'true'); closeModal('policy-modal'); }
 
-    // --- DB & CACHE ---
-    function safeCsvParse(str) { let result = []; let current = ''; let inQuotes = false; for (let i = 0; i < str.length; i++) { if (str[i] === '"') { inQuotes = !inQuotes; } else if (str[i] === ',' && !inQuotes) { result.push(current.trim()); current = ''; } else { current += str[i]; } } result.push(current.trim()); return result; }
+    // --- 🚀 NEW V51 SECURE API DATA FETCHER ---
     function loadFromCache() { let cached = localStorage.getItem('cyberhub_db_cache'); if (cached) { try { productsData = JSON.parse(cached); forceReRender(); }catch(e){} } }
-    function forceSync() { let ca=document.getElementById('content-area'); if(ca) ca.innerHTML = `<div style="color:var(--primary); text-align:center;">Syncing... ⏳</div>`; fetchData(); fetchSideData(); }
-
-    async function fetchSideData() {
-        try {
-            const pRes = await fetch(PROMO_URL + "&cb=" + new Date().getTime()); const pText = await pRes.text();
-            pText.split('\n').slice(1).forEach(r => { let c = safeCsvParse(r); if(c[0]) promoSettings[String(c[0]).toUpperCase()] = parseFloat(c[1]); });
-            const lRes = await fetch(LOYALTY_URL + "&cb=" + new Date().getTime()); const lText = await lRes.text();
-            lText.split('\n').slice(1).forEach(r => { let c = safeCsvParse(r); if(c[0]) loyaltySettings[parseInt(c[0])] = parseFloat(c[1]); });
-            checkLoyalty();
-        } catch(e) {}
-    }
+    function forceSync() { let ca=document.getElementById('content-area'); if(ca) ca.innerHTML = `<div style="color:var(--primary); font-weight:bold; text-align:center;">Securely Syncing... ⏳</div>`; fetchData(); }
 
     async function fetchData() {
         try {
-            const res = await fetch(SHEET_URL + "&cb=" + new Date().getTime()); const text = await res.text();
-            if(text.trim().startsWith('<') || !text.includes(',')) return; 
-            const rows = text.split('\n').map(r => r.replace(/\r/g, '')).filter(r => r.trim() !== '');
-            let temp = {}; let maintState = safeCsvParse(rows[0]).length > 15 ? safeCsvParse(rows[0])[15] : "FALSE";
+            // Replaces the broken CSV entirely!
+            const res = await fetch(SCRIPT_URL + "?action=get_public_data");
+            const data = await res.json();
             
-            rows.slice(1).forEach(row => {
-                const cols = safeCsvParse(row);
+            if(data.status !== "success") throw new Error("API Failed");
+
+            // Process Promos & Loyalty
+            data.promo.slice(1).forEach(c => { if(c[0]) promoSettings[String(c[0]).toUpperCase()] = parseFloat(c[1]); });
+            data.loy.slice(1).forEach(c => { if(c[0]) loyaltySettings[parseInt(c[0])] = parseFloat(c[1]); });
+            checkLoyalty();
+
+            // Process Inventory
+            let temp = {}; let maintState = data.inv[0].length > 15 ? data.inv[0][15] : "FALSE";
+            data.inv.slice(1).forEach(cols => {
                 if (cols.length >= 5 && cols[0]) {
                     let catFr = String(cols[0]).trim(); let catEn = (cols.length > 6 && cols[6]) ? String(cols[6]).trim() : catFr;
                     let appFr = cols[2] ? String(cols[2]).trim() : "General"; let appEn = (cols.length > 7 && cols[7]) ? String(cols[7]).trim() : appFr; 
@@ -346,8 +312,11 @@
                 }
             });
             productsData.categories = temp; localStorage.setItem('cyberhub_db_cache', JSON.stringify(productsData));
-            if(isAdminAccess()) maintState = "FALSE"; handleMaintenanceUI(maintState); lastDataString = text; forceReRender(); 
-        } catch (e) {}
+            if(isAdminAccess()) maintState = "FALSE"; handleMaintenanceUI(maintState); forceReRender(); 
+        } catch (e) {
+            let ca=document.getElementById('content-area'); 
+            if(ca && Object.keys(productsData.categories).length === 0) ca.innerHTML = `<div style="color:#ff4d4d; font-weight:bold; text-align:center;">Database Connection Error. Please verify Script URL.</div>`;
+        }
     }
     setInterval(fetchData, 6000); 
 
@@ -363,7 +332,6 @@
         const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); 
         let stringData = String(maintData).toUpperCase().trim(); 
         if(!band || !timeEl) return;
-        
         if(stringData.startsWith("ANNOUNCE|||")) { 
             let parts = stringData.split("|||"); let c = parts[1]; let m = String(maintData).split("|||")[2];
             band.style.display = 'block'; 
@@ -375,7 +343,7 @@
         document.getElementById('ui-maint-title').innerHTML = "STORE CLOSED"; band.style.borderColor = 'var(--warn)'; band.style.color = 'var(--warn)'; band.style.background = 'rgba(255, 174, 0, 0.1)'; 
         if(stringData === "TRUE" || stringData === "UNTIL") { band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isSupportAccess() ? 'block' : 'none'; timeEl.style.display = 'none'; } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; } 
     }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } else if(mode.startsWith("ANNOUNCE")) { payload.value = mode; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 1500); } catch(e) {} }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL", adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } else if(mode.startsWith("ANNOUNCE")) { payload.value = mode; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 1500); } catch(e) {} }
 
     // --- SMART CART MATH ---
     function checkLoyalty() { 
@@ -390,13 +358,10 @@
         let rawTotal = cart.reduce((s, i) => s + i.price, 0); let loyPct = checkLoyalty(); 
         let pVal = rawTotal * (activePromoDiscount / 100); let lVal = rawTotal * (loyPct / 100);
         let sEl = document.getElementById('math-subtotal'); if(sEl) sEl.innerText = rawTotal.toFixed(2) + " DT";
-        
         let pr = document.getElementById('math-promo-row'), pp = document.getElementById('math-promo-pct'), pv = document.getElementById('math-promo-val');
         if(pr) { if(activePromoDiscount > 0) { pr.style.display = 'flex'; pp.innerText = activePromoDiscount; pv.innerText = "-" + pVal.toFixed(2) + " DT"; } else { pr.style.display = 'none'; } }
-        
         let lr = document.getElementById('math-loyalty-row'), l_p = document.getElementById('math-loyalty-pct'), lv = document.getElementById('math-loyalty-val');
         if(lr) { if(loyPct > 0) { lr.style.display = 'flex'; l_p.innerText = loyPct; lv.innerText = "-" + lVal.toFixed(2) + " DT"; } else { lr.style.display = 'none'; } }
-        
         let highestDiscount = Math.max(loyPct, activePromoDiscount); let finalTotal = rawTotal - (rawTotal * (highestDiscount / 100));
         let cTot = document.getElementById('cart-total-price'); if(cTot) cTot.innerText = finalTotal.toFixed(2) + " DT"; 
         let clist = document.getElementById('cart-items-list'); if(clist) clist.innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} (${i.price} DT)</div>`).join(''); 
@@ -413,7 +378,6 @@
         let name = document.getElementById('custName').value || "Unknown"; let contact = document.getElementById('social-handle').value || currentUser || "Guest"; 
         let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; let comments = document.getElementById('order-comments').value;
         let orderId = (currentUser === "yessinebenfraj106@gmail.com" ? "TEST-" : "CH-") + Math.floor(1000 + Math.random() * 9000); 
-        
         let highestDiscount = Math.max(checkLoyalty(), activePromoDiscount);
         cart.forEach(item => { item.finalPrice = item.price - (item.price * (highestDiscount / 100)); });
         let total = cart.reduce((s,i)=>s+item.finalPrice, 0).toFixed(2);
@@ -434,51 +398,69 @@
         } catch(err) { if(btn){ btn.innerText = "PLACE ORDER"; btn.disabled = false; } showToast("Network Error.", "error"); }
     }
 
-    // --- CLIENT & ADMIN ORDERS (DELETE / CANCEL) ---
-    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; rows.forEach(r => { let c = safeCsvParse(r); if(String(c[3]).trim().toLowerCase() === String(currentUser).trim().toLowerCase()) { let cnlBtn = c[9] === "Pending" ? `<button type="button" onclick="cancelOrder('${c[0]}')" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; width:100%; margin-top:5px; font-weight:bold; cursor:pointer;">Cancel Order</button>` : ""; html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[9]})<br>Item: ${c[4]}<br>Total: ${c[8]} DT${cnlBtn}</div>`; } }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
-    function cancelOrder(id) { if(confirm("Cancel this order?")) { showToast("Cancelling...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openUserOrders(), 1500); showToast("Cancelled", "success"); }); } }
+    // --- CLIENT & ADMIN ORDERS ---
+    async function openUserOrders() { 
+        closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; 
+        try { 
+            const res = await fetch(SCRIPT_URL + "?action=get_user_orders&user=" + safeEnc(currentUser)); const data = await res.json(); 
+            let html = ""; 
+            if(data.status === "success" && data.ord.length > 0) {
+                data.ord.forEach(c => { let cnlBtn = c[9] === "Pending" ? `<button type="button" onclick="cancelOrder('${c[0]}')" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; width:100%; margin-top:5px; font-weight:bold; cursor:pointer;">Cancel Order</button>` : ""; html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[9]})<br>Item: ${c[4]}<br>Total: ${c[8]} DT${cnlBtn}</div>`; }); 
+            }
+            document.getElementById('user-orders-list').innerHTML = html || "No orders."; 
+        } catch(e){} 
+    }
+    function cancelOrder(id) { if(confirm("Cancel this order?")) { showToast("Cancelling...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"client_cancel_order", orderId:id, userEmail: currentUser}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openUserOrders(), 1500); showToast("Cancelled", "success"); }); } }
 
     async function openAdminOrders() { 
-        openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; 
+        openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading secure DB... ⏳</p>`; 
         try { 
-            const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let orders = []; 
-            for(let i = 1; i < rows.length; i++) { if(!rows[i].trim()) continue; const cols = safeCsvParse(rows[i]); if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], platform: cols[2], contact: cols[3], item: cols[4], price: cols[8], status: cols[9], creds: cols[12] }); } } 
+            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
+            if(data.status !== "success") throw new Error();
+            let orders = []; 
+            data.ord.slice(1).forEach(cols => { if(cols[0]) orders.push({ id: cols[0], client: cols[1], platform: cols[2], contact: cols[3], item: cols[4], price: cols[8], status: cols[9], creds: cols[12] }); });
             orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; 
             orders.forEach(o => { 
                 let dmLink = o.contact; let p = String(o.platform).toLowerCase(); let cRaw = String(o.contact).replace('@','');
-                if(p === 'ig') dmLink = `<a href="https://ig.me/m/${cRaw}" target="_blank" style="color:#E1306C; font-weight:bold;">@${cRaw} (DM)</a>`;
-                else if(p === 'wa') dmLink = `<a href="https://wa.me/${cRaw}" target="_blank" style="color:#25D366; font-weight:bold;">${cRaw} (WA)</a>`;
-                else if(p === 'fb') dmLink = `<a href="https://m.me/${cRaw}" target="_blank" style="color:#1877F2; font-weight:bold;">${cRaw} (FB)</a>`;
+                if(p === 'ig') dmLink = `<a href="https://ig.me/m/${cRaw}" target="_blank" style="color:#E1306C; font-weight:bold;">@${cRaw} (DM)</a>`; else if(p === 'wa') dmLink = `<a href="https://wa.me/${cRaw}" target="_blank" style="color:#25D366; font-weight:bold;">${cRaw} (WA)</a>`; else if(p === 'fb') dmLink = `<a href="https://m.me/${cRaw}" target="_blank" style="color:#1877F2; font-weight:bold;">${cRaw} (FB)</a>`;
                 let selectStatus = `<select id="status-${o.id}-${safeEnc(o.item)}" onchange="updateOrderStatus('${o.id}', '${safeEnc(o.item)}')"><option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option></select>`;
                 let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}-${safeEnc(o.item)}" placeholder="Enter Account/Key..." style="font-size:0.8rem; padding:10px; margin-top:5px;"><button type="button" onclick="updateOrderStatus('${o.id}', '${safeEnc(o.item)}', true)" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; 
                 let delBtn = isAdminAccess() ? `<button type="button" onclick="adminDeleteOrder('${o.id}')" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>` : "";
                 html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; align-items:center;"><b style="color:var(--primary);">${o.id}</b> <div style="display:flex; gap:5px;">${selectStatus}${delBtn}</div></div><b>User:</b> ${o.client} <br><b>Contact:</b> ${dmLink}<br><b>Item:</b> <span style="color:#ffae00;">${o.item}</span><br><b>Paid:</b> ${o.price} DT${deliverBox}</div>`; 
-            }); 
-            document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; 
-        } catch(e) {} 
+            }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; 
+        } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Access Denied."; } 
     }
-    function updateOrderStatus(orderId, encodedItemName, saveCreds = false) { let itemName = safeDec(encodedItemName); let status = saveCreds ? 'Delivered' : document.getElementById(`status-${orderId}-${encodedItemName}`).value; let creds = saveCreds ? document.getElementById(`cred-${orderId}-${encodedItemName}`).value : ""; if(saveCreds && !creds) return showToast("Enter credentials first!", "error"); showToast("Updating...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_order_status", orderId: orderId, itemName: itemName, status: status, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Updated!", "success"); }, 1500); }); }
-    function adminDeleteOrder(id) { if(confirm("Permanently delete this order?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openAdminOrders(), 1500); showToast("Deleted", "success"); }); } }
+    function updateOrderStatus(orderId, encodedItemName, saveCreds = false) { let itemName = safeDec(encodedItemName); let status = saveCreds ? 'Delivered' : document.getElementById(`status-${orderId}-${encodedItemName}`).value; let creds = saveCreds ? document.getElementById(`cred-${orderId}-${encodedItemName}`).value : ""; if(saveCreds && !creds) return showToast("Enter credentials first!", "error"); showToast("Updating...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_order_status", orderId: orderId, itemName: itemName, status: status, credentials: creds, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Updated!", "success"); }, 1500); }); }
+    function adminDeleteOrder(id) { if(confirm("Permanently delete this order?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openAdminOrders(), 1500); showToast("Deleted", "success"); }); } }
 
     // --- CRM ADMIN ---
-    async function openAdminUsers() { if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading CRM...`; try { const res = await fetch(USERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols[0]) { let sel = `<select onchange="updateUserRole('${cols[0]}', this.value)" style="margin:5px 0; font-size:0.8rem; padding:8px;"><option value="User" ${cols[3]==='User'?'selected':''}>User</option><option value="Support" ${cols[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${cols[3]==='Admin'?'selected':''}>Admin</option></select>`; html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br>${sel}<div style="display:flex; gap:5px;"><button type="button" onclick="banUserUI('${cols[0]}')" style="background:#ffae00; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Ban</button><button type="button" onclick="deleteUserUI('${cols[0]}')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Delete</button></div></div>`; } } document.getElementById('admin-users-list').innerHTML = html; } catch(e){} }
-    function updateUserRole(contact, role) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'update_user_role', target: contact, role: role}), mode: 'no-cors'}).then(() => showToast("Role Updated!", "success")); }
-    function banUserUI(contact) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'ban_user', target: contact}), mode: 'no-cors'}).then(() => { showToast("User Banned!", "success"); openAdminUsers(); }); }
-    function deleteUserUI(contact) { if(confirm("Delete this user permanently?")) fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'delete_user', target: contact}), mode: 'no-cors'}).then(() => { showToast("User Deleted!", "success"); openAdminUsers(); }); }
+    async function openAdminUsers() { 
+        if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading CRM...`; 
+        try { 
+            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
+            if(data.status !== "success") throw new Error(); let html = ""; 
+            data.usr.slice(1).forEach(cols => { if(cols[0]) { let sel = `<select onchange="updateUserRole('${cols[0]}', this.value)" style="margin:5px 0; font-size:0.8rem; padding:8px;"><option value="User" ${cols[3]==='User'?'selected':''}>User</option><option value="Support" ${cols[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${cols[3]==='Admin'?'selected':''}>Admin</option></select>`; html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br>${sel}<div style="display:flex; gap:5px;"><button type="button" onclick="banUserUI('${cols[0]}')" style="background:#ffae00; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Ban</button><button type="button" onclick="deleteUserUI('${cols[0]}')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Delete</button></div></div>`; } }); 
+            document.getElementById('admin-users-list').innerHTML = html; 
+        } catch(e){ document.getElementById('admin-users-list').innerHTML = "Access Denied."; } 
+    }
+    function updateUserRole(contact, role) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'update_user_role', target: contact, role: role, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => showToast("Role Updated!", "success")); }
+    function banUserUI(contact) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'ban_user', target: contact, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => { showToast("User Banned!", "success"); openAdminUsers(); }); }
+    function deleteUserUI(contact) { if(confirm("Delete this user permanently?")) fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'delete_user', target: contact, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => { showToast("User Deleted!", "success"); openAdminUsers(); }); }
 
     // --- MARKETING ADMIN ---
     function openMarketingManager() { if(!isAdminAccess()) return; openModal('marketing-modal'); renderPromos(); renderLoyalty(); }
     function renderPromos() { let html = ""; for(let code in promoSettings) { html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${code} (${promoSettings[code]}%)</span><button type="button" onclick="deletePromoUI('${code}')" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">✖</button></div>`; } document.getElementById('promo-list').innerHTML = html || "No promos active."; }
     function renderLoyalty() { let html = ""; for(let i=1; i<=20; i++) { html += `<div style="display:flex; align-items:center; gap:5px;"><span>Order #${i}:</span><input type="number" id="loyalty-val-${i}" value="${loyaltySettings[i]||0}" style="width:60px; margin:0; padding:5px;"><button type="button" onclick="updateLoyaltyUI(${i})" style="background:var(--primary); border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Save</button></div>`; } document.getElementById('loyalty-list').innerHTML = html; }
-    function addPromoUI() { let c = document.getElementById('new-promo-code').value.trim().toUpperCase(); let p = document.getElementById('new-promo-pct').value; if(!c||!p)return; promoSettings[c] = parseFloat(p); renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'add_promo', code:c, discount:p}), mode:'no-cors'}).then(()=>showToast("Promo Added", "success")); }
-    function deletePromoUI(code) { delete promoSettings[code]; renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'delete_promo', code:code}), mode:'no-cors'}).then(()=>showToast("Promo Deleted", "success")); }
-    function updateLoyaltyUI(num) { let val = document.getElementById(`loyalty-val-${num}`).value; loyaltySettings[num] = parseFloat(val); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'update_loyalty', orderNum:num, discount:val}), mode:'no-cors'}).then(()=>showToast("Loyalty Updated", "success")); }
+    function addPromoUI() { let c = document.getElementById('new-promo-code').value.trim().toUpperCase(); let p = document.getElementById('new-promo-pct').value; if(!c||!p)return; promoSettings[c] = parseFloat(p); renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'add_promo', code:c, discount:p, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Promo Added", "success")); }
+    function deletePromoUI(code) { delete promoSettings[code]; renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'delete_promo', code:code, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Promo Deleted", "success")); }
+    function updateLoyaltyUI(num) { let val = document.getElementById(`loyalty-val-${num}`).value; loyaltySettings[num] = parseFloat(val); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'update_loyalty', orderNum:num, discount:val, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Loyalty Updated", "success")); }
 
     // --- ADMIN FINANCE CHARTS ---
     async function drawAdminChart() { 
         try { 
-            const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; let itemRevs = {};
-            for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols.length > 3) { let itemRaw = String(cols[4]); let itemLower = itemRaw.toLowerCase(); if(itemLower.includes("netflix") || itemLower.includes("spotify")) dataCounts["Streaming"]++; else if(itemLower.includes("valorant") || itemLower.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[9] && cols[9].trim() === "Delivered") { let d = new Date(cols[10]).toLocaleDateString(undefined, {weekday: 'short', day: 'numeric'}); let p = parseFloat(cols[8].replace(/[^0-9.]/g, '')); if (!isNaN(p)) { revByDay[d] = (revByDay[d] || 0) + p; itemRevs[itemRaw] = (itemRevs[itemRaw] || 0) + p; } } } } 
+            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
+            if(data.status !== "success") return; let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; let itemRevs = {};
+            data.ord.slice(1).forEach(cols => { if(cols.length > 3) { let itemRaw = String(cols[4]); let itemLower = itemRaw.toLowerCase(); if(itemLower.includes("netflix") || itemLower.includes("spotify")) dataCounts["Streaming"]++; else if(itemLower.includes("valorant") || itemLower.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[9] && cols[9].trim() === "Delivered") { let d = new Date(cols[10]).toLocaleDateString(undefined, {weekday: 'short', day: 'numeric'}); let p = parseFloat(cols[8].replace(/[^0-9.]/g, '')); if (!isNaN(p)) { revByDay[d] = (revByDay[d] || 0) + p; itemRevs[itemRaw] = (itemRevs[itemRaw] || 0) + p; } } } }); 
             let tableHTML = `<table style="width:100%; text-align:left; border-collapse:collapse;">`; for (let k in itemRevs) { tableHTML += `<tr><td style="border-bottom:1px solid #333; padding:4px;">${k}</td><td style="border-bottom:1px solid #333; padding:4px; color:#00ff88; font-weight:bold;">${itemRevs[k].toFixed(2)} DT</td></tr>`; } tableHTML += `</table>`; document.getElementById('finance-table').innerHTML = tableHTML;
             if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], hoverOffset: 4 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); 
             if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', hoverBackgroundColor: '#ffffff', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); 
@@ -486,16 +468,8 @@
     }
 
     // --- OTHER CORE (Drag Drop, Folders, Config) ---
-    const T_LANG = { 
-        en: { add: "ADD TO CART", oos: "OUT OF STOCK", back: "← Back", search: "Search Store..." }, 
-        fr: { add: "AJOUTER", oos: "RUPTURE", back: "← Retour", search: "Rechercher..." } 
-    };
-
-    function applyLang() { 
-        const d = T_LANG[currentLang]; let li=document.getElementById('lang-ind'); if(li) li.innerText = currentLang.toUpperCase();
-        let ms=document.getElementById('mainSearch'); if(ms) ms.placeholder = d.search;
-        if(Object.keys(productsData.categories).length > 0) forceReRender(); 
-    }
+    const T_LANG = { en: { add: "ADD TO CART", oos: "OUT OF STOCK", back: "← Back", search: "Search Store..." }, fr: { add: "AJOUTER", oos: "RUPTURE", back: "← Retour", search: "Rechercher..." } };
+    function applyLang() { const d = T_LANG[currentLang]; let li=document.getElementById('lang-ind'); if(li) li.innerText = currentLang.toUpperCase(); let ms=document.getElementById('mainSearch'); if(ms) ms.placeholder = d.search; if(Object.keys(productsData.categories).length > 0) forceReRender(); }
     function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
 
     function navTo(type, safeCat = null, safeApp = null) { try { currentView = { type: type, cat: safeCat ? safeDec(safeCat) : null, app: safeApp ? safeDec(safeApp) : null }; forceReRender(); } catch(e) { currentView = { type: 'cats', cat: null, app: null }; forceReRender(); } }
@@ -513,22 +487,22 @@
     function initEmojiGrid() { const grid = document.getElementById('icon-db'); if(!grid) return; grid.innerHTML = FOLDER_EMOJIS.map(e => `<div class="emoji-slot ${e==='📁'?'active':''}" onclick="selEmoji(this, '${e}')">${e}</div>`).join(''); }
     function selEmoji(el, icon) { document.querySelectorAll('.emoji-slot').forEach(n => n.classList.remove('active')); el.classList.add('active'); selectedFolderEmoji = icon; }
     function openFolderEdit(safeCat, safeApp, safeGrp) { currentEditingGroupCtx = { cat: safeDec(safeCat), app: safeDec(safeApp), grp: safeDec(safeGrp) }; let cleanName = currentEditingGroupCtx.grp; if(FOLDER_EMOJIS.some(e => cleanName.startsWith(e))) { let parts = cleanName.split(" "); let icon = parts.shift(); document.getElementById('edit-folder-name').value = parts.join(" "); selEmoji(document.querySelector('.emoji-slot.active') || document.querySelector('.emoji-slot'), icon); } else { document.getElementById('edit-folder-name').value = cleanName; } initEmojiGrid(); openModal('edit-folder-modal'); }
-    async function executeFolderRename() { let newName = document.getElementById('edit-folder-name').value.trim(); if(!newName) return; let fullNewGroup = (selectedFolderEmoji + " " + newName).trim(); if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal'); let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true; let itemsToUpdate = []; const catData = productsData.categories[currentEditingGroupCtx.cat]; if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) { catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); }); } for(let oldName of itemsToUpdate) { let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup; await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName }), mode: 'no-cors' }); } closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false; forceSync(); showToast("Folder Updated!", "success"); }
+    async function executeFolderRename() { let newName = document.getElementById('edit-folder-name').value.trim(); if(!newName) return; let fullNewGroup = (selectedFolderEmoji + " " + newName).trim(); if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal'); let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true; let itemsToUpdate = []; const catData = productsData.categories[currentEditingGroupCtx.cat]; if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) { catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); }); } for(let oldName of itemsToUpdate) { let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup; await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }); } closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false; forceSync(); showToast("Folder Updated!", "success"); }
     function handleDragStart(e, rawName) { draggedItemRawName = safeDec(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
     function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
     function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
     function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => forceSync()); } draggedItemRawName = null; }
+    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); } draggedItemRawName = null; }
 
     function showEditItemModal(origNameRaw) { let it = null; let origName = safeDec(origNameRaw); Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i}; }); Object.values(a.groups).forEach(g => { g.items.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i, g: g.name}; }); }); });}); if(!it) return showToast("Item not found.", "error"); document.getElementById('edit-orig-name').value = origName; document.getElementById('edit-cat-sel').value = it.c.name; document.getElementById('edit-app-fr').value = it.a.name; document.getElementById('edit-app-en').value = it.a.name; document.getElementById('edit-item-name-fr').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-name-en').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-price').value = it.i.price; openModal('edit-item-modal'); }
-    async function submitItemEdit() { let oldName = document.getElementById('edit-orig-name').value; let cFr = document.getElementById('edit-cat-sel').value; let aFr = document.getElementById('edit-app-fr').value; let aEn = document.getElementById('edit-app-en').value || aFr; let nFr = document.getElementById('edit-item-name-fr').value; let nEn = document.getElementById('edit-item-name-en').value || nFr; let p = document.getElementById('edit-item-price').value; if(oldName.includes("||GRP||")) { let grp = "||GRP||" + oldName.split("||GRP||")[1]; nFr += grp; nEn += grp; } closeModal('edit-item-modal'); showToast("Saving...", "info"); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "edit_item_full", oldName: oldName, catFr: cFr, appFr: aFr, nameFr: nFr, price: p, catEn: cFr, appEn: aEn, nameEn: nEn }), mode: 'no-cors' }); forceSync(); showToast("Updated!", "success"); } catch(e) {} }
-    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let appFr = document.getElementById('add-app-fr').value; let appEn = document.getElementById('add-app-en').value || appFr; let nameFr = document.getElementById('add-item-name-fr').value; let nameEn = document.getElementById('add-item-name-en').value || nameFr; let price = document.getElementById('add-item-price').value; let finalNameFr = nameFr; let finalNameEn = nameEn; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) { finalNameFr += "||GRP||" + group; finalNameEn += "||GRP||" + group; } } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", catFr: cat, appFr: appFr, nameFr: finalNameFr, price: price, catEn: cat, appEn: appEn, nameEn: finalNameEn }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Saved!", "success"); }); }
-    function updateItem(encodedName, price, isOOS) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: safeDec(encodedName), newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => forceSync()); }
-    function deleteItem(encodedName) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: safeDec(encodedName) }), mode: 'no-cors' }).then(() => forceSync()); } }
+    async function submitItemEdit() { let oldName = document.getElementById('edit-orig-name').value; let cFr = document.getElementById('edit-cat-sel').value; let aFr = document.getElementById('edit-app-fr').value; let aEn = document.getElementById('edit-app-en').value || aFr; let nFr = document.getElementById('edit-item-name-fr').value; let nEn = document.getElementById('edit-item-name-en').value || nFr; let p = document.getElementById('edit-item-price').value; if(oldName.includes("||GRP||")) { let grp = "||GRP||" + oldName.split("||GRP||")[1]; nFr += grp; nEn += grp; } closeModal('edit-item-modal'); showToast("Saving...", "info"); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "edit_item_full", oldName: oldName, catFr: cFr, appFr: aFr, nameFr: nFr, price: p, catEn: cFr, appEn: aEn, nameEn: nEn, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }); forceSync(); showToast("Updated!", "success"); } catch(e) {} }
+    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let appFr = document.getElementById('add-app-fr').value; let appEn = document.getElementById('add-app-en').value || appFr; let nameFr = document.getElementById('add-item-name-fr').value; let nameEn = document.getElementById('add-item-name-en').value || nameFr; let price = document.getElementById('add-item-price').value; let finalNameFr = nameFr; let finalNameEn = nameEn; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) { finalNameFr += "||GRP||" + group; finalNameEn += "||GRP||" + group; } } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", catFr: cat, appFr: appFr, nameFr: finalNameFr, price: price, catEn: cat, appEn: appEn, nameEn: finalNameEn, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Saved!", "success"); }); }
+    function updateItem(encodedName, price, isOOS) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: safeDec(encodedName), newPrice: price, isOOS: isOOS, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); }
+    function deleteItem(encodedName) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: safeDec(encodedName), adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); } }
 
     window.onload = () => {
-        if (!localStorage.getItem('cyberhub_v47_pol')) { openPolicyModal(false); }
-        loadFromCache(); fetchData(); fetchSideData(); toggleAdminUI(); applyLang();
+        if (!localStorage.getItem('cyberhub_v50_pol')) { openPolicyModal(false); }
+        loadFromCache(); fetchData(); toggleAdminUI(); applyLang();
     };
 </script>
 </body>
