@@ -17,12 +17,17 @@
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:bold;}
         .logo{width:100px;height:100px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 20px rgba(0,240,255,0.3);}
         
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-        .n-card{background:var(--c);border:1px solid var(--b);padding:15px;border-radius:15px;text-align:center;cursor:pointer;}
-        .n-card img{width:50px;height:50px;margin-bottom:8px;object-fit:contain;}
+        /* RESTORED V47 CATEGORY FRAMES */
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+        .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+        .n-card:active{transform:scale(0.96);}
+        .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
+        
         .f-head{background:rgba(0,240,255,0.1);border-left:4px solid var(--p);padding:15px;border-radius:10px;margin-bottom:8px;font-weight:bold;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);padding:15px;border-radius:12px;margin-bottom:10px;}
         .btn{background:var(--p);color:#000;border:none;padding:12px;border-radius:10px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;}
+        
+        /* MODALS & INPUTS */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(10px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:20px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
         input,select,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--b);background:rgba(0,0,0,0.6);color:#fff;box-sizing:border-box;font-family:inherit;}
@@ -43,7 +48,6 @@
         .fab-cart{position:fixed;bottom:20px;right:20px;background:var(--p);color:#000;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 5px 15px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
         .fab-supp{position:fixed;bottom:90px;right:20px;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 5px 15px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
         
-        /* SPINNER */
         .wheel-cnt{position:relative;width:220px;height:220px;margin:20px auto;border-radius:50%;border:6px solid var(--p);overflow:hidden;box-shadow:0 0 30px rgba(0,240,255,0.3);}
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #ff4d4d;z-index:10;filter:drop-shadow(0 2px 5px #000);}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);}
@@ -92,7 +96,8 @@
     </div>
 
     <input type="text" id="srch" class="glass" placeholder="Search Store..." oninput="ren()" style="width:100%;margin-bottom:20px;">
-    <div id="st-cnt"><div style="text-align:center;color:var(--p);font-weight:bold;padding:40px;">Syncing Secure Engine... ⏳</div></div>
+    
+    <div id="st-cnt"></div>
 
     <div class="glass" style="text-align:center;margin-top:40px;border-style:dashed;border-color:var(--p);">
         <h3 style="margin-top:0;" class="t-hlp">📞 Need Help? Contact Us</h3>
@@ -246,6 +251,7 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:10px;border-radius:10px;border:1px solid var(--b);margin-bottom:10px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:10px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
+    // 🔥 SCRIPT URL ALREADY CONNECTED
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
     
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
@@ -270,15 +276,29 @@
 
     function chkUI(){if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block';} let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}}
 
+    // 🔥 INSTANT LOADING CACHE ENGINE
     async function syncData(){
-        el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">Securely Syncing... ⏳</div>`;
+        let cached = localStorage.getItem('ch_db_cache');
+        if(cached){
+            try {
+                let d = JSON.parse(cached);
+                db.inv=d.inv; db.promo=d.promo||{}; db.loy=d.loy||{}; db.whl=d.whl||[];
+                appLang(); chkUI(); renderMkt(); buildW(); ren();
+            } catch(e){}
+        } else {
+            el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">Loading Store... ⏳</div>`;
+        }
+        
+        // Background Fetch
         try{ 
             let r=await fetch(SURL+"?action=get_public_data"); let d=await r.json(); if(d.status!=="success") throw "E"; 
+            let cObj = {inv: d.inv, promo: {}, loy: {}, whl: d.whl};
             db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl;
-            d.promo.slice(1).forEach(x=>{if(x[0]) db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]);}); 
-            d.loy.slice(1).forEach(x=>{if(x[0]) db.loy[parseInt(x[0])]=parseFloat(x[1]);}); 
+            d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); cObj.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); 
+            d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); cObj.loy[parseInt(x[0])]=parseFloat(x[1]); }}); 
+            localStorage.setItem('ch_db_cache', JSON.stringify(cObj));
             hMaint(d.inv[0][15]||"FALSE"); appLang(); chkUI(); renderMkt(); buildW(); ren(); 
-        }catch(e){el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`;}
+        }catch(e){ if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
     }
 
     function ren(){
@@ -311,20 +331,20 @@
     async function verC(){let c=gOTP(); if(c.length<6)return toast("Enter 6 digits",true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast("Email Changed",false); closeModal('prof-mod');} else toast("Bad Code",true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast("Verified!",false);chkUI();} else toast("Bad Code",true);}
     function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast("Saved",false);}
 
-    // Admin & Maint
+    // Admin
     function trgMsg(){let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);}
     function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-time'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML=""; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v);}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("Exec...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast("Success",false); if(!nS)syncData();} else toast("Error",true);}catch(e){toast("Err",true);}}
-    
-    // Data & Orders
+
     async function fAdm(t){el('d-tit').innerText=t==="orders"?"📦 Orders":"👥 CRM"; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json(); if(d.status!=="success")throw "Err"; db.ord=d.ord; let h=""; if(t==="orders"){let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('Need creds',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});} else {d.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});} el('d-box').innerHTML=h||"Empty.";}catch(e){el('d-box').innerHTML="Err.";}}
     async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">Cancel</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
     function opMnl(){openModal('mnl-ord-mod');} function addMnl(){pAPI('admin_order',{oid:"MNL-"+Math.floor(1e4+Math.random()*9e4),client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
-    
-    // Cart
+
     function renderMkt(){let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('del_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;margin:0;" onclick="pAPI('upd_loy',{num:${i},v:el('lv-${i}').value})">Save</button></div>`; el('l-list').innerHTML=l;}
     function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,pct:p});}
+
+    // Cart
     function chkLoy(){return db.loy[uOrders+1]||0;}
     function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast("Applied!",false);updC();} else {pPct=0;pCode="";toast("Invalid",true);updC();}}
     function opnCart(){updC(); openModal('cart-mod');}
@@ -333,7 +353,6 @@
     function sPay(m){payM=m; el('p-d17').classList.remove('act'); el('p-csh').classList.remove('act'); el(m==='D17'?'p-d17':'p-csh').classList.add('act'); el('d-box').style.display=m==='D17'?'block':'none';}
     function sCon(c){cM=c; ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); el('c-'+c).classList.add('act');}
     function opnCO(){if(cart.length===0) return toast("Empty",true); closeModal('cart-mod'); if(uIg)el('coC').value=uIg; else if(uWa)el('coC').value=uWa; else if(uFb)el('coC').value=uFb; openModal('co-mod');}
-    
     async function finOrd(){
         let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast("Name/Contact required",true);
         let oid=(user==="yessinebenfraj106@gmail.com"?"TEST-":"CH-")+Math.floor(1000+Math.random()*9000);
@@ -342,35 +361,23 @@
         try { await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",oid:oid,client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); let msg=`🛒 CyberHub\nID: ${oid}\nTotal: ${t} DT`; navigator.clipboard.writeText(msg).catch(e=>{}); setTimeout(()=>{if(cM==='wa') window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`); closeModal('co-mod'); cart=[]; el('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} toast("Success!",false); el('b-fin').innerText="PLACE ORDER"; el('b-fin').disabled=false;},1000); } catch(e){el('b-fin').innerText="PLACE ORDER"; el('b-fin').disabled=false; toast("Err",true);}
     }
 
-    // 🎁 DYNAMIC WHEEL (Anti-Spam 48h)
+    // 🎁 DYNAMIC WHEEL
     function buildW(){
-        if(!db.whl || db.whl.length < 2) return;
-        let cg=[], leg="", ang=360/(db.whl.length-1);
-        for(let i=1; i<db.whl.length; i++) { 
-            cg.push(`${db.whl[i][2]} ${(i-1)*ang}deg ${i*ang}deg`); 
-            leg+=`<div style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:12px;height:12px;background:${db.whl[i][2]};border-radius:50%;"></span>${db.whl[i][1]} ${db.whl[i][0]}</div>`;
-        }
+        if(!db.whl||db.whl.length<2)return; let cg=[], leg="", ang=360/(db.whl.length-1);
+        for(let i=1;i<db.whl.length;i++){ cg.push(`${db.whl[i][2]} ${(i-1)*ang}deg ${i*ang}deg`); leg+=`<div style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:12px;height:12px;background:${db.whl[i][2]};border-radius:50%;"></span>${db.whl[i][1]} ${db.whl[i][0]}</div>`; }
         el('wheel').style.background=`conic-gradient(${cg.join(',')})`; el('w-leg').innerHTML=leg;
     }
-
     async function spinW(){
-        if(Date.now() - (localStorage.getItem('ch_lst_spn')||0) < 172800000) return toast("Wait 48h to spin again!", true);
+        if(Date.now()-(localStorage.getItem('ch_l_spn')||0) < 172800000) return toast("Wait 48h to spin again!", true);
         el('b-spin').disabled=true; el('b-spin').innerText="Checking...";
         let ip="Unknown"; try{let r=await fetch('https://api.ipify.org?format=json'); let d=await r.json(); ip=d.ip;}catch(e){}
-        
-        let rnd = Math.random()*100, acc=0, tIdx=0;
-        for(let i=1; i<db.whl.length; i++){ acc+=parseFloat(db.whl[i][3]); if(rnd<=acc){tIdx=i-1; break;} }
-        let winPrize = db.whl[tIdx+1][0];
-
+        let rnd=Math.random()*100, acc=0, tIdx=0; for(let i=1;i<db.whl.length;i++){acc+=parseFloat(db.whl[i][3]); if(rnd<=acc){tIdx=i-1; break;}}
+        let wP = db.whl[tIdx+1][0];
         try {
-            let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:ip, did:dId, prize:winPrize})}); let d=await r.json();
-            if(d.s !== 'ok') { el('b-spin').disabled=false; el('b-spin').innerText="SPIN NOW"; return toast("Already spun in last 48h! (IP/Device Block)",true); }
-            
-            let slices = db.whl.length-1, ang = 360/slices;
-            let targetDeg = (360*5) + (360 - (tIdx*ang) - (ang/2)); 
-            el('wheel').style.transform = `rotate(${targetDeg}deg)`;
-            localStorage.setItem('ch_lst_spn', Date.now());
-            setTimeout(()=>{toast(`You won: ${winPrize}! Take a screenshot.`, false); el('b-spin').innerText="SPIN NOW"; el('b-spin').disabled=false;}, 4600);
+            let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:ip, did:dId, prize:wP})}); let d=await r.json();
+            if(d.s!=='ok') { el('b-spin').disabled=false; el('b-spin').innerText="SPIN NOW"; return toast("Already spun in 48h! (IP/Device Block)",true); }
+            let s=db.whl.length-1, a=360/s; let tD=(360*5)+(360-(tIdx*a)-(a/2)); el('wheel').style.transform=`rotate(${tD}deg)`;
+            localStorage.setItem('ch_l_spn', Date.now()); setTimeout(()=>{toast(`You won: ${wP}! Send Screenshot.`,false); el('b-spin').innerText="SPIN NOW"; el('b-spin').disabled=false;},4600);
         } catch(e) { el('b-spin').disabled=false; el('b-spin').innerText="SPIN NOW"; toast("Network Error", true); }
     }
 
