@@ -5,52 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#050b14">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root{--primary:#00f0ff;--bg:#050b14;--card:rgba(10,15,30,0.7);--border:rgba(0,240,255,0.15);--text:#ffffff;--sub:#94a3b8;--warn:#ffae00;}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;padding-bottom:50px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
-        body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
-        #particles-js{position:fixed;width:100%;height:100%;z-index:-1;top:0;left:0;}
-        .container{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
-        .liquid-glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.15);border-radius:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
-        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px;}
-        .icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;transition:0.3s;}
-        #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:5000;transition:0.4s;padding:30px 20px;border-right:1px solid var(--primary);display:flex;flex-direction:column;}
-        #sidebar.open{left:0;}
-        .close-menu{background:none;border:none;color:white;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;}
-        .menu-item{padding:18px;font-size:1.1rem;font-weight:bold;color:white;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:15px;}
-        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--primary);margin:auto;display:block;background:#000;cursor:pointer;box-shadow:0 0 30px rgba(0,240,255,0.4);}
-        #quick-admin-bar{display:none;background:rgba(0,0,0,0.8);border:1px solid var(--warn);padding:10px;border-radius:12px;margin-bottom:15px;text-align:center;justify-content:space-between;align-items:center;}
-        .maintenance-band{padding:25px;border-radius:15px;text-align:center;margin-bottom:20px;display:none;transition:0.3s;}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-        .nav-card{padding:20px;text-align:center;cursor:pointer;border:1px solid var(--border);border-radius:15px;background:var(--card);transition:0.3s;}
-        .nav-card img{width:55px;height:55px;object-fit:contain;margin:0 auto 10px auto;display:block;}
-        .folder-header{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.01));border:1px solid var(--border);border-left:4px solid var(--primary);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;margin-bottom:8px;}
-        .folder-content{display:none;padding-left:15px;border-left:2px dashed rgba(255,255,255,0.15);margin-left:10px;margin-bottom:25px;}
-        .ungroup-zone{border:2px dashed var(--sub);padding:20px;text-align:center;color:var(--sub);border-radius:12px;margin-bottom:15px;font-weight:bold;display:none;}
-        .item-row{padding:15px;margin-bottom:12px;display:flex;flex-direction:column;background:rgba(0,0,0,0.5);border-radius:12px;border:1px solid rgba(255,255,255,0.05);transition:0.2s;cursor:grab;}
-        .item-row.dragging{opacity:0.4;border:2px dashed var(--primary);transform:scale(0.98);}
-        .add-cart-btn{background:var(--primary);color:#000;border:none;padding:14px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:10px;text-transform:uppercase;width:100%;letter-spacing:1px;}
-        .add-cart-btn:disabled{background:#333;color:#777;cursor:not-allowed;}
-        .fab-cart{position:fixed;bottom:30px;right:30px;background:var(--primary);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
-        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:9000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
-        .modal-content{padding:25px;width:100%;max-width:550px;text-align:center;max-height:90vh;overflow-y:auto;background:var(--bg);border:1px solid var(--primary);border-radius:20px;position:relative;}
-        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,0.5);color:var(--text);box-sizing:border-box;font-size:1rem;font-family:inherit;}
-        .auth-flow-section{display:none;} .auth-flow-section.active{display:block;}
-        .admin-section{background:rgba(0,0,0,0.4);border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,255,255,0.05);text-align:left;}
-        .admin-section-title{font-size:0.85rem;color:var(--sub);margin-bottom:10px;font-weight:800;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:5px;}
-        .emoji-db-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;background:rgba(0,0,0,0.4);padding:15px;border-radius:12px;max-height:220px;overflow-y:auto;margin-bottom:15px;}
-        .emoji-slot{font-size:1.5rem;text-align:center;cursor:pointer;padding:5px;border-radius:8px;transition:0.2s;border:1px solid transparent;}
-        .emoji-slot.active{border-color:var(--warn);background:rgba(255,174,0,0.2);}
-        .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;}
-        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:white;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer;text-align:center;}
-        .c-btn.active{background:rgba(0,240,255,0.15);border-color:var(--primary);color:var(--primary);}
-        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);border:1px solid var(--primary);background:var(--bg);color:var(--text);padding:15px 25px;border-radius:30px;font-size:1rem;z-index:99999;font-weight:bold;transition:bottom 0.4s ease;display:flex;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
-        .toast.show{bottom:30px;}
-        .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
-        .footer-credit{text-align:center;margin-top:40px;color:var(--sub);font-size:0.9rem;font-weight:bold;letter-spacing:1px;padding-bottom:20px;}
+        :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
+        .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
+        .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); display: flex; flex-direction: column; }
+        #sidebar.open { left: 0; }
+        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 15px; right: 15px; cursor: pointer; z-index: 10; }
+        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
+        
+        #quick-admin-bar { display: none; background: rgba(0,0,0,0.8); border: 1px solid var(--warn); padding: 10px; border-radius: 12px; margin-bottom: 15px; text-align: center; justify-content:space-between; align-items:center; }
+        .maintenance-band { padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; transition: 0.3s; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .nav-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15); }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        
+        .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
+        .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
+        .chevron { transition: 0.3s transform ease; color: var(--primary); font-size: 0.8rem; }
+        .folder-open .chevron { transform: rotate(180deg); }
+        
+        .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; font-weight: bold; display: none; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: grab; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
+        
+        .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; width: 100%; letter-spacing: 1px; }
+        .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
+        
+        .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; transition: 0.3s; }
+        
+        .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:9000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 15px; }
+        .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 90vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; position: relative; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; font-family:inherit; }
+        
+        .auth-flow-section { display: none; } .auth-flow-section.active { display: block; animation: fadeIn 0.3s; }
+        .admin-section { background:rgba(0,0,0,0.4); border-radius:15px; padding:15px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.05); text-align:left; }
+        .admin-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .emoji-db-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; max-height: 220px; overflow-y: auto; margin-bottom: 15px; }
+        .emoji-slot { font-size: 1.5rem; text-align: center; cursor: pointer; padding: 5px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
+        .emoji-slot.active { border-color: var(--warn); background: rgba(255, 174, 0, 0.2); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 10px; }
+        .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; text-align:center; }
+        .c-btn.active { background: rgba(0,240,255,0.15); border-color: var(--primary); color: var(--primary); }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 99999; font-weight: bold; transition: bottom 0.4s ease; display: flex; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .toast.show { bottom: 30px; }
+        .pwd-eye { position:absolute; right:15px; top:20px; cursor:pointer; font-size:1.2rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -63,6 +78,7 @@
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
+    
     <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
     <div class="menu-item" onclick="openPolicyModal(true); toggleSidebar();">📜 Store Policy</div>
     <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:15px;">🛠️ Admin Console</div>
@@ -94,9 +110,20 @@
         <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
     </div>
 
-    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;"><div id="content-area"><div style="color:var(--primary); font-weight:bold; text-align:center;">Loading Data... ⏳</div></div></div>
-    
-    <div class="footer-credit">Made by Yessine ❤️</div>
+    <div id="shop-wrapper">
+        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;">
+        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Data... ⏳</div></div>
+        
+        <div id="home-contact-section" style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px dashed var(--primary);">
+            <h3 style="color:white; margin-top:0; margin-bottom:15px;">📞 Need Help? Contact Us</h3>
+            <div style="display:flex; justify-content:center; gap:10px;">
+                <button onclick="window.open('https://wa.me/21629895846', '_blank')" style="background:#25D366; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">WhatsApp</button>
+                <button onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Instagram</button>
+            </div>
+        </div>
+        
+        <div id="footer-credit" style="text-align: center; margin-top: 30px; color: var(--sub); font-size: 0.95rem; font-weight: bold; letter-spacing: 1px;">Made by Yessine ❤️</div>
+    </div>
 </div>
 
 <button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" style="position:absolute; top:-5px; right:-5px; background:white; color:black; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
@@ -156,9 +183,7 @@
     <div style="background:rgba(255, 174, 0, 0.05); border:1px solid var(--warn); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--warn); color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">⚡</div><div><b id="ui-pol-l-title" style="color:var(--warn);">Delivery Time</b><span id="ui-pol-l-desc" style="color:white; font-weight:bold; font-size:0.75rem; display:block;">Immediate up to 48 hours.</span></div></div>
     <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Full after-sales service is guaranteed.</span></div></div>
     <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d;">Refunds</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem; display:block;">No refunds after delivery.</span></div></div>
-    <div id="ui-pol-contact" style="display:none; margin-top:15px;"><b style="color:white; font-size:0.9rem;">Contact Support</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn" onclick="window.open('https://wa.me/21629895846', '_blank')" style="background:#25D366; border:none;">WhatsApp</div><div class="c-btn" onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; border:none;">Instagram</div><div class="c-btn" onclick="window.location.href='mailto:cyber.hub.contact.now@gmail.com'" style="background:#ff4d4d; border:none;">Email</div></div></div>
-    <button class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I ACCEPT</button>
-    <div id="ui-pol-footer" style="display:none; text-align: center; margin-top: 20px; color: var(--sub); font-size: 0.8rem; font-weight: bold;">Made by Yessine ❤️</div>
+    <button type="button" class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I ACCEPT</button>
 </div></div>
 
 <div id="modal" class="modal"><div class="modal-content liquid-glass">
@@ -170,10 +195,10 @@
         <div id="math-loyalty-row" style="display:flex; justify-content:space-between; margin-bottom:5px; color:#ffae00;"><span>Loyalty (<span id="math-loyalty-pct">0</span>%):</span><span id="math-loyalty-val">-0 DT</span></div>
         <div style="display:flex; justify-content:space-between; margin-top:5px; border-top:1px dashed #333; padding-top:5px; font-size:1.1rem; font-weight:800;"><span>Total:</span><span id="cart-total-price" style="color:var(--primary);">0 DT</span></div>
     </div>
-    <div style="display:flex; gap:5px; margin-bottom:15px;"><input type="text" id="promo-code-input" placeholder="Promo Code?" style="margin:0;"><button onclick="applyPromoCode()" style="background:var(--primary); color:black; border:none; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer;">Apply</button></div>
-    <button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button>
-    <button onclick="clearCart()" style="background:none; border:none; color:#ff4d4d; margin-top:15px; cursor:pointer; font-weight:bold;">🗑️ Clear Cart</button>
-    <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
+    <div style="display:flex; gap:5px; margin-bottom:15px;"><input type="text" id="promo-code-input" placeholder="Promo Code?" style="margin:0;"><button type="button" onclick="applyPromoCode()" style="background:var(--primary); color:black; border:none; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer;">Apply</button></div>
+    <button type="button" class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button>
+    <button type="button" onclick="clearCart()" style="background:none; border:none; color:#ff4d4d; margin-top:15px; cursor:pointer; font-weight:bold;">🗑️ Clear Cart</button>
+    <button type="button" onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
 </div></div>
 
 <div id="profile-modal" class="modal"><div class="modal-content liquid-glass">
@@ -183,12 +208,12 @@
         <input type="text" id="prof-primary" style="margin-top:0;">
         <p style="margin:10px 0 10px 0; color:var(--sub); font-size:0.8rem;">Secondary Contact (Optional):</p>
         <input type="text" id="prof-secondary" style="margin-top:0;">
-        <button class="add-cart-btn" onclick="updateProfileData()" style="margin-bottom:0;">💾 Save Changes</button>
+        <button type="button" class="add-cart-btn" onclick="updateProfileData()" style="margin-bottom:0;">💾 Save Changes</button>
     </div>
-    <button class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:10px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
-    <button class="add-cart-btn" onclick="setupNewPasskey(false)" style="margin-bottom:15px; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Add / Reset Passkey</button>
-    <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
-    <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
+    <button type="button" class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:10px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
+    <button type="button" class="add-cart-btn" onclick="setupNewPasskey(false)" style="margin-bottom:15px; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Add / Reset Passkey</button>
+    <button type="button" onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
+    <button type="button" onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
 </div></div>
 
 <div id="admin-dashboard-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 800px; padding:20px;">
@@ -201,36 +226,37 @@
     <div class="admin-section">
         <div class="admin-section-title">🏪 Operations & DB</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button class="add-cart-btn" style="margin:0; background:rgba(255,174,0,0.1); color:var(--warn); border:1px solid var(--warn);" onclick="openAdminOrders()">📦 Manage Orders</button>
-            <button class="add-cart-btn" style="margin:0; background:rgba(0,240,255,0.1); color:var(--primary); border:1px solid var(--primary);" onclick="openModal('add-item-modal')">➕ Add Item</button>
-            <button class="add-cart-btn" style="margin:0; background:rgba(139,92,246,0.1); color:#8b5cf6; border:1px solid #8b5cf6;" onclick="openAdminUsers()">👥 Client DB (CRM)</button>
-            <button class="add-cart-btn" style="margin:0; background:rgba(255,77,77,0.1); color:#ff4d4d; border:1px solid #ff4d4d;" onclick="openMarketingManager()">🎟️ Promos & Loyalty</button>
+            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(255,174,0,0.1); color:var(--warn); border:1px solid var(--warn);" onclick="openAdminOrders()">📦 Manage Orders</button>
+            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(0,240,255,0.1); color:var(--primary); border:1px solid var(--primary);" onclick="openModal('add-item-modal')">➕ Add Item</button>
+            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(139,92,246,0.1); color:#8b5cf6; border:1px solid #8b5cf6;" onclick="openAdminUsers()">👥 Client DB (CRM)</button>
+            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(255,77,77,0.1); color:#ff4d4d; border:1px solid #ff4d4d;" onclick="openMarketingManager()">🎟️ Promos & Loyalty</button>
         </div>
     </div>
-    <button onclick="closeModal('admin-dashboard-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">Close</button>
+    <button type="button" onclick="closeModal('admin-dashboard-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">Close</button>
 </div></div>
 
 <div id="admin-users-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;">
     <h3 style="color:#8b5cf6; margin-bottom:15px;">👥 Client Database</h3>
     <div id="admin-users-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading CRM...</div>
-    <button onclick="closeModal('admin-users-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+    <button type="button" onclick="closeModal('admin-users-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
 </div></div>
 
 <div id="marketing-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;">
     <h3 style="color:#ff4d4d; margin-bottom:15px;">🎟️ Marketing Manager</h3>
-    <div class="admin-section"><div class="admin-section-title" style="color:white;">Current Promos</div><div id="promo-list" style="max-height:100px; overflow-y:auto; margin-bottom:10px;"></div><div style="display:flex; gap:5px;"><input type="text" id="new-promo-code" placeholder="Code (e.g. SALE20)" style="margin:0;"><input type="number" id="new-promo-pct" placeholder="%" style="margin:0; width:80px;"><button onclick="addPromoUI()" style="background:var(--primary); border:none; font-weight:bold; border-radius:8px; padding:0 15px; cursor:pointer;">Add</button></div></div>
+    <div class="admin-section"><div class="admin-section-title" style="color:white;">Current Promos</div><div id="promo-list" style="max-height:100px; overflow-y:auto; margin-bottom:10px;"></div><div style="display:flex; gap:5px;"><input type="text" id="new-promo-code" placeholder="Code (e.g. SALE20)" style="margin:0;"><input type="number" id="new-promo-pct" placeholder="%" style="margin:0; width:80px;"><button type="button" onclick="addPromoUI()" style="background:var(--primary); border:none; font-weight:bold; border-radius:8px; padding:0 15px; cursor:pointer;">Add</button></div></div>
     <div class="admin-section"><div class="admin-section-title" style="color:white;">Loyalty Settings (By Order #)</div><div id="loyalty-list" style="max-height:200px; overflow-y:auto; display:grid; grid-template-columns: 1fr 1fr; gap:10px;"></div></div>
-    <button onclick="closeModal('marketing-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer;">Close</button>
+    <button type="button" onclick="closeModal('marketing-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer;">Close</button>
 </div></div>
 
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Secure Checkout</h3><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold;" onclick="setPayment('D17')">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.4rem; color:var(--warn); letter-spacing:2px;">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:15px; cursor:pointer; font-weight:bold;" onclick="setPayment('Cash')">🤝 Hand to Hand</div><input type="text" id="custName" placeholder="Your Full Name"><div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:15px; border:1px dashed var(--sub); margin-bottom:15px; margin-top:10px; text-align:left;"><b style="color:white; font-size:0.9rem;">Contact Method?</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn active" id="c-wa" onclick="selContact('wa')">WhatsApp</div><div class="c-btn" id="c-ig" onclick="selContact('ig')">Instagram</div><div class="c-btn" id="c-fb" onclick="selContact('fb')">Facebook</div></div><input type="text" id="social-handle" placeholder="@username or Number" style="margin-top:5px;"></div><textarea id="order-comments" placeholder="Add a general note to your order (Optional)" style="height:60px;"></textarea><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="edit-folder-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">✏️ Edit Folder</h3><div class="emoji-db-grid" id="icon-db"></div><input type="text" id="edit-folder-name" placeholder="Folder Name"><button class="add-cart-btn" id="btn-save-folder" onclick="executeFolderRename()" style="background:var(--warn);">💾 Update</button><button onclick="closeModal('edit-folder-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="edit-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">✏️ Edit Item</h3><input type="hidden" id="edit-orig-name"><select id="edit-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="edit-app-fr" placeholder="App FR"><input type="text" id="edit-app-en" placeholder="App EN"><input type="text" id="edit-item-name-fr" placeholder="Name FR"><input type="text" id="edit-item-name-en" placeholder="Name EN"><input type="number" id="edit-item-price" placeholder="Price"><button class="add-cart-btn" onclick="submitItemEdit()">💾 Save</button><button onclick="closeModal('edit-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app-fr" placeholder="App FR"><input type="text" id="add-app-en" placeholder="App EN"><input type="text" id="add-item-name-fr" placeholder="Name FR"><input type="text" id="add-item-name-en" placeholder="Name EN"><input type="number" id="add-item-price" placeholder="Price"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 650px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 Live Orders Dashboard</h3><div id="admin-orders-list" style="text-align:left; max-height:500px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Secure Checkout</h3><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold;" onclick="setPayment('D17')">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.4rem; color:var(--warn); letter-spacing:2px;">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:15px; cursor:pointer; font-weight:bold;" onclick="setPayment('Cash')">🤝 Hand to Hand</div><input type="text" id="custName" placeholder="Your Full Name"><div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:15px; border:1px dashed var(--sub); margin-bottom:15px; margin-top:10px; text-align:left;"><b style="color:white; font-size:0.9rem;">Contact Method?</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn active" id="c-wa" onclick="selContact('wa')">WhatsApp</div><div class="c-btn" id="c-ig" onclick="selContact('ig')">Instagram</div><div class="c-btn" id="c-fb" onclick="selContact('fb')">Facebook</div></div><input type="text" id="social-handle" placeholder="@username or Number" style="margin-top:5px;"></div><textarea id="order-comments" placeholder="Add a general note to your order (Optional)" style="height:60px;"></textarea><button type="button" class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button><button type="button" onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="edit-folder-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">✏️ Edit Folder</h3><div class="emoji-db-grid" id="icon-db"></div><input type="text" id="edit-folder-name" placeholder="Folder Name"><button type="button" class="add-cart-btn" id="btn-save-folder" onclick="executeFolderRename()" style="background:var(--warn);">💾 Update</button><button type="button" onclick="closeModal('edit-folder-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="edit-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">✏️ Edit Item</h3><input type="hidden" id="edit-orig-name"><select id="edit-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="edit-app-fr" placeholder="App FR"><input type="text" id="edit-app-en" placeholder="App EN"><input type="text" id="edit-item-name-fr" placeholder="Name FR"><input type="text" id="edit-item-name-en" placeholder="Name EN"><input type="number" id="edit-item-price" placeholder="Price"><button type="button" class="add-cart-btn" onclick="submitItemEdit()">💾 Save</button><button type="button" onclick="closeModal('edit-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app-fr" placeholder="App FR"><input type="text" id="add-app-en" placeholder="App EN"><input type="text" id="add-item-name-fr" placeholder="Name FR"><input type="text" id="add-item-name-en" placeholder="Name EN"><input type="number" id="add-item-price" placeholder="Price"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button type="button" class="add-cart-btn" onclick="submitNewItem()">💾 Save</button><button type="button" onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
+<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 650px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 Live Orders Dashboard</h3><div id="admin-orders-list" style="text-align:left; max-height:500px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button type="button" onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button type="button" onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
 
 <script>
+    // 🔥 UPDATE THESE URLS TO YOUR NEW UNIFIED SPREADSHEET TABS
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv"; 
     const ORDERS_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_ORDERS_GID"; 
@@ -253,30 +279,35 @@
 
     const isSupportAccess = () => { return (currentUserRole === "Admin" || currentUserRole === "Support"); };
     const isAdminAccess = () => { return currentUserRole === "Admin"; };
-
     const FOLDER_EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','📺','🎬','🍿','🎵','🎧','🛒','🛍️','💎','🎁','🔥','🚀','⚡','🌟','👤','👥','🗣️','👨‍💻','👩‍💻'];
     let selectedFolderEmoji = '📁'; let currentEditingGroupCtx = null;
 
     particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
-    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; }; const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
-    function showToast(msg, type = "info") { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; t.className = 'toast show'; if(type==="error") t.style.borderColor="red"; if(type==="success") t.style.borderColor="#00ff88"; setTimeout(() => t.classList.remove('show'), 3500); }
-    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-    function togglePwd(id) { let el = document.getElementById(id); el.type = el.type === "password" ? "text" : "password"; }
+    
+    // 🛡️ SAFE ENCODERS
+    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; }; 
+    const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
+    
+    // 🛡️ UI UTILITIES WITH NULL CHECKS
+    function openModal(id) { let el=document.getElementById(id); if(el) { el.style.display='flex'; document.body.classList.add('modal-open'); } }
+    function closeModal(id) { let el=document.getElementById(id); if(el) { el.style.display='none'; document.body.classList.remove('modal-open'); } }
+    function showToast(msg, type = "info") { const t = document.getElementById('toast'); if(!t) return; document.getElementById('toast-msg').innerText = msg; t.className = 'toast show'; if(type==="error") t.style.borderColor="red"; if(type==="success") t.style.borderColor="#00ff88"; setTimeout(() => t.classList.remove('show'), 3500); }
+    function toggleSidebar() { let s=document.getElementById('sidebar'); if(s) s.classList.toggle('open'); }
+    function togglePwd(id) { let el = document.getElementById(id); if(el) el.type = el.type === "password" ? "text" : "password"; }
 
     // --- SMART POLICY ---
     function openPolicyModal(fromMenu) {
-        if(fromMenu) { document.getElementById('ui-pol-btn').style.display='none'; document.getElementById('ui-pol-close-x').style.display='block'; document.getElementById('ui-pol-contact').style.display='block'; document.getElementById('ui-pol-footer').style.display='block'; } 
-        else { document.getElementById('ui-pol-btn').style.display='block'; document.getElementById('ui-pol-close-x').style.display='none'; document.getElementById('ui-pol-contact').style.display='none'; document.getElementById('ui-pol-footer').style.display='none'; }
+        let btn=document.getElementById('ui-pol-btn'), cx=document.getElementById('ui-pol-close-x'), cnt=document.getElementById('ui-pol-contact');
+        if(fromMenu) { if(btn) btn.style.display='none'; if(cx) cx.style.display='block'; if(cnt) cnt.style.display='block'; } 
+        else { if(btn) btn.style.display='block'; if(cx) cx.style.display='none'; if(cnt) cnt.style.display='none'; }
         openModal('policy-modal');
     }
     function acceptPolicy() { localStorage.setItem('cyberhub_v47_pol', 'true'); closeModal('policy-modal'); }
 
     // --- DB & CACHE ---
     function safeCsvParse(str) { let result = []; let current = ''; let inQuotes = false; for (let i = 0; i < str.length; i++) { if (str[i] === '"') { inQuotes = !inQuotes; } else if (str[i] === ',' && !inQuotes) { result.push(current.trim()); current = ''; } else { current += str[i]; } } result.push(current.trim()); return result; }
-    function loadFromCache() { let cached = localStorage.getItem('cyberhub_db_cache'); if (cached) { productsData = JSON.parse(cached); forceReRender(); } }
-    function forceSync() { document.getElementById('content-area').innerHTML = `<div style="color:var(--primary); text-align:center;">Syncing... ⏳</div>`; fetchData(); fetchSideData(); }
+    function loadFromCache() { let cached = localStorage.getItem('cyberhub_db_cache'); if (cached) { try { productsData = JSON.parse(cached); forceReRender(); }catch(e){} } }
+    function forceSync() { let ca=document.getElementById('content-area'); if(ca) ca.innerHTML = `<div style="color:var(--primary); text-align:center;">Syncing... ⏳</div>`; fetchData(); fetchSideData(); }
 
     async function fetchSideData() {
         try {
@@ -329,7 +360,10 @@
     }
 
     function handleMaintenanceUI(maintData) { 
-        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); let stringData = String(maintData).toUpperCase().trim(); 
+        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); 
+        let stringData = String(maintData).toUpperCase().trim(); 
+        if(!band || !timeEl) return;
+        
         if(stringData.startsWith("ANNOUNCE|||")) { 
             let parts = stringData.split("|||"); let c = parts[1]; let m = String(maintData).split("|||")[2];
             band.style.display = 'block'; 
@@ -344,25 +378,35 @@
     async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } else if(mode.startsWith("ANNOUNCE")) { payload.value = mode; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 1500); } catch(e) {} }
 
     // --- SMART CART MATH ---
-    function checkLoyalty() { let nextOrderNum = currentUserOrderCount + 1; let pct = loyaltySettings[nextOrderNum] || 0; if(pct > 0) { document.getElementById('loyalty-pct').innerText = pct; document.getElementById('loyalty-banner').style.display = 'block'; } else { document.getElementById('loyalty-banner').style.display = 'none'; } return pct; }
+    function checkLoyalty() { 
+        let nextOrderNum = currentUserOrderCount + 1; let pct = loyaltySettings[nextOrderNum] || 0; 
+        let lb = document.getElementById('loyalty-banner'); let lp = document.getElementById('loyalty-pct');
+        if(lb && lp) { if(pct > 0) { lp.innerText = pct; lb.style.display = 'block'; } else { lb.style.display = 'none'; } }
+        return pct; 
+    }
     function applyPromoCode() { let code = document.getElementById('promo-code-input').value.trim().toUpperCase(); if(promoSettings[code]) { activePromoDiscount = promoSettings[code]; activePromoCodeName = code; showToast(`Promo Applied!`, "success"); openCart(); } else { activePromoDiscount = 0; activePromoCodeName = ""; showToast("Invalid Code", "error"); openCart(); } }
     
     function openCart() { 
         let rawTotal = cart.reduce((s, i) => s + i.price, 0); let loyPct = checkLoyalty(); 
         let pVal = rawTotal * (activePromoDiscount / 100); let lVal = rawTotal * (loyPct / 100);
-        document.getElementById('math-subtotal').innerText = rawTotal.toFixed(2) + " DT";
-        if(activePromoDiscount > 0) { document.getElementById('math-promo-row').style.display = 'flex'; document.getElementById('math-promo-pct').innerText = activePromoDiscount; document.getElementById('math-promo-val').innerText = "-" + pVal.toFixed(2) + " DT"; } else { document.getElementById('math-promo-row').style.display = 'none'; }
-        if(loyPct > 0) { document.getElementById('math-loyalty-row').style.display = 'flex'; document.getElementById('math-loyalty-pct').innerText = loyPct; document.getElementById('math-loyalty-val').innerText = "-" + lVal.toFixed(2) + " DT"; } else { document.getElementById('math-loyalty-row').style.display = 'none'; }
+        let sEl = document.getElementById('math-subtotal'); if(sEl) sEl.innerText = rawTotal.toFixed(2) + " DT";
+        
+        let pr = document.getElementById('math-promo-row'), pp = document.getElementById('math-promo-pct'), pv = document.getElementById('math-promo-val');
+        if(pr) { if(activePromoDiscount > 0) { pr.style.display = 'flex'; pp.innerText = activePromoDiscount; pv.innerText = "-" + pVal.toFixed(2) + " DT"; } else { pr.style.display = 'none'; } }
+        
+        let lr = document.getElementById('math-loyalty-row'), l_p = document.getElementById('math-loyalty-pct'), lv = document.getElementById('math-loyalty-val');
+        if(lr) { if(loyPct > 0) { lr.style.display = 'flex'; l_p.innerText = loyPct; lv.innerText = "-" + lVal.toFixed(2) + " DT"; } else { lr.style.display = 'none'; } }
         
         let highestDiscount = Math.max(loyPct, activePromoDiscount); let finalTotal = rawTotal - (rawTotal * (highestDiscount / 100));
-        document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2) + " DT"; 
-        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} (${i.price} DT)</div>`).join(''); openModal('modal'); 
+        let cTot = document.getElementById('cart-total-price'); if(cTot) cTot.innerText = finalTotal.toFixed(2) + " DT"; 
+        let clist = document.getElementById('cart-items-list'); if(clist) clist.innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} (${i.price} DT)</div>`).join(''); 
+        openModal('modal'); 
     }
 
-    function addToCart(encodedName, price, encodedDisplay) { let masterId = safeDec(encodedName).split("||GRP||")[0]; let display = safeDec(encodedDisplay); cart.push({id: masterId, name: display, price: parseFloat(price)}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
-    function clearCart() { cart = []; document.getElementById('cart-count').innerText = "0"; activePromoDiscount = 0; activePromoCodeName = ""; document.getElementById('promo-code-input').value = ""; closeModal('modal'); }
-    function setPayment(m) { selectedPaymentMethod = m; document.getElementById('d17-details').style.display = (m === 'D17') ? 'block' : 'none'; }
-    function selContact(c) { selectedContactMethod = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); document.getElementById('c-'+c).classList.add('active'); }
+    function addToCart(encodedName, price, encodedDisplay) { let masterId = safeDec(encodedName).split("||GRP||")[0]; let display = safeDec(encodedDisplay); cart.push({id: masterId, name: display, price: parseFloat(price)}); let cc = document.getElementById('cart-count'); if(cc) cc.innerText = cart.length; showToast("Added!", "success"); }
+    function clearCart() { cart = []; let cc=document.getElementById('cart-count'); if(cc) cc.innerText = "0"; activePromoDiscount = 0; activePromoCodeName = ""; let pci=document.getElementById('promo-code-input'); if(pci) pci.value = ""; closeModal('modal'); }
+    function setPayment(m) { selectedPaymentMethod = m; let d=document.getElementById('d17-details'); if(d) d.style.display = (m === 'D17') ? 'block' : 'none'; }
+    function selContact(c) { selectedContactMethod = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); let btn=document.getElementById('c-'+c); if(btn) btn.classList.add('active'); }
     
     async function finalizeOrder() { 
         if(cart.length === 0) return showToast("Cart is empty!", "error");
@@ -374,7 +418,7 @@
         cart.forEach(item => { item.finalPrice = item.price - (item.price * (highestDiscount / 100)); });
         let total = cart.reduce((s,i)=>s+item.finalPrice, 0).toFixed(2);
         
-        document.getElementById('btn-finalize').innerText = "Processing..."; document.getElementById('btn-finalize').disabled = true;
+        let btn = document.getElementById('btn-finalize'); if(btn){ btn.innerText = "Processing..."; btn.disabled = true; }
         let payload = { action: "place_order", orderId: orderId, client: name, platform: selectedContactMethod, contact: contact, items: cart, promoCode: activePromoCodeName, loyaltyPct: checkLoyalty(), payment: method, comments: comments, userEmail: currentUser || "Guest" };
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); showToast("Order Placed!", "success");
@@ -384,13 +428,14 @@
                 if(selectedContactMethod === 'wa') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
                 else if(selectedContactMethod === 'ig') window.open(`https://ig.me/m/yessine_ben_fraj`, '_blank'); 
                 else if(selectedContactMethod === 'fb') window.open(`https://m.me/YOUR_PAGE`, '_blank'); 
-                closeModal('checkout-modal'); clearCart(); if(currentUser) { currentUserOrderCount++; localStorage.setItem('cyberhub_orders', currentUserOrderCount); checkLoyalty(); } document.getElementById('btn-finalize').innerText = "PLACE ORDER"; document.getElementById('btn-finalize').disabled = false;
+                closeModal('checkout-modal'); clearCart(); if(currentUser) { currentUserOrderCount++; localStorage.setItem('cyberhub_orders', currentUserOrderCount); checkLoyalty(); } 
+                if(btn){ btn.innerText = "PLACE ORDER"; btn.disabled = false; }
             }, 1200);
-        } catch(err) { document.getElementById('btn-finalize').innerText = "PLACE ORDER"; document.getElementById('btn-finalize').disabled = false; showToast("Network Error.", "error"); }
+        } catch(err) { if(btn){ btn.innerText = "PLACE ORDER"; btn.disabled = false; } showToast("Network Error.", "error"); }
     }
 
     // --- CLIENT & ADMIN ORDERS (DELETE / CANCEL) ---
-    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; rows.forEach(r => { let c = safeCsvParse(r); if(String(c[3]).trim().toLowerCase() === String(currentUser).trim().toLowerCase()) { let cnlBtn = c[9] === "Pending" ? `<button onclick="cancelOrder('${c[0]}')" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; width:100%; margin-top:5px; font-weight:bold; cursor:pointer;">Cancel Order</button>` : ""; html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[9]})<br>Item: ${c[4]}<br>Total: ${c[8]} DT${cnlBtn}</div>`; } }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
+    async function openUserOrders() { closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; try { const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; rows.forEach(r => { let c = safeCsvParse(r); if(String(c[3]).trim().toLowerCase() === String(currentUser).trim().toLowerCase()) { let cnlBtn = c[9] === "Pending" ? `<button type="button" onclick="cancelOrder('${c[0]}')" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; width:100%; margin-top:5px; font-weight:bold; cursor:pointer;">Cancel Order</button>` : ""; html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[9]})<br>Item: ${c[4]}<br>Total: ${c[8]} DT${cnlBtn}</div>`; } }); document.getElementById('user-orders-list').innerHTML = html || "No orders."; } catch(e){} }
     function cancelOrder(id) { if(confirm("Cancel this order?")) { showToast("Cancelling...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openUserOrders(), 1500); showToast("Cancelled", "success"); }); } }
 
     async function openAdminOrders() { 
@@ -405,8 +450,8 @@
                 else if(p === 'wa') dmLink = `<a href="https://wa.me/${cRaw}" target="_blank" style="color:#25D366; font-weight:bold;">${cRaw} (WA)</a>`;
                 else if(p === 'fb') dmLink = `<a href="https://m.me/${cRaw}" target="_blank" style="color:#1877F2; font-weight:bold;">${cRaw} (FB)</a>`;
                 let selectStatus = `<select id="status-${o.id}-${safeEnc(o.item)}" onchange="updateOrderStatus('${o.id}', '${safeEnc(o.item)}')"><option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option></select>`;
-                let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}-${safeEnc(o.item)}" placeholder="Enter Account/Key..." style="font-size:0.8rem; padding:10px; margin-top:5px;"><button onclick="updateOrderStatus('${o.id}', '${safeEnc(o.item)}', true)" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; 
-                let delBtn = isAdminAccess() ? `<button onclick="adminDeleteOrder('${o.id}')" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>` : "";
+                let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}-${safeEnc(o.item)}" placeholder="Enter Account/Key..." style="font-size:0.8rem; padding:10px; margin-top:5px;"><button type="button" onclick="updateOrderStatus('${o.id}', '${safeEnc(o.item)}', true)" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; 
+                let delBtn = isAdminAccess() ? `<button type="button" onclick="adminDeleteOrder('${o.id}')" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>` : "";
                 html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; align-items:center;"><b style="color:var(--primary);">${o.id}</b> <div style="display:flex; gap:5px;">${selectStatus}${delBtn}</div></div><b>User:</b> ${o.client} <br><b>Contact:</b> ${dmLink}<br><b>Item:</b> <span style="color:#ffae00;">${o.item}</span><br><b>Paid:</b> ${o.price} DT${deliverBox}</div>`; 
             }); 
             document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; 
@@ -416,15 +461,15 @@
     function adminDeleteOrder(id) { if(confirm("Permanently delete this order?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openAdminOrders(), 1500); showToast("Deleted", "success"); }); } }
 
     // --- CRM ADMIN ---
-    async function openAdminUsers() { if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading CRM...`; try { const res = await fetch(USERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols[0]) { let sel = `<select onchange="updateUserRole('${cols[0]}', this.value)" style="margin:5px 0; font-size:0.8rem; padding:8px;"><option value="User" ${cols[3]==='User'?'selected':''}>User</option><option value="Support" ${cols[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${cols[3]==='Admin'?'selected':''}>Admin</option></select>`; html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br>${sel}<div style="display:flex; gap:5px;"><button onclick="banUserUI('${cols[0]}')" style="background:#ffae00; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Ban</button><button onclick="deleteUserUI('${cols[0]}')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Delete</button></div></div>`; } } document.getElementById('admin-users-list').innerHTML = html; } catch(e){} }
+    async function openAdminUsers() { if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading CRM...`; try { const res = await fetch(USERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols[0]) { let sel = `<select onchange="updateUserRole('${cols[0]}', this.value)" style="margin:5px 0; font-size:0.8rem; padding:8px;"><option value="User" ${cols[3]==='User'?'selected':''}>User</option><option value="Support" ${cols[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${cols[3]==='Admin'?'selected':''}>Admin</option></select>`; html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br>${sel}<div style="display:flex; gap:5px;"><button type="button" onclick="banUserUI('${cols[0]}')" style="background:#ffae00; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Ban</button><button type="button" onclick="deleteUserUI('${cols[0]}')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Delete</button></div></div>`; } } document.getElementById('admin-users-list').innerHTML = html; } catch(e){} }
     function updateUserRole(contact, role) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'update_user_role', target: contact, role: role}), mode: 'no-cors'}).then(() => showToast("Role Updated!", "success")); }
     function banUserUI(contact) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'ban_user', target: contact}), mode: 'no-cors'}).then(() => { showToast("User Banned!", "success"); openAdminUsers(); }); }
     function deleteUserUI(contact) { if(confirm("Delete this user permanently?")) fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'delete_user', target: contact}), mode: 'no-cors'}).then(() => { showToast("User Deleted!", "success"); openAdminUsers(); }); }
 
     // --- MARKETING ADMIN ---
     function openMarketingManager() { if(!isAdminAccess()) return; openModal('marketing-modal'); renderPromos(); renderLoyalty(); }
-    function renderPromos() { let html = ""; for(let code in promoSettings) { html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${code} (${promoSettings[code]}%)</span><button onclick="deletePromoUI('${code}')" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">✖</button></div>`; } document.getElementById('promo-list').innerHTML = html || "No promos active."; }
-    function renderLoyalty() { let html = ""; for(let i=1; i<=20; i++) { html += `<div style="display:flex; align-items:center; gap:5px;"><span>Order #${i}:</span><input type="number" id="loyalty-val-${i}" value="${loyaltySettings[i]||0}" style="width:60px; margin:0; padding:5px;"><button onclick="updateLoyaltyUI(${i})" style="background:var(--primary); border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Save</button></div>`; } document.getElementById('loyalty-list').innerHTML = html; }
+    function renderPromos() { let html = ""; for(let code in promoSettings) { html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${code} (${promoSettings[code]}%)</span><button type="button" onclick="deletePromoUI('${code}')" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">✖</button></div>`; } document.getElementById('promo-list').innerHTML = html || "No promos active."; }
+    function renderLoyalty() { let html = ""; for(let i=1; i<=20; i++) { html += `<div style="display:flex; align-items:center; gap:5px;"><span>Order #${i}:</span><input type="number" id="loyalty-val-${i}" value="${loyaltySettings[i]||0}" style="width:60px; margin:0; padding:5px;"><button type="button" onclick="updateLoyaltyUI(${i})" style="background:var(--primary); border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Save</button></div>`; } document.getElementById('loyalty-list').innerHTML = html; }
     function addPromoUI() { let c = document.getElementById('new-promo-code').value.trim().toUpperCase(); let p = document.getElementById('new-promo-pct').value; if(!c||!p)return; promoSettings[c] = parseFloat(p); renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'add_promo', code:c, discount:p}), mode:'no-cors'}).then(()=>showToast("Promo Added", "success")); }
     function deletePromoUI(code) { delete promoSettings[code]; renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'delete_promo', code:code}), mode:'no-cors'}).then(()=>showToast("Promo Deleted", "success")); }
     function updateLoyaltyUI(num) { let val = document.getElementById(`loyalty-val-${num}`).value; loyaltySettings[num] = parseFloat(val); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'update_loyalty', orderNum:num, discount:val}), mode:'no-cors'}).then(()=>showToast("Loyalty Updated", "success")); }
@@ -441,15 +486,45 @@
     }
 
     // --- OTHER CORE (Drag Drop, Folders, Config) ---
+    const T_LANG = { 
+        en: { add: "ADD TO CART", oos: "OUT OF STOCK", back: "← Back", search: "Search Store..." }, 
+        fr: { add: "AJOUTER", oos: "RUPTURE", back: "← Retour", search: "Rechercher..." } 
+    };
+
+    function applyLang() { 
+        const d = T_LANG[currentLang]; let li=document.getElementById('lang-ind'); if(li) li.innerText = currentLang.toUpperCase();
+        let ms=document.getElementById('mainSearch'); if(ms) ms.placeholder = d.search;
+        if(Object.keys(productsData.categories).length > 0) forceReRender(); 
+    }
+    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
+
     function navTo(type, safeCat = null, safeApp = null) { try { currentView = { type: type, cat: safeCat ? safeDec(safeCat) : null, app: safeApp ? safeDec(safeApp) : null }; forceReRender(); } catch(e) { currentView = { type: 'cats', cat: null, app: null }; forceReRender(); } }
-    function forceReRender() { document.getElementById('content-area').innerHTML = ""; const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : ""; let html = ''; const dic = T[currentLang]; if(q) { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); }); }); }); html += `</div>`; } else { if(currentView.type === 'cats') { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'apps') { const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`; Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'items') { const appData = productsData.categories[currentView.cat]?.apps[currentView.app]; if(!appData) return navTo('cats'); html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`; if(isSupportAccess()) { html += `<div class="ungroup-zone" style="display:block;" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; } Object.values(appData.groups).forEach((g, gI) => { let safeGrp = safeEnc(g.name); let folderDrop = isSupportAccess() ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : ""; let editBtn = isSupportAccess() ? `<span onclick="event.stopPropagation(); openFolderEdit('${safeEnc(currentView.cat)}', '${safeEnc(currentView.app)}', '${safeGrp}')" style="margin-right:10px; cursor:pointer; font-size:1.1rem; border:1px solid rgba(255,255,255,0.1); padding:4px; border-radius:6px; background:rgba(0,0,0,0.5);">✏️</span>` : ""; html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>${editBtn}${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`; g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`; }); appData.standalone.forEach(it => html += drawItemRow(it, dic)); } } document.getElementById('content-area').innerHTML = html; }
+    
+    function forceReRender() { 
+        let ca=document.getElementById('content-area'); if(!ca) return; ca.innerHTML = ""; 
+        const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : ""; let html = ''; const dic = T_LANG[currentLang]; 
+        if(q) { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); }); }); }); html += `</div>`; } 
+        else { if(currentView.type === 'cats') { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'apps') { const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); html += `<button type="button" onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`; Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'items') { const appData = productsData.categories[currentView.cat]?.apps[currentView.app]; if(!appData) return navTo('cats'); html += `<button type="button" onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`; if(isSupportAccess()) { html += `<div class="ungroup-zone" style="display:block;" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; } Object.values(appData.groups).forEach((g, gI) => { let safeGrp = safeEnc(g.name); let folderDrop = isSupportAccess() ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : ""; let editBtn = isSupportAccess() ? `<span onclick="event.stopPropagation(); openFolderEdit('${safeEnc(currentView.cat)}', '${safeEnc(currentView.app)}', '${safeGrp}')" style="margin-right:10px; cursor:pointer; font-size:1.1rem; border:1px solid rgba(255,255,255,0.1); padding:4px; border-radius:6px; background:rgba(0,0,0,0.5);">✏️</span>` : ""; html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>${editBtn}${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`; g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`; }); appData.standalone.forEach(it => html += drawItemRow(it, dic)); } } 
+        ca.innerHTML = html; 
+    }
+    
     function drawItemRow(it, dic) { let safeName = safeEnc(it.originalName); let safeDisp = safeEnc(it.name); let dragProps = isSupportAccess() ? `draggable="true" ondragstart="handleDragStart(event, '${safeName}')" ondragend="handleDragEnd(event)"` : ""; let adminTools = ""; if (isSupportAccess()) { adminTools += `<div class="support-tools" style="margin-top:10px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px; display:flex; gap:5px;"><button type="button" style="flex:1; background:transparent; border:1px solid var(--warn); color:var(--warn); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="updateItem('${safeName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button>`; if (isAdminAccess()) { adminTools += `<button type="button" style="flex:1; background:transparent; border:1px solid var(--primary); color:var(--primary); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="showEditItemModal('${safeName}')">[✏️ Edit]</button><button type="button" style="flex:1; background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="deleteItem('${safeName}')">[🗑️ Del]</button>`; } adminTools += `</div>`; } return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button type="button" class="add-cart-btn" onclick="addToCart('${safeName}', ${it.price}, '${safeDisp}')" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`; }
 
+    function initEmojiGrid() { const grid = document.getElementById('icon-db'); if(!grid) return; grid.innerHTML = FOLDER_EMOJIS.map(e => `<div class="emoji-slot ${e==='📁'?'active':''}" onclick="selEmoji(this, '${e}')">${e}</div>`).join(''); }
+    function selEmoji(el, icon) { document.querySelectorAll('.emoji-slot').forEach(n => n.classList.remove('active')); el.classList.add('active'); selectedFolderEmoji = icon; }
+    function openFolderEdit(safeCat, safeApp, safeGrp) { currentEditingGroupCtx = { cat: safeDec(safeCat), app: safeDec(safeApp), grp: safeDec(safeGrp) }; let cleanName = currentEditingGroupCtx.grp; if(FOLDER_EMOJIS.some(e => cleanName.startsWith(e))) { let parts = cleanName.split(" "); let icon = parts.shift(); document.getElementById('edit-folder-name').value = parts.join(" "); selEmoji(document.querySelector('.emoji-slot.active') || document.querySelector('.emoji-slot'), icon); } else { document.getElementById('edit-folder-name').value = cleanName; } initEmojiGrid(); openModal('edit-folder-modal'); }
+    async function executeFolderRename() { let newName = document.getElementById('edit-folder-name').value.trim(); if(!newName) return; let fullNewGroup = (selectedFolderEmoji + " " + newName).trim(); if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal'); let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true; let itemsToUpdate = []; const catData = productsData.categories[currentEditingGroupCtx.cat]; if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) { catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); }); } for(let oldName of itemsToUpdate) { let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup; await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName }), mode: 'no-cors' }); } closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false; forceSync(); showToast("Folder Updated!", "success"); }
     function handleDragStart(e, rawName) { draggedItemRawName = safeDec(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
     function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
     function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
     function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
     function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => forceSync()); } draggedItemRawName = null; }
+
+    function showEditItemModal(origNameRaw) { let it = null; let origName = safeDec(origNameRaw); Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i}; }); Object.values(a.groups).forEach(g => { g.items.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i, g: g.name}; }); }); });}); if(!it) return showToast("Item not found.", "error"); document.getElementById('edit-orig-name').value = origName; document.getElementById('edit-cat-sel').value = it.c.name; document.getElementById('edit-app-fr').value = it.a.name; document.getElementById('edit-app-en').value = it.a.name; document.getElementById('edit-item-name-fr').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-name-en').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-price').value = it.i.price; openModal('edit-item-modal'); }
+    async function submitItemEdit() { let oldName = document.getElementById('edit-orig-name').value; let cFr = document.getElementById('edit-cat-sel').value; let aFr = document.getElementById('edit-app-fr').value; let aEn = document.getElementById('edit-app-en').value || aFr; let nFr = document.getElementById('edit-item-name-fr').value; let nEn = document.getElementById('edit-item-name-en').value || nFr; let p = document.getElementById('edit-item-price').value; if(oldName.includes("||GRP||")) { let grp = "||GRP||" + oldName.split("||GRP||")[1]; nFr += grp; nEn += grp; } closeModal('edit-item-modal'); showToast("Saving...", "info"); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "edit_item_full", oldName: oldName, catFr: cFr, appFr: aFr, nameFr: nFr, price: p, catEn: cFr, appEn: aEn, nameEn: nEn }), mode: 'no-cors' }); forceSync(); showToast("Updated!", "success"); } catch(e) {} }
+    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let appFr = document.getElementById('add-app-fr').value; let appEn = document.getElementById('add-app-en').value || appFr; let nameFr = document.getElementById('add-item-name-fr').value; let nameEn = document.getElementById('add-item-name-en').value || nameFr; let price = document.getElementById('add-item-price').value; let finalNameFr = nameFr; let finalNameEn = nameEn; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) { finalNameFr += "||GRP||" + group; finalNameEn += "||GRP||" + group; } } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", catFr: cat, appFr: appFr, nameFr: finalNameFr, price: price, catEn: cat, appEn: appEn, nameEn: finalNameEn }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Saved!", "success"); }); }
+    function updateItem(encodedName, price, isOOS) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: safeDec(encodedName), newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => forceSync()); }
+    function deleteItem(encodedName) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: safeDec(encodedName) }), mode: 'no-cors' }).then(() => forceSync()); } }
 
     window.onload = () => {
         if (!localStorage.getItem('cyberhub_v47_pol')) { openPolicyModal(false); }
