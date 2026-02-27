@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#050b14">
     <link rel="manifest" href='data:application/manifest+json,{"name":"CyberHub","short_name":"CyberHub","display":"standalone","background_color":"#050b14","theme_color":"#00f0ff"}'>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,34 +19,40 @@
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
         #particles-js{position:fixed;inset:0;z-index:-1;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
+        
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
+        
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
         .n-card:active{transform:scale(0.96);}
         .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
+        
         .f-head{background:linear-gradient(135deg,rgba(0,0,0,0.5),rgba(0,0,0,0.2));border:1px solid var(--b);border-left:4px solid var(--p);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5);}
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;}
+        
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
         input::-webkit-credentials-auto-fill-button { visibility: hidden; display: none !important; pointer-events: none; }
+        
         .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--p);color:#000;padding:15px 25px;border-radius:30px;font-size:1rem;font-weight:bold;transition:0.4s;z-index:20000;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
         .toast.show{bottom:30px;}
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
         .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
+        
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;}
         .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
-        .otp-box{width:45px;height:55px;text-align:center;font-size:1.5rem;font-weight:bold;margin:0 4px;border-radius:10px;padding:0;}
-        .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
-        .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
+        .otp-box{width:45px;height:55px;text-align:center;font-size:1.5rem;font-weight:bold;margin:0 4px;border-radius:10px;}
+        
         .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
         .fab-supp{position:fixed;bottom:105px;right:25px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
+        
         .wheel-cnt{position:relative;width:240px;height:240px;margin:20px auto;border-radius:50%;border:6px solid var(--p);overflow:hidden;box-shadow:0 0 30px rgba(0,240,255,0.3);}
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #ff4d4d;z-index:10;filter:drop-shadow(0 2px 5px #000);}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);}
@@ -300,6 +307,7 @@
     function tgLang(){lang=lang==='en'?'fr':'en'; localStorage.setItem('ch_lng',lang); appLang(); ren();}
     function appLang(){ el('l-ind').innerText=lang.toUpperCase(); document.querySelectorAll('.tr').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.innerText = T[lang][e.getAttribute('data-k')]; }); document.querySelectorAll('.tr-ph').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.placeholder = T[lang][e.getAttribute('data-k')]; }); ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>e.innerText=T[lang][k]);}); }
 
+    // COLOR ENGINE 
     function hslToHex(h, s, l) {
         s /= 100; l /= 100; let c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r=0, g=0, b=0;
         if (0<=h && h<60) { r=c; g=x; b=0; } else if (60<=h && h<120) { r=x; g=c; b=0; } else if (120<=h && h<180) { r=0; g=c; b=x; } else if (180<=h && h<240) { r=0; g=x; b=c; } else if (240<=h && h<300) { r=x; g=0; b=c; } else if (300<=h && h<360) { r=c; g=0; b=x; }
@@ -340,40 +348,36 @@
         } catch(e) { if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
     }
 
-    // TYPEERROR FIX RENDER ENGINE
     function ren(){
         let hHtml=""; let a=el('st-cnt'); let q=el('srch').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
-        
-        if(!db.inv || db.inv.length < 2) {
-            a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`;
-            return;
-        }
+        if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`; return; }
         
         let categories = []; let catSubMap = {};
         db.inv.slice(1).forEach(r => {
-            if(!r || r.length<9 || (!r[6] && !r[7])) return;
+            if(!r || r.length<9 || (!r[7] && !r[8])) return;
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let sub = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
             if(categories.indexOf(cat)===-1) categories.push(cat);
             if(!catSubMap[cat]) catSubMap[cat] = [];
             if(catSubMap[cat].indexOf(sub)===-1) catSubMap[cat].push(sub);
         });
+        
         let distinctHues = [210, 140, 280, 25, 320, 50, 180, 250, 350, 80, 200, 300];
         let shades = [[90,92], [70,78], [85,65], [50,85], [100,72], [60,60]];
-        
         let catCol = 'var(--p)'; 
 
         db.inv.slice(1).forEach(r=>{
-            if(!r || r.length<9 || (!r[6] && !r[7])) return; 
+            if(!r || r.length<9 || (!r[7] && !r[8])) return; 
             let itmId = r[0]?String(r[0]).trim():"ID-000";
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
-            let img = r[3]||'';
+            let imgC = r[3]||'';
             let app = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
-            let n = (lang==='en' && r[6]) ? String(r[6]).trim() : (r[7] ? String(r[7]).trim() : "Item");
-            let p=parseFloat(r[8])||0, oos=(r.length>9&&String(r[9]).toUpperCase().includes("OOS"));
-            let exReq=(r[10]===true || String(r[10]).toLowerCase()==='true');
-            let exTxt=r[11]?String(r[11]):"Details...";
-            let wrn=(lang==='en' && r[12]) ? String(r[12]) : (r[13] ? String(r[13]) : "");
+            let imgA = r[6]||'';
+            let n = (lang==='en' && r[7]) ? String(r[7]).trim() : (r[8] ? String(r[8]).trim() : "Item");
+            let p=parseFloat(r[9])||0, oos=(r.length>10&&String(r[10]).toUpperCase().includes("OOS"));
+            let exReq=(r[11]===true || String(r[11]).toLowerCase()==='true');
+            let exTxt=r[12]?String(r[12]):"Details...";
+            let wrn=(lang==='en' && r[13]) ? String(r[13]) : (r[14] ? String(r[14]) : "");
             
             let catIndex = categories.indexOf(cat);
             let subIndex = catSubMap[cat].indexOf(app);
@@ -384,26 +388,22 @@
 
             let grp=null; if(n.includes("||GRP||")){let pt=n.split("||GRP||"); n=pt[0].trim(); grp=pt[1].trim();}
             
-            if(q){if(n.toLowerCase().includes(q)) sA.push({id:itmId, on:r[6]||r[7], n, p, oos, exReq, exTxt, wrn, col:itemHex}); return;}
+            if(q){if(n.toLowerCase().includes(q)) sA.push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex}); return;}
             
-            if(cView.t==='cats') c[cat]={i:img, h:catHue}; 
-            else if(cView.t==='apps'&&cView.c===cat) ap[app]={i:img, col:itemHex}; 
-            else if(cView.t==='items'&&cView.c===cat&&cView.a===app) {if(grp){if(!g[grp])g[grp]=[]; g[grp].push({id:itmId, on:r[6]||r[7], n, p, oos, exReq, exTxt, wrn, col:itemHex});} else sA.push({id:itmId, on:r[6]||r[7], n, p, oos, exReq, exTxt, wrn, col:itemHex});}
+            if(cView.t==='cats') { if(!c[cat]) c[cat]={i:imgC, h:catHue}; else if(!c[cat].i && imgC) c[cat].i = imgC; }
+            else if(cView.t==='apps'&&cView.c===cat) { if(!ap[app]) ap[app]={i:imgA, col:itemHex}; else if(!ap[app].i && imgA) ap[app].i = imgA; }
+            else if(cView.t==='items'&&cView.c===cat&&cView.a===app) {if(grp){if(!g[grp])g[grp]=[]; g[grp].push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex});} else sA.push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex});}
         });
 
         if(q){ if(sA.length===0) hHtml=`<div style="text-align:center;color:var(--sub);">Empty.</div>`; else sA.forEach(i=>hHtml+=dR(i)); } 
         else if(cView.t==='cats'){ 
             hHtml+=`<div class="grid">`; 
-            for(let k in c) {
-                hHtml+=`<div class="n-card" style="border-color:hsl(${c[k].h},80%,60%);background:linear-gradient(135deg,hsla(${c[k].h},80%,50%,0.15),rgba(10,15,30,0.9));box-shadow:0 4px 15px hsla(${c[k].h},80%,50%,0.2);" onclick="navTo('apps','${sEnc(k)}')"><img src="${c[k].i}"><b>${k}</b></div>`; 
-            }
+            for(let k in c) { hHtml+=`<div class="n-card" style="border-color:hsl(${c[k].h},80%,60%);background:linear-gradient(135deg,hsla(${c[k].h},80%,50%,0.15),rgba(10,15,30,0.9));box-shadow:0 4px 15px hsla(${c[k].h},80%,50%,0.2);" onclick="navTo('apps','${sEnc(k)}')"><img src="${c[k].i}"><b>${k}</b></div>`; }
             hHtml+=`</div>`; 
         } 
         else if(cView.t==='apps'){ 
             hHtml+=`<button class="icon-btn tr" data-k="bck" onclick="navTo('cats')" style="margin-bottom:15px;background:transparent;border-color:${catCol};color:${catCol};">← Back</button><div class="grid">`; 
-            for(let k in ap) {
-                hHtml+=`<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${ap[k].col}20,rgba(10,15,30,0.9));box-shadow:0 4px 15px ${ap[k].col}40;" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}')"><img src="${ap[k].i}"><b>${k}</b></div>`; 
-            }
+            for(let k in ap) { hHtml+=`<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${ap[k].col}20,rgba(10,15,30,0.9));box-shadow:0 4px 15px ${ap[k].col}40;" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}')"><img src="${ap[k].i}"><b>${k}</b></div>`; }
             hHtml+=`</div>`; 
         } 
         else if(cView.t==='items'){ 
@@ -415,8 +415,7 @@
             } 
             sA.forEach(i=>hHtml+=dR(i)); 
         } 
-        a.innerHTML=hHtml;
-        appLang();
+        a.innerHTML=hHtml; appLang();
     }
     
     function dR(i){
@@ -425,17 +424,7 @@
         let extHtml = i.exReq ? `<input type="text" id="ex-${i.id}" placeholder="${i.exTxt}" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">` : '';
         let btnCol = i.col || 'var(--p)';
         let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>${T[lang].oos}</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}', ${i.exReq})">${T[lang].add}</button>`; 
-        return `<div class="i-row" style="border-left:3px solid ${btnCol};">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                <div>
-                    <span style="font-weight:bold;font-size:1.1rem;">${i.n}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}
-                    <br><span style="color:var(--sub);font-size:0.8rem;font-family:monospace;">ID: ${i.id}</span>
-                    <br><b style="color:${btnCol};font-size:1.2rem;margin-top:5px;display:block;">${i.p} DT</b>
-                    ${wrnHtml}
-                </div>
-                <div style="width:140px;text-align:right;">${extHtml}${b}</div>
-            </div>
-        </div>`;
+        return `<div class="i-row" style="border-left:3px solid ${btnCol};"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><span style="font-weight:bold;font-size:1.1rem;">${i.n}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}<br><span style="color:var(--sub);font-size:0.8rem;font-family:monospace;">ID: ${i.id}</span><br><b style="color:${btnCol};font-size:1.2rem;margin-top:5px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;">${extHtml}${b}</div></div></div>`;
     }
 
     function mv(e,i){if(e.key>=0&&e.key<=9){el('o'+i).value=e.key;if(i<5)el('o'+(i+1)).focus();}else if(e.key==='Backspace'&&i>0){el('o'+i).value='';el('o'+(i-1)).focus();}}
@@ -481,7 +470,7 @@
     
     async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
     
-    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[6]||r[7]){ let n=(lang==='en'&&r[6])?r[6]:r[7]; h+=`<option value="${sEnc(n)}||${r[8]||0}">${n} (${r[8]||0} DT)</option>`;} }); } s.innerHTML=h; }
+    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[7]||r[8]){ let n=(lang==='en'&&r[7])?r[7]:r[8]; h+=`<option value="${sEnc(n)}||${r[9]||0}">${n} (${r[9]||0} DT)</option>`;} }); } s.innerHTML=h; }
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{oid:"MNL-"+Math.floor(1e4+Math.random()*9e4),client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
 
