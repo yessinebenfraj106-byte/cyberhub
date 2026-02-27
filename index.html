@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         :root{--p:#00f0ff;--bg:#050b14;--c:rgba(10,15,30,0.8);--b:rgba(0,240,255,0.2);--w:#ffae00;}
         body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
@@ -22,18 +23,21 @@
         
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
-        .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;}
+        .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.2s;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
         
+        /* CATEGORY FRAMES */
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-        .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+        .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
         .n-card:active{transform:scale(0.96);}
         .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
         
         .f-head{background:linear-gradient(135deg,rgba(0,0,0,0.5),rgba(0,0,0,0.2));border:1px solid var(--b);border-left:4px solid var(--p);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5);}
-        .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;}
+        .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.2s;}
+        .btn:active{transform:scale(0.95);}
         
+        /* MODALS & INPUTS */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
@@ -44,6 +48,7 @@
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
         .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
         
+        /* SIDEBAR */
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;}
@@ -60,6 +65,16 @@
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #ff4d4d;z-index:10;filter:drop-shadow(0 2px 5px #000);}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);}
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;vertical-align:middle;}
+        
+        /* SHIMMER EFFECT FOR REQUEST SERVICE */
+        .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, #00f0ff); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
+        @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        
+        /* ADMIN INVENTORY STYLES */
+        .inv-item { background:rgba(0,0,0,0.3); border:1px solid #333; padding:10px; margin-bottom:5px; border-radius:8px; display:flex; align-items:center; gap:10px; }
+        .inv-handle { cursor: grab; font-size: 1.2rem; color: var(--sub); }
+        .inv-inp { padding: 8px; margin:0; font-size:0.9rem; background:rgba(0,0,0,0.5); border:1px solid #444; color:#fff; }
+        .inv-btn { padding: 8px 12px; margin:0; width:auto; font-size:0.9rem; }
     </style>
 </head>
 <body>
@@ -73,7 +88,8 @@
     <div class="m-item" onclick="openModal('pol-mod');el('sidebar').classList.remove('open');">📜 <span class="tr" data-k="pol">Store Policy</span></div>
     <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
     <div class="m-item" onclick="openModal('wheel-modal');el('sidebar').classList.remove('open');">🎁 <span class="tr" data-k="spin">Spin & Win</span></div>
-    <div id="adm-btn" class="m-item" style="display:none;color:var(--w);border-top:1px dashed var(--w);margin-top:15px;" onclick="openModal('adm-dash');el('sidebar').classList.remove('open');setTimeout(drawCharts,300);">🛠️ <span class="tr" data-k="god">God-Mode</span></div>
+    <div class="m-item" onclick="openModal('req-srv-mod');el('sidebar').classList.remove('open');">✨ <span class="tr" data-k="reqSrv">Request Service</span></div>
+    <div id="adm-btn" class="m-item" style="display:none;color:var(--w);border-top:1px dashed var(--w);margin-top:15px;" onclick="openAdminDash();el('sidebar').classList.remove('open');">🛠️ <span class="tr" data-k="god">God-Mode</span></div>
 </div>
 
 <div class="cont">
@@ -104,7 +120,9 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
-    <input type="search" id="srch" name="q_search" class="glass tr-ph" data-k="srch" placeholder="Search Store..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore="true" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:20px;">
+    <input type="search" id="srch" name="q_search" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore="true" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
+    
+    <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
     
     <div id="st-cnt"><div style="text-align:center;color:var(--p);font-weight:bold;padding:40px;" class="tr" data-k="ld">Loading Store... ⏳</div></div>
 
@@ -191,6 +209,15 @@
     <button class="tr" data-k="cls" onclick="closeModal('prof-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
+<div id="req-srv-mod" class="modal"><div class="m-cnt">
+    <h3 style="color:#ff00ff;margin-top:0;" class="tr" data-k="reqSrv">✨ Request Custom Service</h3>
+    <p style="color:var(--sub);font-size:0.85rem;margin-bottom:15px;">Can't find what you are looking for? Tell us what you need and we will make it happen.</p>
+    <input type="text" id="rs-nom" placeholder="Service Name (e.g., Custom Website, Specific Game Topup)">
+    <textarea id="rs-desc" placeholder="Details..." style="height:80px;"></textarea>
+    <button class="btn glow-btn tr" data-k="sndWa" onclick="reqServiceWa()">Send via WhatsApp</button>
+    <button class="tr" data-k="canc" onclick="closeModal('req-srv-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Cancel</button>
+</div></div>
+
 <div id="cart-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="crt">🛒 Cart</h3>
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
@@ -253,8 +280,30 @@
         <button class="btn tr" data-k="mn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
+        <button class="btn tr" data-k="invMng" style="margin:0;background:linear-gradient(90deg,var(--w),#ff4d4d);color:#fff;border:none;grid-column: span 2;" onclick="openModal('inv-mng-mod')">➕ Manage Store (Add Item)</button>
+        <button class="btn" style="margin:0;background:rgba(255,215,0,0.1);color:#FFD700;border:1px solid #FFD700;grid-column: span 2;" onclick="fAdm('inventory')">📂 Edit Inventory (Drag & Drop)</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
+</div></div>
+
+<div id="inv-mng-mod" class="modal"><div class="m-cnt">
+    <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="addItm">➕ Create New Item</h3>
+    <div style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">Colors will be automatically assigned.</div>
+    <input type="text" id="ai-cat" placeholder="Category Name (e.g. Gaming)">
+    <input type="text" id="ai-sub" placeholder="Subcategory Name (e.g. PC Games)">
+    
+    <div style="background:rgba(255,255,255,0.1);padding:10px;border-radius:8px;margin:10px 0;">
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:5px;font-weight:bold;">
+            <input type="checkbox" id="ai-hasFld" style="width:auto;margin:0;"> Enable Folder?
+        </label>
+        <input type="text" id="ai-fldN" placeholder="Folder Name (e.g. Riot Points)" style="margin-bottom:5px;">
+        <input type="text" id="ai-fldE" placeholder="Folder Emoji (e.g. 📁)">
+    </div>
+
+    <input type="text" id="ai-nom" placeholder="Item Name (e.g. 1000 VP)">
+    <input type="number" id="ai-prc" placeholder="Price (DT)">
+    <button class="btn" style="background:var(--w);" onclick="addNewItem()">Add to Store Database</button>
+    <button class="tr" data-k="canc" onclick="closeModal('inv-mng-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
 </div></div>
 
 <div id="whl-ed-mod" class="modal"><div class="m-cnt" style="max-width:600px;">
@@ -263,9 +312,9 @@
     <button class="tr" data-k="cls" onclick="closeModal('whl-ed-mod')" style="background:none;border:none;color:var(--sub);font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
-<div id="d-mod" class="modal"><div class="m-cnt" style="max-width:700px;">
+<div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;">
     <h3 id="d-tit" style="color:var(--p);margin-top:0;">Data</h3>
-    <div id="d-box" style="text-align:left;max-height:60vh;overflow-y:auto;font-size:0.85rem;"></div>
+    <div id="d-box" style="text-align:left;max-height:65vh;overflow-y:auto;font-size:0.85rem;"></div>
     <button class="tr" data-k="cls" onclick="closeModal('d-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
@@ -284,8 +333,8 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
+    // 🔥 YOUR SCRIPT URL 
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
-    
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
@@ -294,8 +343,8 @@
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     
     const T = {
-      en: { ld: "Loading Store... ⏳", srch: "Search Store...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:" },
-      fr: { ld: "Chargement... ⏳", srch: "Rechercher...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:" }
+      en: { ld: "Loading Store... ⏳", srch: "Search Item or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Manage Store (Add Item)", addItm: "➕ Create New Item" },
+      fr: { ld: "Chargement... ⏳", srch: "Recherche ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Gérer la Boutique", addItm: "➕ Créer un Article" }
     };
 
     function el(i){return document.getElementById(i);}
@@ -317,7 +366,7 @@
     }
 
     async function bioSet(iA){if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod');}else{localStorage.setItem('ch_bU',user); pAPI('link_bio',{c:user},true);} toast(T[lang].svd,false); }catch(e){toast(T[lang].err,true);}}
-    async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); if(!iA && !localStorage.getItem('ch_bU')) return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openModal('adm-dash');setTimeout(drawCharts,300);}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast(T[lang].scs,false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast(T[lang].err,true);}}
+    async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); if(!iA && !localStorage.getItem('ch_bU')) return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openAdminDash();}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast(T[lang].scs,false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast(T[lang].err,true);}}
 
     function chkUI(){if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block';} let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}}
     function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
@@ -356,7 +405,7 @@
         
         let categories = []; let catSubMap = {};
         db.inv.slice(1).forEach(r => {
-            if(!r || r.length<9 || (!r[7] && !r[8])) return;
+            if(!r || r.length<12 || (!r[10] && !r[11])) return;
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let sub = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
             if(categories.indexOf(cat)===-1) categories.push(cat);
@@ -369,17 +418,22 @@
         let catCol = 'var(--p)'; 
 
         db.inv.slice(1).forEach(r=>{
-            if(!r || r.length<9 || (!r[7] && !r[8])) return; 
+            if(!r || r.length<12 || (!r[10] && !r[11])) return; 
             let itmId = r[0]?String(r[0]).trim():"ID-000";
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let imgC = r[3]||'';
             let app = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
             let imgA = r[6]||'';
-            let n = (lang==='en' && r[7]) ? String(r[7]).trim() : (r[8] ? String(r[8]).trim() : "Item");
-            let p=parseFloat(r[9])||0, oos=(r.length>10&&String(r[10]).toUpperCase().includes("OOS"));
-            let exReq=(r[11]===true || String(r[11]).toLowerCase()==='true');
-            let exTxt=r[12]?String(r[12]):"Details...";
-            let wrn=(lang==='en' && r[13]) ? String(r[13]) : (r[14] ? String(r[14]) : "");
+            
+            let hasFld = (r[7] === true || String(r[7]).toLowerCase() === 'true');
+            let fldN = r[8] ? String(r[8]).trim() : "Folder";
+            let fldE = r[9] || "📁";
+
+            let n = (lang==='en' && r[10]) ? String(r[10]).trim() : (r[11] ? String(r[11]).trim() : "Item");
+            let p=parseFloat(r[12])||0, oos=(r.length>13&&String(r[13]).toUpperCase().includes("OOS"));
+            let exReq=(r[14]===true || String(r[14]).toLowerCase()==='true');
+            let exTxt=r[15]?String(r[15]):"Details...";
+            let wrn=(lang==='en' && r[16]) ? String(r[16]) : (r[17] ? String(r[17]) : "");
             
             let catIndex = categories.indexOf(cat);
             let subIndex = catSubMap[cat].indexOf(app);
@@ -388,18 +442,24 @@
             
             if (cView.c === cat) { catCol = `hsl(${catHue},80%,60%)`; }
 
-            let grp=null; if(n.includes("||GRP||")){let pt=n.split("||GRP||"); n=pt[0].trim(); grp=pt[1].trim();}
-            
             if(q){
                 if(n.toLowerCase().includes(q) || itmId.toLowerCase().includes(q)) {
-                    sA.push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});
+                    sA.push({id:itmId, on:r[10]||r[11], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});
                 }
                 return;
             }
             
             if(cView.t==='cats') { if(!c[cat]) c[cat]={i:imgC, h:catHue}; else if(!c[cat].i && imgC) c[cat].i = imgC; }
             else if(cView.t==='apps'&&cView.c===cat) { if(!ap[app]) ap[app]={i:imgA, col:itemHex}; else if(!ap[app].i && imgA) ap[app].i = imgA; }
-            else if(cView.t==='items'&&cView.c===cat&&cView.a===app) {if(grp){if(!g[grp])g[grp]=[]; g[grp].push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});} else sA.push({id:itmId, on:r[7]||r[8], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});}
+            else if(cView.t==='items'&&cView.c===cat&&cView.a===app) {
+                let itemData = {id:itmId, on:r[10]||r[11], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app};
+                if(hasFld){
+                    if(!g[fldN]) g[fldN] = {emoji: fldE, items: []};
+                    g[fldN].items.push(itemData);
+                } else {
+                    sA.push(itemData);
+                }
+            }
         });
 
         if(q){ if(sA.length===0) hHtml=`<div style="text-align:center;color:var(--sub);">Empty.</div>`; else sA.forEach(i=>hHtml+=dR(i)); } 
@@ -415,28 +475,28 @@
         } 
         else if(cView.t==='items'){ 
             hHtml+=`<button class="icon-btn tr" data-k="bck" onclick="navTo('apps','${sEnc(cView.c)}')" style="margin-bottom:15px;background:transparent;border-color:${catCol};color:${catCol};">← Back</button>`; 
-            for(let k in g){
-                let rId="g-"+k.replace(/[\s']/g,''); 
-                hHtml+=`<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${catCol}20,rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${k} (${g[k].length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; 
-                g[k].forEach(i=>hHtml+=dR(i)); hHtml+=`</div>`;
+            for(let fName in g){
+                let rId="g-"+fName.replace(/[\s']/g,''); 
+                hHtml+=`<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${catCol}20,rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; 
+                g[fName].items.forEach(i=>hHtml+=dR(i)); hHtml+=`</div>`;
             } 
             sA.forEach(i=>hHtml+=dR(i)); 
         } 
         a.innerHTML=hHtml; appLang();
     }
     
-    // UI DISPLAY UPDATE: Category > Subcategory on Top
     function dR(i){
         let eO=sEnc(i.id), eN=sEnc(i.n); 
         let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : '';
         let extHtml = i.exReq ? `<input type="text" id="ex-${i.id}" placeholder="${i.exTxt}" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">` : '';
         let btnCol = i.col || 'var(--p)';
+        let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol}; opacity:0.8;">▶</span> ${i.sub}</div>` : '';
         let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>${T[lang].oos}</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}', ${i.exReq})">${T[lang].add}</button>`; 
         
         return `<div class="i-row" style="border-left:3px solid ${btnCol};">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                 <div>
-                    <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol}; opacity:0.8;">▶</span> ${i.sub}</div>
+                    ${catHtml}
                     <span style="font-weight:900;font-size:1.15rem;color:#fff;">${i.n}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}
                     <br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>
                     <br><b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>
@@ -453,7 +513,7 @@
     function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
     function logOut(){localStorage.clear(); user=null; role=null; pass=null; uOrders=0; uIg=""; uWa=""; uFb=""; chkUI(); closeModal('prof-mod'); toast(T[lang].scs,false); ren();}
     async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
-    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openModal('adm-dash'); setTimeout(drawCharts,300);} else toast(T[lang].err,true);}
+    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openAdminDash();} else toast(T[lang].err,true);}
     function sRM(m){rM=m; el('b-em').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('b-ph').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('rCnt').placeholder=m==='email'?'Email':'Phone'; el('b-reg').innerText=T[lang].snd;}
     async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast(T[lang].fill,true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); let d=await r.json(); el('b-reg').disabled=false; if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].err,true);} else {el('b-reg').disabled=true; await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); toast(T[lang].cd,false);}}
     async function reqC(res, nE){isR=res; if(nE) {cngEml=true; pE=nE;} else {cngEml=false; pE=res?el('rsEml').value:pE; pP2=res?el('rsPas').value:pP2;} await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); if(!cngEml)swA('c-step'); toast(T[lang].cd,false);}
@@ -465,14 +525,25 @@
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v);}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}catch(e){toast(T[lang].err,true);}}
 
-    async function fAdm(t){
-        el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
-        try{let r=await fetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json(); if(d.status!=="success")throw "Err"; db.ord=d.ord; let h=""; 
+    async function openAdminDash() {
+        toast("Fetching Secure Data...", "info");
+        try {
+            let r=await fetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); 
+            let d=await r.json(); 
+            if(d.status==="success") { db.ord=d.ord; db.usr=d.usr; db.spn=d.spn; db.inv=d.inv; openModal('adm-dash'); setTimeout(drawCharts,300); }
+            else throw "E";
+        } catch(e) { toast(T[lang].err, true); }
+    }
+
+    function fAdm(t){
+        el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":t==="inventory"?"📂 Inventory Editor":"👥 CRM"; 
+        el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
+        let h=""; 
         if(t==="orders"){
-            let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); 
+            let os=[]; db.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); 
             os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('${T[lang].fill}',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});
         } else if(t==="spins") {
-            if(d.spn) { d.spn.slice(1).reverse().forEach(s => {
+            if(db.spn) { db.spn.slice(1).reverse().forEach(s => {
                 if(!s[0]) return;
                 let c = String(s[6]).includes("YES") ? "#ff4d4d" : "var(--sub)";
                 h += `<div class="i-row" style="border-left:3px solid ${c}; display:block;">
@@ -482,17 +553,67 @@
                     <span style="font-size:0.8rem;color:${c};font-weight:bold;">Flag: ${s[6]} | Status: ${s[7]}</span>
                 </div>`;
             });}
+        } else if(t==="inventory") {
+            h += `<div id="inv-list" style="margin-top:10px;">`;
+            db.inv.slice(1).forEach((r, i) => {
+                if(!r[0]) return;
+                let hasFld = (r[7] === true || String(r[7]).toLowerCase() === 'true');
+                h += `<div class="inv-item" data-id="${r[0]}">
+                    <span class="inv-handle">☰</span>
+                    <div style="flex-grow:1;">
+                        <b style="color:var(--p)">${r[0]}</b><br>
+                        <input type="text" class="inv-inp" style="width:80px;" value="${r[1]}" onchange="pAPI('upd_item',{id:'${r[0]}',catE:this.value})">
+                        <input type="text" class="inv-inp" style="width:80px;" value="${r[4]}" onchange="pAPI('upd_item',{id:'${r[0]}',subE:this.value})">
+                        <br>
+                        <label style="font-size:0.8rem;"><input type="checkbox" ${hasFld?'checked':''} onchange="pAPI('upd_item',{id:'${r[0]}',hasFld:this.checked})"> Folder?</label>
+                        <input type="text" class="inv-inp" style="width:70px;" value="${r[8]||''}" placeholder="F-Name" onchange="pAPI('upd_item',{id:'${r[0]}',fldN:this.value})">
+                        <input type="text" class="inv-inp" style="width:30px;text-align:center;" value="${r[9]||''}" placeholder="📁" onchange="pAPI('upd_item',{id:'${r[0]}',fldE:this.value})">
+                        <br>
+                        <input type="text" class="inv-inp" style="width:120px;" value="${r[10]}" onchange="pAPI('upd_item',{id:'${r[0]}',nEn:this.value})">
+                        <input type="number" class="inv-inp" style="width:50px;" value="${r[12]}" onchange="pAPI('upd_item',{id:'${r[0]}',p:this.value})">
+                        <button class="btn inv-btn" style="background:${String(r[13]).includes('OOS')?'#ff4d4d':'#00ff88'};color:#000;" onclick="let s=this.innerText==='OOS'; pAPI('upd_item',{id:'${r[0]}',oos:!s}); this.innerText=s?'In Stock':'OOS'; this.style.background=s?'#00ff88':'#ff4d4d';">${String(r[13]).includes('OOS')?'OOS':'In Stock'}</button>
+                    </div>
+                    <button class="btn inv-btn" style="background:transparent;border:1px solid #ff4d4d;color:#ff4d4d;" onclick="if(confirm('Delete Item?')) pAPI('del_item',{id:'${r[0]}'})">✖</button>
+                </div>`;
+            });
+            h += `</div>`;
         } else {
-            d.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});
+            db.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});
         } 
-        el('d-box').innerHTML=h||"Empty.";}catch(e){el('d-box').innerHTML=T[lang].err;}
+        el('d-box').innerHTML=h||"Empty.";
+        if(t==="inventory") {
+            new Sortable(el('inv-list'), {
+                handle: '.inv-handle', animation: 150,
+                onEnd: function (evt) {
+                    let id1 = evt.item.getAttribute('data-id');
+                    let id2 = evt.items[evt.newIndex].getAttribute('data-id');
+                    pAPI('move_item', {id1: id1, id2: id2});
+                }
+            });
+        }
     }
     
     async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
     
-    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[7]||r[8]){ let n=(lang==='en'&&r[7])?r[7]:r[8]; h+=`<option value="${sEnc(n)}||${r[9]||0}">${n} (${r[9]||0} DT)</option>`;} }); } s.innerHTML=h; }
+    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[10]||r[11]){ let n=(lang==='en'&&r[10])?r[10]:r[11]; h+=`<option value="${sEnc(n)}||${r[12]||0}">${n} (${r[12]||0} DT)</option>`;} }); } s.innerHTML=h; }
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{oid:"MNL-"+Math.floor(1e4+Math.random()*9e4),client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
+
+    function addNewItem() {
+        let c = el('ai-cat').value, s = el('ai-sub').value, n = el('ai-nom').value, p = el('ai-prc').value;
+        let hasFld = el('ai-hasFld').checked, fldN = el('ai-fldN').value, fldE = el('ai-fldE').value;
+        if(!c || !n || !p) return toast(T[lang].fill, true);
+        pAPI('add_item', {catE: c, subE: s, nEn: n, p: p, oos: false, hasFld: hasFld, fldN: fldN, fldE: fldE}, false);
+        closeModal('inv-mng-mod');
+    }
+
+    function reqServiceWa() {
+        let srv = el('rs-nom').value, desc = el('rs-desc').value;
+        if(!srv) return toast(T[lang].fill, true);
+        let msg = `*New Service Request*\n\n*Service:* ${srv}\n*Details:* ${desc}\n*User:* ${user || 'Guest'}`;
+        window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`);
+        closeModal('req-srv-mod');
+    }
 
     function openWhlEd() {
         let h=`<div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;text-align:left;font-size:0.85rem;">`;
