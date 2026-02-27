@@ -5,88 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050b14">
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <style>
         :root { --primary: #00f0ff; --bg: #050b14; --card: rgba(10, 15, 30, 0.7); --border: rgba(0, 240, 255, 0.15); --text: #ffffff; --sub: #94a3b8; --warn: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
-        
         #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; }
         .container { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
-        
         .liquid-glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px; }
-        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
-        
+        .icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: rgba(5, 11, 20, 0.98); z-index: 5000; transition: 0.4s; padding: 30px 20px; border-right: 1px solid var(--primary); display: flex; flex-direction: column; }
         #sidebar.open { left: 0; }
-        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 15px; right: 15px; cursor: pointer; z-index: 10; }
-        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
-        .menu-item:hover { color: var(--primary); padding-left: 20px; }
-        
+        .close-menu { background: none; border: none; color: white; font-size: 2rem; position: absolute; top: 15px; right: 15px; cursor: pointer; }
+        .menu-item { padding: 18px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 15px; }
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: auto; display: block; background: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
-        
-        /* 🔥 HOMEPAGE ADMIN BAR */
         #quick-admin-bar { display: none; background: rgba(0,0,0,0.8); border: 1px solid var(--warn); padding: 10px; border-radius: 12px; margin-bottom: 15px; text-align: center; justify-content:space-between; align-items:center; }
         .maintenance-band { background: rgba(255, 174, 0, 0.1); border: 2px dashed var(--warn); color: var(--warn); padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; }
-
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; animation: fadeIn 0.3s; }
-        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .nav-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15); }
-        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        
-        .request-card { grid-column: span 2; background: linear-gradient(45deg, rgba(255, 174, 0, 0.1), rgba(255, 174, 0, 0.02)); border: 1px dashed var(--warn); color: var(--warn); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; }
-
-        .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; transition: 0.3s; }
-        .folder-header.drag-over { background: rgba(0, 240, 255, 0.3); border-left-width: 8px; }
-        .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; animation: fadeIn 0.3s; }
-        .chevron { transition: 0.3s transform ease; color: var(--primary); font-size: 0.8rem; }
-        .folder-open .chevron { transform: rotate(180deg); }
-        
-        .ungroup-zone { border: 2px dashed var(--sub); padding: 20px; text-align: center; color: var(--sub); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; font-weight: bold; display: none; }
-        .ungroup-zone.drag-over { border-color: #ff4d4d; color: #ff4d4d; background: rgba(255, 77, 77, 0.1); }
-        
-        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .item-row.dragging { opacity: 0.4; border: 2px dashed var(--primary); transform: scale(0.98); }
-        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-card { padding: 20px; text-align: center; cursor: pointer; border: 1px solid var(--border); border-radius: 15px; background: var(--card); transition: 0.3s; }
+        .nav-card img { width: 55px; height: 55px; object-fit: contain; margin: 0 auto 10px auto; display: block; }
+        .folder-header { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.01)); border: 1px solid var(--border); border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; }
+        .folder-content { display: none; padding-left: 15px; border-left: 2px dashed rgba(255,255,255,0.15); margin-left: 10px; margin-bottom: 25px; }
+        .item-row { padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
         .add-cart-btn { background: var(--primary); color: #000; border: none; padding: 14px; border-radius: 12px; cursor: pointer; font-weight: 800; margin-top: 10px; text-transform: uppercase; width: 100%; letter-spacing: 1px; }
-        .add-cart-btn:active { transform: scale(0.97); }
-        .add-cart-btn:disabled { background: #333; color: #777; cursor: not-allowed; transform: none; }
-        .oos-tag { color: #ff4d4d; font-size: 0.7rem; font-weight: 800; border: 1px solid #ff4d4d; padding: 2px 6px; border-radius: 6px; margin-left: 10px; }
-
         .fab-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0, 240, 255, 0.4); cursor: pointer; z-index: 1000; border: none; }
-        
         .modal { display:none; position:fixed; inset:0; background:rgba(2, 6, 23, 0.95); z-index:9000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding: 15px; }
-        .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 90vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,240,255,0.15); }
-        input, select { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
-        
-        .auth-flow-section { display: none; }
-        .auth-flow-section.active { display: block; animation: fadeIn 0.3s; }
-
-        .admin-section { background:rgba(0,0,0,0.4); border-radius:15px; padding:15px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.05); text-align:left; }
-        .admin-section-title { font-size:0.85rem; color:var(--sub); margin-bottom:10px; font-weight:800; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px; }
-        .admin-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .admin-sub-btn { background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer; font-size:0.85rem; transition:0.2s; }
-        .admin-sub-btn:hover { background:rgba(0,240,255,0.1); border-color:var(--primary); }
-        
-        .emoji-db-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; max-height: 220px; overflow-y: auto; margin-bottom: 15px; border: 1px dashed var(--border); }
-        .emoji-slot { font-size: 1.5rem; text-align: center; cursor: pointer; padding: 5px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; background:rgba(255,255,255,0.02); }
-        .emoji-slot.active { border-color: var(--warn); background: rgba(255, 174, 0, 0.2); }
-        
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-size: 1rem; z-index: 99999; font-weight: bold; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-content { padding: 25px; width: 100%; max-width: 550px; text-align: center; max-height: 90vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--primary); border-radius: 20px; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.5); color: var(--text); box-sizing: border-box; font-size: 1rem; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 10px; }
+        .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .c-btn.active { background: rgba(0,240,255,0.15); border-color: var(--primary); color: var(--primary); }
+        .loyalty-banner { background: linear-gradient(90deg, #ffae00, #ff4d4d); color: white; padding: 10px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 15px; display: none; }
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); border: 1px solid var(--primary); background: var(--bg); color: var(--text); padding: 15px 25px; border-radius: 30px; font-weight: bold; transition: bottom 0.4s ease; z-index: 99999; }
         .toast.show { bottom: 30px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .admin-section { background:rgba(0,0,0,0.4); border-radius:15px; padding:15px; margin-bottom:15px; border:1px solid rgba(255,255,255,0.05); text-align:left; }
+        .auth-flow-section { display: none; } .auth-flow-section.active { display: block; }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-icon">✨</span><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast"><span id="toast-msg"></span></div>
 
 <div id="sidebar" class="liquid-glass">
     <button class="close-menu" onclick="toggleSidebar()">✖</button>
@@ -94,46 +56,137 @@
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
         <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
     </div>
-    
     <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
-    <div class="menu-item" onclick="openModal('contact-modal'); toggleSidebar();">📞 Contact Us</div>
+    <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();">📜 Store Policy</div>
     <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:15px;">🛠️ Admin Console</div>
-    
-    <div style="flex-grow: 1;"></div>
-    <div class="menu-item" onclick="openModal('policy-modal'); toggleSidebar();" style="justify-content: center; border: 1px dashed var(--primary); opacity: 0.8; border-radius: 12px; background: rgba(0,240,255,0.05); margin-bottom: 20px;">📜 Store Policy</div>
 </div>
 
 <div class="container">
     <div class="top-bar liquid-glass">
         <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        <div style="display:flex; gap:10px;">
+            <button class="icon-btn" onclick="openProfileOrLogin()" style="border-color:var(--primary); color:var(--primary);">👤 Sign In</button>
+            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
+        </div>
     </div>
     
     <div id="quick-admin-bar" class="liquid-glass">
         <span style="color:var(--warn); font-weight:bold; font-size:0.9rem;">Store Operations:</span>
         <div style="display:flex; gap:10px;">
-            <button onclick="setLiveMaintenance('UNTIL')" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; font-weight:bold; cursor:pointer;">Close</button>
-            <button onclick="setLiveMaintenance('OFF')" style="background:#00ff88; color:black; border:none; padding:5px 10px; border-radius:5px; font-weight:bold; cursor:pointer;">Open</button>
+            <button onclick="setLiveMaintenance('UNTIL')" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Close</button>
+            <button onclick="setLiveMaintenance('OFF')" style="background:#00ff88; color:black; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Open</button>
         </div>
     </div>
 
-    <div id="maintenance-msg" class="maintenance-band liquid-glass"><div id="ui-maint-title">STORE CLOSED FOR UPDATES</div><div id="ui-maint-time"></div></div>
-    
+    <div id="maintenance-msg" class="maintenance-band liquid-glass"><div id="ui-maint-title">STORE CLOSED</div><div id="ui-maint-time"></div></div>
+    <div id="loyalty-banner" class="loyalty-banner">🎉 Loyalty Unlocked! <span id="loyalty-pct">0</span>% off your order today!</div>
+
     <div class="header" style="text-align:center; margin-top: 10px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="openProfileOrLogin()">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
         <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
     </div>
 
-    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;"><div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Loading Data... ⏳</div></div></div>
+    <div id="shop-wrapper"><input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;"><div id="content-area"><div style="color:var(--primary); text-align:center;">Loading Data... ⏳</div></div></div>
 </div>
 
 <button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" style="position:absolute; top:-5px; right:-5px; background:white; color:black; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
+<div id="admin-secret-modal" class="modal"><div class="modal-content liquid-glass">
+    <h3 style="color:var(--warn); margin-bottom:15px;">⚠️ Admin Authentication</h3>
+    <button class="add-cart-btn" onclick="executeUserBiometricLogin(true)" style="background:var(--card); color:var(--warn); border:1px solid var(--warn); margin-bottom:10px;">📱 Use Passkey</button>
+    <button class="add-cart-btn" onclick="switchAuthStep('admin-pass-step')" style="background:var(--card); color:white; border:1px solid white; margin-bottom:10px;">🔑 Enter Password</button>
+    <button class="add-cart-btn" onclick="switchAuthStep('admin-new-passkey-step')" style="background:var(--card); color:#00ff88; border:1px solid #00ff88;">➕ Setup New Passkey</button>
+    
+    <div id="admin-pass-step" class="auth-flow-section" style="margin-top:15px;">
+        <input type="password" id="admin-manual-pass" placeholder="Enter Admin Password">
+        <button class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Login</button>
+    </div>
+    <div id="admin-new-passkey-step" class="auth-flow-section" style="margin-top:15px;">
+        <input type="password" id="admin-setup-pass" placeholder="Verify Admin Password First">
+        <button class="add-cart-btn" onclick="setupNewPasskey(true)" style="background:#00ff88;">Create Passkey</button>
+    </div>
+    <button onclick="closeModal('admin-secret-modal'); switchAuthStep('');" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
+</div></div>
+
+<div id="admin-dashboard-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 800px; padding:20px;">
+    <h2 style="color:var(--warn); margin:0 0 5px 0;">God-Mode Console</h2>
+    <div class="admin-section">
+        <div class="admin-section-title">📊 Interactive Finance</div>
+        <div style="display:flex; gap:10px;"><div style="width:40%;"><canvas id="adminChart" height="120"></canvas></div><div style="width:60%;"><canvas id="revenueChart" height="120"></canvas></div></div>
+        <div style="margin-top:15px; border-top:1px dashed var(--border); padding-top:10px;">
+            <b style="color:var(--primary); font-size:0.9rem;">Itemized Revenue:</b>
+            <div id="finance-table" style="max-height:120px; overflow-y:auto; font-size:0.8rem; margin-top:5px; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;"></div>
+        </div>
+    </div>
+    <div class="admin-section">
+        <div class="admin-section-title">🏪 Operations</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button class="add-cart-btn" style="margin:0; background:rgba(255,174,0,0.1); color:var(--warn); border:1px solid var(--warn);" onclick="openAdminOrders()">📦 View Orders</button>
+            <button class="add-cart-btn" style="margin:0; background:rgba(0,240,255,0.1); color:var(--primary); border:1px solid var(--primary);" onclick="forceSync()">🔄 Sync Data</button>
+        </div>
+    </div>
+    <button onclick="closeModal('admin-dashboard-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">Close</button>
+</div></div>
+
+<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 650px;">
+    <h3 style="color:var(--warn); margin-bottom:15px;">📦 Live Orders Dashboard</h3>
+    <div id="admin-orders-list" style="text-align:left; max-height:500px; overflow-y:auto; font-size:0.9rem;">Loading...</div>
+    <button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+</div></div>
+
+<div id="policy-modal" class="modal"><div class="modal-content liquid-glass">
+    <h3 style="color:var(--primary); margin-bottom:20px; font-weight:800;" id="ui-pol-title">Store Agreement</h3>
+    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🛡️</div><div><b id="ui-pol-d-title" style="color:white;">Data Privacy</b><span id="ui-pol-d-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Your data is shared securely.</span></div>
+    </div>
+    <div style="background:rgba(255, 174, 0, 0.05); border:1px solid var(--warn); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:var(--warn); color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">⚡</div><div><b id="ui-pol-l-title" style="color:var(--warn);">Delivery Time</b><span id="ui-pol-l-desc" style="color:white; font-weight:bold; font-size:0.75rem; display:block;">Immediate up to 48 hours.</span></div>
+    </div>
+    <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Full after-sales service is guaranteed.</span></div>
+    </div>
+    <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;">
+        <div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d;">Refunds</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem; display:block;">No refunds after delivery.</span></div>
+    </div>
+    <button class="add-cart-btn" onclick="acceptPolicy()">I ACCEPT</button>
+</div></div>
+
+<div id="modal" class="modal"><div class="modal-content liquid-glass">
+    <h3 style="color:var(--primary);">🛒 Cart</h3>
+    <div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div>
+    <input type="text" id="promo-code-input" placeholder="Have a Promo Code?" style="margin-bottom:5px;">
+    <button onclick="applyPromoCode()" style="background:none; border:1px solid var(--primary); color:var(--primary); padding:8px; border-radius:8px; width:100%; margin-bottom:15px;">Apply Code</button>
+    <div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div>
+    <button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button>
+    <button onclick="clearCart()" style="background:none; border:none; color:#ff4d4d; margin-top:15px; cursor:pointer; font-weight:bold;">🗑️ Clear Cart</button>
+    <button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
+</div></div>
+
+<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass">
+    <h3 style="color:var(--primary); margin-bottom:15px;">Secure Checkout</h3>
+    <div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold;" onclick="setPayment('D17')">📱 Pay via D17</div>
+    <div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:15px; cursor:pointer; font-weight:bold;" onclick="setPayment('Cash')">🤝 Hand to Hand (Cash)</div>
+    
+    <input type="text" id="custName" placeholder="Your Full Name">
+    
+    <div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:15px; border:1px dashed var(--sub); margin-bottom:15px; margin-top:10px; text-align:left;">
+        <b style="color:white; font-size:0.9rem;">How should we contact you?</b>
+        <div class="contact-grid" style="margin-top:10px;">
+            <div class="c-btn active" id="c-wa" onclick="selContact('wa')">WhatsApp</div>
+            <div class="c-btn" id="c-ig" onclick="selContact('ig')">Instagram</div>
+            <div class="c-btn" id="c-fb" onclick="selContact('fb')">Facebook</div>
+        </div>
+        <input type="text" id="social-handle" placeholder="@username or Number" style="margin-top:5px;">
+    </div>
+    <textarea id="order-comments" placeholder="Comments or Player IDs (Optional)" style="height:60px;"></textarea>
+    
+    <button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button>
+    <button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
+</div></div>
+
 <div id="login-modal" class="modal"><div class="modal-content liquid-glass">
     <h3 style="color:var(--primary); margin-bottom:15px;">👤 Sign In</h3>
-    
     <div id="auth-step-login" class="auth-flow-section active">
-        <button class="add-cart-btn" onclick="executeUserBiometricLogin()" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Passkey</button>
         <input type="text" id="authEmail" placeholder="Email or Phone">
         <input type="password" id="authPass" placeholder="Password">
         <button class="add-cart-btn" onclick="processLogin()">Log In</button>
@@ -142,299 +195,241 @@
             <span style="color:var(--warn); font-size:0.8rem; cursor:pointer; font-weight:bold;" onclick="switchAuthStep('auth-step-reset')">Forgot Password?</span>
         </div>
     </div>
-
     <div id="auth-step-register" class="auth-flow-section">
-        <h4 style="color:var(--primary); margin-top:0;">Create Account</h4>
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <button class="add-cart-btn" id="btn-reg-email-tab" style="margin:0; background:rgba(0,240,255,0.2); color:white;" onclick="setRegMode('email')">Email</button>
-            <button class="add-cart-btn" id="btn-reg-phone-tab" style="margin:0; background:rgba(255,255,255,0.05); color:white;" onclick="setRegMode('phone')">Phone</button>
-        </div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;"><button class="add-cart-btn" id="btn-reg-email-tab" style="margin:0; background:rgba(0,240,255,0.2); color:white;" onclick="setRegMode('email')">Email</button><button class="add-cart-btn" id="btn-reg-phone-tab" style="margin:0; background:rgba(255,255,255,0.05); color:white;" onclick="setRegMode('phone')">Phone</button></div>
         <input type="text" id="regContact" placeholder="Email Address">
         <input type="password" id="regPass" placeholder="Create Password">
-        <button class="add-cart-btn" onclick="processRegistration()" id="btn-req-reg">Send Verification Code</button>
+        <button class="add-cart-btn" onclick="processRegistration()" id="btn-req-reg">Send Code</button>
         <span style="color:var(--sub); font-size:0.8rem; cursor:pointer; display:block; margin-top:15px;" onclick="switchAuthStep('auth-step-login')">Back to Login</span>
     </div>
-
     <div id="auth-step-reset" class="auth-flow-section">
-        <h4 style="color:var(--warn); margin-top:0;">Reset Password</h4>
-        <input type="email" id="resetEmail" placeholder="Account Email">
-        <input type="password" id="resetNewPass" placeholder="New Password">
-        <button class="add-cart-btn" style="background:var(--warn);" onclick="requestVerificationCode(true)" id="btn-req-reset">Send Reset Code</button>
-        <span style="color:var(--sub); font-size:0.8rem; cursor:pointer; display:block; margin-top:15px;" onclick="switchAuthStep('auth-step-login')">Back to Login</span>
+        <input type="email" id="resetEmail" placeholder="Account Email"><input type="password" id="resetNewPass" placeholder="New Password"><button class="add-cart-btn" style="background:var(--warn);" onclick="requestVerificationCode(true)" id="btn-req-reset">Send Reset Code</button>
     </div>
-
     <div id="auth-step-code" class="auth-flow-section">
-        <p style="color:var(--primary); font-size:0.9rem;">Check your email for the code.</p>
-        <input type="number" id="authCodeInput" placeholder="6-Digit Code" style="text-align:center; font-size:1.5rem; letter-spacing:5px;">
-        <button class="add-cart-btn" onclick="submitVerificationCode()" id="btn-verify">Verify & Proceed</button>
+        <input type="number" id="authCodeInput" placeholder="6-Digit Code" style="text-align:center; font-size:1.5rem; letter-spacing:5px;"><button class="add-cart-btn" onclick="submitVerificationCode()" id="btn-verify">Verify & Proceed</button>
     </div>
-    <button onclick="closeModal('login-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
 </div></div>
 
 <div id="profile-modal" class="modal"><div class="modal-content liquid-glass">
     <h3 style="color:var(--primary); margin-bottom:5px;">👤 My Profile</h3>
-    <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px solid var(--border); margin-bottom:15px; text-align:left;">
-        <p style="margin:0 0 10px 0; color:var(--sub); font-size:0.8rem;">Primary Contact / ID:</p>
-        <input type="text" id="prof-primary" style="margin-top:0;">
-        <p style="margin:10px 0 10px 0; color:var(--sub); font-size:0.8rem;">Secondary Contact (Optional):</p>
-        <input type="text" id="prof-secondary" style="margin-top:0;">
-        <button class="add-cart-btn" onclick="updateProfileData()" style="margin-bottom:0;">💾 Save Changes</button>
-    </div>
-    <button class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:10px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
-    <button class="add-cart-btn" onclick="setupNewPasskey()" style="margin-bottom:15px; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Add / Reset Passkey</button>
+    <button class="add-cart-btn" onclick="setupNewPasskey(false)" style="margin-bottom:15px; background:transparent; border:1px solid var(--primary); color:var(--primary); font-size:0.8rem;">⚙️ Setup Login Passkey</button>
     <button onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
     <button onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
 </div></div>
 
-<div id="admin-dashboard-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px; padding:20px;">
-    <h2 style="color:var(--warn); margin:0 0 5px 0;">God-Mode Console</h2>
-    <div class="admin-section">
-        <div class="admin-section-title">📊 Analytics</div>
-        <div style="display:flex; gap:10px; align-items:center;"><div style="width:40%;"><canvas id="adminChart" height="120"></canvas></div><div style="width:60%;"><canvas id="revenueChart" height="120"></canvas></div></div>
-    </div>
-    <div class="admin-section">
-        <div class="admin-section-title">🏪 Operations & CRM</div>
-        <div class="admin-btn-grid">
-            <button class="admin-sub-btn" onclick="openAdminOrders()" style="color:var(--warn); border-color:var(--warn);">📦 View Orders</button>
-            <button class="admin-sub-btn" onclick="openModal('add-item-modal')" style="color:var(--primary); border-color:var(--primary);">➕ Add Item</button>
-            <button class="admin-sub-btn" onclick="openAdminUsers()" style="color:#8b5cf6; border-color:#8b5cf6;">👥 Client Database</button>
-            <button class="admin-sub-btn" onclick="forceSync()">🔄 Force Sync DB</button>
-        </div>
-    </div>
-    <button onclick="closeModal('admin-dashboard-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">Close</button>
-</div></div>
-
-<div id="edit-item-modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 style="color:var(--primary); padding-bottom:10px;">✏️ Edit Item</h3>
-    <input type="hidden" id="edit-orig-name">
-    <select id="edit-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select>
-    <input type="text" id="edit-app-fr" placeholder="App/Brand FR">
-    <input type="text" id="edit-app-en" placeholder="App/Brand EN">
-    <input type="text" id="edit-item-name-fr" placeholder="Item Name FR (Master)">
-    <input type="text" id="edit-item-name-en" placeholder="Item Name EN">
-    <input type="number" id="edit-item-price" placeholder="Price (DT)">
-    <button class="add-cart-btn" onclick="submitItemEdit()">💾 Save Changes</button>
-    <button onclick="closeModal('edit-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
-</div></div>
-
-<div id="admin-users-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:#8b5cf6; margin-bottom:15px;">👥 Client Database</h3><div id="admin-users-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('admin-users-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="edit-folder-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">✏️ Edit Folder</h3><div class="emoji-db-grid" id="icon-db"></div><input type="text" id="edit-folder-name" placeholder="Folder Name"><button class="add-cart-btn" id="btn-save-folder" onclick="executeFolderRename()" style="background:var(--warn);">💾 Update Folder</button><button onclick="closeModal('edit-folder-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app-fr" placeholder="App/Brand FR (e.g. Jeux)"><input type="text" id="add-app-en" placeholder="App/Brand EN (e.g. Games)"><input type="text" id="add-item-name-fr" placeholder="Item Name FR (Master)"><input type="text" id="add-item-name-en" placeholder="Item Name EN"><input type="number" id="add-item-price" placeholder="Price (DT)"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title Name (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button class="add-cart-btn" onclick="submitNewItem()">💾 Save to Store</button><button onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 All Purchases</h3><div id="admin-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="policy-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:20px; font-weight:800;">Store Agreement</h3><p style="font-size:0.8rem; color:var(--sub);">By using CyberHub, you agree to our digital delivery terms.</p><button class="add-cart-btn" onclick="acceptPolicy()" style="margin-top:15px; position:relative; z-index:10000;">I ACCEPT</button></div></div>
-<div id="modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary);">🛒 Cart</h3><div id="cart-items-list" style="text-align:left; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div><div style="font-weight:800; display:flex; justify-content:space-between; font-size:1.2rem; border-top:1px solid var(--border); padding-top:15px; margin-bottom:15px;"><span>Total:</span><span style="color:var(--primary);"><span id="cart-total-price">0</span> DT</span></div><button class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button><button onclick="clearCart()" style="background:none; border:none; color:#ff4d4d; margin-top:15px; cursor:pointer; font-weight:bold;">🗑️ Clear Cart</button><button onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button></div></div>
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Secure Checkout</h3><p style="color:var(--sub); font-size:0.9rem;">Total Amount: <b style="color:var(--primary); font-size:1.3rem;" id="chk-total">0</b> DT</p><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold;" onclick="setPayment('D17')">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer exact amount to:<br><b style="font-size:1.4rem; color:var(--warn); letter-spacing:2px;">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Paste Transaction ID here"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:15px; cursor:pointer; font-weight:bold;" onclick="setPayment('Cash')">🤝 Hand to Hand (Cash)</div><input type="text" id="custName" placeholder="Your Full Name" style="margin-bottom:15px;"><button class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button><button onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec"; 
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv";
-    const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?gid=1927896313&single=true&output=csv"; 
-    const ORDERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXT17dDvmxmGJ9CpTbfwMpsmEBP9nLsz_ZWZ4QLZ5HxewKMBmYVjuOPaSgiKEm_4Tju28ZPTmZLUCw/pub?gid=811934048&single=true&output=csv";
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv"; // Inventory Tab
+    const ORDERS_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_ORDERS_GID"; // REPLACE
+    const LOYALTY_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_LOYALTY_GID"; // REPLACE
+    const PROMO_URL = "https://docs.google.com/spreadsheets/d/1XtTR1Jf6-hCt3bGSQ45aP5un8TJpyHVTyVdyM8qFBOA/export?format=csv&gid=YOUR_PROMO_GID"; // REPLACE
 
     const ADMIN_PHONE = "21629895846"; 
-
     let productsData = { categories: {} }; let cart = []; let lastDataString = ""; 
     let currentUser = localStorage.getItem('cyberhub_user') || null; 
     let currentUserRole = localStorage.getItem('cyberhub_role') || "User"; 
-    let currentPrimary = localStorage.getItem('cyberhub_primary') || currentUser;
-    let currentSecondary = localStorage.getItem('cyberhub_secondary') || "";
+    let currentUserOrderCount = parseInt(localStorage.getItem('cyberhub_orders')) || 0;
     let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
     let currentView = { type: 'cats', cat: null, app: null }; 
-    let currentVisitorIP = null; let adminChart1 = null, adminChart2 = null; 
+    let adminChart1 = null, adminChart2 = null; 
+    
+    let loyaltySettings = {}; let promoSettings = {}; let activePromoDiscount = 0; let activePromoCodeName = "";
+    let selectedPaymentMethod = "D17"; let selectedContactMethod = "wa";
+    let regMethod = 'email'; let pendingAuthEmail = ""; let pendingAuthPass = ""; let isAuthReset = false;
 
-    // 🛡️ SECURITY & ROLES
     const isSupportAccess = () => { return (currentUserRole === "Admin" || currentUserRole === "Support"); };
     const isAdminAccess = () => { return currentUserRole === "Admin"; };
 
-    const FOLDER_EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','📺','🎬','🍿','🎵','🎧','🛒','🛍️','💎','🎁','🔥','🚀','⚡','🌟','👤','👥','🗣️','👨‍💻','👩‍💻'];
-    let selectedFolderEmoji = '📁'; let currentEditingGroupCtx = null;
-    let regMethod = 'email'; let pendingAuthEmail = ""; let pendingAuthPass = ""; let isAuthReset = false;
-
     particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
-
-    // --- UI HELPERS ---
     const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; };
     const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
     function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.classList.add('modal-open'); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.classList.remove('modal-open'); }
-    function showToast(msg, type = "info") { const toast = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; toast.className = 'toast show'; if(type === "error") toast.style.borderColor = "red"; if(type === "success") toast.style.borderColor = "#00ff88"; setTimeout(() => { toast.classList.remove('show'); }, 3500); }
+    function showToast(msg, type = "info") { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = msg; t.className = 'toast show'; if(type==="error") t.style.borderColor="red"; if(type==="success") t.style.borderColor="#00ff88"; setTimeout(() => t.classList.remove('show'), 3500); }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); document.getElementById('lang-ind').innerText = currentLang.toUpperCase(); forceReRender(); }
-    window.acceptPolicy = function() { localStorage.setItem('cyberhub_v41_pol', 'true'); closeModal('policy-modal'); };
+    window.acceptPolicy = function() { localStorage.setItem('cyberhub_v46_pol', 'true'); closeModal('policy-modal'); };
 
-    // --- AUTHENTICATION (PHONE VS EMAIL) ---
-    function setRegMode(mode) {
-        regMethod = mode;
-        document.getElementById('btn-reg-email-tab').style.background = mode === 'email' ? 'rgba(0,240,255,0.2)' : 'rgba(255,255,255,0.05)';
-        document.getElementById('btn-reg-phone-tab').style.background = mode === 'phone' ? 'rgba(0,240,255,0.2)' : 'rgba(255,255,255,0.05)';
-        document.getElementById('regContact').placeholder = mode === 'email' ? 'Email Address' : 'Phone Number';
-        document.getElementById('btn-req-reg').innerText = mode === 'email' ? 'Send Verification Code' : 'Sign Up Instantly';
+    const T = { 
+        en: { add: "ADD TO CART", oos: "OUT OF STOCK", back: "← Back", search: "Search Store...", credit: "Made by Yessine ❤️", polTitle: "Store Agreement", polDTitle: "Data Privacy", polDDesc: "Your data is shared securely.", polLTitle: "Delivery Time", polLDesc: "Immediate up to 48 hours.", polSTitle: "Support (SAV)", polSDesc: "Full after-sales service is guaranteed.", polRTitle: "Refunds", polRDesc: "No refunds after delivery.", polBtn: "I ACCEPT" }, 
+        fr: { add: "AJOUTER", oos: "RUPTURE", back: "← Retour", search: "Rechercher...", credit: "Fait par Yessine ❤️", polTitle: "Accord Boutique", polDTitle: "Confidentialité", polDDesc: "Vos données sont partagées en toute sécurité.", polLTitle: "Livraison", polLDesc: "Immédiate jusqu'à 48 heures.", polSTitle: "Support (SAV)", polSDesc: "Service après-vente complet garanti.", polRTitle: "Remboursements", polRDesc: "Aucun remboursement après livraison.", polBtn: "J'ACCEPTE" } 
+    };
+
+    function applyLang() { 
+        const d = T[currentLang]; document.getElementById('lang-ind').innerText = currentLang.toUpperCase();
+        if(document.getElementById('mainSearch')) document.getElementById('mainSearch').placeholder = d.search;
+        document.getElementById('ui-pol-title').innerText = d.polTitle; document.getElementById('ui-pol-d-title').innerText = d.polDTitle; document.getElementById('ui-pol-d-desc').innerText = d.polDDesc; document.getElementById('ui-pol-l-title').innerText = d.polLTitle; document.getElementById('ui-pol-l-desc').innerText = d.polLDesc; document.getElementById('ui-pol-s-title').innerText = d.polSTitle; document.getElementById('ui-pol-s-desc').innerText = d.polSDesc; document.getElementById('ui-pol-r-title').innerText = d.polRTitle; document.getElementById('ui-pol-r-desc').innerText = d.polRDesc;
+        if(Object.keys(productsData.categories).length > 0) forceReRender(); 
     }
+    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
 
+    // --- AUTHENTICATION ---
+    function setRegMode(mode) { regMethod = mode; document.getElementById('btn-reg-email-tab').style.background = mode === 'email' ? 'rgba(0,240,255,0.2)' : 'rgba(255,255,255,0.05)'; document.getElementById('btn-reg-phone-tab').style.background = mode === 'phone' ? 'rgba(0,240,255,0.2)' : 'rgba(255,255,255,0.05)'; document.getElementById('regContact').placeholder = mode === 'email' ? 'Email Address' : 'Phone Number'; document.getElementById('btn-req-reg').innerText = mode === 'email' ? 'Send Code' : 'Sign Up Instantly'; }
     function switchAuthStep(stepId) { document.querySelectorAll('.auth-flow-section').forEach(el => el.classList.remove('active')); document.getElementById(stepId).classList.add('active'); }
-
+    
     async function processLogin() {
         let e = document.getElementById('authEmail').value.trim(); let p = document.getElementById('authPass').value.trim();
-        if(!e || !p) return showToast("Enter credentials.", "error");
-        showToast("Verifying...", "info");
+        if(!e || !p) return showToast("Enter credentials.", "error"); showToast("Verifying...", "info");
         try {
             let res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "login", contact: e, password: p }) }).then(r=>r.json());
             if(res.status === "success") {
-                currentUser = res.primary; currentUserRole = res.role; currentPrimary = res.primary; currentSecondary = res.secondary;
-                localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole);
-                localStorage.setItem('cyberhub_primary', currentPrimary); localStorage.setItem('cyberhub_secondary', currentSecondary);
-                closeModal('login-modal'); showToast("Welcome back!", "success"); toggleAdminUI(); forceReRender();
+                currentUser = e; currentUserRole = res.role; currentUserOrderCount = parseInt(res.ordersCount) || 0;
+                localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole); localStorage.setItem('cyberhub_orders', currentUserOrderCount);
+                closeModal('login-modal'); showToast("Welcome back!", "success"); toggleAdminUI(); checkLoyalty(); forceReRender();
             } else if(res.status === "wrong_password") { showToast("Incorrect Password.", "error"); } else { showToast("Account not found.", "error"); }
         } catch(err) { showToast("Network error.", "error"); }
     }
 
     async function processRegistration() {
         pendingAuthEmail = document.getElementById('regContact').value.trim(); pendingAuthPass = document.getElementById('regPass').value.trim();
-        if(!pendingAuthEmail || !pendingAuthPass) return showToast("Fill all fields.", "error");
-        isAuthReset = false;
-        
+        if(!pendingAuthEmail || !pendingAuthPass) return showToast("Fill all fields.", "error"); isAuthReset = false;
         if(regMethod === 'phone') {
-            document.getElementById('btn-req-reg').innerText = "Creating..."; document.getElementById('btn-req-reg').disabled = true;
-            try {
-                let res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register_phone", contact: pendingAuthEmail, password: pendingAuthPass }), mode: 'no-cors' });
-                currentUser = pendingAuthEmail; currentUserRole = "User"; currentPrimary = currentUser;
-                localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole);
-                closeModal('login-modal'); showToast("Account Created!", "success"); toggleAdminUI();
-            } catch(e) { showToast("Error.", "error"); }
-            document.getElementById('btn-req-reg').innerText = "Sign Up Instantly"; document.getElementById('btn-req-reg').disabled = false;
-        } else {
-            requestVerificationCode(false);
-        }
+            document.getElementById('btn-req-reg').disabled = true;
+            try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "register_phone", contact: pendingAuthEmail, password: pendingAuthPass }), mode: 'no-cors' }); currentUser = pendingAuthEmail; currentUserRole = "User"; currentUserOrderCount = 0; localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole); closeModal('login-modal'); showToast("Account Created!", "success"); } catch(e) {}
+            document.getElementById('btn-req-reg').disabled = false;
+        } else { requestVerificationCode(false); }
     }
 
     async function requestVerificationCode(isReset) {
         pendingAuthEmail = isReset ? document.getElementById('resetEmail').value.trim() : document.getElementById('regContact').value.trim();
         pendingAuthPass = isReset ? document.getElementById('resetNewPass').value.trim() : document.getElementById('regPass').value.trim();
-        isAuthReset = isReset;
-        if(!pendingAuthEmail || !pendingAuthPass) return showToast("Fill all fields.", "error");
-        let btnId = isReset ? 'btn-req-reset' : 'btn-req-reg';
-        document.getElementById(btnId).innerText = "Sending..."; document.getElementById(btnId).disabled = true;
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "send_code", email: pendingAuthEmail, isReset: isReset }), mode: 'no-cors' });
-            switchAuthStep('auth-step-code'); showToast("Code Sent! Check Inbox.", "success");
-        } catch(e) { showToast("Error sending email.", "error"); }
+        isAuthReset = isReset; if(!pendingAuthEmail || !pendingAuthPass) return showToast("Fill all fields.", "error");
+        let btnId = isReset ? 'btn-req-reset' : 'btn-req-reg'; document.getElementById(btnId).disabled = true;
+        try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "send_code", email: pendingAuthEmail, isReset: isReset }), mode: 'no-cors' }); switchAuthStep('auth-step-code'); showToast("Code Sent!", "success"); } catch(e) {}
         document.getElementById(btnId).disabled = false;
     }
 
     async function submitVerificationCode() {
         let code = document.getElementById('authCodeInput').value.trim(); if(!code) return showToast("Enter code.", "error");
-        let action = isAuthReset ? "verify_and_reset" : "verify_and_register";
-        document.getElementById('btn-verify').innerText = "Verifying..."; document.getElementById('btn-verify').disabled = true;
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: action, contact: pendingAuthEmail, password: pendingAuthPass, code: code }), mode: 'no-cors' });
-            currentUser = pendingAuthEmail; currentUserRole = "User"; currentPrimary = currentUser;
-            localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole);
-            closeModal('login-modal'); showToast("Secured & Logged In!", "success"); toggleAdminUI(); forceReRender();
-        } catch(e) { showToast("Verification Failed.", "error"); }
-        document.getElementById('btn-verify').innerText = "Verify & Proceed"; document.getElementById('btn-verify').disabled = false;
+        document.getElementById('btn-verify').disabled = true;
+        try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: isAuthReset ? "verify_and_reset" : "verify_and_register", contact: pendingAuthEmail, password: pendingAuthPass, code: code }), mode: 'no-cors' }); currentUser = pendingAuthEmail; currentUserRole = "User"; currentUserOrderCount = 0; localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole); closeModal('login-modal'); showToast("Secured & Logged In!", "success"); toggleAdminUI(); } catch(e) {}
+        document.getElementById('btn-verify').disabled = false;
     }
 
-    // --- PROFILE MANAGEMENT ---
-    function openProfileOrLogin() { 
-        if(currentUser) { 
-            document.getElementById('prof-primary').value = currentPrimary || currentUser;
-            document.getElementById('prof-secondary').value = currentSecondary || "";
-            openModal('profile-modal'); 
-        } else { switchAuthStep('auth-step-login'); openModal('login-modal'); } 
-    }
+    // --- SECRET ADMIN LOGIN (LOGO 5 CLICKS) ---
+    let logoClickCount = 0; let logoClickTimer;
+    function logoTrigger() { logoClickCount++; clearTimeout(logoClickTimer); logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500); if(logoClickCount === 5) { logoClickCount = 0; openModal('admin-secret-modal'); } }
     
+    function submitAdminPass() { 
+        if(document.getElementById('admin-manual-pass').value === "26240608") { 
+            window.acceptPolicy(); currentUser = "yessinebenfraj106@gmail.com"; currentUserRole = "Admin"; 
+            localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole);
+            closeModal('admin-secret-modal'); showToast("God Mode Active", "success"); toggleAdminUI(); openAdminDashboard(); 
+        } else { showToast("Access Denied", "error"); }
+    }
+
+    // --- BIOMETRICS ---
+    async function setupNewPasskey(isAdmin) { 
+        if(isAdmin && document.getElementById('admin-setup-pass').value !== "26240608") return showToast("Incorrect Password", "error");
+        try { 
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); 
+            await navigator.credentials.create({ publicKey:{ challenge, rp:{name:"CyberHub"}, user:{id:new Uint8Array(16), name: isAdmin?"Admin":currentUser, displayName: isAdmin?"Admin":currentUser}, pubKeyCredParams:[{type:"public-key",alg:-7}, {type:"public-key",alg:-257}], timeout:60000 } }); 
+            if(isAdmin) { localStorage.setItem('admin_passkey_active', 'true'); closeModal('admin-secret-modal'); }
+            else { localStorage.setItem('cyberhub_bio_user', currentUser); }
+            showToast("Passkey Created!", "success"); 
+        } catch(e) { alert("Setup Failed."); } 
+    }
+
+    async function executeUserBiometricLogin(isAdmin) { 
+        if(isAdmin && !localStorage.getItem('admin_passkey_active')) return showToast("No Admin Passkey found.", "error");
+        if(!isAdmin && !localStorage.getItem('cyberhub_bio_user')) return showToast("No passkey linked to this device.", "error"); 
+        try { 
+            const challenge = new Uint8Array(32); crypto.getRandomValues(challenge); 
+            await navigator.credentials.get({ publicKey:{challenge, timeout:60000} }); 
+            if(isAdmin) { window.acceptPolicy(); currentUser = "yessinebenfraj106@gmail.com"; currentUserRole = "Admin"; closeModal('admin-secret-modal'); showToast("God Mode Unlocked", "success"); toggleAdminUI(); openAdminDashboard(); }
+            else { currentUser = localStorage.getItem('cyberhub_bio_user'); currentUserRole = "User"; closeModal('login-modal'); showToast("Welcome back!", "success"); toggleAdminUI(); checkLoyalty(); }
+            localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_role', currentUserRole);
+        } catch(e) { showToast("Biometrics rejected.", "error"); } 
+    }
+
+    function openProfileOrLogin() { if(currentUser) { openModal('profile-modal'); } else { switchAuthStep('auth-step-login'); openModal('login-modal'); } }
     function logoutUser() { currentUser = null; currentUserRole = "User"; localStorage.removeItem('cyberhub_user'); localStorage.removeItem('cyberhub_role'); closeModal('profile-modal'); showToast("Logged out.", "info"); toggleAdminUI(); forceReRender(); }
 
-    async function updateProfileData() {
-        let nP = document.getElementById('prof-primary').value.trim(); let nS = document.getElementById('prof-secondary').value.trim();
-        if(!nP) return showToast("Primary contact required.", "error");
+    // --- CART, PROMOS, LOYALTY ---
+    function checkLoyalty() {
+        let nextOrderNum = currentUserOrderCount + 1;
+        let pct = loyaltySettings[nextOrderNum] || 0;
+        if(pct > 0) { document.getElementById('loyalty-pct').innerText = pct; document.getElementById('loyalty-banner').style.display = 'block'; }
+        else { document.getElementById('loyalty-banner').style.display = 'none'; }
+        return pct;
+    }
+
+    function applyPromoCode() {
+        let code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+        if(promoSettings[code]) { activePromoDiscount = promoSettings[code]; activePromoCodeName = code; showToast(`Promo Applied: ${activePromoDiscount}% OFF!`, "success"); openCart(); }
+        else { activePromoDiscount = 0; activePromoCodeName = ""; showToast("Invalid Code", "error"); openCart(); }
+    }
+
+    function openCart() { 
+        let rawTotal = cart.reduce((s, i) => s + i.price, 0);
+        let loyaltyDiscountPct = checkLoyalty();
+        let highestDiscount = Math.max(loyaltyDiscountPct, activePromoDiscount); // Don't stack, take best
+        let finalTotal = rawTotal - (rawTotal * (highestDiscount / 100));
+        
+        document.getElementById('cart-total-price').innerText = finalTotal.toFixed(2); 
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} (${i.price} DT)</div>`).join(''); 
+        openModal('modal'); 
+    }
+    
+    function addToCart(encodedName, price, encodedDisplay) { let masterId = safeDec(encodedName).split("||GRP||")[0]; let display = safeDec(encodedDisplay); cart.push({id: masterId, name: display, price: parseFloat(price), finalPrice: parseFloat(price)}); document.getElementById('cart-count').innerText = cart.length; showToast("Added!", "success"); }
+    function clearCart() { cart = []; document.getElementById('cart-count').innerText = "0"; document.getElementById('cart-total-price').innerText = "0"; document.getElementById('cart-items-list').innerHTML = ""; activePromoDiscount = 0; activePromoCodeName = ""; document.getElementById('promo-code-input').value = ""; closeModal('modal'); }
+    function setPayment(m) { selectedPaymentMethod = m; document.getElementById('d17-details').style.display = (m === 'D17') ? 'block' : 'none'; }
+    function selContact(c) { selectedContactMethod = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); document.getElementById('c-'+c).classList.add('active'); }
+    
+    async function finalizeOrder() { 
+        if(cart.length === 0) return showToast("Cart is empty!", "error");
+        let name = document.getElementById('custName').value || "Unknown"; let contact = document.getElementById('social-handle').value || currentUser || "Guest"; 
+        let comments = document.getElementById('order-comments').value || "";
+        let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; 
+        let orderId = (currentUser === "yessinebenfraj106@gmail.com" ? "TEST-" : "CH-") + Math.floor(1000 + Math.random() * 9000); 
+        
+        let loyaltyDiscountPct = checkLoyalty(); let highestDiscount = Math.max(loyaltyDiscountPct, activePromoDiscount);
+        cart.forEach(item => { item.finalPrice = item.price - (item.price * (highestDiscount / 100)); });
+        
+        document.getElementById('btn-finalize').innerText = "Processing..."; document.getElementById('btn-finalize').disabled = true;
+        let payload = { action: "place_order", orderId: orderId, client: name, platform: selectedContactMethod, contact: contact, items: cart, promoCode: activePromoCodeName, loyaltyPct: loyaltyDiscountPct, payment: method, comments: comments, userEmail: currentUser || "Guest" };
         try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_profile", oldContact: currentUser, newPrimary: nP, newSecondary: nS }), mode: 'no-cors' });
-            currentUser = nP; currentPrimary = nP; currentSecondary = nS;
-            localStorage.setItem('cyberhub_user', currentUser); localStorage.setItem('cyberhub_primary', currentPrimary); localStorage.setItem('cyberhub_secondary', currentSecondary);
-            showToast("Profile Updated!", "success");
-        } catch(e) { showToast("Error saving profile.", "error"); }
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' });
+            showToast("Order Placed!", "success");
+            setTimeout(() => { closeModal('checkout-modal'); clearCart(); if(currentUser) { currentUserOrderCount++; localStorage.setItem('cyberhub_orders', currentUserOrderCount); checkLoyalty(); } document.getElementById('btn-finalize').innerText = "PLACE ORDER"; document.getElementById('btn-finalize').disabled = false; }, 1200);
+        } catch(err) { document.getElementById('btn-finalize').innerText = "PLACE ORDER"; document.getElementById('btn-finalize').disabled = false; showToast("Network Error.", "error"); }
     }
 
-    // --- ADMIN UI TOGGLER ---
-    function toggleAdminUI() {
-        document.getElementById('admin-sidebar-btn').style.display = isSupportAccess() ? 'flex' : 'none';
-        document.getElementById('quick-admin-bar').style.display = isAdminAccess() ? 'flex' : 'none';
-    }
-    function openAdminDashboard() { if(!isSupportAccess()) return showToast("Unauthorized", "error"); openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 300); }
-
-    // --- FULL ADMIN CRUD (EDIT ITEMS) ---
-    function showEditItemModal(origNameRaw) {
-        let it = null; let origName = safeDec(origNameRaw);
-        // Find item in DB
-        Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => {
-            a.standalone.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i}; });
-            Object.values(a.groups).forEach(g => { g.items.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i, g: g.name}; }); });
-        });});
-        
-        if(!it) return showToast("Item not found.", "error");
-        document.getElementById('edit-orig-name').value = origName;
-        document.getElementById('edit-cat-sel').value = it.c.name; // Basic fallback
-        document.getElementById('edit-app-fr').value = it.a.name; 
-        document.getElementById('edit-app-en').value = it.a.name; 
-        document.getElementById('edit-item-name-fr').value = it.i.originalName.split("||GRP||")[0];
-        document.getElementById('edit-item-name-en').value = it.i.originalName.split("||GRP||")[0];
-        document.getElementById('edit-item-price').value = it.i.price;
-        openModal('edit-item-modal');
-    }
-
-    async function submitItemEdit() {
-        let oldName = document.getElementById('edit-orig-name').value;
-        let cFr = document.getElementById('edit-cat-sel').value;
-        let aFr = document.getElementById('edit-app-fr').value; let aEn = document.getElementById('edit-app-en').value || aFr;
-        let nFr = document.getElementById('edit-item-name-fr').value; let nEn = document.getElementById('edit-item-name-en').value || nFr;
-        let p = document.getElementById('edit-item-price').value;
-        
-        // Preserve group if it existed
-        if(oldName.includes("||GRP||")) { let grp = "||GRP||" + oldName.split("||GRP||")[1]; nFr += grp; nEn += grp; }
-        
-        closeModal('edit-item-modal'); showToast("Saving changes...", "info");
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "edit_item_full", oldName: oldName, catFr: cFr, appFr: aFr, nameFr: nFr, price: p, catEn: cFr, appEn: aEn, nameEn: nEn }), mode: 'no-cors' });
-            forceSync(); showToast("Item Updated!", "success");
-        } catch(e) { showToast("Error updating.", "error"); }
-    }
-
-    // --- DB ENGINE & CACHE ---
+    // --- DB ENGINE ---
     function safeCsvParse(str) { let result = []; let current = ''; let inQuotes = false; for (let i = 0; i < str.length; i++) { if (str[i] === '"') { inQuotes = !inQuotes; } else if (str[i] === ',' && !inQuotes) { result.push(current.trim()); current = ''; } else { current += str[i]; } } result.push(current.trim()); return result; }
-    
-    function loadFromCache() { let cached = localStorage.getItem('cyberhub_db_cache'); if (cached) { productsData = JSON.parse(cached); forceReRender(); } }
-    
-    function forceSync() { lastDataString = ""; document.getElementById('content-area').innerHTML = `<div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Syncing Securely... ⏳</div>`; fetchData(); }
+    function forceSync() { document.getElementById('content-area').innerHTML = `<div style="color:var(--primary); text-align:center;">Syncing Securely... ⏳</div>`; fetchData(); }
+
+    async function fetchSideData() {
+        try {
+            // Fetch Promo Codes
+            const pRes = await fetch(PROMO_URL + "&cb=" + new Date().getTime()); const pText = await pRes.text();
+            pText.split('\n').slice(1).forEach(r => { let c = safeCsvParse(r); if(c[0]) promoSettings[String(c[0]).toUpperCase()] = parseFloat(c[1]); });
+            // Fetch Loyalty
+            const lRes = await fetch(LOYALTY_URL + "&cb=" + new Date().getTime()); const lText = await lRes.text();
+            lText.split('\n').slice(1).forEach(r => { let c = safeCsvParse(r); if(c[0]) loyaltySettings[parseInt(c[0])] = parseFloat(c[1]); });
+            checkLoyalty();
+        } catch(e) {}
+    }
 
     async function fetchData() {
         try {
             const res = await fetch(SHEET_URL + "&cb=" + new Date().getTime()); const text = await res.text();
-            if(text.trim().startsWith('<') || !text.includes(',')) return; // Failsafe
-            if(text === lastDataString) return; 
+            if(text.trim().startsWith('<') || !text.includes(',')) return; 
             
             const rows = text.split('\n').map(r => r.replace(/\r/g, '')).filter(r => r.trim() !== '');
-            let temp = {}; const headers = safeCsvParse(rows[0]);
-            let maintState = headers.length > 15 ? headers[15] : "FALSE";
-            let bannedList = [];
+            let temp = {}; let maintState = safeCsvParse(rows[0]).length > 15 ? safeCsvParse(rows[0])[15] : "FALSE";
             
             rows.slice(1).forEach(row => {
                 const cols = safeCsvParse(row);
-                if (cols.length > 16 && cols[16]) bannedList.push(String(cols[16]).trim()); 
                 if (cols.length >= 5 && cols[0]) {
                     let catFr = String(cols[0]).trim(); let catEn = (cols.length > 6 && cols[6]) ? String(cols[6]).trim() : catFr;
                     let appFr = cols[2] ? String(cols[2]).trim() : "General"; let appEn = (cols.length > 7 && cols[7]) ? String(cols[7]).trim() : appFr; 
                     let itemFr = String(cols[4]).trim(); let itemEn = (cols.length > 8 && cols[8]) ? String(cols[8]).trim() : itemFr;
-                    
                     const cat = currentLang === 'en' ? catEn : catFr; const app = currentLang === 'en' ? appEn : appFr; 
                     let masterItemFr = itemFr; let groupName = null;
                     if(masterItemFr.includes("||GRP||")) { let parts = masterItemFr.split("||GRP||"); masterItemFr = parts[0].trim(); groupName = parts[1].trim(); }
                     let masterItemEn = itemEn.includes("||GRP||") ? itemEn.split("||GRP||")[0].trim() : itemEn;
-                    
                     let itemName = currentLang === 'en' ? masterItemEn : masterItemFr; 
-                    const price = parseFloat(cols[5]) || 0; 
-                    const isOOS = (cols.length > 14 && String(cols[14]).toUpperCase().includes("OOS")); 
+                    const price = parseFloat(cols[5]) || 0; const isOOS = (cols.length > 14 && String(cols[14]).toUpperCase().includes("OOS")); 
                     
                     if (!temp[cat]) temp[cat] = { name: cat, img: cols[1] || '', apps: {} }; 
                     if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3] || '', groups: {}, standalone: [] };
@@ -442,78 +437,119 @@
                     if(groupName) { if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] }; temp[cat].apps[app].groups[groupName].items.push(itemData); } else { temp[cat].apps[app].standalone.push(itemData); }
                 }
             });
-
-            if (bannedList.includes(currentUser)) { document.body.innerHTML = "<div style='text-align:center; padding-top:20vh; color:#ff4d4d;'><h1>🚫 ACCESS DENIED</h1></div>"; return; }
-
-            productsData.categories = temp; 
-            localStorage.setItem('cyberhub_db_cache', JSON.stringify(productsData)); // Caching
-            if(isAdminAccess()) maintState = "FALSE"; // Admins bypass lock
-            handleMaintenanceUI(maintState); lastDataString = text; forceReRender(); 
-        } catch (e) { console.error("Sync error:", e); }
+            productsData.categories = temp; if(isAdminAccess()) maintState = "FALSE"; handleMaintenanceUI(maintState); forceReRender(); 
+        } catch (e) {}
     }
-    setInterval(fetchData, 6000); 
-
-    function handleMaintenanceUI(maintData) { const band = document.getElementById('maintenance-msg'); let stringData = String(maintData).toUpperCase().trim(); if(stringData === "TRUE" || stringData === "UNTIL") { band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isSupportAccess() ? 'block' : 'none'; } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; } }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 2000); } catch(e) {} }
+    
+    function navTo(type, safeCat = null, safeApp = null) { try { currentView = { type: type, cat: safeCat ? safeDec(safeCat) : null, app: safeApp ? safeDec(safeApp) : null }; forceReRender(); } catch(e) { currentView = { type: 'cats', cat: null, app: null }; forceReRender(); } }
 
     function forceReRender() {
         document.getElementById('content-area').innerHTML = ""; 
         const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : "";
-        let html = ''; 
+        let html = ''; const dic = T[currentLang];
         if(q) {
-            html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it); }); Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it); }); }); }); }); html += `</div>`;
+            html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); }); }); }); html += `</div>`;
         } else {
             if(currentView.type === 'cats') {
                 html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `</div>`;
             } else if (currentView.type === 'apps') {
                 const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); 
-                html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button><div class="grid">`;
+                html += `<button onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`;
                 Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`;
             } else if (currentView.type === 'items') {
                 const appData = productsData.categories[currentView.cat]?.apps[currentView.app]; if(!appData) return navTo('cats'); 
-                html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">← Back</button>`;
-                if(isSupportAccess()) { html += `<div class="ungroup-zone" style="display:block;" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; }
+                html += `<button onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`;
                 Object.values(appData.groups).forEach((g, gI) => {
-                    let safeGrp = safeEnc(g.name); let folderDrop = isSupportAccess() ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : "";
-                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
-                    g.items.forEach(it => html += drawItemRow(it)); html += `</div>`;
+                    html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';"><span>📁 ${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`;
+                    g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`;
                 });
-                appData.standalone.forEach(it => html += drawItemRow(it));
+                appData.standalone.forEach(it => html += drawItemRow(it, dic));
             }
         }
         document.getElementById('content-area').innerHTML = html;
     }
 
-    function drawItemRow(it) {
-        let safeName = safeEnc(it.originalName); 
-        let dragProps = isSupportAccess() ? `draggable="true" ondragstart="handleDragStart(event, '${safeName}')" ondragend="handleDragEnd(event)"` : "";
-        let adminTools = "";
-        if (isSupportAccess()) {
-            adminTools += `<div class="support-tools" style="margin-top:10px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px; display:flex; gap:5px;">`;
-            adminTools += `<button style="flex:1; background:transparent; border:1px solid var(--warn); color:var(--warn); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="updateItem('${safeName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button>`;
-            if (isAdminAccess()) { // Only full Admins can Edit/Delete
-                adminTools += `<button style="flex:1; background:transparent; border:1px solid var(--primary); color:var(--primary); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="showEditItemModal('${safeName}')">[✏️ Edit]</button>`;
-                adminTools += `<button style="flex:1; background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="deleteItem('${safeName}')">[🗑️ Del]</button>`;
-            }
-            adminTools += `</div>`;
-        }
-        return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">OOS</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${safeName}', ${it.price})" ${it.isOOS ? 'disabled' : ''}>ADD TO CART</button></div>`;
+    function drawItemRow(it, dic) {
+        let safeOrigName = safeEnc(it.originalName); let safeDisp = safeEnc(it.name);
+        let adminTools = isSupportAccess() ? `<div class="support-tools" style="margin-top:10px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px; display:flex; gap:5px;"><button style="flex:1; background:transparent; border:1px solid var(--warn); color:var(--warn); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="updateItem('${safeOrigName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button></div>` : "";
+        return `<div class="item-row"><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button class="add-cart-btn" onclick="addToCart('${safeOrigName}', ${it.price}, '${safeDisp}')" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`;
     }
 
-    // --- ADMIN CRM / ANALYTICS ---
-    async function openAdminUsers() { if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading...`; try { const res = await fetch(USERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let html = ""; for(let i = 1; i < rows.length; i++) { const cols = safeCsvParse(rows[i]); if(cols[0]) { html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px;"><b>Primary:</b> ${cols[0]}<br><b>Phone:</b> ${cols[2]||"N/A"}<br><b>Role:</b> ${cols[6]||"User"}</div>`; } } document.getElementById('admin-users-list').innerHTML = html; } catch(e){} }
     function updateItem(encodedName, price, isOOS) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: safeDec(encodedName), newPrice: price, isOOS: isOOS }), mode: 'no-cors' }).then(() => forceSync()); }
-    function deleteItem(encodedName) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: safeDec(encodedName) }), mode: 'no-cors' }).then(() => forceSync()); } }
-    function handleDragStart(e, rawName) { draggedItemRawName = safeDec(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
-    function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
-    function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-    function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName }), mode: 'no-cors' }).then(() => forceSync()); } draggedItemRawName = null; }
+    function toggleAdminUI() { document.getElementById('admin-sidebar-btn').style.display = isSupportAccess() ? 'flex' : 'none'; document.getElementById('quick-admin-bar').style.display = isAdminAccess() ? 'flex' : 'none'; }
+    function openAdminDashboard() { if(!isSupportAccess()) return; openModal('admin-dashboard-modal'); setTimeout(()=>drawAdminChart(), 300); }
+    function handleMaintenanceUI(maintData) { const band = document.getElementById('maintenance-msg'); let stringData = String(maintData).toUpperCase().trim(); if(stringData === "TRUE" || stringData === "UNTIL") { band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isSupportAccess() ? 'block' : 'none'; } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; } }
+    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL" }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 2000); } catch(e) {} }
+
+    // --- ADMIN MULTI-ROW ORDERS & CLICKABLE DMs ---
+    async function openAdminOrders() { 
+        openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading database... ⏳</p>`; 
+        try { 
+            const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); let orders = []; 
+            for(let i = 1; i < rows.length; i++) { 
+                if(!rows[i].trim()) continue; const cols = safeCsvParse(rows[i]); 
+                if(cols.length > 0 && cols[0]) { orders.push({ id: cols[0], client: cols[1], platform: cols[2], contact: cols[3], item: cols[4], price: cols[8], status: cols[9], date: cols[10], creds: cols[12] }); } 
+            } 
+            orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; 
+            orders.forEach(o => { 
+                let dmLink = o.contact; let p = String(o.platform).toLowerCase(); let cRaw = String(o.contact).replace('@','');
+                if(p === 'ig') dmLink = `<a href="https://ig.me/m/${cRaw}" target="_blank" style="color:#E1306C; font-weight:bold;">@${cRaw} (DM)</a>`;
+                else if(p === 'wa') dmLink = `<a href="https://wa.me/${cRaw}" target="_blank" style="color:#25D366; font-weight:bold;">${cRaw} (WA)</a>`;
+                else if(p === 'fb') dmLink = `<a href="https://m.me/${cRaw}" target="_blank" style="color:#1877F2; font-weight:bold;">${cRaw} (FB)</a>`;
+                
+                let selectStatus = `<select id="status-${o.id}-${safeEnc(o.item)}" onchange="updateOrderStatus('${o.id}', '${safeEnc(o.item)}')"><option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option></select>`;
+                let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}-${safeEnc(o.item)}" placeholder="Enter Account/Key here..." style="font-size:0.8rem; padding:10px; margin-top:5px; border-color:var(--primary);"><button onclick="updateOrderStatus('${o.id}', '${safeEnc(o.item)}', true)" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered & Save Creds</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; 
+                
+                html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between;"><b style="color:var(--primary);">${o.id}</b> <span>${selectStatus}</span></div><b>User:</b> ${o.client} <br><b>Contact:</b> ${dmLink}<br><b>Item:</b> <span style="color:#ffae00;">${o.item}</span><br><b>Paid:</b> ${o.price} DT${deliverBox}</div>`; 
+            }); 
+            document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; 
+        } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Failed to load orders."; } 
+    }
+    
+    function updateOrderStatus(orderId, encodedItemName, saveCreds = false) { 
+        let itemName = safeDec(encodedItemName);
+        let status = saveCreds ? 'Delivered' : document.getElementById(`status-${orderId}-${encodedItemName}`).value;
+        let creds = saveCreds ? document.getElementById(`cred-${orderId}-${encodedItemName}`).value : "";
+        if(saveCreds && !creds) return showToast("Enter credentials first!", "error"); 
+        showToast("Updating...", "info"); 
+        fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_order_status", orderId: orderId, itemName: itemName, status: status, credentials: creds }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Updated!", "success"); }, 1500); }); 
+    }
+
+    // --- INTERACTIVE FINANCE CHARTS ---
+    async function drawAdminChart() { 
+        try { 
+            const res = await fetch(ORDERS_URL + "&cb=" + new Date().getTime()); const text = await res.text(); const rows = text.split('\n'); 
+            let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; let itemRevs = {};
+            for(let i = 1; i < rows.length; i++) { 
+                const cols = safeCsvParse(rows[i]); 
+                if(cols.length > 3) { 
+                    let itemRaw = String(cols[4]); let itemLower = itemRaw.toLowerCase(); 
+                    if(itemLower.includes("netflix") || itemLower.includes("spotify")) dataCounts["Streaming"]++; else if(itemLower.includes("valorant") || itemLower.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; 
+                    if (cols[9] && cols[9].trim() === "Delivered") { 
+                        let d = new Date(cols[10]).toLocaleDateString(undefined, {weekday: 'short', day: 'numeric'}); 
+                        let p = parseFloat(cols[8].replace(/[^0-9.]/g, '')); 
+                        if (!isNaN(p)) { 
+                            revByDay[d] = (revByDay[d] || 0) + p; 
+                            itemRevs[itemRaw] = (itemRevs[itemRaw] || 0) + p;
+                        } 
+                    } 
+                } 
+            } 
+            
+            // Build Itemized Table
+            let tableHTML = `<table style="width:100%; text-align:left; border-collapse:collapse;">`;
+            for (let k in itemRevs) { tableHTML += `<tr><td style="border-bottom:1px solid #333; padding:4px;">${k}</td><td style="border-bottom:1px solid #333; padding:4px; color:#00ff88; font-weight:bold;">${itemRevs[k].toFixed(2)} DT</td></tr>`; }
+            tableHTML += `</table>`;
+            document.getElementById('finance-table').innerHTML = tableHTML;
+
+            if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], hoverOffset: 4 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); 
+            if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', hoverBackgroundColor: '#ffffff', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); 
+        } catch(e) {} 
+    }
 
     window.onload = () => {
-        if (!localStorage.getItem('cyberhub_v41_pol')) { openModal('policy-modal'); }
-        loadFromCache(); fetchData(); toggleAdminUI();
-        try { let stored = localStorage.getItem('cyberhub_saved_cart'); if (stored) { let parsed = JSON.parse(stored); if (parsed.length > 0) { cart = parsed; document.getElementById('cart-count').innerText = cart.length; setTimeout(() => showToast("🛒 You left items in your cart!", "info"), 1500); } } } catch(e) {}
+        if (!localStorage.getItem('cyberhub_v46_pol')) { openModal('policy-modal'); }
+        applyLang(); fetchData(); fetchSideData(); toggleAdminUI();
     };
 </script>
 </body>
