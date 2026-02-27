@@ -62,6 +62,8 @@
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #ff4d4d;z-index:10;filter:drop-shadow(0 2px 5px #000);}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);}
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;}
+        .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
+        .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
     </style>
 </head>
 <body>
@@ -72,7 +74,7 @@
     <button onclick="el('sidebar').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;">✖</button>
     <div style="text-align:center;margin-top:20px;margin-bottom:30px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--p);"></div>
     <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
-    <div class="m-item" onclick="openPol(true)">📜 <span class="tr" data-k="pol">Store Policy</span></div>
+    <div class="m-item" onclick="openModal('pol-mod');el('sidebar').classList.remove('open');">📜 <span class="tr" data-k="pol">Store Policy</span></div>
     <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
     <div class="m-item" onclick="openModal('wheel-modal');el('sidebar').classList.remove('open');">🎁 <span class="tr" data-k="spin">Spin & Win</span></div>
     <div id="adm-btn" class="m-item" style="display:none;color:var(--w);border-top:1px dashed var(--w);margin-top:15px;" onclick="openModal('adm-dash');el('sidebar').classList.remove('open');setTimeout(drawCharts,300);">🛠️ <span class="tr" data-k="god">God-Mode</span></div>
@@ -233,13 +235,13 @@
 </div></div>
 
 <div id="pol-mod" class="modal"><div class="m-cnt">
-    <button id="pol-x" onclick="closeModal('pol-mod')" style="position:absolute;top:15px;right:15px;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;display:none;">✖</button>
+    <button onclick="closeModal('pol-mod')" style="position:absolute;top:15px;right:15px;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">✖</button>
     <h3 style="color:var(--p);margin-top:0;" class="t-pol">Store Agreement</h3>
     <div class="pol-row"><div class="pol-icon">🛡️</div><div><b style="color:#fff;" class="t-pd">Data Privacy</b><span style="color:var(--sub);font-size:0.75rem;display:block;">Encrypted & Secure.</span></div></div>
     <div class="pol-row" style="border-color:var(--w);"><div class="pol-icon" style="background:var(--w);">⚡</div><div><b style="color:var(--w);" class="t-pt">Delivery Time</b><span style="color:#fff;font-weight:bold;font-size:0.75rem;display:block;">0 to 48 hours max.</span></div></div>
     <div class="pol-row"><div class="pol-icon">🤝</div><div><b style="color:#fff;" class="t-ps">Support (SAV)</b><span style="color:var(--sub);font-size:0.75rem;display:block;">Full after-sales included.</span></div></div>
     <div class="pol-row" style="border-color:#ff4d4d;"><div class="pol-icon" style="background:#ff4d4d;color:#fff;">❌</div><div><b style="color:#ff4d4d;" class="t-pr">Refunds</b><span style="color:#fff;font-size:0.75rem;display:block;">No refunds post-delivery.</span></div></div>
-    <button id="pol-btn" class="btn tr" data-k="acpt" onclick="acceptPolicy()">I ACCEPT</button>
+    <button class="btn tr" data-k="acpt" onclick="acceptPolicy()">I ACCEPT</button>
 </div></div>
 
 <div id="adm-dash" class="modal"><div class="m-cnt" style="max-width:700px;">
@@ -286,7 +288,7 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
-    // 🔥 YOUR SCRIPT URL
+    // 🔥 SCRIPT URL ALREADY CONNECTED
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
     
     // APOSTROPHE CRASH FIX
@@ -326,9 +328,22 @@
     async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); if(!iA && !localStorage.getItem('ch_bU')) return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openModal('adm-dash');setTimeout(drawCharts,300);}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast(T[lang].scs,false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast(T[lang].err,true);}}
 
     function chkUI(){if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block';} let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}}
+    
+    function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
+
+    function initParticles() {
+        if(typeof particlesJS !== 'undefined') {
+            particlesJS("particles-js", {
+                "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } },
+                "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } }
+            });
+        }
+    }
 
     async function initApp() {
-        if(!localStorage.getItem('ch_pol')) openPolicy(false); appLang();
+        initParticles();
+        if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
+        appLang();
         let cached = localStorage.getItem('ch_db_cache');
         if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
         else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; }
@@ -346,9 +361,12 @@
 
     function ren(){
         let hHtml=""; let a=el('st-cnt'); let q=el('srch').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
-        if(!db.inv || db.inv.length < 2) return;
         
-        // Exact Color Match Engine
+        if(!db.inv || db.inv.length < 2) {
+            a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`;
+            return;
+        }
+        
         let categories = []; let catSubMap = {};
         db.inv.slice(1).forEach(r => {
             if(!r || r.length<9 || (!r[6] && !r[7])) return;
@@ -373,7 +391,6 @@
             let exTxt=r[11]?String(r[11]):"Details...";
             let wrn=(lang==='en' && r[12]) ? String(r[12]) : (r[13] ? String(r[13]) : "");
             
-            // Color Calc
             let catIndex = categories.indexOf(cat);
             let subIndex = catSubMap[cat].indexOf(app);
             let catHue = distinctHues[catIndex % distinctHues.length];
@@ -417,7 +434,7 @@
     
     // IDs Displayed Under Items
     function dR(i){
-        let eO=sEnc(i.on), eN=sEnc(i.n); 
+        let eO=sEnc(i.id), eN=sEnc(i.n); 
         let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : '';
         let extHtml = i.exReq ? `<input type="text" id="ex-${i.id}" placeholder="${i.exTxt}" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">` : '';
         let btnCol = i.col || 'var(--p)';
@@ -461,7 +478,6 @@
             let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); 
             os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('${T[lang].fill}',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});
         } else if(t==="spins") {
-            // ADMIN PARITY: SPIN LOGS
             if(d.spn) { d.spn.slice(1).reverse().forEach(s => {
                 if(!s[0]) return;
                 let c = String(s[6]).includes("YES") ? "#ff4d4d" : "var(--sub)";
