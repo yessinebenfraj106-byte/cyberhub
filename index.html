@@ -9,55 +9,41 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#050b14">
     <link rel="manifest" href='data:application/manifest+json,{"name":"CyberHub","short_name":"CyberHub","display":"standalone","background_color":"#050b14","theme_color":"#00f0ff"}'>
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root{--p:#00f0ff;--bg:#050b14;--c:rgba(10,15,30,0.8);--b:rgba(0,240,255,0.2);--w:#ffae00;}
         body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
-        body.modal-open{overflow:hidden;} #particles-js{position:fixed;inset:0;z-index:-1;}
+        body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
+        #particles-js{position:fixed;inset:0;z-index:-1;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
-        
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
-        
-        /* ALIGNMENTS & FOLDERS */
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
         .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
         .f-head{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.01));border:1px solid var(--b);border-left:4px solid var(--p);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5);}
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;}
-        
-        /* MODALS & INPUTS */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
-        
         .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--p);color:#000;padding:15px 25px;border-radius:30px;font-size:1rem;font-weight:bold;transition:0.4s;z-index:20000;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
         .toast.show{bottom:30px;}
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
         .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
-        
-        /* SIDEBAR */
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;}
         .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
         .otp-box{width:45px;height:55px;text-align:center;font-size:1.5rem;font-weight:bold;margin:0 4px;border-radius:10px;padding:0;}
-        
-        /* POLICY LAYOUT */
         .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
         .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
-        
-        /* FLOATING ACTION BUTTONS */
         .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
         .fab-supp{position:fixed;bottom:105px;right:25px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
-        
-        /* SPINNER */
         .wheel-cnt{position:relative;width:240px;height:240px;margin:20px auto;border-radius:50%;border:6px solid var(--p);overflow:hidden;box-shadow:0 0 30px rgba(0,240,255,0.3);}
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #ff4d4d;z-index:10;filter:drop-shadow(0 2px 5px #000);}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);}
@@ -252,7 +238,7 @@
         <button class="btn" style="margin:0;background:rgba(255,174,0,0.1);color:var(--w);border:1px solid var(--w);" onclick="fAdm('orders')">📦 Orders</button>
         <button class="btn" style="margin:0;background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fAdm('users')">👥 CRM</button>
         <button class="btn" style="margin:0;background:rgba(0,240,255,0.1);color:var(--p);border:1px solid var(--p);" onclick="openModal('mark-modal')">🎟️ Promos</button>
-        <button class="btn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
+        <button class="btn tr" data-k="mn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -260,7 +246,7 @@
 <div id="d-mod" class="modal"><div class="m-cnt" style="max-width:700px;"><h3 id="d-tit" style="color:var(--p);margin-top:0;">Data</h3><div id="d-box" style="text-align:left;max-height:60vh;overflow-y:auto;font-size:0.85rem;"></div><button class="tr" data-k="cls" onclick="closeModal('d-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <div id="mnl-ord-mod" class="modal"><div class="m-cnt">
-    <h3 style="color:#00ff88;margin-top:0;">➕ Manual Order</h3>
+    <h3 style="color:#00ff88;margin-top:0;" class="tr" data-k="mn">➕ Manual Order</h3>
     <input type="text" id="mo-c" placeholder="Client Name">
     <select id="mo-sel" onchange="if(this.value==='CUSTOM'){el('mo-i').style.display='block';el('mo-p').value='';}else{el('mo-i').style.display='none';el('mo-p').value=this.value.split('||')[1];el('mo-i').value=decodeURIComponent(this.value.split('||')[0]);}">
         <option value="CUSTOM">-- Type Custom Item --</option>
@@ -274,10 +260,10 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
-    // 🔥 SCRIPT URL ALREADY CONNECTED
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv";
     
-    const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
+    const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
     
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
@@ -285,28 +271,9 @@
     let pC="", pP=0, pM="D17", cM="wa", rM="email", lC=0, lT, isR=false, pE, pP2; let c1, c2;
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     
-    // UNIVERSAL TRANSLATION DICTIONARY
     const T = {
-      en: {
-        ld: "Loading Store... ⏳", srch: "Search Store...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back",
-        acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?",
-        si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics",
-        pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification",
-        crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close",
-        sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER",
-        spn: "Spins reset every 48 Hours.", sn: "SPIN NOW",
-        pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT"
-      },
-      fr: {
-        ld: "Chargement... ⏳", srch: "Rechercher...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour",
-        acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?",
-        si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique",
-        pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code",
-        crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer",
-        sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER",
-        spn: "1 essai toutes les 48 Heures.", sn: "TOURNER",
-        pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE"
-      }
+      en: { ld: "Loading Store... ⏳", srch: "Search Store...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order" },
+      fr: { ld: "Chargement... ⏳", srch: "Rechercher...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle" }
     };
 
     function el(i){return document.getElementById(i);}
@@ -326,22 +293,35 @@
         ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>e.innerText=T[lang][k]);});
     }
 
-    async function bioSet(iA){if(iA && el('aPas').value!=="26240608") return toast("Admin Pass required",true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod');}else{localStorage.setItem('ch_bU',user); pAPI('link_bio',{c:user},true);} toast("Biometrics Linked",false); }catch(e){toast("Setup Failed",true);}}
-    async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast("No Admin Passkey",true); if(!iA && !localStorage.getItem('ch_bU')) return toast("No Passkey",true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast("God Mode",false);chkUI();openModal('adm-dash');setTimeout(drawCharts,300);}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast("Welcome back!",false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast("Rejected",true);}}
+    async function bioSet(iA){if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod');}else{localStorage.setItem('ch_bU',user); pAPI('link_bio',{c:user},true);} toast(T[lang].svd,false); }catch(e){toast(T[lang].err,true);}}
+    async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); if(!iA && !localStorage.getItem('ch_bU')) return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openModal('adm-dash');setTimeout(drawCharts,300);}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast(T[lang].scs,false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast(T[lang].err,true);}}
 
     function chkUI(){if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block';} let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}}
 
-    // 🔥 INSTANT ZERO-SECOND LOAD ENGINE
-    function initApp() {
+    function parseCSV(str) { let a=[]; let q=false; let r=0; let c=0; for (let i=0; i<str.length; i++) { let cc=str[i], nc=str[i+1]; a[r]=a[r]||[]; a[r][c]=a[r][c]||''; if(cc=='"'&&q&&nc=='"') {a[r][c]+=cc; ++i; continue;} if(cc=='"') {q=!q; continue;} if(cc==','&&!q) {++c; continue;} if(cc=='\r'&&nc=='\n'&&!q) {++r; c=0; ++i; continue;} if((cc=='\n'||cc=='\r')&&!q) {++r; c=0; continue;} a[r][c]+=cc; } return a; }
+
+    async function initApp() {
         if(!localStorage.getItem('ch_pol')) openPolicy(false);
+        appLang();
+        
         let cached = localStorage.getItem('ch_db_cache');
-        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db.inv=d.inv; db.promo=d.promo||{}; db.loy=d.loy||{}; db.whl=d.whl||[]; appLang(); chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
-        else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;" class="tr" data-k="ld">Loading Store... ⏳</div>`; appLang(); }
-        setTimeout(bgSync, 50); // Fetch invisibly in background
-    }
-    
-    async function bgSync(){
-        try{ let r=await fetch(SURL+"?action=get_public_data"); let d=await r.json(); if(d.status!=="success") return; let cObj = {inv: d.inv, promo: {}, loy: {}, whl: d.whl}; db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl; d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); cObj.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); cObj.loy[parseInt(x[0])]=parseFloat(x[1]); }}); localStorage.setItem('ch_db_cache', JSON.stringify(cObj)); hMaint(d.inv[0][15]||"FALSE"); appLang(); chkUI(); renderMkt(); buildW(); ren(); }catch(e){ if(!localStorage.getItem('ch_db_cache')) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
+        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
+        else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; }
+        
+        // 1. BLITZ-FAST INVENTORY FETCH (CSV)
+        try { let rCSV = await fetch(CSV_URL + "&cb=" + Date.now()); let txt = await rCSV.text(); db.inv = parseCSV(txt); ren(); } catch(e) {}
+
+        // 2. SILENT SECURE BACKEND UPDATE
+        try {
+            let r = await fetch(SURL+"?action=get_public_data"); let d = await r.json(); 
+            if(d.status==="success") {
+                db.promo={}; db.loy={}; db.whl=d.whl;
+                d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); 
+                d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); 
+                localStorage.setItem('ch_db_cache', JSON.stringify(db));
+                hMaint(d.inv[0][15]||"FALSE"); chkUI(); renderMkt(); buildW(); ren();
+            }
+        } catch(e) {}
     }
 
     function ren(){
@@ -361,8 +341,8 @@
         
         if(q){ if(sA.length===0) h=`<div style="text-align:center;color:var(--sub);">Empty.</div>`; else sA.forEach(i=>h+=dR(i)); } 
         else if(cView.t==='cats'){ h+=`<div class="grid">`; for(let k in c) h+=`<div class="n-card" onclick="navTo('apps','${sEnc(k)}')"><img src="${c[k]}"><b>${k}</b></div>`; h+=`</div>`; } 
-        else if(cView.t==='apps'){ h+=`<button class="icon-btn tr" data-k="bck" onclick="navTo('cats')" style="margin-bottom:15px;background:transparent;">← Back</button><div class="grid">`; for(let k in ap) h+=`<div class="n-card" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}')"><img src="${ap[k]}"><b>${k}</b></div>`; h+=`</div>`; } 
-        else if(cView.t==='items'){ h+=`<button class="icon-btn tr" data-k="bck" onclick="navTo('apps','${sEnc(cView.c)}')" style="margin-bottom:15px;background:transparent;">← Back</button>`; for(let k in g){let rId="g-"+k.replace(/[\s']/g,''); h+=`<div class="f-head" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${k} (${g[k].length})</span><span style="color:var(--p);font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed var(--b);margin-left:10px;margin-bottom:20px;">`; g[k].forEach(i=>h+=dR(i)); h+=`</div>`;} sA.forEach(i=>h+=dR(i)); } 
+        else if(cView.t==='apps'){ h+=`<button class="icon-btn" onclick="navTo('cats')" style="margin-bottom:15px;background:transparent;">${T[lang].bck}</button><div class="grid">`; for(let k in ap) h+=`<div class="n-card" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}')"><img src="${ap[k]}"><b>${k}</b></div>`; h+=`</div>`; } 
+        else if(cView.t==='items'){ h+=`<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}')" style="margin-bottom:15px;background:transparent;">${T[lang].bck}</button>`; for(let k in g){let rId="g-"+k.replace(/[\s']/g,''); h+=`<div class="f-head" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${k} (${g[k].length})</span><span style="color:var(--p);font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed var(--b);margin-left:10px;margin-bottom:20px;">`; g[k].forEach(i=>h+=dR(i)); h+=`</div>`;} sA.forEach(i=>h+=dR(i)); } 
         a.innerHTML=h;
     }
     
@@ -376,30 +356,26 @@
     function gOTP(){let c='';for(let i=0;i<6;i++)c+=el('o'+i).value;return c;}
     function openProf(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; el('p-ig').value=uIg; el('p-wa').value=uWa; el('p-fb').value=uFb; openModal('prof-mod');} else {openModal('log-mod'); swA('l-step');}}
     function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
-    function logOut(){localStorage.clear(); user=null; role=null; pass=null; uOrders=0; uIg=""; uWa=""; uFb=""; chkUI(); closeModal('prof-mod'); toast("Logged Out",false); ren();}
-    async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast("Fill fields",true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast("Logged In",false); chkUI(); ren();} else if(d.s==="banned") toast("Banned",true); else toast("Invalid Creds",true);}
-    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast("God Mode",false); chkUI(); openModal('adm-dash'); setTimeout(drawCharts,300);} else toast("Denied",true);}
+    function logOut(){localStorage.clear(); user=null; role=null; pass=null; uOrders=0; uIg=""; uWa=""; uFb=""; chkUI(); closeModal('prof-mod'); toast(T[lang].scs,false); ren();}
+    
+    async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
+    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openModal('adm-dash'); setTimeout(drawCharts,300);} else toast(T[lang].err,true);}
     function sRM(m){rM=m; el('b-em').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('b-ph').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('rCnt').placeholder=m==='email'?'Email':'Phone'; el('b-reg').innerText=T[lang].snd;}
-    async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast("Fill fields",true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); let d=await r.json(); el('b-reg').disabled=false; if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast("Created!",false);chkUI();} else toast("Exists",true);} else {el('b-reg').disabled=true; await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); toast("Code sent",false);}}
-    async function reqC(res, nE){isR=res; if(nE) {cngEml=true; pE=nE;} else {cngEml=false; pE=res?el('rsEml').value:pE; pP2=res?el('rsPas').value:pP2;} await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); if(!cngEml)swA('c-step'); toast("Code Sent",false);}
-    async function verC(){let c=gOTP(); if(c.length<6)return toast("Enter 6 digits",true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast("Email Changed",false); closeModal('prof-mod');} else toast("Bad Code",true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast("Verified!",false);chkUI();} else toast("Bad Code",true);}
-    function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast("Saved",false);}
+    
+    async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast(T[lang].fill,true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); let d=await r.json(); el('b-reg').disabled=false; if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].err,true);} else {el('b-reg').disabled=true; await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); toast(T[lang].cd,false);}}
+    async function reqC(res, nE){isR=res; if(nE) {cngEml=true; pE=nE;} else {cngEml=false; pE=res?el('rsEml').value:pE; pP2=res?el('rsPas').value:pP2;} await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); if(!cngEml)swA('c-step'); toast(T[lang].cd,false);}
+    async function verC(){let c=gOTP(); if(c.length<6)return toast(T[lang].fill,true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast(T[lang].scs,false); closeModal('prof-mod');} else toast(T[lang].bdc,true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].bdc,true);}
+    function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast(T[lang].svd,false);}
 
     function trgMsg(){let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);}
     function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-time'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML=""; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v);}
-    async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("Exec...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast("Success",false); if(!nS)bgSync();} else toast("Error",true);}catch(e){toast("Err",true);}}
+    async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast(T[lang].scs,false); if(!nS)bgSync();} else toast(T[lang].err,true);}catch(e){toast(T[lang].err,true);}}
 
-    async function fAdm(t){el('d-tit').innerText=t==="orders"?"📦 Orders":"👥 CRM"; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json(); if(d.status!=="success")throw "Err"; db.ord=d.ord; let h=""; if(t==="orders"){let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('Need creds',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});} else {d.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});} el('d-box').innerHTML=h||"Empty.";}catch(e){el('d-box').innerHTML="Err.";}}
-    async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">Cancel</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
+    async function fAdm(t){el('d-tit').innerText=t==="orders"?"📦 Orders":"👥 CRM"; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); let d=await r.json(); if(d.status!=="success")throw "Err"; db.ord=d.ord; let h=""; if(t==="orders"){let os=[]; d.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('${T[lang].fill}',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});} else {d.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});} el('d-box').innerHTML=h||"Empty.";}catch(e){el('d-box').innerHTML=T[lang].err;}}
+    async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
     
-    // Manual Orders Dropdown Fix
-    function loadInvToSel(){
-        let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`;
-        if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[4]) h+=`<option value="${sEnc(r[4])}||${r[5]||0}">${r[4]} (${r[5]||0} DT)</option>`;}); }
-        s.innerHTML=h;
-    }
-
+    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[4]) h+=`<option value="${sEnc(r[4])}||${r[5]||0}">${r[4]} (${r[5]||0} DT)</option>`;}); } s.innerHTML=h; }
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{oid:"MNL-"+Math.floor(1e4+Math.random()*9e4),client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
 
@@ -407,20 +383,20 @@
     function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,pct:p});}
 
     function chkLoy(){return db.loy[uOrders+1]||0;}
-    function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast("Applied!",false);updC();} else {pPct=0;pCode="";toast("Invalid",true);updC();}}
+    function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast(T[lang].scs,false);updC();} else {pPct=0;pCode="";toast(T[lang].err,true);updC();}}
     function opnCart(){updC(); openModal('cart-mod');}
     function addC(eO, p, eN){cart.push({id:decodeURIComponent(eO), n:decodeURIComponent(eN), p:parseFloat(p)}); el('c-count').innerText=cart.length; toast(T[lang].add,false);}
     function updC(){let r=cart.reduce((s,i)=>s+i.p,0); let l=chkLoy(); let h=Math.max(pPct,l); el('m-sub').innerText=r.toFixed(2)+" DT"; let pr=el('m-pr'), lr=el('m-lr'); if(pPct>0){pr.style.display='flex';el('m-pp').innerText=pPct;el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none'; if(l>0){lr.style.display='flex';el('m-lp').innerText=l;el('m-lv').innerText="-"+(r*(l/100)).toFixed(2)+" DT";} else lr.style.display='none'; el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');}
     function sPay(m){payM=m; el('p-d17').classList.remove('act'); el('p-csh').classList.remove('act'); el(m==='D17'?'p-d17':'p-csh').classList.add('act'); el('d-box').style.display=m==='D17'?'block':'none';}
     function sCon(c){cM=c; ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); el('c-'+c).classList.add('act');}
-    function opnCO(){if(cart.length===0) return toast("Empty",true); closeModal('cart-mod'); if(uIg)el('coC').value=uIg; else if(uWa)el('coC').value=uWa; else if(uFb)el('coC').value=uFb; openModal('co-mod');}
+    function opnCO(){if(cart.length===0) return toast(T[lang].emp,true); closeModal('cart-mod'); if(uIg)el('coC').value=uIg; else if(uWa)el('coC').value=uWa; else if(uFb)el('coC').value=uFb; openModal('co-mod');}
     
     async function finOrd(){
-        let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast("Name/Contact required",true);
+        let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast(T[lang].rq,true);
         let oid=(user==="yessinebenfraj106@gmail.com"?"TEST-":"CH-")+Math.floor(1000+Math.random()*9000);
         let h=Math.max(chkLoy(), pPct); cart.forEach(i=>{i.name=i.id; i.price=i.p; i.finalPrice=i.p-(i.p*(h/100));}); let t=cart.reduce((s,i)=>s+i.finalPrice,0).toFixed(2);
-        el('b-fin').innerText="Wait..."; el('b-fin').disabled=true;
-        try { await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",oid:oid,client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); let msg=`🛒 CyberHub\nID: ${oid}\nTotal: ${t} DT`; navigator.clipboard.writeText(msg).catch(e=>{}); setTimeout(()=>{if(cM==='wa') window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`); closeModal('co-mod'); cart=[]; el('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} toast("Success!",false); el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false;},1000); } catch(e){el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; toast("Err",true);}
+        el('b-fin').innerText="..."; el('b-fin').disabled=true;
+        try { await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",oid:oid,client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); let msg=`🛒 CyberHub\nID: ${oid}\nTotal: ${t} DT`; navigator.clipboard.writeText(msg).catch(e=>{}); setTimeout(()=>{if(cM==='wa') window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`); closeModal('co-mod'); cart=[]; el('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} toast(T[lang].scs,false); el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false;},1000); } catch(e){el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; toast(T[lang].err,true);}
     }
 
     function buildW(){
@@ -429,17 +405,17 @@
         el('wheel').style.background=`conic-gradient(${cg.join(',')})`; el('w-leg').innerHTML=leg;
     }
     async function spinW(){
-        if(Date.now()-(localStorage.getItem('ch_l_spn')||0) < 172800000) return toast("Wait 48h to spin again!", true);
-        el('b-spin').disabled=true; el('b-spin').innerText="Checking...";
+        if(Date.now()-(localStorage.getItem('ch_l_spn')||0) < 172800000) return toast(T[lang].err, true);
+        el('b-spin').disabled=true; el('b-spin').innerText="...";
         let ip="Unknown"; try{let r=await fetch('https://api.ipify.org?format=json'); let d=await r.json(); ip=d.ip;}catch(e){}
         let rnd=Math.random()*100, acc=0, tIdx=0; for(let i=1;i<db.whl.length;i++){acc+=parseFloat(db.whl[i][3]); if(rnd<=acc){tIdx=i-1; break;}}
         let wP = db.whl[tIdx+1][0];
         try {
             let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:ip, did:dId, prize:wP})}); let d=await r.json();
-            if(d.s!=='ok') { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; return toast("Already spun in 48h! (IP/Device Block)",true); }
+            if(d.s!=='ok') { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; return toast(T[lang].err,true); }
             let s=db.whl.length-1, a=360/s; let tD=(360*5)+(360-(tIdx*a)-(a/2)); el('wheel').style.transform=`rotate(${tD}deg)`;
             localStorage.setItem('ch_l_spn', Date.now()); setTimeout(()=>{toast(`You won: ${wP}! Send Screenshot.`,false); el('b-spin').innerText=T[lang].sn; el('b-spin').disabled=false;},4600);
-        } catch(e) { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; toast("Network Error", true); }
+        } catch(e) { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; toast(T[lang].err, true); }
     }
 
     function drawCharts(){
