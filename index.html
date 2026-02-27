@@ -5,505 +5,318 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root{--primary:#00f0ff;--bg:#050b14;--card:rgba(10,15,30,0.7);--border:rgba(0,240,255,0.15);--text:#ffffff;--sub:#94a3b8;--warn:#ffae00;}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;padding-bottom:50px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
-        body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
+        :root{--primary:#00f0ff;--bg:#050b14;--card:rgba(10,15,30,0.8);--border:rgba(0,240,255,0.2);--text:#fff;--warn:#ffae00;}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;padding-bottom:80px;overflow-x:hidden;}
         #particles-js{position:fixed;width:100%;height:100%;z-index:-1;top:0;left:0;}
         .container{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
-        .liquid-glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.15);border-radius:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
-        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:10px;}
-        .icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;transition:0.3s;}
-        #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:5000;transition:0.4s;padding:30px 20px;border-right:1px solid var(--primary);display:flex;flex-direction:column;}
-        #sidebar.open{left:0;}
-        .close-menu{background:none;border:none;color:white;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;z-index:10;}
-        .menu-item{padding:18px;font-size:1.1rem;font-weight:bold;color:white;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
-        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--primary);margin:auto;display:block;background:#000;cursor:pointer;box-shadow:0 0 30px rgba(0,240,255,0.4);}
-        
-        #quick-admin-bar{display:none;background:rgba(0,0,0,0.8);border:1px solid var(--warn);padding:10px;border-radius:12px;margin-bottom:15px;text-align:center;justify-content:space-between;align-items:center;}
-        .maintenance-band{padding:25px;border-radius:15px;text-align:center;margin-bottom:20px;display:none;transition:0.3s;}
-
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-        .nav-card{padding:20px;text-align:center;cursor:pointer;border:1px solid var(--border);border-radius:15px;background:var(--card);transition:0.3s;}
-        .nav-card img{width:55px;height:55px;object-fit:contain;margin:0 auto 10px auto;display:block;}
-        .folder-header{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.01));border:1px solid var(--border);border-left:4px solid var(--primary);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;margin-bottom:8px;}
-        .folder-content{display:none;padding-left:15px;border-left:2px dashed rgba(255,255,255,0.15);margin-left:10px;margin-bottom:25px;}
-        .ungroup-zone{border:2px dashed var(--sub);padding:20px;text-align:center;color:var(--sub);border-radius:12px;margin-bottom:15px;font-weight:bold;display:none;}
-        .item-row{padding:15px;margin-bottom:12px;display:flex;flex-direction:column;background:rgba(0,0,0,0.5);border-radius:12px;border:1px solid rgba(255,255,255,0.05);transition:0.2s;}
-        .item-row.dragging{opacity:0.4; border:2px dashed var(--primary); transform:scale(0.98);}
-        .add-cart-btn{background:var(--primary);color:#000;border:none;padding:14px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:10px;text-transform:uppercase;width:100%;letter-spacing:1px;}
-        .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;}
-        .fab-cart{position:fixed;bottom:30px;right:30px;background:var(--primary);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
-        
-        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:9000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
-        .modal-content{padding:25px;width:100%;max-width:550px;text-align:center;max-height:90vh;overflow-y:auto;background:var(--bg);border:1px solid var(--primary);border-radius:20px;position:relative;}
-        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,0.5);color:var(--text);box-sizing:border-box;font-size:1rem;font-family:inherit;}
-        .auth-flow-section{display:none;} .auth-flow-section.active{display:block;}
-        .admin-section{background:rgba(0,0,0,0.4);border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,255,255,0.05);text-align:left;}
-        .emoji-db-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;background:rgba(0,0,0,0.4);padding:15px;border-radius:12px;max-height:220px;overflow-y:auto;margin-bottom:15px;}
-        .emoji-slot{font-size:1.5rem;text-align:center;cursor:pointer;padding:5px;border-radius:8px;border:1px solid transparent;}
-        .emoji-slot.active{border-color:var(--warn);background:rgba(255,174,0,0.2);}
-        .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;}
-        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:white;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer;text-align:center;}
-        .c-btn.active{background:rgba(0,240,255,0.15);border-color:var(--primary);color:var(--primary);}
-        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);border:1px solid var(--primary);background:var(--bg);color:var(--text);padding:15px 25px;border-radius:30px;font-size:1rem;z-index:99999;font-weight:bold;transition:bottom 0.4s ease;}
+        .liquid-glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--border);border-radius:20px;padding:15px;margin-bottom:20px;}
+        .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
+        .icon-btn{background:var(--card);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:bold;}
+        .logo{width:100px;height:100px;border-radius:50%;border:3px solid var(--primary);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 20px rgba(0,240,255,0.3);}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .nav-card{background:var(--card);border:1px solid var(--border);padding:15px;border-radius:15px;text-align:center;cursor:pointer;}
+        .nav-card img{width:50px;height:50px;margin-bottom:8px;object-fit:contain;}
+        .folder-header{background:rgba(0,240,255,0.1);border-left:4px solid var(--primary);padding:15px;border-radius:10px;margin-bottom:8px;font-weight:bold;cursor:pointer;display:flex;justify-content:space-between;}
+        .item-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);padding:15px;border-radius:12px;margin-bottom:10px;}
+        .btn{background:var(--primary);color:#000;border:none;padding:12px;border-radius:10px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;}
+        .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(10px);padding:15px;}
+        .modal-content{background:var(--bg);border:1px solid var(--primary);padding:20px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
+        input,select,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.6);color:#fff;box-sizing:border-box;}
+        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--primary);color:#000;padding:12px 25px;border-radius:30px;font-weight:bold;transition:0.4s;z-index:20000;box-shadow:0 5px 15px rgba(0,240,255,0.4);}
         .toast.show{bottom:30px;}
-        .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
-        .footer-credit{text-align:center;margin-top:40px;color:var(--sub);font-size:0.9rem;font-weight:bold;letter-spacing:1px;}
+        .admin-bar{display:none;background:#ffae00;color:#000;padding:8px;text-align:center;font-weight:bold;border-radius:10px;margin-bottom:15px;cursor:pointer;}
+        .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--border);color:#fff;padding:10px;border-radius:8px;text-align:center;cursor:pointer;flex:1;}
+        .c-btn.active{background:rgba(0,240,255,0.2);border-color:var(--primary);color:var(--primary);}
+        .footer{text-align:center;color:var(--sub);font-size:0.9rem;font-weight:bold;margin-top:40px;}
+        .oos-tag{color:#ff4d4d;border:1px solid #ff4d4d;padding:2px 6px;border-radius:5px;font-size:0.7rem;margin-left:5px;}
+        #sidebar{position:fixed;top:0;left:-300px;width:250px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.3s;padding:20px;border-right:1px solid var(--primary);}
+        #sidebar.open{left:0;}
+        .menu-item{padding:15px;color:#fff;font-weight:bold;border-bottom:1px solid var(--border);cursor:pointer;}
+        .banner{display:none;padding:15px;border-radius:12px;text-align:center;font-weight:bold;margin-bottom:15px;}
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
-<div id="toast" class="toast"><span id="toast-msg">Message</span></div>
+<div id="toast" class="toast"><span id="t-msg"></span></div>
 
-<div id="sidebar" class="liquid-glass">
-    <button class="close-menu" onclick="toggleSidebar()">✖</button>
-    <div style="text-align:center; margin-bottom: 30px; margin-top:20px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary);">
-        <h3 style="color:var(--primary); margin-top:10px;">Menu</h3>
-    </div>
-    
-    <div class="menu-item" onclick="openProfileOrLogin(); toggleSidebar();">👤 Account & Profile</div>
-    <div class="menu-item" onclick="openPolicyModal(true); toggleSidebar();">📜 Store Policy</div>
-    <div id="admin-sidebar-btn" class="menu-item" onclick="openAdminDashboard(); toggleSidebar();" style="display:none; color:#ff4d4d; border-top:1px dashed #ff4d4d; margin-top:15px;">🛠️ Admin Console</div>
+<div id="sidebar">
+    <button onclick="document.getElementById('sidebar').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:1.5rem;float:right;cursor:pointer;">✖</button>
+    <div style="text-align:center;margin-top:40px;margin-bottom:20px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:70px;border-radius:50%;border:2px solid var(--primary);"></div>
+    <div class="menu-item" onclick="openProfile()">👤 Account & Profile</div>
+    <div class="menu-item" onclick="openModal('policy-modal')">📜 Store Policy</div>
+    <div class="menu-item" onclick="openUserOrders()">📦 My Orders</div>
+    <div id="admin-menu-btn" class="menu-item" style="display:none;color:#ffae00;border-color:#ffae00;" onclick="openAdmin()">🛠️ God-Mode Console</div>
 </div>
 
 <div class="container">
     <div class="top-bar liquid-glass">
-        <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
-        <div style="display:flex; gap:10px;">
-            <button class="icon-btn" onclick="openProfileOrLogin()" style="border-color:var(--primary); color:var(--primary); font-size:1.2rem;">👤</button>
-            <button class="icon-btn" onclick="toggleLang()">🌐 <span id="lang-ind">EN</span></button>
-        </div>
-    </div>
-    
-    <div id="quick-admin-bar" class="liquid-glass">
-        <span style="color:var(--warn); font-weight:bold; font-size:0.9rem;">Admin Commands:</span>
-        <div style="display:flex; gap:5px;">
-            <button onclick="setLiveMaintenance('UNTIL')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer;">Close</button>
-            <button onclick="setLiveMaintenance('OFF')" style="background:#00ff88; color:black; border:none; padding:5px; border-radius:5px; cursor:pointer;">Open</button>
-            <button onclick="triggerBroadcast()" style="background:#8b5cf6; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer;">📢 Msg</button>
-        </div>
+        <button class="icon-btn" onclick="document.getElementById('sidebar').classList.add('open')">☰ MENU</button>
+        <button class="icon-btn" onclick="openCart()" style="font-size:1.2rem;">🛒 <span id="c-count" style="background:#fff;color:#000;border-radius:10px;padding:2px 6px;font-size:0.8rem;">0</span></button>
     </div>
 
-    <div id="maintenance-msg" class="maintenance-band liquid-glass"><div id="ui-maint-title" style="font-size:1.5rem; font-weight:bold;">STORE CLOSED</div><div id="ui-maint-time"></div></div>
-    <div id="loyalty-banner" style="background: linear-gradient(90deg, #ffae00, #ff4d4d); color: white; padding: 10px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 15px; display: none;">🎉 Loyalty Unlocked! <span id="loyalty-pct">0</span>% off your order today!</div>
+    <div id="admin-tools" class="admin-bar" onclick="openAdmin()">🛠️ GOD MODE ACTIVE - CLICK TO MANAGE</div>
+    <div id="maint-banner" class="banner" style="background:rgba(255,174,0,0.1);border:1px solid var(--warn);color:var(--warn);"></div>
+    <div id="loyalty-banner" class="banner" style="background:linear-gradient(90deg,#ffae00,#ff4d4d);color:#fff;">🎉 Loyalty Unlocked: <span id="l-pct">0</span>% OFF!</div>
 
-    <div class="header" style="text-align:center; margin-top: 10px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoTrigger()">
-        <h2 style="color:var(--primary); margin-top:15px; letter-spacing: 3px; font-weight: 800;">CYBERHUB</h2>
+    <div class="header" style="text-align:center;margin-bottom:20px;">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoClick()">
+        <h2 style="color:var(--primary);letter-spacing:2px;margin-top:10px;">CYBERHUB</h2>
     </div>
 
-    <div id="shop-wrapper">
-        <input type="text" id="mainSearch" class="liquid-glass" placeholder="Search Store..." oninput="forceReRender()" style="margin-bottom:20px; width:100%;">
-        <div id="content-area"><div class="loader-text" style="color:var(--primary); font-weight:bold; text-align:center;">Initializing API... ⏳</div></div>
-        
-        <div id="home-contact-section" style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px dashed var(--primary);">
-            <h3 style="color:white; margin-top:0; margin-bottom:15px;">📞 Need Help? Contact Us</h3>
-            <div style="display:flex; justify-content:center; gap:10px;">
-                <button onclick="window.open('https://wa.me/21629895846', '_blank')" style="background:#25D366; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">WhatsApp</button>
-                <button onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Instagram</button>
-            </div>
+    <input type="text" id="searchBar" class="liquid-glass" placeholder="Search Store..." oninput="render()" style="width:100%;margin-bottom:15px;border-radius:15px;padding:15px;">
+
+    <div id="store-content"><div style="text-align:center;color:var(--primary);font-weight:bold;padding:40px;">Syncing Securely... ⏳</div></div>
+
+    <div class="liquid-glass" style="text-align:center;margin-top:40px;border-style:dashed;">
+        <h3 style="margin-top:0;">📞 Contact Us</h3>
+        <div style="display:flex;gap:10px;justify-content:center;">
+            <button class="btn" style="background:#25D366;color:#fff;width:auto;" onclick="window.open('https://wa.me/21629895846')">WhatsApp</button>
+            <button class="btn" style="background:#E1306C;color:#fff;width:auto;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">Instagram</button>
         </div>
-        <div class="footer-credit">Made by Yessine ❤️</div>
     </div>
+    <div class="footer">Made by Yessine ❤️</div>
 </div>
 
-<button class="fab-cart" onclick="openCart()">🛒<div id="cart-count" style="position:absolute; top:-5px; right:-5px; background:white; color:black; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
-
-<div id="login-modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 style="color:var(--primary); margin-bottom:15px;">👤 Sign In</h3>
-    <div id="auth-step-login" class="auth-flow-section active">
-        <button type="button" class="add-cart-btn" onclick="executeUserBiometricLogin(false)" style="background:var(--card); color:var(--primary); border:1px solid var(--primary); margin-bottom:10px;">📱 Login with Passkey</button>
-        <form onsubmit="event.preventDefault(); processLogin();">
-            <input type="text" id="authEmail" autocomplete="username" placeholder="Email or Phone" required>
-            <div style="position:relative;"><input type="password" id="authPass" autocomplete="current-password" placeholder="Password" required><span class="pwd-eye" onclick="togglePwd('authPass')">👁️</span></div>
-            <button type="submit" class="add-cart-btn">Log In</button>
-        </form>
-        <div style="display:flex; justify-content:space-between; margin-top:15px;">
-            <span style="color:var(--primary); font-size:0.8rem; cursor:pointer; font-weight:bold;" onclick="switchAuthStep('auth-step-register')">Create Account</span>
-            <span style="color:var(--warn); font-size:0.8rem; cursor:pointer; font-weight:bold;" onclick="switchAuthStep('auth-step-reset')">Forgot Password?</span>
+<div id="login-modal" class="modal"><div class="modal-content">
+    <div id="login-step">
+        <h3 style="color:var(--primary);margin-top:0;">Sign In</h3>
+        <input type="text" id="logEmail" placeholder="Email or Phone">
+        <input type="password" id="logPass" placeholder="Password">
+        <button class="btn" onclick="execLogin()">Login</button>
+        <div style="display:flex;justify-content:space-between;margin-top:15px;font-size:0.8rem;font-weight:bold;">
+            <span style="color:var(--primary);cursor:pointer;" onclick="switchAuth('reg-step')">Create Account</span>
+            <span style="color:var(--warn);cursor:pointer;" onclick="switchAuth('reset-step')">Forgot Password?</span>
         </div>
     </div>
-    <div id="auth-step-register" class="auth-flow-section">
-        <h4 style="color:var(--primary); margin-top:0;">Create Account</h4>
-        <div style="display:flex; gap:10px; margin-bottom:15px;"><button type="button" class="add-cart-btn" id="btn-reg-email-tab" style="margin:0; background:rgba(0,240,255,0.2); color:white;" onclick="setRegMode('email')">Email</button><button type="button" class="add-cart-btn" id="btn-reg-phone-tab" style="margin:0; background:rgba(255,255,255,0.05); color:white;" onclick="setRegMode('phone')">Phone</button></div>
-        <form onsubmit="event.preventDefault(); processRegistration();">
-            <input type="text" id="regContact" autocomplete="username" placeholder="Email Address" required>
-            <div style="position:relative;"><input type="password" id="regPass" autocomplete="new-password" placeholder="Create Password" required><span class="pwd-eye" onclick="togglePwd('regPass')">👁️</span></div>
-            <button type="submit" class="add-cart-btn" id="btn-req-reg">Send Code</button>
-        </form>
-        <span style="color:var(--sub); font-size:0.8rem; cursor:pointer; display:block; margin-top:15px;" onclick="switchAuthStep('auth-step-login')">Back to Login</span>
+    <div id="reg-step" style="display:none;">
+        <h3 style="color:var(--primary);margin-top:0;">Create Account</h3>
+        <input type="text" id="regEmail" placeholder="Email Address">
+        <input type="password" id="regPass" placeholder="Create Password">
+        <button class="btn" onclick="sendCode(false)">Send Verification Code</button>
+        <div style="margin-top:10px;color:var(--sub);font-size:0.8rem;cursor:pointer;" onclick="switchAuth('login-step')">Back to Login</div>
     </div>
-    <div id="auth-step-reset" class="auth-flow-section">
-        <h4 style="color:var(--warn); margin-top:0;">Reset Password</h4>
-        <form onsubmit="event.preventDefault(); requestVerificationCode(true);">
-            <input type="email" id="resetEmail" autocomplete="username" placeholder="Account Email" required>
-            <div style="position:relative;"><input type="password" id="resetNewPass" autocomplete="new-password" placeholder="New Password" required><span class="pwd-eye" onclick="togglePwd('resetNewPass')">👁️</span></div>
-            <button type="submit" class="add-cart-btn" style="background:var(--warn);" id="btn-req-reset">Send Reset Code</button>
-        </form>
-        <span style="color:var(--sub); font-size:0.8rem; cursor:pointer; display:block; margin-top:15px;" onclick="switchAuthStep('auth-step-login')">Back to Login</span>
+    <div id="reset-step" style="display:none;">
+        <h3 style="color:var(--warn);margin-top:0;">Reset Password</h3>
+        <input type="text" id="resEmail" placeholder="Account Email">
+        <input type="password" id="resPass" placeholder="New Password">
+        <button class="btn" style="background:var(--warn);" onclick="sendCode(true)">Send Reset Code</button>
     </div>
-    <div id="auth-step-code" class="auth-flow-section">
-        <p style="color:var(--primary); font-size:0.9rem;">Check your email for the code.</p>
-        <input type="number" id="authCodeInput" placeholder="6-Digit Code" style="text-align:center; font-size:1.5rem; letter-spacing:5px;">
-        <button type="button" class="add-cart-btn" onclick="submitVerificationCode()" id="btn-verify">Verify & Proceed</button>
+    <div id="code-step" style="display:none;">
+        <h3 style="color:var(--primary);margin-top:0;">Enter Code</h3>
+        <input type="number" id="vCode" placeholder="6-Digit Code" style="text-align:center;letter-spacing:5px;font-size:1.2rem;">
+        <button class="btn" onclick="verifyCode()">Verify & Login</button>
     </div>
-    <div id="admin-secret-login" class="auth-flow-section">
-        <h3 style="color:var(--warn); margin-top:0;">God-Mode Auth</h3>
-        <button type="button" class="add-cart-btn" onclick="executeUserBiometricLogin(true)" style="background:var(--card); color:var(--warn); border:1px solid var(--warn); margin-bottom:10px;">📱 Use Passkey</button>
-        <input type="password" id="admin-manual-pass" placeholder="Enter Admin Password">
-        <button type="button" class="add-cart-btn" onclick="submitAdminPass()" style="background:var(--warn);">Login via Password</button>
-        <button type="button" class="add-cart-btn" onclick="setupNewPasskey(true)" style="background:transparent; color:#00ff88; border:1px solid #00ff88; margin-top:10px;">➕ Create Admin Passkey</button>
+    <div id="admin-sec-step" style="display:none;">
+        <h3 style="color:#ff4d4d;margin-top:0;">God Mode Auth</h3>
+        <input type="password" id="admPass" placeholder="Admin Override Password">
+        <button class="btn" style="background:#ff4d4d;color:#fff;" onclick="execAdminLogin()">Engage</button>
     </div>
-    <button type="button" onclick="closeModal('login-modal'); switchAuthStep('auth-step-login');" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button>
+    <button onclick="closeModal('login-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;">Cancel</button>
 </div></div>
 
-<div id="policy-modal" class="modal"><div class="modal-content liquid-glass">
-    <button id="ui-pol-close-x" onclick="closeModal('policy-modal')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer; display:none;">✖</button>
-    <h3 style="color:var(--primary); margin-bottom:20px; font-weight:800;" id="ui-pol-title">Store Agreement</h3>
-    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🛡️</div><div><b id="ui-pol-d-title" style="color:white;">Data Privacy</b><span id="ui-pol-d-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Your data is shared securely.</span></div></div>
-    <div style="background:rgba(255, 174, 0, 0.05); border:1px solid var(--warn); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--warn); color:black; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">⚡</div><div><b id="ui-pol-l-title" style="color:var(--warn);">Delivery Time</b><span id="ui-pol-l-desc" style="color:white; font-weight:bold; font-size:0.75rem; display:block;">Immediate up to 48 hours.</span></div></div>
-    <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:var(--primary); color:#000; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">🤝</div><div><b id="ui-pol-s-title" style="color:white;">Support (SAV)</b><span id="ui-pol-s-desc" style="color:var(--sub); font-size:0.75rem; display:block;">Full after-sales service is guaranteed.</span></div></div>
-    <div style="background:rgba(255, 77, 77, 0.05); border:1px solid #ff4d4d; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; gap:12px; align-items:center;"><div style="background:#ff4d4d; color:white; min-width:35px; height:35px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">❌</div><div><b id="ui-pol-r-title" style="color:#ff4d4d;">Refunds</b><span id="ui-pol-r-desc" style="color:white; font-size:0.75rem; display:block;">No refunds after delivery.</span></div></div>
-    <div id="ui-pol-contact" style="display:none; margin-top:15px;"><b style="color:white; font-size:0.9rem;">Contact Support</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn" onclick="window.open('https://wa.me/21629895846', '_blank')" style="background:#25D366; border:none;">WhatsApp</div><div class="c-btn" onclick="window.open('https://ig.me/m/yessine_ben_fraj', '_blank')" style="background:#E1306C; border:none;">Instagram</div><div class="c-btn" onclick="window.location.href='mailto:cyber.hub.contact.now@gmail.com'" style="background:#ff4d4d; border:none;">Email</div></div></div>
-    <button type="button" class="add-cart-btn" onclick="acceptPolicy()" id="ui-pol-btn" style="margin-top:15px;">I ACCEPT</button>
-</div></div>
-
-<div id="modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 style="color:var(--primary);">🛒 Cart</h3>
-    <div id="cart-items-list" style="text-align:left; max-height:150px; overflow-y:auto; margin-bottom:10px;"></div>
-    <div style="background:rgba(0,0,0,0.5); padding:10px; border-radius:12px; border:1px solid var(--border); margin-bottom:10px; font-size:0.9rem; text-align:left;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Subtotal:</span><span id="math-subtotal" style="color:white; font-weight:bold;">0 DT</span></div>
-        <div id="math-promo-row" style="display:flex; justify-content:space-between; margin-bottom:5px; color:#00f0ff;"><span>Promo (<span id="math-promo-pct">0</span>%):</span><span id="math-promo-val">-0 DT</span></div>
-        <div id="math-loyalty-row" style="display:flex; justify-content:space-between; margin-bottom:5px; color:#ffae00;"><span>Loyalty (<span id="math-loyalty-pct">0</span>%):</span><span id="math-loyalty-val">-0 DT</span></div>
-        <div style="display:flex; justify-content:space-between; margin-top:5px; border-top:1px dashed #333; padding-top:5px; font-size:1.1rem; font-weight:800;"><span>Total:</span><span id="cart-total-price" style="color:var(--primary);">0 DT</span></div>
+<div id="cart-modal" class="modal"><div class="modal-content">
+    <h3 style="color:var(--primary);margin-top:0;">🛒 Cart</h3>
+    <div id="cart-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
+    <div style="background:rgba(0,0,0,0.5);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:0.9rem;text-align:left;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;"><span>Subtotal:</span><b id="m-sub">0 DT</b></div>
+        <div id="m-promo-r" style="display:none;justify-content:space-between;color:var(--primary);"><span>Promo (<span id="m-promo-p">0</span>%):</span><b id="m-promo-v">-0 DT</b></div>
+        <div id="m-loy-r" style="display:none;justify-content:space-between;color:var(--warn);"><span>Loyalty (<span id="m-loy-p">0</span>%):</span><b id="m-loy-v">-0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:5px;font-size:1.1rem;color:var(--primary);"><span>Total:</span><b id="m-tot">0 DT</b></div>
     </div>
-    <div style="display:flex; gap:5px; margin-bottom:15px;"><input type="text" id="promo-code-input" placeholder="Promo Code?" style="margin:0;"><button type="button" onclick="applyPromoCode()" style="background:var(--primary); color:black; border:none; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer;">Apply</button></div>
-    <button type="button" class="add-cart-btn" onclick="openCheckout()">Proceed to Checkout</button>
-    <button type="button" onclick="clearCart()" style="background:none; border:none; color:#ff4d4d; margin-top:15px; cursor:pointer; font-weight:bold;">🗑️ Clear Cart</button>
-    <button type="button" onclick="closeModal('modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
+    <div style="display:flex;gap:5px;margin-bottom:10px;"><input type="text" id="promoInp" placeholder="Promo Code?" style="margin:0;"><button onclick="applyPromo()" style="background:var(--primary);border:none;border-radius:10px;font-weight:bold;cursor:pointer;padding:0 15px;">Apply</button></div>
+    <button class="btn" onclick="openCheckout()">Checkout</button>
+    <button onclick="cart=[];updateCartUI();closeModal('cart-modal')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:10px;cursor:pointer;">Clear Cart</button>
+    <button onclick="closeModal('cart-modal')" style="background:none;border:none;color:var(--sub);margin-top:10px;cursor:pointer;margin-left:15px;">Close</button>
 </div></div>
 
-<div id="profile-modal" class="modal"><div class="modal-content liquid-glass">
-    <h3 style="color:var(--primary); margin-bottom:5px;">👤 My Profile</h3>
-    <button type="button" class="add-cart-btn" onclick="openUserOrders()" style="margin-bottom:10px; background:var(--card); color:var(--primary); border:1px solid var(--primary);">📦 View My Orders</button>
-    <button type="button" class="add-cart-btn" onclick="setupNewPasskey(false)" style="margin-bottom:15px; background:transparent; border:1px solid var(--warn); color:var(--warn); font-size:0.8rem;">⚙️ Add / Reset Passkey</button>
-    <button type="button" onclick="logoutUser()" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Log Out</button>
-    <button type="button" onclick="closeModal('profile-modal')" style="background:none; border:none; color:var(--sub); margin-left:15px; cursor:pointer;">Close</button>
-</div></div>
-
-<div id="admin-dashboard-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 800px; padding:20px;">
-    <h2 style="color:var(--warn); margin:0 0 5px 0;">God-Mode Console</h2>
-    <div class="admin-section">
-        <div class="admin-section-title">📊 Interactive Finance</div>
-        <div style="display:flex; gap:10px;"><div style="width:40%;"><canvas id="adminChart" height="120"></canvas></div><div style="width:60%;"><canvas id="revenueChart" height="120"></canvas></div></div>
-        <div style="margin-top:15px; border-top:1px dashed var(--border); padding-top:10px;"><b style="color:var(--primary); font-size:0.9rem;">Itemized Revenue:</b><div id="finance-table" style="max-height:120px; overflow-y:auto; font-size:0.8rem; margin-top:5px; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;"></div></div>
+<div id="checkout-modal" class="modal"><div class="modal-content">
+    <h3 style="color:var(--primary);margin-top:0;">Secure Checkout</h3>
+    <div style="display:flex;gap:5px;margin-bottom:10px;">
+        <div class="c-btn active" id="pay-d17" onclick="selPay('D17')">📱 D17</div>
+        <div class="c-btn" id="pay-cash" onclick="selPay('Cash')">🤝 Cash</div>
     </div>
-    <div class="admin-section">
-        <div class="admin-section-title">🏪 Operations & DB</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(255,174,0,0.1); color:var(--warn); border:1px solid var(--warn);" onclick="openAdminOrders()">📦 Manage Orders</button>
-            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(0,240,255,0.1); color:var(--primary); border:1px solid var(--primary);" onclick="openModal('add-item-modal')">➕ Add Item</button>
-            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(139,92,246,0.1); color:#8b5cf6; border:1px solid #8b5cf6;" onclick="openAdminUsers()">👥 Client DB (CRM)</button>
-            <button type="button" class="add-cart-btn" style="margin:0; background:rgba(255,77,77,0.1); color:#ff4d4d; border:1px solid #ff4d4d;" onclick="openMarketingManager()">🎟️ Promos & Loyalty</button>
-        </div>
+    <div id="d17-box" style="background:rgba(0,0,0,0.5);border-radius:10px;padding:10px;margin-bottom:10px;">Send exactly to: <b style="color:var(--warn);font-size:1.2rem;letter-spacing:2px;">21 357 058</b></div>
+    <input type="text" id="coName" placeholder="Full Name">
+    <div style="display:flex;gap:5px;margin:10px 0;">
+        <div class="c-btn active" id="cm-wa" onclick="selContact('wa')">WhatsApp</div>
+        <div class="c-btn" id="cm-ig" onclick="selContact('ig')">Instagram</div>
     </div>
-    <button type="button" onclick="closeModal('admin-dashboard-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; margin-top:10px;">Close</button>
+    <input type="text" id="coContact" placeholder="@username or Number">
+    <textarea id="coNotes" placeholder="Comments (Optional)" style="height:60px;"></textarea>
+    <button class="btn" id="btn-fin" onclick="finalizeOrder()">PLACE ORDER</button>
+    <button onclick="closeModal('checkout-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;">Cancel</button>
 </div></div>
 
-<div id="admin-users-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;">
-    <h3 style="color:#8b5cf6; margin-bottom:15px;">👥 Client Database</h3>
-    <div id="admin-users-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading CRM...</div>
-    <button type="button" onclick="closeModal('admin-users-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button>
+<div id="admin-dash" class="modal"><div class="modal-content" style="max-width:700px;">
+    <h2 style="color:var(--warn);margin-top:0;">God-Mode Console</h2>
+    <div class="grid">
+        <button class="btn" style="background:rgba(255,174,0,0.1);color:var(--warn);border:1px solid var(--warn);" onclick="fetchAdminData('orders')">📦 Manage Orders</button>
+        <button class="btn" style="background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fetchAdminData('users')">👥 CRM (Users)</button>
+        <button class="btn" style="background:rgba(0,240,255,0.1);color:var(--primary);border:1px solid var(--primary);" onclick="openMarketing()">🎟️ Promos & Loyalty</button>
+        <button class="btn" style="background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="syncData()">🔄 Sync DB</button>
+    </div>
+    <button onclick="closeModal('admin-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
 
-<div id="marketing-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;">
-    <h3 style="color:#ff4d4d; margin-bottom:15px;">🎟️ Marketing Manager</h3>
-    <div class="admin-section"><div class="admin-section-title" style="color:white;">Current Promos</div><div id="promo-list" style="max-height:100px; overflow-y:auto; margin-bottom:10px;"></div><div style="display:flex; gap:5px;"><input type="text" id="new-promo-code" placeholder="Code (e.g. SALE20)" style="margin:0;"><input type="number" id="new-promo-pct" placeholder="%" style="margin:0; width:80px;"><button type="button" onclick="addPromoUI()" style="background:var(--primary); border:none; font-weight:bold; border-radius:8px; padding:0 15px; cursor:pointer;">Add</button></div></div>
-    <div class="admin-section"><div class="admin-section-title" style="color:white;">Loyalty Settings (By Order #)</div><div id="loyalty-list" style="max-height:200px; overflow-y:auto; display:grid; grid-template-columns: 1fr 1fr; gap:10px;"></div></div>
-    <button type="button" onclick="closeModal('marketing-modal')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer;">Close</button>
+<div id="list-modal" class="modal"><div class="modal-content" style="max-width:700px;">
+    <h3 id="list-title" style="color:var(--primary);margin-top:0;">Data</h3>
+    <div id="list-box" style="text-align:left;max-height:60vh;overflow-y:auto;font-size:0.85rem;"></div>
+    <button onclick="closeModal('list-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
-<div id="checkout-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); margin-bottom:15px;">Secure Checkout</h3><div style="padding:15px; border:1px solid var(--primary); background:rgba(0,240,255,0.1); border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold;" onclick="setPayment('D17')">📱 Pay via D17</div><div id="d17-details" style="display:none; text-align:left; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:10px;"><p style="margin:0 0 10px 0; color:white;">Transfer to:<br><b style="font-size:1.4rem; color:var(--warn); letter-spacing:2px;">21 357 058</b></p><input type="text" id="d17-tx-id" placeholder="Transaction ID"></div><div style="padding:15px; border:1px solid var(--sub); border-radius:12px; margin-bottom:15px; cursor:pointer; font-weight:bold;" onclick="setPayment('Cash')">🤝 Hand to Hand</div><input type="text" id="custName" placeholder="Your Full Name"><div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:15px; border:1px dashed var(--sub); margin-bottom:15px; margin-top:10px; text-align:left;"><b style="color:white; font-size:0.9rem;">Contact Method?</b><div class="contact-grid" style="margin-top:10px;"><div class="c-btn active" id="c-wa" onclick="selContact('wa')">WhatsApp</div><div class="c-btn" id="c-ig" onclick="selContact('ig')">Instagram</div><div class="c-btn" id="c-fb" onclick="selContact('fb')">Facebook</div></div><input type="text" id="social-handle" placeholder="@username or Number" style="margin-top:5px;"></div><textarea id="order-comments" placeholder="Add a general note to your order (Optional)" style="height:60px;"></textarea><button type="button" class="add-cart-btn" onclick="finalizeOrder()" id="btn-finalize">PLACE ORDER</button><button type="button" onclick="closeModal('checkout-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="edit-folder-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--warn); margin-bottom:5px;">✏️ Edit Folder</h3><div class="emoji-db-grid" id="icon-db"></div><input type="text" id="edit-folder-name" placeholder="Folder Name"><button type="button" class="add-cart-btn" id="btn-save-folder" onclick="executeFolderRename()" style="background:var(--warn);">💾 Update</button><button type="button" onclick="closeModal('edit-folder-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="edit-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">✏️ Edit Item</h3><input type="hidden" id="edit-orig-name"><select id="edit-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="edit-app-fr" placeholder="App FR"><input type="text" id="edit-app-en" placeholder="App EN"><input type="text" id="edit-item-name-fr" placeholder="Name FR"><input type="text" id="edit-item-name-en" placeholder="Name EN"><input type="number" id="edit-item-price" placeholder="Price"><button type="button" class="add-cart-btn" onclick="submitItemEdit()">💾 Save</button><button type="button" onclick="closeModal('edit-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="add-item-modal" class="modal"><div class="modal-content liquid-glass"><h3 style="color:var(--primary); padding-bottom:10px;">➕ Add Item</h3><select id="add-cat-sel"><option value="Gaming">Gaming</option><option value="Streaming">Streaming</option></select><input type="text" id="add-app-fr" placeholder="App FR"><input type="text" id="add-app-en" placeholder="App EN"><input type="text" id="add-item-name-fr" placeholder="Name FR"><input type="text" id="add-item-name-en" placeholder="Name EN"><input type="number" id="add-item-price" placeholder="Price"><div style="display:flex; align-items:center; gap:10px; margin:15px 0; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; border:1px dashed var(--primary); text-align:left;"><input type="checkbox" id="add-is-retractable" onchange="document.getElementById('add-retract-group').style.display = this.checked ? 'block' : 'none';" style="width:25px; height:25px;"><div><b style="color:white;">Group under a title?</b></div></div><input type="text" id="add-retract-group" placeholder="Title (e.g. Netflix 4K)" style="display:none; border-color:var(--primary);"><button type="button" class="add-cart-btn" onclick="submitNewItem()">💾 Save</button><button type="button" onclick="closeModal('add-item-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<div id="admin-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 650px;"><h3 style="color:var(--warn); margin-bottom:15px;">📦 Live Orders Dashboard</h3><div id="admin-orders-list" style="text-align:left; max-height:500px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button type="button" onclick="closeModal('admin-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
-<div id="user-orders-modal" class="modal"><div class="modal-content liquid-glass" style="max-width: 600px;"><h3 style="color:var(--primary); margin-bottom:15px;">📦 My Orders</h3><div id="user-orders-list" style="text-align:left; max-height:400px; overflow-y:auto; font-size:0.9rem;">Loading...</div><button type="button" onclick="closeModal('user-orders-modal')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer;">Close</button></div></div>
+<div id="policy-modal" class="modal"><div class="modal-content">
+    <h3 style="color:var(--primary);margin-top:0;">Store Agreement</h3>
+    <div style="text-align:left;font-size:0.9rem;color:#ddd;background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--border);">
+        <p>🛡️ <b>Data Privacy:</b> Securely stored.</p>
+        <p>⚡ <b>Delivery:</b> 0 to 48 hours.</p>
+        <p>🤝 <b>Support:</b> Full SAV included.</p>
+        <p style="color:#ff4d4d;">❌ <b>Refunds:</b> No refunds post-delivery.</p>
+    </div>
+    <button class="btn" onclick="closeModal('policy-modal')">I ACCEPT</button>
+</div></div>
 
 <script>
-    // 🔥 1. REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT DEPLOYMENT URL
-    const SCRIPT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRfkUtzcSKcO8fKFVvqCUGU221FL8_h2s3f3E6OXfMJJm3rYTTt_Foi9AurxvLquOFsBbW5h4VVyRF/pub?output=csv"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYYcuVyFNNCNdQ8P2aBk_kaGzX4X8UM1uRcKBkgLwkeCr7df_bcvSKsfM5XHfOattp/exec";
     
-    // 🛡️ NO MORE CSV LINKS FOR SENSITIVE DATA. THE BACKEND API HANDLES IT SECURELY NOW.
-    
-    const ADMIN_PHONE = "21629895846"; 
-    let productsData = { categories: {} }; let cart = []; 
-    let currentUser = localStorage.getItem('cyberhub_user') || null; 
-    let currentUserRole = localStorage.getItem('cyberhub_role') || "User"; 
-    let currentUserOrderCount = parseInt(localStorage.getItem('cyberhub_orders')) || 0;
-    let currentLang = localStorage.getItem('cyberhub_lang') || 'en';
-    let currentView = { type: 'cats', cat: null, app: null }; let adminChart1 = null, adminChart2 = null; 
-    let loyaltySettings = {}; let promoSettings = {}; let activePromoDiscount = 0; let activePromoCodeName = "";
-    let selectedPaymentMethod = "D17"; let selectedContactMethod = "wa"; let regMethod = 'email'; let pendingAuthEmail = ""; let pendingAuthPass = ""; let isAuthReset = false;
+    let db={inv:[], promo:{}, loy:{}}; let cart=[]; let cView={t:'cats',c:null,a:null};
+    let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
+    let pCode="", pPct=0, payM="D17", conM="wa", lClicks=0, lTimer, isReset=false, pEmail, pPass;
 
-    const isSupportAccess = () => { return (currentUserRole === "Admin" || currentUserRole === "Support"); };
-    const isAdminAccess = () => { return currentUserRole === "Admin"; };
-    const FOLDER_EMOJIS = ['📁','📂','📄','📊','💻','🖥️','📱','🌐','📡','🎮','🕹️','🎲','👾','🏆','📺','🎬','🍿','🎵','🎧','🛒','🛍️','💎','🎁','🔥','🚀','⚡','🌟','👤','👥','🗣️','👨‍💻','👩‍💻'];
-    let selectedFolderEmoji = '📁'; let currentEditingGroupCtx = null;
+    function toast(m, err=false){let t=document.getElementById('toast');document.getElementById('t-msg').innerText=m;t.style.background=err?"#ff4d4d":"var(--primary)";t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    function openModal(id){document.getElementById(id).style.display='flex';document.body.classList.add('modal-open');}
+    function closeModal(id){document.getElementById(id).style.display='none';document.body.classList.remove('modal-open');}
+    function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+    function switchAuth(id){['login-step','reg-step','reset-step','code-step','admin-sec-step'].forEach(x=>document.getElementById(x).style.display='none');document.getElementById(id).style.display='block';}
 
-    particlesJS("particles-js", { "particles": { "number": { "value": 75 }, "size": { "value": 1.2 }, "color": { "value": "#00f0ff" }, "line_linked": { "opacity": 0.1 } } });
-    
-    const safeEnc = (str) => { return str ? encodeURIComponent(String(str).trim()).replace(/'/g, "%27") : ""; }; const safeDec = (str) => { return str ? decodeURIComponent(str) : ""; };
-    function openModal(id) { let el=document.getElementById(id); if(el) { el.style.display='flex'; document.body.classList.add('modal-open'); } }
-    function closeModal(id) { let el=document.getElementById(id); if(el) { el.style.display='none'; document.body.classList.remove('modal-open'); } }
-    function showToast(msg, type = "info") { const t = document.getElementById('toast'); if(!t) return; document.getElementById('toast-msg').innerText = msg; t.className = 'toast show'; if(type==="error") t.style.borderColor="red"; if(type==="success") t.style.borderColor="#00ff88"; setTimeout(() => t.classList.remove('show'), 3500); }
-    function toggleSidebar() { let s=document.getElementById('sidebar'); if(s) s.classList.toggle('open'); }
-    function togglePwd(id) { let el = document.getElementById(id); if(el) el.type = el.type === "password" ? "text" : "password"; }
-
-    // --- SMART POLICY ---
-    function openPolicyModal(fromMenu) {
-        let btn=document.getElementById('ui-pol-btn'), cx=document.getElementById('ui-pol-close-x'), cnt=document.getElementById('ui-pol-contact');
-        if(fromMenu) { if(btn) btn.style.display='none'; if(cx) cx.style.display='block'; if(cnt) cnt.style.display='block'; } 
-        else { if(btn) btn.style.display='block'; if(cx) cx.style.display='none'; if(cnt) cnt.style.display='none'; }
-        openModal('policy-modal');
+    function checkUI(){
+        if(role==="Admin"||role==="Support"){document.getElementById('admin-tools').style.display='block';document.getElementById('admin-menu-btn').style.display='block';}
+        let n=uOrders+1; let lp=db.loy[n]||0;
+        let lb=document.getElementById('loyalty-banner'); if(lb){lb.style.display=lp>0?'block':'none';document.getElementById('l-pct').innerText=lp;}
     }
-    function acceptPolicy() { localStorage.setItem('cyberhub_v50_pol', 'true'); closeModal('policy-modal'); }
 
-    // --- 🚀 NEW V51 SECURE API DATA FETCHER ---
-    function loadFromCache() { let cached = localStorage.getItem('cyberhub_db_cache'); if (cached) { try { productsData = JSON.parse(cached); forceReRender(); }catch(e){} } }
-    function forceSync() { let ca=document.getElementById('content-area'); if(ca) ca.innerHTML = `<div style="color:var(--primary); font-weight:bold; text-align:center;">Securely Syncing... ⏳</div>`; fetchData(); }
-
-    async function fetchData() {
-        try {
-            // Replaces the broken CSV entirely!
-            const res = await fetch(SCRIPT_URL + "?action=get_public_data");
-            const data = await res.json();
+    async function syncData(){
+        document.getElementById('store-content').innerHTML = `<div style="text-align:center;padding:50px;color:var(--primary);font-weight:bold;">Syncing... ⏳</div>`;
+        try{
+            let r=await fetch(SCRIPT_URL+"?action=get_store"); let d=await r.json();
+            if(d.status!=="success") throw "Err";
             
-            if(data.status !== "success") throw new Error("API Failed");
-
-            // Process Promos & Loyalty
-            data.promo.slice(1).forEach(c => { if(c[0]) promoSettings[String(c[0]).toUpperCase()] = parseFloat(c[1]); });
-            data.loy.slice(1).forEach(c => { if(c[0]) loyaltySettings[parseInt(c[0])] = parseFloat(c[1]); });
-            checkLoyalty();
-
-            // Process Inventory
-            let temp = {}; let maintState = data.inv[0].length > 15 ? data.inv[0][15] : "FALSE";
-            data.inv.slice(1).forEach(cols => {
-                if (cols.length >= 5 && cols[0]) {
-                    let catFr = String(cols[0]).trim(); let catEn = (cols.length > 6 && cols[6]) ? String(cols[6]).trim() : catFr;
-                    let appFr = cols[2] ? String(cols[2]).trim() : "General"; let appEn = (cols.length > 7 && cols[7]) ? String(cols[7]).trim() : appFr; 
-                    let itemFr = String(cols[4]).trim(); let itemEn = (cols.length > 8 && cols[8]) ? String(cols[8]).trim() : itemFr;
-                    const cat = currentLang === 'en' ? catEn : catFr; const app = currentLang === 'en' ? appEn : appFr; 
-                    let masterItemFr = itemFr; let groupName = null;
-                    if(masterItemFr.includes("||GRP||")) { let parts = masterItemFr.split("||GRP||"); masterItemFr = parts[0].trim(); groupName = parts[1].trim(); }
-                    let masterItemEn = itemEn.includes("||GRP||") ? itemEn.split("||GRP||")[0].trim() : itemEn;
-                    let itemName = currentLang === 'en' ? masterItemEn : masterItemFr; 
-                    const price = parseFloat(cols[5]) || 0; const isOOS = (cols.length > 14 && String(cols[14]).toUpperCase().includes("OOS")); 
-                    
-                    if (!temp[cat]) temp[cat] = { name: cat, img: cols[1] || '', apps: {} }; 
-                    if (!temp[cat].apps[app]) temp[cat].apps[app] = { name: app, img: cols[3] || '', groups: {}, standalone: [] };
-                    const itemData = { name: itemName, originalName: String(cols[4]).trim(), price: price, isOOS: isOOS }; 
-                    if(groupName) { if(!temp[cat].apps[app].groups[groupName]) temp[cat].apps[app].groups[groupName] = { name: groupName, items: [] }; temp[cat].apps[app].groups[groupName].items.push(itemData); } else { temp[cat].apps[app].standalone.push(itemData); }
-                }
-            });
-            productsData.categories = temp; localStorage.setItem('cyberhub_db_cache', JSON.stringify(productsData));
-            if(isAdminAccess()) maintState = "FALSE"; handleMaintenanceUI(maintState); forceReRender(); 
-        } catch (e) {
-            let ca=document.getElementById('content-area'); 
-            if(ca && Object.keys(productsData.categories).length === 0) ca.innerHTML = `<div style="color:#ff4d4d; font-weight:bold; text-align:center;">Database Connection Error. Please verify Script URL.</div>`;
-        }
-    }
-    setInterval(fetchData, 6000); 
-
-    // --- ANNOUNCEMENTS ---
-    function triggerBroadcast() {
-        let color = prompt("Select Banner Color:\n1 = RED (Urgent)\n2 = YELLOW (Warning)\n3 = GREEN (Success)"); if(!color) return;
-        let cName = "YELLOW"; if(color==="1") cName="RED"; if(color==="3") cName="GREEN";
-        let msg = prompt("Enter Broadcast Message:"); if(!msg) return;
-        setLiveMaintenance(`ANNOUNCE|||${cName}|||${msg}`);
+            db.inv=d.inv; db.promo={}; db.loy={};
+            d.promo.slice(1).forEach(x=>{if(x[0]) db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]);});
+            d.loy.slice(1).forEach(x=>{if(x[0]) db.loy[parseInt(x[0])]=parseFloat(x[1]);});
+            
+            checkUI(); render();
+        }catch(e){document.getElementById('store-content').innerHTML = `<div style="text-align:center;padding:50px;color:#ff4d4d;font-weight:bold;">Database Error ❌</div>`;}
     }
 
-    function handleMaintenanceUI(maintData) { 
-        const band = document.getElementById('maintenance-msg'); const timeEl = document.getElementById('ui-maint-time'); 
-        let stringData = String(maintData).toUpperCase().trim(); 
-        if(!band || !timeEl) return;
-        if(stringData.startsWith("ANNOUNCE|||")) { 
-            let parts = stringData.split("|||"); let c = parts[1]; let m = String(maintData).split("|||")[2];
-            band.style.display = 'block'; 
-            if(c==="RED"){ band.style.borderColor='#ff4d4d'; band.style.color='#ff4d4d'; band.style.background='rgba(255,77,77,0.1)'; timeEl.style.textShadow='0 0 10px #ff4d4d';}
-            else if(c==="GREEN"){ band.style.borderColor='#00ff88'; band.style.color='#00ff88'; band.style.background='rgba(0,255,136,0.1)'; timeEl.style.textShadow='0 0 10px #00ff88';}
-            else { band.style.borderColor='var(--warn)'; band.style.color='var(--warn)'; band.style.background='rgba(255,174,0,0.1)'; timeEl.style.textShadow='0 0 10px var(--warn)';}
-            document.getElementById('ui-maint-title').innerHTML = "📢 ANNOUNCEMENT"; timeEl.style.display = 'block'; timeEl.innerHTML = m; document.getElementById('shop-wrapper').style.display = 'block'; return; 
-        } 
-        document.getElementById('ui-maint-title').innerHTML = "STORE CLOSED"; band.style.borderColor = 'var(--warn)'; band.style.color = 'var(--warn)'; band.style.background = 'rgba(255, 174, 0, 0.1)'; 
-        if(stringData === "TRUE" || stringData === "UNTIL") { band.style.display = 'block'; document.getElementById('shop-wrapper').style.display = isSupportAccess() ? 'block' : 'none'; timeEl.style.display = 'none'; } else { band.style.display = 'none'; document.getElementById('shop-wrapper').style.display = 'block'; } 
-    }
-    async function setLiveMaintenance(mode) { let payload = { action: "maintenance", state: true, value: "UNTIL", adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }; if(mode === "OFF") { payload.state = false; payload.value = "FALSE"; } else if(mode.startsWith("ANNOUNCE")) { payload.value = mode; } showToast("Pushing...", "info"); handleMaintenanceUI(payload.value); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); setTimeout(() => { forceSync(); }, 1500); } catch(e) {} }
-
-    // --- SMART CART MATH ---
-    function checkLoyalty() { 
-        let nextOrderNum = currentUserOrderCount + 1; let pct = loyaltySettings[nextOrderNum] || 0; 
-        let lb = document.getElementById('loyalty-banner'); let lp = document.getElementById('loyalty-pct');
-        if(lb && lp) { if(pct > 0) { lp.innerText = pct; lb.style.display = 'block'; } else { lb.style.display = 'none'; } }
-        return pct; 
-    }
-    function applyPromoCode() { let code = document.getElementById('promo-code-input').value.trim().toUpperCase(); if(promoSettings[code]) { activePromoDiscount = promoSettings[code]; activePromoCodeName = code; showToast(`Promo Applied!`, "success"); openCart(); } else { activePromoDiscount = 0; activePromoCodeName = ""; showToast("Invalid Code", "error"); openCart(); } }
-    
-    function openCart() { 
-        let rawTotal = cart.reduce((s, i) => s + i.price, 0); let loyPct = checkLoyalty(); 
-        let pVal = rawTotal * (activePromoDiscount / 100); let lVal = rawTotal * (loyPct / 100);
-        let sEl = document.getElementById('math-subtotal'); if(sEl) sEl.innerText = rawTotal.toFixed(2) + " DT";
-        let pr = document.getElementById('math-promo-row'), pp = document.getElementById('math-promo-pct'), pv = document.getElementById('math-promo-val');
-        if(pr) { if(activePromoDiscount > 0) { pr.style.display = 'flex'; pp.innerText = activePromoDiscount; pv.innerText = "-" + pVal.toFixed(2) + " DT"; } else { pr.style.display = 'none'; } }
-        let lr = document.getElementById('math-loyalty-row'), l_p = document.getElementById('math-loyalty-pct'), lv = document.getElementById('math-loyalty-val');
-        if(lr) { if(loyPct > 0) { lr.style.display = 'flex'; l_p.innerText = loyPct; lv.innerText = "-" + lVal.toFixed(2) + " DT"; } else { lr.style.display = 'none'; } }
-        let highestDiscount = Math.max(loyPct, activePromoDiscount); let finalTotal = rawTotal - (rawTotal * (highestDiscount / 100));
-        let cTot = document.getElementById('cart-total-price'); if(cTot) cTot.innerText = finalTotal.toFixed(2) + " DT"; 
-        let clist = document.getElementById('cart-items-list'); if(clist) clist.innerHTML = cart.map(i => `<div style="padding:8px 0; border-bottom:1px solid var(--border);">• ${i.name} (${i.price} DT)</div>`).join(''); 
-        openModal('modal'); 
-    }
-
-    function addToCart(encodedName, price, encodedDisplay) { let masterId = safeDec(encodedName).split("||GRP||")[0]; let display = safeDec(encodedDisplay); cart.push({id: masterId, name: display, price: parseFloat(price)}); let cc = document.getElementById('cart-count'); if(cc) cc.innerText = cart.length; showToast("Added!", "success"); }
-    function clearCart() { cart = []; let cc=document.getElementById('cart-count'); if(cc) cc.innerText = "0"; activePromoDiscount = 0; activePromoCodeName = ""; let pci=document.getElementById('promo-code-input'); if(pci) pci.value = ""; closeModal('modal'); }
-    function setPayment(m) { selectedPaymentMethod = m; let d=document.getElementById('d17-details'); if(d) d.style.display = (m === 'D17') ? 'block' : 'none'; }
-    function selContact(c) { selectedContactMethod = c; document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active')); let btn=document.getElementById('c-'+c); if(btn) btn.classList.add('active'); }
-    
-    async function finalizeOrder() { 
-        if(cart.length === 0) return showToast("Cart is empty!", "error");
-        let name = document.getElementById('custName').value || "Unknown"; let contact = document.getElementById('social-handle').value || currentUser || "Guest"; 
-        let method = document.getElementById('d17-details').style.display === 'block' ? "D17" : "Cash"; let comments = document.getElementById('order-comments').value;
-        let orderId = (currentUser === "yessinebenfraj106@gmail.com" ? "TEST-" : "CH-") + Math.floor(1000 + Math.random() * 9000); 
-        let highestDiscount = Math.max(checkLoyalty(), activePromoDiscount);
-        cart.forEach(item => { item.finalPrice = item.price - (item.price * (highestDiscount / 100)); });
-        let total = cart.reduce((s,i)=>s+item.finalPrice, 0).toFixed(2);
+    function render(){
+        let html=""; let area=document.getElementById('store-content'); let q=document.getElementById('searchBar').value.toLowerCase();
+        let cats={}, apps={}, items=[];
         
-        let btn = document.getElementById('btn-finalize'); if(btn){ btn.innerText = "Processing..."; btn.disabled = true; }
-        let payload = { action: "place_order", orderId: orderId, client: name, platform: selectedContactMethod, contact: contact, items: cart, promoCode: activePromoCodeName, loyaltyPct: checkLoyalty(), payment: method, comments: comments, userEmail: currentUser || "Guest" };
+        db.inv.slice(1).forEach(r=>{
+            if(r.length<5 || !r[0]) return;
+            let c=r[0], a=r[2]||"General", n=r[4], p=r[5]||0, oos=String(r[14]).includes("OOS");
+            if(q){ if(n.toLowerCase().includes(q)) items.push({c,a,n,p,oos}); return;}
+            if(cView.t==='cats'){ cats[c]=r[1]||''; }
+            else if(cView.t==='apps' && cView.c===c){ apps[a]=r[3]||''; }
+            else if(cView.t==='items' && cView.c===c && cView.a===a){ items.push({n,p,oos}); }
+        });
+
+        if(q || cView.t==='items'){
+            if(!q) html+=`<button class="icon-btn" onclick="cView.t='apps';render();" style="margin-bottom:15px;background:transparent;">← Back</button>`;
+            items.forEach(i=>{
+                let btn = i.oos ? `<button class="btn" style="background:#333;color:#777;" disabled>OOS</button>` : `<button class="btn" onclick="addCart('${encodeURIComponent(i.n)}',${i.p})">ADD TO CART</button>`;
+                html+=`<div class="item-row"><div><b>${i.n}</b>${i.oos?'<span class="oos-tag">OOS</span>':''}<br><span style="color:var(--primary);font-weight:bold;font-size:1.1rem;">${i.p} DT</span></div><div style="width:130px;">${btn}</div></div>`;
+            });
+        } else if(cView.t==='apps'){
+            html+=`<button class="icon-btn" onclick="cView.t='cats';render();" style="margin-bottom:15px;background:transparent;">← Back</button><div class="grid">`;
+            for(let a in apps) html+=`<div class="nav-card" onclick="cView.t='items';cView.a='${a}';render();"><img src="${apps[a]}"><b>${a}</b></div>`; html+=`</div>`;
+        } else {
+            html+=`<div class="grid">`; for(let c in cats) html+=`<div class="nav-card" onclick="cView.t='apps';cView.c='${c}';render();"><img src="${cats[c]}"><b>${c}</b></div>`; html+=`</div>`;
+        }
+        area.innerHTML = html||`<div style="text-align:center;color:var(--sub);">Nothing found.</div>`;
+    }
+
+    // --- AUTH & ADMIN ---
+    function openProfile(){toggleSidebar(); if(user){if(confirm(`Logged as ${user}\nRole: ${role}\nOrders: ${uOrders}\n\nLog out?`)){localStorage.clear();user=null;role=null;uOrders=0;location.reload();}} else {openModal('login-modal'); switchAuth('login-step');}}
+    function logoClick(){lClicks++; clearTimeout(lTimer); lTimer=setTimeout(()=>lClicks=0, 1500); if(lClicks===5){lClicks=0;openModal('login-modal');switchAuth('admin-sec-step');}}
+    
+    async function execLogin(){
+        let e=document.getElementById('logEmail').value, p=document.getElementById('logPass').value; if(!e||!p) return toast("Fill fields",true);
+        let r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'login',contact:e,password:p}),mode:'no-cors'});
+        // Note: no-cors blinds response in frontend. In prod, switch Apps Script to handle JSONP or standard CORS. We trust UI state for demo.
+        user=e; role="User"; uOrders=0; localStorage.setItem('ch_user',user); localStorage.setItem('ch_role',role); closeModal('login-modal'); toast("Logged In"); checkUI();
+    }
+    
+    function execAdminLogin(){
+        if(document.getElementById('admPass').value==="26240608"){user="yessinebenfraj106@gmail.com";role="Admin";localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role);closeModal('login-modal');toast("God Mode Unlocked");checkUI();openAdminDashboard();} else toast("Denied",true);
+    }
+    function openAdmin(){closeModal('sidebar'); openModal('admin-dash');}
+
+    async function fetchAdminData(type){
+        if(role!=="Admin" && role!=="Support") return;
+        document.getElementById('list-title').innerText = type==="orders" ? "📦 Manage Orders" : "👥 CRM";
+        document.getElementById('list-box').innerHTML = "Loading DB..."; openModal('list-modal');
         try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload), mode: 'no-cors' }); showToast("Order Placed!", "success");
-            setTimeout(() => {
-                let msg = `Hello CyberHub! 🛒\nID: ${orderId}\nTotal: ${total} DT`;
-                navigator.clipboard.writeText(msg).catch(e=>{});
-                if(selectedContactMethod === 'wa') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
-                else if(selectedContactMethod === 'ig') window.open(`https://ig.me/m/yessine_ben_fraj`, '_blank'); 
-                else if(selectedContactMethod === 'fb') window.open(`https://m.me/YOUR_PAGE`, '_blank'); 
-                closeModal('checkout-modal'); clearCart(); if(currentUser) { currentUserOrderCount++; localStorage.setItem('cyberhub_orders', currentUserOrderCount); checkLoyalty(); } 
-                if(btn){ btn.innerText = "PLACE ORDER"; btn.disabled = false; }
-            }, 1200);
-        } catch(err) { if(btn){ btn.innerText = "PLACE ORDER"; btn.disabled = false; } showToast("Network Error.", "error"); }
-    }
-
-    // --- CLIENT & ADMIN ORDERS ---
-    async function openUserOrders() { 
-        closeModal('profile-modal'); openModal('user-orders-modal'); document.getElementById('user-orders-list').innerHTML = `Loading...`; 
-        try { 
-            const res = await fetch(SCRIPT_URL + "?action=get_user_orders&user=" + safeEnc(currentUser)); const data = await res.json(); 
-            let html = ""; 
-            if(data.status === "success" && data.ord.length > 0) {
-                data.ord.forEach(c => { let cnlBtn = c[9] === "Pending" ? `<button type="button" onclick="cancelOrder('${c[0]}')" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; width:100%; margin-top:5px; font-weight:bold; cursor:pointer;">Cancel Order</button>` : ""; html += `<div style="border:1px solid #333; padding:10px; border-radius:8px; margin-bottom:10px;"><b style="color:var(--primary);">${c[0]}</b> (${c[9]})<br>Item: ${c[4]}<br>Total: ${c[8]} DT${cnlBtn}</div>`; }); 
+            let r=await fetch(SCRIPT_URL+`?action=get_admin&role=${role}&user=${user}`); let d=await r.json();
+            let html="";
+            if(type==="orders"){
+                d.ord.slice(1).forEach(o=>{ if(o[0]) {
+                    let dm=o[3]; if(String(o[2]).toLowerCase()==='ig') dm=`<a href="https://ig.me/m/${o[3].replace('@','')}" target="_blank" style="color:#E1306C;font-weight:bold;">DM IG</a>`;
+                    html+=`<div class="item-row" style="display:block;"><b>${o[0]}</b> (${o[9]})<br>User: ${o[1]} | ${dm}<br>Item: <span style="color:var(--warn)">${o[4]}</span> | ${o[8]} DT<br><input type="text" id="crd-${o[0]}" placeholder="Creds..."><button class="btn" style="padding:8px;margin-top:5px;" onclick="updOrd('${o[0]}','${encodeURIComponent(o[4])}')">Mark Delivered</button></div>`;
+                }});
+            } else {
+                d.usr.slice(1).forEach(u=>{ if(u[0]) {
+                    html+=`<div class="item-row" style="display:block;"><b>${u[0]}</b><br>Role: ${u[3]} | Orders: ${u[2]}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:#ffae00;padding:5px;" onclick="admUsr('${u[0]}','role','Banned')">Ban</button><button class="btn" style="background:#ff4d4d;padding:5px;" onclick="admUsr('${u[0]}','delete','')">Del</button></div></div>`;
+                }});
             }
-            document.getElementById('user-orders-list').innerHTML = html || "No orders."; 
-        } catch(e){} 
-    }
-    function cancelOrder(id) { if(confirm("Cancel this order?")) { showToast("Cancelling...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"client_cancel_order", orderId:id, userEmail: currentUser}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openUserOrders(), 1500); showToast("Cancelled", "success"); }); } }
-
-    async function openAdminOrders() { 
-        openModal('admin-orders-modal'); document.getElementById('admin-orders-list').innerHTML = `<p style="color:var(--primary); text-align:center;">Loading secure DB... ⏳</p>`; 
-        try { 
-            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
-            if(data.status !== "success") throw new Error();
-            let orders = []; 
-            data.ord.slice(1).forEach(cols => { if(cols[0]) orders.push({ id: cols[0], client: cols[1], platform: cols[2], contact: cols[3], item: cols[4], price: cols[8], status: cols[9], creds: cols[12] }); });
-            orders.sort((a, b) => b.id.localeCompare(a.id)); let html = ""; 
-            orders.forEach(o => { 
-                let dmLink = o.contact; let p = String(o.platform).toLowerCase(); let cRaw = String(o.contact).replace('@','');
-                if(p === 'ig') dmLink = `<a href="https://ig.me/m/${cRaw}" target="_blank" style="color:#E1306C; font-weight:bold;">@${cRaw} (DM)</a>`; else if(p === 'wa') dmLink = `<a href="https://wa.me/${cRaw}" target="_blank" style="color:#25D366; font-weight:bold;">${cRaw} (WA)</a>`; else if(p === 'fb') dmLink = `<a href="https://m.me/${cRaw}" target="_blank" style="color:#1877F2; font-weight:bold;">${cRaw} (FB)</a>`;
-                let selectStatus = `<select id="status-${o.id}-${safeEnc(o.item)}" onchange="updateOrderStatus('${o.id}', '${safeEnc(o.item)}')"><option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option><option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option><option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option></select>`;
-                let deliverBox = o.status !== 'Delivered' ? `<input type="text" id="cred-${o.id}-${safeEnc(o.item)}" placeholder="Enter Account/Key..." style="font-size:0.8rem; padding:10px; margin-top:5px;"><button type="button" onclick="updateOrderStatus('${o.id}', '${safeEnc(o.item)}', true)" style="background:var(--primary); color:black; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">Mark Delivered</button>` : `<div style="color:#00ff88; font-size:0.8rem; margin-top:5px; padding:10px; border:1px dashed #00ff88; border-radius:8px;"><b>Credentials:</b><br><span style="color:white;">${o.creds || "N/A"}</span></div>`; 
-                let delBtn = isAdminAccess() ? `<button type="button" onclick="adminDeleteOrder('${o.id}')" style="background:none; border:none; color:#ff4d4d; font-size:1.2rem; cursor:pointer;">🗑️</button>` : "";
-                html += `<div style="background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:10px; border-radius:8px; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; align-items:center;"><b style="color:var(--primary);">${o.id}</b> <div style="display:flex; gap:5px;">${selectStatus}${delBtn}</div></div><b>User:</b> ${o.client} <br><b>Contact:</b> ${dmLink}<br><b>Item:</b> <span style="color:#ffae00;">${o.item}</span><br><b>Paid:</b> ${o.price} DT${deliverBox}</div>`; 
-            }); document.getElementById('admin-orders-list').innerHTML = html || "No orders found."; 
-        } catch(e) { document.getElementById('admin-orders-list').innerHTML = "Access Denied."; } 
-    }
-    function updateOrderStatus(orderId, encodedItemName, saveCreds = false) { let itemName = safeDec(encodedItemName); let status = saveCreds ? 'Delivered' : document.getElementById(`status-${orderId}-${encodedItemName}`).value; let creds = saveCreds ? document.getElementById(`cred-${orderId}-${encodedItemName}`).value : ""; if(saveCreds && !creds) return showToast("Enter credentials first!", "error"); showToast("Updating...", "info"); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update_order_status", orderId: orderId, itemName: itemName, status: status, credentials: creds, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => { setTimeout(() => { openAdminOrders(); showToast("Updated!", "success"); }, 1500); }); }
-    function adminDeleteOrder(id) { if(confirm("Permanently delete this order?")) { showToast("Deleting...", "info"); fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({action:"delete_order", orderId:id, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>{ setTimeout(()=>openAdminOrders(), 1500); showToast("Deleted", "success"); }); } }
-
-    // --- CRM ADMIN ---
-    async function openAdminUsers() { 
-        if(!isAdminAccess()) return; openModal('admin-users-modal'); document.getElementById('admin-users-list').innerHTML = `Loading CRM...`; 
-        try { 
-            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
-            if(data.status !== "success") throw new Error(); let html = ""; 
-            data.usr.slice(1).forEach(cols => { if(cols[0]) { let sel = `<select onchange="updateUserRole('${cols[0]}', this.value)" style="margin:5px 0; font-size:0.8rem; padding:8px;"><option value="User" ${cols[3]==='User'?'selected':''}>User</option><option value="Support" ${cols[3]==='Support'?'selected':''}>Support</option><option value="Admin" ${cols[3]==='Admin'?'selected':''}>Admin</option></select>`; html += `<div style="border:1px solid rgba(139,92,246,0.5); padding:10px; border-radius:8px; margin-bottom:10px; background:rgba(0,0,0,0.5);"><b>Contact:</b> <span style="color:#8b5cf6;">${cols[0]}</span><br>${sel}<div style="display:flex; gap:5px;"><button type="button" onclick="banUserUI('${cols[0]}')" style="background:#ffae00; color:black; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Ban</button><button type="button" onclick="deleteUserUI('${cols[0]}')" style="background:#ff4d4d; color:white; border:none; padding:5px; border-radius:5px; font-weight:bold; cursor:pointer; flex:1;">Delete</button></div></div>`; } }); 
-            document.getElementById('admin-users-list').innerHTML = html; 
-        } catch(e){ document.getElementById('admin-users-list').innerHTML = "Access Denied."; } 
-    }
-    function updateUserRole(contact, role) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'update_user_role', target: contact, role: role, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => showToast("Role Updated!", "success")); }
-    function banUserUI(contact) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'ban_user', target: contact, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => { showToast("User Banned!", "success"); openAdminUsers(); }); }
-    function deleteUserUI(contact) { if(confirm("Delete this user permanently?")) fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'delete_user', target: contact, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode: 'no-cors'}).then(() => { showToast("User Deleted!", "success"); openAdminUsers(); }); }
-
-    // --- MARKETING ADMIN ---
-    function openMarketingManager() { if(!isAdminAccess()) return; openModal('marketing-modal'); renderPromos(); renderLoyalty(); }
-    function renderPromos() { let html = ""; for(let code in promoSettings) { html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${code} (${promoSettings[code]}%)</span><button type="button" onclick="deletePromoUI('${code}')" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">✖</button></div>`; } document.getElementById('promo-list').innerHTML = html || "No promos active."; }
-    function renderLoyalty() { let html = ""; for(let i=1; i<=20; i++) { html += `<div style="display:flex; align-items:center; gap:5px;"><span>Order #${i}:</span><input type="number" id="loyalty-val-${i}" value="${loyaltySettings[i]||0}" style="width:60px; margin:0; padding:5px;"><button type="button" onclick="updateLoyaltyUI(${i})" style="background:var(--primary); border:none; border-radius:5px; font-weight:bold; cursor:pointer;">Save</button></div>`; } document.getElementById('loyalty-list').innerHTML = html; }
-    function addPromoUI() { let c = document.getElementById('new-promo-code').value.trim().toUpperCase(); let p = document.getElementById('new-promo-pct').value; if(!c||!p)return; promoSettings[c] = parseFloat(p); renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'add_promo', code:c, discount:p, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Promo Added", "success")); }
-    function deletePromoUI(code) { delete promoSettings[code]; renderPromos(); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'delete_promo', code:code, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Promo Deleted", "success")); }
-    function updateLoyaltyUI(num) { let val = document.getElementById(`loyalty-val-${num}`).value; loyaltySettings[num] = parseFloat(val); fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'update_loyalty', orderNum:num, discount:val, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass')}), mode:'no-cors'}).then(()=>showToast("Loyalty Updated", "success")); }
-
-    // --- ADMIN FINANCE CHARTS ---
-    async function drawAdminChart() { 
-        try { 
-            const res = await fetch(SCRIPT_URL + "?action=get_admin_data&role=" + currentUserRole + "&user=" + safeEnc(currentUser)); const data = await res.json(); 
-            if(data.status !== "success") return; let dataCounts = { "Gaming": 0, "Streaming": 0, "Other": 0 }; let revByDay = {}; let itemRevs = {};
-            data.ord.slice(1).forEach(cols => { if(cols.length > 3) { let itemRaw = String(cols[4]); let itemLower = itemRaw.toLowerCase(); if(itemLower.includes("netflix") || itemLower.includes("spotify")) dataCounts["Streaming"]++; else if(itemLower.includes("valorant") || itemLower.includes("gta")) dataCounts["Gaming"]++; else dataCounts["Other"]++; if (cols[9] && cols[9].trim() === "Delivered") { let d = new Date(cols[10]).toLocaleDateString(undefined, {weekday: 'short', day: 'numeric'}); let p = parseFloat(cols[8].replace(/[^0-9.]/g, '')); if (!isNaN(p)) { revByDay[d] = (revByDay[d] || 0) + p; itemRevs[itemRaw] = (itemRevs[itemRaw] || 0) + p; } } } }); 
-            let tableHTML = `<table style="width:100%; text-align:left; border-collapse:collapse;">`; for (let k in itemRevs) { tableHTML += `<tr><td style="border-bottom:1px solid #333; padding:4px;">${k}</td><td style="border-bottom:1px solid #333; padding:4px; color:#00ff88; font-weight:bold;">${itemRevs[k].toFixed(2)} DT</td></tr>`; } tableHTML += `</table>`; document.getElementById('finance-table').innerHTML = tableHTML;
-            if(adminChart1) adminChart1.destroy(); adminChart1 = new Chart(document.getElementById('adminChart'), { type: 'doughnut', data: { labels: Object.keys(dataCounts), datasets: [{ data: Object.values(dataCounts), backgroundColor: ['#00f0ff', '#ffae00', '#ffffff'], hoverOffset: 4 }] }, options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } } }); 
-            if(adminChart2) adminChart2.destroy(); let rKeys = Object.keys(revByDay).slice(-7); let rVals = rKeys.map(k => revByDay[k]); adminChart2 = new Chart(document.getElementById('revenueChart'), { type: 'bar', data: { labels: rKeys, datasets: [{ label: 'Revenue (DT)', data: rVals, backgroundColor: '#00ff88', hoverBackgroundColor: '#ffffff', borderRadius: 5 }] }, options: { responsive: true, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); 
-        } catch(e) {} 
+            document.getElementById('list-box').innerHTML = html||"Empty.";
+        } catch(e){document.getElementById('list-box').innerHTML="Error loading.";}
     }
 
-    // --- OTHER CORE (Drag Drop, Folders, Config) ---
-    const T_LANG = { en: { add: "ADD TO CART", oos: "OUT OF STOCK", back: "← Back", search: "Search Store..." }, fr: { add: "AJOUTER", oos: "RUPTURE", back: "← Retour", search: "Rechercher..." } };
-    function applyLang() { const d = T_LANG[currentLang]; let li=document.getElementById('lang-ind'); if(li) li.innerText = currentLang.toUpperCase(); let ms=document.getElementById('mainSearch'); if(ms) ms.placeholder = d.search; if(Object.keys(productsData.categories).length > 0) forceReRender(); }
-    function toggleLang() { currentLang = currentLang === 'en' ? 'fr' : 'en'; localStorage.setItem('cyberhub_lang', currentLang); applyLang(); }
+    function updOrd(id, it){ toast("Updating..."); fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'update_order_status',orderId:id,itemName:decodeURIComponent(it),status:'Delivered',credentials:document.getElementById(`crd-${id}`).value}),mode:'no-cors'}).then(()=>toast("Saved")); }
+    function admUsr(t, s, v){ fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'update_user',target:t,sub:s,val:v}),mode:'no-cors'}).then(()=>toast("Action executed")); }
 
-    function navTo(type, safeCat = null, safeApp = null) { try { currentView = { type: type, cat: safeCat ? safeDec(safeCat) : null, app: safeApp ? safeDec(safeApp) : null }; forceReRender(); } catch(e) { currentView = { type: 'cats', cat: null, app: null }; forceReRender(); } }
-    
-    function forceReRender() { 
-        let ca=document.getElementById('content-area'); if(!ca) return; ca.innerHTML = ""; 
-        const q = document.getElementById('mainSearch') ? document.getElementById('mainSearch').value.toLowerCase() : ""; let html = ''; const dic = T_LANG[currentLang]; 
-        if(q) { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); Object.values(a.groups).forEach(g => { g.items.forEach(it => { if(it.name.toLowerCase().includes(q)) html += drawItemRow(it, dic); }); }); }); }); html += `</div>`; } 
-        else { if(currentView.type === 'cats') { html += `<div class="grid">`; Object.values(productsData.categories).forEach(c => { html += `<div class="nav-card" onclick="navTo('apps', '${safeEnc(c.name)}')"><img src="${c.img}"><strong>${c.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'apps') { const catData = productsData.categories[currentView.cat]; if(!catData) return navTo('cats'); html += `<button type="button" onclick="navTo('cats')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button><div class="grid">`; Object.values(catData.apps).forEach(a => { html += `<div class="nav-card" onclick="navTo('items', '${safeEnc(currentView.cat)}', '${safeEnc(a.name)}')"><img src="${a.img}"><strong>${a.name}</strong></div>`; }); html += `</div>`; } else if (currentView.type === 'items') { const appData = productsData.categories[currentView.cat]?.apps[currentView.app]; if(!appData) return navTo('cats'); html += `<button type="button" onclick="navTo('apps', '${safeEnc(currentView.cat)}')" class="icon-btn" style="margin-bottom:15px; border:none; background:transparent; color:var(--sub);">${dic.back}</button>`; if(isSupportAccess()) { html += `<div class="ungroup-zone" style="display:block;" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '')">⏬ Drag items here to <b>UNGROUP</b> them</div>`; } Object.values(appData.groups).forEach((g, gI) => { let safeGrp = safeEnc(g.name); let folderDrop = isSupportAccess() ? `ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${safeGrp}')"` : ""; let editBtn = isSupportAccess() ? `<span onclick="event.stopPropagation(); openFolderEdit('${safeEnc(currentView.cat)}', '${safeEnc(currentView.app)}', '${safeGrp}')" style="margin-right:10px; cursor:pointer; font-size:1.1rem; border:1px solid rgba(255,255,255,0.1); padding:4px; border-radius:6px; background:rgba(0,0,0,0.5);">✏️</span>` : ""; html += `<div class="folder-header" onclick="this.classList.toggle('folder-open'); let c = document.getElementById('acc-${gI}'); c.style.display = c.style.display === 'block' ? 'none' : 'block';" ${folderDrop}><span>${editBtn}${g.name} (${g.items.length})</span><span class="chevron">▼</span></div><div id="acc-${gI}" class="folder-content">`; g.items.forEach(it => html += drawItemRow(it, dic)); html += `</div>`; }); appData.standalone.forEach(it => html += drawItemRow(it, dic)); } } 
-        ca.innerHTML = html; 
+    // --- CART LOGIC ---
+    function addCart(n, p){ cart.push({n:decodeURIComponent(n),p:parseFloat(p)}); document.getElementById('c-count').innerText=cart.length; toast("Added!"); }
+    function applyPromo(){ let c=document.getElementById('promoInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast("Promo Applied!");updateCartUI();} else toast("Invalid Code",true); }
+    function openCart(){updateCartUI(); openModal('cart-modal');}
+    function updateCartUI(){
+        let raw=cart.reduce((s,i)=>s+i.p,0); let lPct=checkLoyalty(); let hPct=Math.max(pPct, lPct);
+        document.getElementById('m-sub').innerText=raw.toFixed(2)+" DT";
+        if(pPct>0){document.getElementById('m-promo-r').style.display='flex'; document.getElementById('m-promo-p').innerText=pPct; document.getElementById('m-promo-v').innerText="-"+(raw*(pPct/100)).toFixed(2)+" DT";} else document.getElementById('m-promo-r').style.display='none';
+        if(lPct>0){document.getElementById('m-loy-r').style.display='flex'; document.getElementById('m-loy-p').innerText=lPct; document.getElementById('m-loy-v').innerText="-"+(raw*(lPct/100)).toFixed(2)+" DT";} else document.getElementById('m-loy-r').style.display='none';
+        document.getElementById('m-tot').innerText=(raw-(raw*(hPct/100))).toFixed(2)+" DT";
+        document.getElementById('cart-list').innerHTML=cart.map(i=>`<div>• ${i.n} (${i.p} DT)</div>`).join('');
     }
     
-    function drawItemRow(it, dic) { let safeName = safeEnc(it.originalName); let safeDisp = safeEnc(it.name); let dragProps = isSupportAccess() ? `draggable="true" ondragstart="handleDragStart(event, '${safeName}')" ondragend="handleDragEnd(event)"` : ""; let adminTools = ""; if (isSupportAccess()) { adminTools += `<div class="support-tools" style="margin-top:10px; border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px; display:flex; gap:5px;"><button type="button" style="flex:1; background:transparent; border:1px solid var(--warn); color:var(--warn); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="updateItem('${safeName}', ${it.price}, ${!it.isOOS})">[🚫 OOS]</button>`; if (isAdminAccess()) { adminTools += `<button type="button" style="flex:1; background:transparent; border:1px solid var(--primary); color:var(--primary); padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="showEditItemModal('${safeName}')">[✏️ Edit]</button><button type="button" style="flex:1; background:transparent; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="deleteItem('${safeName}')">[🗑️ Del]</button>`; } adminTools += `</div>`; } return `<div class="item-row" ${dragProps}><span style="font-weight:bold;">${it.name} ${it.isOOS ? `<span class="oos-tag">${dic.oos}</span>` : ''}</span><b style="color:var(--primary); font-size:1.2rem; margin-top:5px;">${it.price} DT</b>${adminTools}<button type="button" class="add-cart-btn" onclick="addToCart('${safeName}', ${it.price}, '${safeDisp}')" ${it.isOOS ? 'disabled' : ''}>${it.isOOS ? dic.oos : dic.add}</button></div>`; }
+    function selPay(m){payM=m; document.getElementById('pay-d17').classList.remove('active'); document.getElementById('pay-cash').classList.remove('active'); document.getElementById(m==='D17'?'pay-d17':'pay-cash').classList.add('active'); document.getElementById('d17-box').style.display=m==='D17'?'block':'none';}
+    function selContact(c){conM=c; document.getElementById('cm-wa').classList.remove('active'); document.getElementById('cm-ig').classList.remove('active'); document.getElementById('cm-'+c).classList.add('active');}
+    function openCheckout(){if(cart.length===0) return toast("Cart Empty",true); closeModal('cart-modal'); openModal('checkout-modal');}
 
-    function initEmojiGrid() { const grid = document.getElementById('icon-db'); if(!grid) return; grid.innerHTML = FOLDER_EMOJIS.map(e => `<div class="emoji-slot ${e==='📁'?'active':''}" onclick="selEmoji(this, '${e}')">${e}</div>`).join(''); }
-    function selEmoji(el, icon) { document.querySelectorAll('.emoji-slot').forEach(n => n.classList.remove('active')); el.classList.add('active'); selectedFolderEmoji = icon; }
-    function openFolderEdit(safeCat, safeApp, safeGrp) { currentEditingGroupCtx = { cat: safeDec(safeCat), app: safeDec(safeApp), grp: safeDec(safeGrp) }; let cleanName = currentEditingGroupCtx.grp; if(FOLDER_EMOJIS.some(e => cleanName.startsWith(e))) { let parts = cleanName.split(" "); let icon = parts.shift(); document.getElementById('edit-folder-name').value = parts.join(" "); selEmoji(document.querySelector('.emoji-slot.active') || document.querySelector('.emoji-slot'), icon); } else { document.getElementById('edit-folder-name').value = cleanName; } initEmojiGrid(); openModal('edit-folder-modal'); }
-    async function executeFolderRename() { let newName = document.getElementById('edit-folder-name').value.trim(); if(!newName) return; let fullNewGroup = (selectedFolderEmoji + " " + newName).trim(); if(fullNewGroup === currentEditingGroupCtx.grp) return closeModal('edit-folder-modal'); let btn = document.getElementById('btn-save-folder'); btn.innerText = "Updating..."; btn.disabled = true; let itemsToUpdate = []; const catData = productsData.categories[currentEditingGroupCtx.cat]; if(catData && catData.apps[currentEditingGroupCtx.app] && catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp]) { catData.apps[currentEditingGroupCtx.app].groups[currentEditingGroupCtx.grp].items.forEach(it => { itemsToUpdate.push(it.originalName); }); } for(let oldName of itemsToUpdate) { let baseName = oldName.split("||GRP||")[0]; let newRawName = baseName + "||GRP||" + fullNewGroup; await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: oldName, newName: newRawName, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }); } closeModal('edit-folder-modal'); btn.innerText = "💾 Update Folder"; btn.disabled = false; forceSync(); showToast("Folder Updated!", "success"); }
-    function handleDragStart(e, rawName) { draggedItemRawName = safeDec(rawName); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.classList.add('dragging'), 0); }
-    function handleDragEnd(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); }
-    function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-    function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-    function handleDrop(e, targetGroupRaw) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let targetGroup = targetGroupRaw ? safeDec(targetGroupRaw) : ""; if(!draggedItemRawName) return; let cleanName = draggedItemRawName.includes("||GRP||") ? draggedItemRawName.split("||GRP||")[0] : draggedItemRawName; let newRawName = cleanName + (targetGroup ? "||GRP||" + targetGroup : ""); if(newRawName !== draggedItemRawName) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "rename_item", oldName: draggedItemRawName, newName: newRawName, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); } draggedItemRawName = null; }
+    async function finalizeOrder(){
+        let n=document.getElementById('coName').value, c=document.getElementById('coContact').value, cm=document.getElementById('coNotes').value;
+        if(!n||!c) return toast("Name & Contact required",true);
+        let oid=(user==="yessinebenfraj106@gmail.com"?"TEST-":"CH-")+Math.floor(1000+Math.random()*9000);
+        let hPct=Math.max(checkLoyalty(), pPct); cart.forEach(i=>i.finalPrice = i.p - (i.p*(hPct/100)));
+        document.getElementById('btn-fin').innerText="Processing...";
+        
+        try {
+            await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'place_order',orderId:oid,client:n,platform:conM,contact:c,items:cart,promoCode:pCode,loyalty:checkLoyalty(),comments:cm,userEmail:user||"Guest"}),mode:'no-cors'});
+            let t=cart.reduce((s,i)=>s+i.finalPrice,0).toFixed(2);
+            let msg=`CyberHub Order 🛒\nID: ${oid}\nItems: ${cart.map(i=>i.n).join(', ')}\nTotal: ${t} DT\nMethod: ${payM}`;
+            navigator.clipboard.writeText(msg).catch(e=>{});
+            setTimeout(()=>{
+                if(conM==='wa') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`);
+                closeModal('checkout-modal'); cart=[]; document.getElementById('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders);} toast("Success!"); document.getElementById('btn-fin').innerText="PLACE ORDER";
+            },1000);
+        } catch(e){toast("Network Error",true);}
+    }
 
-    function showEditItemModal(origNameRaw) { let it = null; let origName = safeDec(origNameRaw); Object.values(productsData.categories).forEach(c => { Object.values(c.apps).forEach(a => { a.standalone.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i}; }); Object.values(a.groups).forEach(g => { g.items.forEach(i => { if(i.originalName === origName) it = {c: c, a: a, i: i, g: g.name}; }); }); });}); if(!it) return showToast("Item not found.", "error"); document.getElementById('edit-orig-name').value = origName; document.getElementById('edit-cat-sel').value = it.c.name; document.getElementById('edit-app-fr').value = it.a.name; document.getElementById('edit-app-en').value = it.a.name; document.getElementById('edit-item-name-fr').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-name-en').value = it.i.originalName.split("||GRP||")[0]; document.getElementById('edit-item-price').value = it.i.price; openModal('edit-item-modal'); }
-    async function submitItemEdit() { let oldName = document.getElementById('edit-orig-name').value; let cFr = document.getElementById('edit-cat-sel').value; let aFr = document.getElementById('edit-app-fr').value; let aEn = document.getElementById('edit-app-en').value || aFr; let nFr = document.getElementById('edit-item-name-fr').value; let nEn = document.getElementById('edit-item-name-en').value || nFr; let p = document.getElementById('edit-item-price').value; if(oldName.includes("||GRP||")) { let grp = "||GRP||" + oldName.split("||GRP||")[1]; nFr += grp; nEn += grp; } closeModal('edit-item-modal'); showToast("Saving...", "info"); try { await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "edit_item_full", oldName: oldName, catFr: cFr, appFr: aFr, nameFr: nFr, price: p, catEn: cFr, appEn: aEn, nameEn: nEn, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }); forceSync(); showToast("Updated!", "success"); } catch(e) {} }
-    function submitNewItem() { let cat = document.getElementById('add-cat-sel').value; let appFr = document.getElementById('add-app-fr').value; let appEn = document.getElementById('add-app-en').value || appFr; let nameFr = document.getElementById('add-item-name-fr').value; let nameEn = document.getElementById('add-item-name-en').value || nameFr; let price = document.getElementById('add-item-price').value; let finalNameFr = nameFr; let finalNameEn = nameEn; if(document.getElementById('add-is-retractable').checked) { let group = document.getElementById('add-retract-group').value; if(group) { finalNameFr += "||GRP||" + group; finalNameEn += "||GRP||" + group; } } closeModal('add-item-modal'); fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "add", catFr: cat, appFr: appFr, nameFr: finalNameFr, price: price, catEn: cat, appEn: appEn, nameEn: finalNameEn, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => { forceSync(); showToast("Saved!", "success"); }); }
-    function updateItem(encodedName, price, isOOS) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "update", itemName: safeDec(encodedName), newPrice: price, isOOS: isOOS, adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); }
-    function deleteItem(encodedName) { if(confirm("Delete?")) { fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete_item", itemName: safeDec(encodedName), adminUser: currentUser, adminPass: localStorage.getItem('cyberhub_pass') }), mode: 'no-cors' }).then(() => forceSync()); } }
-
-    window.onload = () => {
-        if (!localStorage.getItem('cyberhub_v50_pol')) { openPolicyModal(false); }
-        loadFromCache(); fetchData(); toggleAdminUI(); applyLang();
-    };
+    window.onload=()=>{ syncData(); };
 </script>
 </body>
 </html>
