@@ -25,7 +25,6 @@
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.2s;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
         
-        /* CATEGORY FRAMES */
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
         .n-card:active{transform:scale(0.96);}
@@ -38,17 +37,16 @@
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.2s;}
         .btn:active{transform:scale(0.95);}
         
-        /* MODALS & INPUTS */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
+        input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
         
         .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--p);color:#000;padding:15px 25px;border-radius:30px;font-size:1rem;font-weight:bold;transition:0.4s;z-index:20000;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
         .toast.show{bottom:30px;}
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
         .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
         
-        /* SIDEBAR */
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;}
@@ -69,7 +67,6 @@
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, #00f0ff); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         
-        /* IN-LINE ADMIN EDITING STYLES */
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
         .admin-drag-handle:active { cursor: grabbing; }
@@ -101,15 +98,6 @@
         </div>
     </div>
 
-    <div id="adm-tools" class="glass" style="display:none;border-color:var(--w);text-align:center;padding:10px;">
-        <b style="color:var(--w);font-size:0.9rem;display:block;margin-bottom:5px;">System Controls:</b>
-        <div style="display:flex;gap:5px;justify-content:center;">
-            <button class="btn" style="margin:0;background:#ff4d4d;color:#fff;padding:8px;" onclick="setMaint('UNTIL')">Close Store</button>
-            <button class="btn" style="margin:0;background:#00ff88;color:#000;padding:8px;" onclick="setMaint('OFF')">Open Store</button>
-            <button class="btn" style="margin:0;background:#8b5cf6;color:#fff;padding:8px;" onclick="trgMsg()">📢 Alert</button>
-        </div>
-    </div>
-
     <div id="maint-banner" style="display:none;padding:20px;text-align:center;font-weight:bold;margin-bottom:20px;border-radius:15px;border:2px dashed var(--w);background:rgba(255,174,0,0.1);color:var(--w);">
         <div style="font-size:1.5rem;">📢 <span id="ui-m-t">ANNOUNCEMENT</span></div><div id="ui-m-m" style="margin-top:5px;"></div>
     </div>
@@ -124,7 +112,7 @@
         <input type="text" name="fake_username_trap" tabindex="-1">
         <input type="password" name="fake_password_trap" tabindex="-1">
     </div>
-    <input type="text" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" data-lpignore="true" data-1p-ignore="true" role="presentation" oninput="ren()" style="width:100%;margin-bottom:15px;">
+    <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore="true" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
     
@@ -213,6 +201,14 @@
     <button class="tr" data-k="cls" onclick="closeModal('prof-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
 
+<div id="cart-prompt-mod" class="modal"><div class="m-cnt" style="text-align:center;">
+    <div style="font-size:3rem;margin-bottom:10px;">✅</div>
+    <h3 style="color:#00ff88;margin-top:0;" class="tr" data-k="itmAdd">Item Added to Cart!</h3>
+    <p style="color:var(--sub);font-size:0.9rem;margin-bottom:20px;" class="tr" data-k="itmSub">What would you like to do next?</p>
+    <button class="btn tr" data-k="chkNow" style="background:var(--w);color:#000;margin-bottom:10px;" onclick="closeModal('cart-prompt-mod');opnCart();">Checkout Now</button>
+    <button class="btn tr" data-k="conShop" style="background:transparent;border:1px solid var(--p);color:var(--p);" onclick="closeModal('cart-prompt-mod');">Continue Shopping</button>
+</div></div>
+
 <div id="req-srv-mod" class="modal"><div class="m-cnt">
     <h3 style="color:#ff00ff;margin-top:0;" class="tr" data-k="reqSrv">✨ Request Custom Service</h3>
     <p style="color:var(--sub);font-size:0.85rem;margin-bottom:15px;">Can't find what you are looking for? Tell us what you need and we will make it happen.</p>
@@ -285,6 +281,7 @@
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn tr" data-k="invMng" style="margin:0;background:linear-gradient(90deg,var(--w),#ff4d4d);color:#fff;border:none;grid-column: span 2;" onclick="openModal('inv-mng-mod')">➕ Create New Item</button>
+        <button class="btn" style="margin:0;background:rgba(255,0,0,0.2);color:#ff4d4d;border:1px solid #ff4d4d;grid-column: span 2;" onclick="trgMsg(true)">🛠️ Custom Maintenance Broadcast</button>
     </div>
     <div style="text-align:center; margin-top:20px; color:#00ff88; font-size:0.85rem; border-top:1px dashed #333; padding-top:10px;">
         💡 <b>Pro-Tip:</b> You can now Drag & Drop, edit prices, change names, and set Out Of Stock directly from the main store pages!
@@ -294,7 +291,7 @@
 
 <div id="inv-mng-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="addItm">➕ Create New Item</h3>
-    <div style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">Colors will be automatically assigned.</div>
+    <div style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">Colors will be automatically assigned based on Category.</div>
     <input type="text" id="ai-cat" placeholder="Category Name (e.g. Gaming)">
     <input type="text" id="ai-sub" placeholder="Subcategory Name (e.g. PC Games)">
     
@@ -303,7 +300,26 @@
             <input type="checkbox" id="ai-hasFld" style="width:auto;margin:0;"> Enable Folder?
         </label>
         <input type="text" id="ai-fldN" placeholder="Folder Name (e.g. Riot Points)" style="margin-bottom:5px;">
-        <input type="text" id="ai-fldE" placeholder="Folder Emoji (e.g. 📁)">
+        <select id="ai-fldE" style="margin-bottom:5px;">
+            <option value="📁">📁 Default Folder</option>
+            <option value="🎮">🎮 Gaming</option>
+            <option value="📱">📱 Mobile</option>
+            <option value="💻">💻 PC</option>
+            <option value="🎵">🎵 Music</option>
+            <option value="📺">📺 TV/Streaming</option>
+            <option value="🎧">🎧 Audio</option>
+            <option value="🔑">🔑 Keys/Access</option>
+            <option value="💎">💎 Premium</option>
+            <option value="🚀">🚀 Boost</option>
+            <option value="🎁">🎁 Gift</option>
+            <option value="⭐">⭐ Star</option>
+            <option value="💰">💰 Money</option>
+            <option value="💳">💳 Card</option>
+            <option value="⚡">⚡ Lightning</option>
+            <option value="🔥">🔥 Hot/Trending</option>
+            <option value="🏆">🏆 Champion</option>
+            <option value="👑">👑 VIP/Crown</option>
+        </select>
     </div>
 
     <input type="text" id="ai-nom" placeholder="Item Name (e.g. 1000 VP)">
@@ -349,8 +365,8 @@
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     
     const T = {
-      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Manage Store (Add Item)", addItm: "➕ Create New Item" },
-      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article" }
+      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping" },
+      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article", itmAdd: "Article ajouté au panier!", itmSub: "Que voulez-vous faire ensuite?", chkNow: "Commander", conShop: "Continuer les achats" }
     };
 
     function el(i){return document.getElementById(i);}
@@ -371,8 +387,43 @@
         return "#" + Math.round((r+m)*255).toString(16).padStart(2,'0') + Math.round((g+m)*255).toString(16).padStart(2,'0') + Math.round((b+m)*255).toString(16).padStart(2,'0');
     }
 
-    async function bioSet(iA){if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod');}else{localStorage.setItem('ch_bU',user); pAPI('link_bio',{c:user},true);} toast(T[lang].svd,false); }catch(e){toast(T[lang].err,true);}}
-    async function bioLog(iA){if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); if(!iA && !localStorage.getItem('ch_bU')) return toast(T[lang].err,true); try{ let c=new Uint8Array(32); crypto.getRandomValues(c); await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); if(iA){user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openAdminDash();}else{user=localStorage.getItem('ch_bU');role="User";closeModal('log-mod');toast(T[lang].scs,false);chkUI();} localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role); }catch(e){toast(T[lang].err,true);}}
+    // 🔥 PERSISTENT BIOMETRICS (SAVED TO DB)
+    function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
+    
+    async function bioSet(iA){
+        if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); 
+        try{ 
+            let c=new Uint8Array(32); crypto.getRandomValues(c); 
+            let cred = await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); 
+            let bioId = buf2hex(cred.rawId); // Get unique cryptographic ID
+            if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod'); toast(T[lang].svd,false);}
+            else{localStorage.setItem('ch_bU',user); pAPI('reg_bio',{c:user, bioId: bioId},true); toast(T[lang].svd,false);} 
+        }catch(e){toast(T[lang].err,true);}
+    }
+    
+    async function bioLog(iA){
+        if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); 
+        try{ 
+            let c=new Uint8Array(32); crypto.getRandomValues(c); 
+            let cred = await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); 
+            let bioId = buf2hex(cred.rawId);
+            
+            if(iA){
+                user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openAdminDash();
+                localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role);
+            }else{
+                // Verify with DB
+                toast("Verifying Passkey...", "info");
+                let r = await fetch(SURL, {method:'POST', body:JSON.stringify({act:'log_bio', bioId: bioId})});
+                let d = await r.json();
+                if(d.s === 'ok') {
+                    user=d.c; pass=d.p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; 
+                    localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_bU',user);
+                    closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();
+                } else if(d.s === 'banned') { toast(T[lang].bnc,true); } else { toast(T[lang].err,true); }
+            }
+        }catch(e){toast(T[lang].err,true);}
+    }
 
     function chkUI(){
         if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block'; el('god-crown').style.display='block';} else {el('adm-tools').style.display='none';el('adm-btn').style.display='none'; el('god-crown').style.display='none';} 
@@ -404,12 +455,11 @@
                 d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); 
                 d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); 
                 localStorage.setItem('ch_db_cache', JSON.stringify(db));
-                hMaint(d.inv[0][15]||"FALSE"); chkUI(); renderMkt(); buildW(); ren();
+                hMaint(d.maint||"FALSE"); chkUI(); renderMkt(); buildW(); ren();
             } else { if(!cached) throw "E"; }
         } catch(e) { if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
     }
 
-    // MAIN RENDER ENGINE WITH IN-LINE ADMIN EDITING AND DRAG & DROP
     function ren(){
         let hHtml=""; let a=el('st-cnt'); let q=el('itemFinder').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`; return; }
@@ -498,7 +548,6 @@
         } 
         a.innerHTML=hHtml; appLang();
 
-        // 🔥 ACTIVATE STOREFRONT DRAG AND DROP FOR ADMINS
         if(role === 'Admin') {
             let sortLists = document.querySelectorAll('#store-sort-list, .folder-sort-list');
             sortLists.forEach(list => {
@@ -514,7 +563,6 @@
         }
     }
     
-    // UI DISPLAY UPDATE: Inject Admin Quick-Edit Bar
     function dR(i){
         let eO=sEnc(i.id), eN=sEnc(i.n); 
         let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : '';
@@ -523,7 +571,6 @@
         let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol}; opacity:0.8;">▶</span> ${i.sub}</div>` : '';
         let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>${T[lang].oos}</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}', ${i.exReq})">${T[lang].add}</button>`; 
         
-        // STOREFRONT ADMIN INJECTION
         let admBar = "";
         if(role === 'Admin') {
             admBar = `
@@ -554,7 +601,10 @@
     function gOTP(){let c='';for(let i=0;i<6;i++)c+=el('o'+i).value;return c;}
     function openProf(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; el('p-ig').value=uIg; el('p-wa').value=uWa; el('p-fb').value=uFb; openModal('prof-mod');} else {openModal('log-mod'); swA('l-step');}}
     function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
-    function logOut(){localStorage.clear(); user=null; role=null; pass=null; uOrders=0; uIg=""; uWa=""; uFb=""; chkUI(); closeModal('prof-mod'); toast(T[lang].scs,false); ren();}
+    
+    // 🔥 LOG OUT BUG FIXED
+    function logOut(){localStorage.clear(); sessionStorage.clear(); window.location.reload(true);}
+    
     async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
     function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openAdminDash();} else toast(T[lang].err,true);}
     function sRM(m){rM=m; el('b-em').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('b-ph').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('rCnt').placeholder=m==='email'?'Email':'Phone'; el('b-reg').innerText=T[lang].snd;}
@@ -563,8 +613,17 @@
     async function verC(){let c=gOTP(); if(c.length<6)return toast(T[lang].fill,true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast(T[lang].scs,false); closeModal('prof-mod');} else toast(T[lang].bdc,true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].bdc,true);}
     function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast(T[lang].svd,false);}
 
-    function trgMsg(){let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);}
-    function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-time'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML=""; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
+    // 🔥 CUSTOM MAINTENANCE BROADCAST
+    function trgMsg(isCustom){
+        if(isCustom) {
+            let m=prompt("Enter custom lock-screen message (e.g., 'Store closed for updates'):");
+            if(!m)return; setMaint(`ANNOUNCE|||RED|||${m}`);
+        } else {
+            let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);
+        }
+    }
+    
+    function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; if(c==="RED" && role !== 'Admin') { el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML="Maintenance in progress."; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v);}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}catch(e){toast(T[lang].err,true);}}
 
@@ -624,10 +683,27 @@
         closeModal('req-srv-mod');
     }
 
+    // 🔥 EMJOI & COLOR DROPDOWNS FOR WHEEL EDITOR
     function openWhlEd() {
         let h=`<div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;text-align:left;font-size:0.85rem;">`;
         if(db.whl) { db.whl.slice(1).forEach((w, i) => {
-            h+=`<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #333;"><b>Prize ${i+1}:</b><br>Name: <input type="text" id="we-n-${i}" value="${w[0]}" style="padding:5px;margin:2px 0;"><br>Emoji: <input type="text" id="we-e-${i}" value="${w[1]}" style="padding:5px;margin:2px 0;"><br>Prob %: <input type="number" id="we-p-${i}" value="${w[3]}" style="padding:5px;margin:2px 0;width:80px;"><br>Msg: <input type="text" id="we-m-${i}" value="${w[4]||''}" style="padding:5px;margin:2px 0;"><br>Req Contact: <select id="we-r-${i}" style="padding:5px;margin:2px 0;"><option value="true" ${w[5]?'selected':''}>Yes</option><option value="false" ${!w[5]?'selected':''}>No</option></select><br><button class="btn" style="padding:5px;width:auto;" onclick="pAPI('upd_whl',{oldN:'${w[0]}', n:el('we-n-${i}').value, e:el('we-e-${i}').value, p:el('we-p-${i}').value, msg:el('we-m-${i}').value, req:el('we-r-${i}').value})">Save</button></div>`;
+            h+=`<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #333;"><b>Prize ${i+1}:</b><br>
+            Name: <input type="text" id="we-n-${i}" value="${w[0]}" style="padding:5px;margin:2px 0;"><br>
+            Emoji: <select id="we-e-${i}" style="padding:5px;margin:2px 0;">
+                <option value="${w[1]}">${w[1]} (Current)</option>
+                <option value="🔴">🔴 Red Circle</option><option value="🟠">🟠 Orange Circle</option><option value="🔵">🔵 Blue Circle</option>
+                <option value="🟣">🟣 Purple Circle</option><option value="🟢">🟢 Green Circle</option><option value="⚪">⚪ White Circle</option>
+                <option value="🎁">🎁 Gift</option><option value="🏆">🏆 Trophy</option><option value="💎">💎 Diamond</option>
+            </select><br>
+            Color: <select id="we-c-${i}" style="padding:5px;margin:2px 0;">
+                <option value="${w[2]}">Current Color</option>
+                <option value="#ff4d4d">Crimson Red</option><option value="#ffae00">Neon Orange</option><option value="#00f0ff">Cyber Blue</option>
+                <option value="#8b5cf6">Deep Purple</option><option value="#00ff88">Matrix Green</option><option value="#ffffff">Pure White</option>
+            </select><br>
+            Prob %: <input type="number" id="we-p-${i}" value="${w[3]}" style="padding:5px;margin:2px 0;width:80px;"><br>
+            Msg: <input type="text" id="we-m-${i}" value="${w[4]||''}" style="padding:5px;margin:2px 0;"><br>
+            Req Contact: <select id="we-r-${i}" style="padding:5px;margin:2px 0;"><option value="true" ${w[5]?'selected':''}>Yes</option><option value="false" ${!w[5]?'selected':''}>No</option></select><br>
+            <button class="btn" style="padding:5px;width:auto;" onclick="pAPI('upd_whl',{oldN:'${w[0]}', n:el('we-n-${i}').value, e:el('we-e-${i}').value, c:el('we-c-${i}').value, p:el('we-p-${i}').value, msg:el('we-m-${i}').value, req:el('we-r-${i}').value})">Save</button></div>`;
         }); }
         h+=`</div>`; el('whl-list').innerHTML = h; openModal('whl-ed-mod');
     }
@@ -640,11 +716,13 @@
     function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast(T[lang].scs,false);updC();} else {pPct=0;pCode="";toast(T[lang].err,true);updC();}}
     function opnCart(){updC(); openModal('cart-mod');}
     
+    // 🔥 SMART CART PROMPT
     function addC(eO, p, eN, hasEx){
         let id = decodeURIComponent(eO); let n = decodeURIComponent(eN);
         if(hasEx) { let inp = el('ex-'+id); if(!inp || !inp.value) return toast(T[lang].fill, true); n += " (" + inp.value + ")"; inp.value = ''; }
         cart.push({id:id, n:n, p:parseFloat(p)}); 
-        el('c-count').innerText=cart.length; toast(T[lang].add,false);
+        el('c-count').innerText=cart.length; 
+        openModal('cart-prompt-mod');
     }
 
     function updC(){let r=cart.reduce((s,i)=>s+i.p,0); let l=chkLoy(); let h=Math.max(pPct,l); el('m-sub').innerText=r.toFixed(2)+" DT"; let pr=el('m-pr'), lr=el('m-lr'); if(pPct>0){pr.style.display='flex';el('m-pp').innerText=pPct;el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none'; if(l>0){lr.style.display='flex';el('m-lp').innerText=l;el('m-lv').innerText="-"+(r*(l/100)).toFixed(2)+" DT";} else lr.style.display='none'; el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');}
@@ -703,4 +781,3 @@
 </script>
 </body>
 </html>
-
