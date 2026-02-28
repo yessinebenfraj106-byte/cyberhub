@@ -14,9 +14,6 @@
     <meta name="theme-color" content="#050b14">
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     
     <script>
         const themes = [{n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14'},{n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108'},{n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515'}];
@@ -101,7 +98,7 @@
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
         
-        /* PRE-LOADER SPINNER */
+        /* PREMIUM LOADER */
         .loader { border: 4px solid var(--b); border-top: 4px solid var(--p); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; margin: 0 auto 15px auto; box-shadow: 0 0 15px var(--b); }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -163,7 +160,7 @@
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
     
-    <div id="st-cnt"><div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">Loading Store... ⏳</div></div></div>
+    <div id="st-cnt"></div>
 
     <div class="glass" style="text-align:center;margin-top:40px;border-style:dashed;border-color:var(--p);">
         <h3 style="margin-top:0;color:#fff;" class="tr" data-k="hlp">📞 Need Help? Contact Us</h3>
@@ -458,7 +455,7 @@
         </label>
         <input type="text" id="ai-fldN" placeholder="Folder Name (e.g. Riot Points)" style="margin-bottom:5px; display:none;">
         <select id="ai-fldE" style="margin-bottom:5px; display:none; font-size:1.2rem;">
-            <option value="📁">📁 Default Folder</option><option value="🎮">🎮 Gaming</option><option value="📱">📱 Mobile</option><option value="💻">💻 PC</option><option value="📺">📺 Streaming</option><option value="💰">💰 Money</option><option value="🎵">🎵 Music</option><option value="🎬">🎬 Movies</option><option value="📚">📚 Books</option><option value="🔑">🔑 Keys/Software</option><option value="🎨">🎨 Art/Design</option><option value="🛒">🛒 Store</option><option value="💎">💎 Premium</option><option value="⚡">⚡ Fast</option><option value="📦">📦 Box</option><option value="🌐">🌐 Web</option><option value="🎟️">🎟️ Tickets</option><option value="❤️">❤️ Hearts</option><option value="🚀">🚀 Rocket</option><option value="🔥">🔥 Hot</option><option value="⚙️">⚙️ Settings/Mods</option><option value="🔫">🔫 Shooter</option><option value="⚽">⚽ Sports</option><option value="🏎️">🏎️ Racing</option><option value="🗡️">🗡️ RPG/Sword</option><option value="🏆">🏆 Trophy</option><option value="👑">👑 Crown</option><option value="🎧">🎧 Audio</option><option value="🕹️">🕹️ Arcade</option><option value="🧩">🧩 Puzzle</option><option value="🧸">🧸 Toys</option><option value="🪙">🪙 Coins</option><option value="💳">💳 Cards</option><option value="🎁">🎁 Gifts</option><option value="🛍️">🛍️ Shopping</option><option value="🔧">🔧 Tools</option><option value="🛡️">🛡️ Shield</option><option value="🍔">🍔 Food</option><option value="🍕">🍕 Pizza</option><option value="🛸">🛸 Sci-Fi</option><option value="🤖">🤖 Bot</option><option value="👾">👾 Monster</option><option value="🎓">🎓 Education</option><option value="💼">💼 Work</option><option value="📈">📈 Stocks</option>
+            <option value="📁">📁 Folder</option><option value="🎮">🎮 Gaming</option><option value="📱">📱 Mobile</option><option value="💻">💻 PC</option><option value="📺">📺 TV</option><option value="💰">💰 Money</option><option value="💎">💎 Premium</option><option value="🔑">🔑 Keys</option><option value="🚀">🚀 Rocket</option><option value="🔥">🔥 Hot</option><option value="🛒">🛒 Cart</option><option value="🎁">🎁 Gift</option>
         </select>
     </div>
     <input type="text" id="ai-nom" placeholder="Item Name (e.g. 1000 VP)">
@@ -478,6 +475,10 @@
     <div id="whl-list" style="max-height:60vh;overflow-y:auto;margin-bottom:15px;"></div>
     <button class="tr" data-k="cls" onclick="closeModal('whl-ed-mod')" style="background:none;border:none;color:var(--sub);font-weight:bold;cursor:pointer;">Close</button>
 </div></div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 <script>
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
@@ -516,6 +517,8 @@
     function togglePwd(i){el(i).type=el(i).type==="password"?"text":"password";}
     function swA(i){['l-step','r-step','rs-step','c-step','a-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
     function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
+    
+    function cycleTheme() { curTheme = (curTheme + 1) % themes.length; localStorage.setItem('ch_theme', curTheme); applyTheme(); toast(T[lang].thm + themes[curTheme].n, "info"); }
     
     function checkStreak() {
         if(!user) return 0;
@@ -650,13 +653,18 @@
     }
 
     async function initApp() {
-        initParticles();
+        // Safe Particles Init
+        function checkPart(){ if(typeof particlesJS !== 'undefined') particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); else setTimeout(checkPart, 200); }
+        checkPart();
+
         if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
         
+        let isCached = false;
         let cached = localStorage.getItem('ch_db_cache');
-        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
-        else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
+        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); isCached = true; } } catch(e){} } 
+        
+        if(!isCached) { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
 
         try {
             let r = await fetch(SURL+"?action=get_public_data"); 
@@ -677,8 +685,8 @@
                         tIdx = (tIdx + 1) % d.rec.length;
                     }, 15000);
                 }
-            } else throw "E";
-        } catch(e) { if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
+            }
+        } catch(e) { if(!isCached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
     }
 
     function highlightMatch(text, q) { if(!q) return text; let regex = new RegExp(`(${q})`, "gi"); return text.replace(regex, "<span class='hl-search'>$1</span>"); }
@@ -772,17 +780,14 @@
         appLang(); 
 
         if(role === 'Admin') {
-            let sortLists = document.querySelectorAll('#store-sort-list, .folder-sort-list');
-            sortLists.forEach(list => {
-                new Sortable(list, {
-                    handle: '.admin-drag-handle', animation: 150,
-                    onEnd: function(evt) {
-                        let id1 = evt.item.getAttribute('data-id');
-                        let id2 = evt.items[evt.newIndex] ? evt.items[evt.newIndex].getAttribute('data-id') : null;
-                        if(id1 && id2) pAPI('move_item', {id1: id1, id2: id2}, true);
-                    }
+            if(typeof Sortable !== 'undefined') {
+                let sortLists = document.querySelectorAll('#store-sort-list, .folder-sort-list');
+                sortLists.forEach(list => {
+                    new Sortable(list, { handle: '.admin-drag-handle', animation: 150, onEnd: function(evt) { let id1 = evt.item.getAttribute('data-id'); let id2 = evt.items[evt.newIndex] ? evt.items[evt.newIndex].getAttribute('data-id') : null; if(id1 && id2) pAPI('move_item', {id1: id1, id2: id2}, true); } });
                 });
-            });
+            } else {
+                setTimeout(ren, 500); // Wait for sortable to load
+            }
         }
     }
     
@@ -862,12 +867,8 @@
     function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast(T[lang].svd,false);}
 
     function trgMsg(isCustom){
-        if(isCustom) {
-            let m=prompt("Enter custom lock-screen message:");
-            if(!m)return; setMaint(`ANNOUNCE|||RED|||${m}`);
-        } else {
-            let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);
-        }
+        if(isCustom) { let m=prompt("Enter custom lock-screen message:"); if(!m)return; setMaint(`ANNOUNCE|||RED|||${m}`); } 
+        else { let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`); }
     }
     
     function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; if(c==="RED" && role !== 'Admin') { el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML="Maintenance in progress."; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
@@ -884,7 +885,6 @@
         } catch(e) { toast(T[lang].err, true); }
     }
 
-    // 🔥 CRM VIP BADGES ENGINE + ADMIN TOP UP
     function fAdm(t){
         el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; 
         el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
@@ -903,9 +903,7 @@
             for(let i=0; i<gKeys.length; i++) {
                let gid = gKeys[i]; let g = groups[gid];
                let itemsHtml = g.items.map(item => `<div style="background:rgba(0,0,0,0.4); padding:8px; border-radius:5px; margin-bottom:5px;">- ${item[5]} <b style="color:var(--p)">(${item[9]} DT)</b><br><span style="color:var(--sub); font-size:0.75rem;">ID: ${item[1]}</span><br><select style="padding:4px; font-size:0.8rem; margin:3px 0;" onchange="pAPI('upd_ord_stat',{oid:'${item[1]}', stat:this.value},true)"><option ${item[10]==='Pending'?'selected':''}>Pending</option><option ${item[10]==='Processing'?'selected':''}>Processing</option><option ${item[10]==='Delivered'?'selected':''}>Delivered</option></select></div>`).join('');
-               
                let proofHtml = g.pL === "Yes" ? `<b style="color:#ffae00;">PAY LATER</b>` : (g.proof && g.proof.startsWith('http') ? `<a href="${g.proof}" target="_blank" style="color:#00f0ff;">VIEW RECEIPT</a>` : `<span style="color:#ccc;">Proof: ${g.proof}</span>`);
-               
                h += `<div class="i-row" style="border-left:4px solid var(--w); display:block; margin-bottom:15px;"><b style="color:var(--w);">${gid}</b><br><span style="color:#00ff88; font-weight:bold;">${g.client} (${g.plat})</span><br><span style="font-size:0.8rem; color:var(--sub)">${g.date}</span><br><span style="font-size:0.8rem; color:var(--p)">Contact: ${g.contact}</span><br><span style="font-size:0.85rem; color:#fff;">Method: <b>${g.pM}</b> | ${proofHtml}</span><div style="margin:10px 0;">${itemsHtml}</div><div style="padding-top:10px; border-top:1px dashed #444; display:flex; justify-content:space-between; align-items:center;"><label style="color:#fff; font-weight:bold; cursor:pointer;"><input type="checkbox" ${g.paid ? 'checked' : ''} onchange="pAPI('mark_group_paid',{gid:'${gid}', paid:this.checked}, true)"> Mark Paid</label><button class="btn" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; padding:5px 10px; width:auto; margin:0;" onclick="if(confirm('Delete entire order?')) { pAPI('del_ord_group',{gid:'${gid}'},true); this.closest('.i-row').style.display='none'; }">🗑️ Delete</button></div></div>`;
             }
         } 
@@ -1016,23 +1014,18 @@
     
     function opnCart(){updC(); openModal('cart-mod');}
     
-    // 🔥 DYNAMIC CHECKOUT ENGINE
     function sPay(m){
         payM=m; 
         ['p-d17','p-mm','p-csh','p-wal'].forEach(x=>el(x).classList.remove('act'));
         el(m==='D17'?'p-d17':m==='Mandat Minute'?'p-mm':m==='Wallet'?'p-wal':'p-csh').classList.add('act'); 
         
-        let inst = el('pay-inst');
-        let proofSec = el('proof-section');
+        let inst = el('pay-inst'); let proofSec = el('proof-section');
         
         if(m === 'D17' || m === 'Mandat Minute') {
-            el('d-box-pay').style.display = 'block';
-            proofSec.style.display = 'block';
+            el('d-box-pay').style.display = 'block'; proofSec.style.display = 'block';
             if(m === 'D17') inst.innerHTML = `<span class="tr" data-k="d17Inst">${T[lang].d17Inst}</span> <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b>`;
             if(m === 'Mandat Minute') inst.innerHTML = `<span class="tr" data-k="mmInst">${T[lang].mmInst}</span> <b style="color:var(--w);font-size:1.2rem;display:block;margin-top:5px;">${T[lang].mmName}</b><b style="color:var(--p);font-size:1.3rem;letter-spacing:2px;display:block;">${T[lang].mmNum}</b>`;
-        } else {
-            el('d-box-pay').style.display = 'none';
-        }
+        } else { el('d-box-pay').style.display = 'none'; }
     }
     
     function toggleProof(isLate) {
@@ -1042,9 +1035,7 @@
 
     function handleProofUpload(e) {
         let f = e.target.files[0]; if(!f) return;
-        let reader = new FileReader();
-        reader.onload = function(ev) { proofB64 = ev.target.result; };
-        reader.readAsDataURL(f);
+        let reader = new FileReader(); reader.onload = function(ev) { proofB64 = ev.target.result; }; reader.readAsDataURL(f);
     }
     
     function sCon(c){
@@ -1052,9 +1043,7 @@
         ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); 
         el('c-'+c).classList.add('act');
         let inp = el('coC');
-        if(c==='wa') { inp.placeholder = T[lang].entWa; }
-        else if(c==='ig') { inp.placeholder = T[lang].entIg; }
-        else if(c==='fb') { inp.placeholder = T[lang].entFb; }
+        if(c==='wa') { inp.placeholder = T[lang].entWa; } else if(c==='ig') { inp.placeholder = T[lang].entIg; } else if(c==='fb') { inp.placeholder = T[lang].entFb; }
     }
     
     function opnCO(){
@@ -1067,12 +1056,9 @@
     async function finOrd(){
         let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast(T[lang].rq,true);
         
-        let txId = el('co-tx-id').value;
-        let isLate = el('co-pay-later').checked;
+        let txId = el('co-tx-id').value; let isLate = el('co-pay-later').checked;
         
-        if((payM === 'D17' || payM === 'Mandat Minute') && !isLate && !txId && !proofB64) {
-            return toast(T[lang].provId, true);
-        }
+        if((payM === 'D17' || payM === 'Mandat Minute') && !isLate && !txId && !proofB64) { return toast(T[lang].provId, true); }
         
         let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= 14) ? 5 : 0; let h = Math.max(pPct, l, f, s); 
         let total = 0; cart.forEach(i=>{ i.finalPrice=i.p-(i.p*(h/100)); total += i.finalPrice; }); 
@@ -1089,10 +1075,7 @@
             if(data.s === "ok") {
                 if(data.isPaid && payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); }
                 
-                let invoice = `🛒 *CYBERHUB ORDER*\n\n`;
-                invoice += `*Order Group ID:* ${data.gId}\n`;
-                invoice += `*Total Amount:* ${total.toFixed(2)} DT\n\n`;
-                invoice += `*--- ITEMS ---*\n`;
+                let invoice = `🛒 *CYBERHUB ORDER*\n\n*Order Group ID:* ${data.gId}\n*Total Amount:* ${total.toFixed(2)} DT\n\n*--- ITEMS ---*\n`;
                 cart.forEach(i => { invoice += `🔹 ${i.n} (ID: ${i.id})\n   Price: ${i.finalPrice.toFixed(2)} DT\n`; });
                 invoice += `\nStatus: ${data.isPaid ? 'Paid via Wallet ✅' : 'Pending Payment ⏳'}`;
 
@@ -1142,6 +1125,7 @@
     }
 
     function drawCharts(){
+        if(typeof Chart === 'undefined') return setTimeout(drawCharts, 500);
         if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; 
         db.ord.slice(1).forEach(o=>{if(o.length>3){let ir=String(o[5]).toLowerCase(); if(ir.includes("netflix")||ir.includes("spotify"))dC["Streaming"]++; else if(ir.includes("valorant")||ir.includes("gta"))dC["Gaming"]++; else dC["Other"]++; if(o[10]==="Delivered"){let dt=new Date(o[11]).toLocaleDateString(undefined,{weekday:'short',day:'numeric'}); let p=parseFloat(String(o[9]).replace(/[^0-9.]/g,'')); if(!isNaN(p)) rD[dt]=(rD[dt]||0)+p;}}});
         if(c1)c1.destroy(); c1=new Chart(el('admC'),{type:'doughnut',data:{labels:Object.keys(dC),datasets:[{data:Object.values(dC),backgroundColor:['#00f0ff','#ffae00','#fff']}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#fff'}}}}});
