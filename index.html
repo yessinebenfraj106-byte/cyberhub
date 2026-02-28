@@ -216,7 +216,7 @@
     <div style="font-size:3rem;margin-bottom:10px;">✅</div>
     <h3 style="color:#00ff88;margin-top:0;" class="tr" data-k="itmAdd">Item Added to Cart!</h3>
     <p style="color:var(--sub);font-size:0.9rem;margin-bottom:20px;" class="tr" data-k="itmSub">What would you like to do next?</p>
-    <button class="btn tr" data-k="chkNow" style="background:var(--w);color:#000;margin-bottom:10px;" onclick="closeModal('cart-prompt-mod');opnCart();opnCO();">Checkout Now</button>
+    <button class="btn tr" data-k="chkNow" style="background:var(--w);color:#000;margin-bottom:10px;" onclick="closeModal('cart-prompt-mod'); updC(); opnCO();">Checkout Now</button>
     <button class="btn tr" data-k="conShop" style="background:transparent;border:1px solid var(--p);color:var(--p);" onclick="closeModal('cart-prompt-mod');">Continue Shopping</button>
 </div></div>
 
@@ -330,6 +330,7 @@
 
 <div id="inv-mng-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="addItm">➕ Create New Item</h3>
+    <div style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">Colors will be automatically assigned based on Category.</div>
     <input type="text" id="ai-cat" placeholder="Category Name (e.g. Gaming)">
     <input type="text" id="ai-sub" placeholder="Subcategory Name (e.g. PC Games)">
     
@@ -470,7 +471,7 @@
         try {
             let r = await fetch(SURL + "?action=get_public_data");
             let d = await r.json();
-            if (d.maint !== lastMaintState) {
+            if (d.status === "success" && d.maint !== lastMaintState) {
                 lastMaintState = d.maint;
                 hMaint(d.maint);
             }
@@ -480,8 +481,18 @@
     async function initApp() {
         initParticles();
         if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
+        appLang();
         
-        el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; 
+        let cached = localStorage.getItem('ch_db_cache');
+        if(cached){ 
+            try { 
+                let d = JSON.parse(cached); 
+                if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } 
+            } catch(e){} 
+        } else {
+            el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; 
+        }
+
         try {
             let r = await fetch(SURL+"?action=get_public_data"); 
             let d = await r.json(); 
@@ -495,13 +506,10 @@
                 chkUI(); 
                 renderMkt(); 
                 buildW(); 
-                appLang(); 
-                ren(); // Ensures UI renders instantly!
+                ren(); // Ensures UI renders instantly without language change!
             } else throw "E";
         } catch(e) { 
-            let cached = localStorage.getItem('ch_db_cache');
-            if(cached){ try { db=JSON.parse(cached); chkUI(); renderMkt(); buildW(); appLang(); ren(); } catch(err){} } 
-            else el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; 
+            if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; 
         }
     }
 
@@ -511,7 +519,7 @@
         
         let categories = []; let catSubMap = {};
         db.inv.slice(1).forEach(r => {
-            if(!r || r.length<12 || (!r[10] && !r[11])) return;
+            if(!r || (!r[10] && !r[11])) return; // 🔥 Bug Fix: Replaced strict length check so items always load!
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let sub = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
             if(categories.indexOf(cat)===-1) categories.push(cat);
@@ -524,7 +532,7 @@
         let catCol = 'var(--p)'; 
 
         db.inv.slice(1).forEach(r=>{
-            if(!r || r.length<12 || (!r[10] && !r[11])) return; 
+            if(!r || (!r[10] && !r[11])) return; 
             let itmId = r[0]?String(r[0]).trim():"ID-000";
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let imgC = r[3]||'';
@@ -547,7 +555,7 @@
             
             if(q){
                 if(n.toLowerCase().includes(q) || itmId.toLowerCase().includes(q)) {
-                    sA.push({id:itmId, on:r[10]||r[11], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});
+                    if(n !== "Dummy Item") sA.push({id:itmId, on:r[10]||r[11], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app});
                 }
                 return;
             }
@@ -558,7 +566,7 @@
                 let itemData = {id:itmId, on:r[10]||r[11], n, p, oos, exReq, exTxt, wrn, col:itemHex, cat:cat, sub:app};
                 if(hasFld){
                     if(!g[fldN]) g[fldN] = {emoji: fldE, items: []};
-                    if(n !== "Dummy Item") { g[fldN].items.push(itemData); } // Ignore folder placeholders
+                    if(n !== "Dummy Item") { g[fldN].items.push(itemData); } 
                 } else {
                     if(n !== "Dummy Item") { sA.push(itemData); }
                 }
@@ -803,9 +811,6 @@
 
     function chkLoy(){return db.loy[uOrders+1]||0;}
     function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast(T[lang].scs,false);updC();} else {pPct=0;pCode="";toast(T[lang].err,true);updC();}}
-    
-    // 🔥 FIXED CHECKOUT LOGIC
-    function opnCart(){updC(); openModal('cart-mod');}
     
     function addC(eO, p, eN, hasEx){
         let id = decodeURIComponent(eO); let n = decodeURIComponent(eN);
