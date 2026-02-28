@@ -25,7 +25,6 @@
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.2s;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
         
-        /* CATEGORY FRAMES */
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
         .n-card:active{transform:scale(0.96);}
@@ -38,18 +37,15 @@
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.2s;}
         .btn:active{transform:scale(0.95);}
         
-        /* MODALS & INPUTS */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
-        input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
         
         .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--p);color:#000;padding:15px 25px;border-radius:30px;font-size:1rem;font-weight:bold;transition:0.4s;z-index:20000;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
         .toast.show{bottom:30px;}
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
         .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
         
-        /* SIDEBAR */
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;}
@@ -70,7 +66,6 @@
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, #00f0ff); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         
-        /* IN-LINE ADMIN EDITING STYLES */
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
         .admin-drag-handle:active { cursor: grabbing; }
@@ -107,7 +102,7 @@
         <div style="display:flex;gap:5px;justify-content:center;">
             <button class="btn" style="margin:0;background:#ff4d4d;color:#fff;padding:8px;" onclick="setMaint('UNTIL')">Close Store</button>
             <button class="btn" style="margin:0;background:#00ff88;color:#000;padding:8px;" onclick="setMaint('OFF')">Open Store</button>
-            <button class="btn" style="margin:0;background:#8b5cf6;color:#fff;padding:8px;" onclick="trgMsg()">📢 Alert</button>
+            <button class="btn" style="margin:0;background:#8b5cf6;color:#fff;padding:8px;" onclick="trgMsg(false)">📢 Alert</button>
         </div>
     </div>
 
@@ -125,7 +120,7 @@
         <input type="text" name="fake_username_trap" tabindex="-1">
         <input type="password" name="fake_password_trap" tabindex="-1">
     </div>
-    <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore="true" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
+    <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
     
@@ -247,18 +242,30 @@
 </div></div>
 
 <div id="co-mod" class="modal"><div class="m-cnt">
-    <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="sco">Secure Checkout</h3>
-    <div style="display:flex;gap:5px;margin-bottom:15px;"><div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div><div class="c-btn" id="p-csh" onclick="sPay('Cash')">🤝 Cash</div></div>
-    <div id="d-box" style="background:rgba(0,0,0,0.5);border-radius:10px;padding:15px;margin-bottom:15px;">Transfer: <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b></div>
-    <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
-    <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
-        <b style="font-size:0.9rem;color:#fff;" class="tr" data-k="cm">Contact Method:</b>
-        <div style="display:flex;gap:5px;margin:10px 0;"><div class="c-btn act" id="c-wa" onclick="sCon('wa')">WA</div><div class="c-btn" id="c-ig" onclick="sCon('ig')">IG</div><div class="c-btn" id="c-fb" onclick="sCon('fb')">FB</div></div>
-        <input type="text" id="coC" placeholder="@handle or Number" style="margin:0;">
+    <div id="co-form">
+        <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="sco">Secure Checkout</h3>
+        <div style="display:flex;gap:5px;margin-bottom:15px;"><div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div><div class="c-btn" id="p-csh" onclick="sPay('Cash')">🤝 Cash</div></div>
+        <div id="d-box-pay" style="background:rgba(0,0,0,0.5);border-radius:10px;padding:15px;margin-bottom:15px;">Transfer: <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b></div>
+        <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
+        <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
+            <b style="font-size:0.9rem;color:#fff;" class="tr" data-k="cm">Contact Method:</b>
+            <div style="display:flex;gap:5px;margin:10px 0;"><div class="c-btn act" id="c-wa" onclick="sCon('wa')">WA</div><div class="c-btn" id="c-ig" onclick="sCon('ig')">IG</div><div class="c-btn" id="c-fb" onclick="sCon('fb')">FB</div></div>
+            <input type="text" id="coC" placeholder="@handle or Number" style="margin:0;">
+        </div>
+        <textarea id="coNts" class="tr-ph" data-k="nts" placeholder="Comments or IDs" style="height:70px;"></textarea>
+        <button class="btn tr" data-k="plc" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
+        <button class="tr" data-k="canc" onclick="closeModal('co-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
     </div>
-    <textarea id="coNts" class="tr-ph" data-k="nts" placeholder="Comments or IDs" style="height:70px;"></textarea>
-    <button class="btn tr" data-k="plc" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
-    <button class="tr" data-k="canc" onclick="closeModal('co-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
+    
+    <div id="co-succ" style="display:none; text-align:center;">
+        <div style="font-size:3.5rem; margin-bottom:10px;">📋</div>
+        <h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2>
+        <p style="color:var(--sub); font-size:0.9rem;">Your detailed invoice has been copied to your clipboard!</p>
+        <div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div>
+        <p style="color:var(--w); font-size:0.8rem; font-weight:bold; margin-bottom:15px;">Click below to open your DM and paste the invoice to us!</p>
+        <button class="btn" id="dm-btn" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:15px; box-shadow:0 0 15px rgba(37,211,102,0.4);">💬 OPEN DM & PASTE</button>
+        <button class="tr" data-k="cls" onclick="location.reload()" style="background:none;border:none;color:var(--sub);font-weight:bold;cursor:pointer;">Close & Return</button>
+    </div>
 </div></div>
 
 <div id="wheel-modal" class="modal"><div class="m-cnt" style="overflow:hidden;">
@@ -296,9 +303,6 @@
         <button class="btn tr" data-k="invMng" style="margin:0;background:linear-gradient(90deg,var(--w),#ff4d4d);color:#fff;border:none;grid-column: span 2;" onclick="openModal('inv-mng-mod')">➕ Create New Item</button>
         <button class="btn" style="margin:0;background:rgba(255,0,0,0.2);color:#ff4d4d;border:1px solid #ff4d4d;grid-column: span 2;" onclick="trgMsg(true)">🛠️ Custom Maintenance Broadcast</button>
     </div>
-    <div style="text-align:center; margin-top:20px; color:#00ff88; font-size:0.85rem; border-top:1px dashed #333; padding-top:10px;">
-        💡 <b>Pro-Tip:</b> You can now Drag & Drop, edit prices, change names, and set Out Of Stock directly from the main store pages!
-    </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
 
@@ -318,20 +322,8 @@
             <option value="🎮">🎮 Gaming</option>
             <option value="📱">📱 Mobile</option>
             <option value="💻">💻 PC</option>
-            <option value="🎵">🎵 Music</option>
-            <option value="📺">📺 TV/Streaming</option>
-            <option value="🎧">🎧 Audio</option>
-            <option value="🔑">🔑 Keys/Access</option>
-            <option value="💎">💎 Premium</option>
-            <option value="🚀">🚀 Boost</option>
-            <option value="🎁">🎁 Gift</option>
-            <option value="⭐">⭐ Star</option>
+            <option value="📺">📺 Streaming</option>
             <option value="💰">💰 Money</option>
-            <option value="💳">💳 Card</option>
-            <option value="⚡">⚡ Lightning</option>
-            <option value="🔥">🔥 Hot/Trending</option>
-            <option value="🏆">🏆 Champion</option>
-            <option value="👑">👑 VIP/Crown</option>
         </select>
     </div>
 
@@ -368,7 +360,7 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
-    // 🔥 YOUR UPDATED SCRIPT URL 
+    // 🔥 PERFECT HARDCODED DEPLOYMENT LINK 🔥
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     
@@ -376,6 +368,7 @@
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
     let uIg=localStorage.getItem('ch_ig')||"", uWa=localStorage.getItem('ch_wa')||"", uFb=localStorage.getItem('ch_fb')||"", cngEml=false; let pC="", pP=0, pM="D17", cM="wa", rM="email", lC=0, lT, isR=false, pE, pP2; let c1, c2;
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
+    let lastMaintState = "";
     
     const T = {
       en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping" },
@@ -400,9 +393,7 @@
         return "#" + Math.round((r+m)*255).toString(16).padStart(2,'0') + Math.round((g+m)*255).toString(16).padStart(2,'0') + Math.round((b+m)*255).toString(16).padStart(2,'0');
     }
 
-    // 🔥 PERSISTENT BIOMETRICS (SAVED TO DB)
     function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
-    
     async function bioSet(iA){
         if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); 
         try{ 
@@ -438,7 +429,7 @@
     }
 
     function chkUI(){
-        if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('adm-btn').style.display='block'; el('god-crown').style.display='block';} else {el('adm-tools').style.display='none';el('adm-btn').style.display='none'; el('god-crown').style.display='none';} 
+        if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('god-crown').style.display='block';} else {el('adm-tools').style.display='none'; el('god-crown').style.display='none';} 
         let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}
     }
     
@@ -453,23 +444,44 @@
         }
     }
 
+    // 🔥 THE PULSE ENGINE (Checks for close store / instant updates every 10s)
+    setInterval(async () => {
+        try {
+            let r = await fetch(SURL + "?action=get_public_data");
+            let d = await r.json();
+            if (d.maint !== lastMaintState) {
+                lastMaintState = d.maint;
+                hMaint(d.maint);
+            }
+        } catch (e) {}
+    }, 10000);
+
     async function initApp() {
         initParticles();
         if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
-        appLang();
-        let cached = localStorage.getItem('ch_db_cache');
-        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
-        else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; }
+        
+        el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; 
         try {
-            let r = await fetch(SURL+"?action=get_public_data"); let d = await r.json(); 
+            let r = await fetch(SURL+"?action=get_public_data"); 
+            let d = await r.json(); 
             if(d.status==="success") {
                 db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl;
-                d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); 
-                d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); 
+                if (d.promo && d.promo.length > 1) { d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); }
+                if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
                 localStorage.setItem('ch_db_cache', JSON.stringify(db));
-                hMaint(d.maint||"FALSE"); chkUI(); renderMkt(); buildW(); ren();
-            } else { if(!cached) throw "E"; }
-        } catch(e) { if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; }
+                lastMaintState = d.maint || "FALSE";
+                hMaint(lastMaintState); 
+                chkUI(); 
+                renderMkt(); 
+                buildW(); 
+                appLang(); 
+                ren(); // Ensures UI renders instantly!
+            } else throw "E";
+        } catch(e) { 
+            let cached = localStorage.getItem('ch_db_cache');
+            if(cached){ try { db=JSON.parse(cached); chkUI(); renderMkt(); buildW(); appLang(); ren(); } catch(err){} } 
+            else el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; 
+        }
     }
 
     function ren(){
@@ -557,7 +569,8 @@
             sA.forEach(i=>hHtml+=dR(i)); 
             hHtml+=`</div>`;
         } 
-        a.innerHTML=hHtml; appLang();
+        a.innerHTML=hHtml; 
+        appLang(); 
 
         if(role === 'Admin') {
             let sortLists = document.querySelectorAll('#store-sort-list, .folder-sort-list');
@@ -612,8 +625,6 @@
     function gOTP(){let c='';for(let i=0;i<6;i++)c+=el('o'+i).value;return c;}
     function openProf(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; el('p-ig').value=uIg; el('p-wa').value=uWa; el('p-fb').value=uFb; openModal('prof-mod');} else {openModal('log-mod'); swA('l-step');}}
     function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
-    
-    // 🔥 LOG OUT BUG FIXED
     function logOut(){localStorage.clear(); sessionStorage.clear(); window.location.reload(true);}
     
     async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
@@ -624,10 +635,9 @@
     async function verC(){let c=gOTP(); if(c.length<6)return toast(T[lang].fill,true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast(T[lang].scs,false); closeModal('prof-mod');} else toast(T[lang].bdc,true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].bdc,true);}
     function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast(T[lang].svd,false);}
 
-    // 🔥 CUSTOM MAINTENANCE BROADCAST
     function trgMsg(isCustom){
         if(isCustom) {
-            let m=prompt("Enter custom lock-screen message (e.g., 'Store closed for updates'):");
+            let m=prompt("Enter custom lock-screen message:");
             if(!m)return; setMaint(`ANNOUNCE|||RED|||${m}`);
         } else {
             let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`);
@@ -635,7 +645,7 @@
     }
     
     function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; if(c==="RED" && role !== 'Admin') { el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML="Maintenance in progress."; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
-    function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v);}
+    function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v); lastMaintState = v;}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...","info"); try{let r=await fetch(SURL,{method:'POST',body:JSON.stringify(p)}); let d=await r.json(); if(d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}catch(e){toast(T[lang].err,true);}}
 
     async function openAdminDash() {
@@ -648,14 +658,54 @@
         } catch(e) { toast(T[lang].err, true); }
     }
 
+    // 🔥 GROUPED ORDERS VIEWER + 1-CLICK PAID
     function fAdm(t){
         el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; 
         el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
         let h=""; 
+        
         if(t==="orders"){
-            let os=[]; db.ord.slice(1).forEach(o=>{if(o[0])os.push(o);}); os.sort((a,b)=>b[0].localeCompare(a[0])); 
-            os.forEach(o=>{let sl=`<select onchange="pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:this.value},true)"><option value="Pending" ${o[9]==='Pending'?'selected':''}>Pen</option><option value="Processing" ${o[9]==='Processing'?'selected':''}>Pro</option><option value="Delivered" ${o[9]==='Delivered'?'selected':''}>Del</option></select>`; let cd=o[9]!=='Delivered'?`<input type="text" id="cr-${o[0]}" placeholder="Creds"><button class="btn" style="padding:8px;" onclick="let v=el('cr-${o[0]}').value;if(v)pAPI('upd_ord_stat',{oid:'${o[0]}',itm:'${o[4]}',stat:'Delivered',cred:v},true);else toast('${T[lang].fill}',true);">Mark</button>`:`<div style="color:#00ff88;padding:5px;border:1px dashed #00ff88;">Creds: ${o[12]}</div>`; let dl=(role==='Admin')?`<button onclick="if(confirm('Del?')){pAPI('del_ord',{oid:'${o[0]}'},true);event.target.parentElement.style.display='none';}" style="background:none;border:none;color:#ff4d4d;font-size:1.2rem;float:right;">🗑️</button>`:""; h+=`<div class="i-row" style="display:block;">${dl}<b style="color:var(--p);">${o[0]}</b><br>Usr: ${o[1]}<br>Contact: <span style="color:#25D366;font-weight:bold;">(Clickable in Sheets)</span><br>Itm: <span style="color:var(--w)">${o[4]}</span><br>Paid: ${o[8]}<div style="margin-top:5px;">${sl}</div>${cd}</div>`;});
-        } else if(t==="spins") {
+            let groups = {};
+            db.ord.slice(1).forEach(o => {
+               if(!o[0]) return; // Make sure Group ID exists
+               let gid = o[0];
+               if(!groups[gid]) groups[gid] = { client: o[2], plat: o[3], contact: o[4], date: o[11], items: [], paid: (o[14]===true || o[14]==="TRUE") };
+               groups[gid].items.push(o);
+            });
+            
+            let gKeys = Object.keys(groups).reverse(); 
+            for(let i=0; i<gKeys.length; i++) {
+               let gid = gKeys[i];
+               let g = groups[gid];
+               
+               let itemsHtml = g.items.map(item => `
+                   <div style="background:rgba(0,0,0,0.4); padding:8px; border-radius:5px; margin-bottom:5px;">
+                       - ${item[5]} <b style="color:var(--p)">(${item[9]} DT)</b><br>
+                       <span style="color:var(--sub); font-size:0.75rem;">ID: ${item[1]}</span><br>
+                       <select style="padding:4px; font-size:0.8rem; margin:3px 0;" onchange="pAPI('upd_ord_stat',{oid:'${item[1]}', stat:this.value},true)">
+                          <option ${item[10]==='Pending'?'selected':''}>Pending</option>
+                          <option ${item[10]==='Processing'?'selected':''}>Processing</option>
+                          <option ${item[10]==='Delivered'?'selected':''}>Delivered</option>
+                       </select>
+                   </div>
+               `).join('');
+               
+               h += `
+               <div class="i-row" style="border-left:4px solid var(--w); display:block; margin-bottom:15px;">
+                   <b style="color:var(--w);">${gid}</b><br>
+                   <span style="color:#00ff88; font-weight:bold;">${g.client} (${g.plat})</span><br>
+                   <span style="font-size:0.8rem; color:var(--sub)">${g.date}</span><br>
+                   <span style="font-size:0.8rem; color:var(--p)">Contact: ${g.contact}</span><br>
+                   <div style="margin:10px 0;">${itemsHtml}</div>
+                   <div style="padding-top:10px; border-top:1px dashed #444; display:flex; justify-content:space-between; align-items:center;">
+                     <label style="color:#fff; font-weight:bold; cursor:pointer;">
+                         <input type="checkbox" ${g.paid ? 'checked' : ''} onchange="pAPI('mark_group_paid',{gid:'${gid}', paid:this.checked}, true)"> Mark Entire Group Paid
+                     </label>
+                   </div>
+               </div>`;
+            }
+        } 
+        else if(t==="spins") {
             if(db.spn) { db.spn.slice(1).reverse().forEach(s => {
                 if(!s[0]) return;
                 let c = String(s[6]).includes("YES") ? "#ff4d4d" : "var(--sub)";
@@ -672,11 +722,11 @@
         el('d-box').innerHTML=h||"Empty.";
     }
     
-    async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[9]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[0]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[0]}</b> (${o[9]})<br>${o[4]}<br>${o[8]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
+    async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); try{let r=await fetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let d=await r.json(); let h=""; if(d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[10]==="Pending"?`<button class="btn" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[1]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[1]}</b> (${o[10]})<br>${o[5]}<br>${o[9]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}catch(e){}}
     
     function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Type Custom Item --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[10]||r[11]){ let n=(lang==='en'&&r[10])?r[10]:r[11]; h+=`<option value="${sEnc(n)}||${r[12]||0}">${n} (${r[12]||0} DT)</option>`;} }); } s.innerHTML=h; }
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
-    function addMnl(){pAPI('admin_order',{oid:"MNL-"+Math.floor(1e4+Math.random()*9e4),client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
+    function addMnl(){pAPI('admin_order',{client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
 
     function addNewItem() {
         let c = el('ai-cat').value, s = el('ai-sub').value, n = el('ai-nom').value, p = el('ai-prc').value;
@@ -694,7 +744,6 @@
         closeModal('req-srv-mod');
     }
 
-    // 🔥 EMJOI & COLOR DROPDOWNS FOR WHEEL EDITOR
     function openWhlEd() {
         let h=`<div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;text-align:left;font-size:0.85rem;">`;
         if(db.whl) { db.whl.slice(1).forEach((w, i) => {
@@ -702,8 +751,8 @@
             Name: <input type="text" id="we-n-${i}" value="${w[0]}" style="padding:5px;margin:2px 0;"><br>
             Emoji: <select id="we-e-${i}" style="padding:5px;margin:2px 0;">
                 <option value="${w[1]}">${w[1]} (Current)</option>
-                <option value="🔴">🔴 Red Circle</option><option value="🟠">🟠 Orange Circle</option><option value="🔵">🔵 Blue Circle</option>
-                <option value="🟣">🟣 Purple Circle</option><option value="🟢">🟢 Green Circle</option><option value="⚪">⚪ White Circle</option>
+                <option value="🔴">🔴 Red</option><option value="🟠">🟠 Orange</option><option value="🔵">🔵 Blue</option>
+                <option value="🟣">🟣 Purple</option><option value="🟢">🟢 Green</option><option value="⚪">⚪ White</option>
                 <option value="🎁">🎁 Gift</option><option value="🏆">🏆 Trophy</option><option value="💎">💎 Diamond</option>
             </select><br>
             Color: <select id="we-c-${i}" style="padding:5px;margin:2px 0;">
@@ -719,7 +768,6 @@
         h+=`</div>`; el('whl-list').innerHTML = h; openModal('whl-ed-mod');
     }
 
-    // 🔥 INSTANT CACHE OVERRIDE FIX FOR LOYALTY
     function renderMkt(){let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('del_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;margin:0;" onclick="let val=parseFloat(el('lv-${i}').value); db.loy[${i}]=val; pAPI('upd_loy',{num:${i},v:val}, true); toast('Saved!', false);">Save</button></div>`; el('l-list').innerHTML=l;}
     function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,pct:p});}
 
@@ -727,7 +775,6 @@
     function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast(T[lang].scs,false);updC();} else {pPct=0;pCode="";toast(T[lang].err,true);updC();}}
     function opnCart(){updC(); openModal('cart-mod');}
     
-    // 🔥 SMART CART PROMPT
     function addC(eO, p, eN, hasEx){
         let id = decodeURIComponent(eO); let n = decodeURIComponent(eN);
         if(hasEx) { let inp = el('ex-'+id); if(!inp || !inp.value) return toast(T[lang].fill, true); n += " (" + inp.value + ")"; inp.value = ''; }
@@ -737,16 +784,50 @@
     }
 
     function updC(){let r=cart.reduce((s,i)=>s+i.p,0); let l=chkLoy(); let h=Math.max(pPct,l); el('m-sub').innerText=r.toFixed(2)+" DT"; let pr=el('m-pr'), lr=el('m-lr'); if(pPct>0){pr.style.display='flex';el('m-pp').innerText=pPct;el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none'; if(l>0){lr.style.display='flex';el('m-lp').innerText=l;el('m-lv').innerText="-"+(r*(l/100)).toFixed(2)+" DT";} else lr.style.display='none'; el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');}
-    function sPay(m){payM=m; el('p-d17').classList.remove('act'); el('p-csh').classList.remove('act'); el(m==='D17'?'p-d17':'p-csh').classList.add('act'); el('d-box').style.display=m==='D17'?'block':'none';}
+    function sPay(m){payM=m; el('p-d17').classList.remove('act'); el('p-csh').classList.remove('act'); el(m==='D17'?'p-d17':'p-csh').classList.add('act'); el('d-box-pay').style.display=m==='D17'?'block':'none';}
     function sCon(c){cM=c; ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); el('c-'+c).classList.add('act');}
     function opnCO(){if(cart.length===0) return toast(T[lang].emp,true); closeModal('cart-mod'); if(uIg)el('coC').value=uIg; else if(uWa)el('coC').value=uWa; else if(uFb)el('coC').value=uFb; openModal('co-mod');}
     
+    // 🔥 PROFESSIONAL INVOICE & DM REDIRECT 🔥
     async function finOrd(){
         let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast(T[lang].rq,true);
-        let oid=(user==="yessinebenfraj106@gmail.com"?"TEST-":"CH-")+Math.floor(1000+Math.random()*9000);
-        let h=Math.max(chkLoy(), pPct); cart.forEach(i=>{i.name=i.id; i.price=i.p; i.finalPrice=i.p-(i.p*(h/100));}); let t=cart.reduce((s,i)=>s+i.finalPrice,0).toFixed(2);
+        let h=Math.max(chkLoy(), pPct); 
+        
+        let total = 0;
+        cart.forEach(i=>{ i.finalPrice=i.p-(i.p*(h/100)); total += i.finalPrice; }); 
+        
         el('b-fin').innerText="..."; el('b-fin').disabled=true;
-        try { await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",oid:oid,client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); let msg=`🛒 CyberHub\nID: ${oid}\nTotal: ${t} DT`; navigator.clipboard.writeText(msg).catch(e=>{}); setTimeout(()=>{if(cM==='wa') window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`); else window.open(`https://ig.me/m/yessine_ben_fraj`); closeModal('co-mod'); cart=[]; el('c-count').innerText="0"; if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} toast(T[lang].scs,false); el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false;},1000); } catch(e){el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; toast(T[lang].err,true);}
+        try { 
+            let res = await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); 
+            let data = await res.json();
+            
+            if(data.s === "ok") {
+                let invoice = `🛒 *CYBERHUB ORDER*\n\n`;
+                invoice += `*Order Group ID:* ${data.gId}\n`;
+                invoice += `*Total Amount:* ${total.toFixed(2)} DT\n\n`;
+                invoice += `*--- ITEMS ---*\n`;
+                cart.forEach(i => { invoice += `🔹 ${i.n} (ID: ${i.id})\n   Price: ${i.finalPrice.toFixed(2)} DT\n`; });
+                invoice += `\nStatus: Pending Payment`;
+
+                navigator.clipboard.writeText(invoice).catch(e=>{});
+                
+                el('co-form').style.display = 'none';
+                el('co-succ').style.display = 'block';
+                el('succ-gid').innerText = data.gId;
+                
+                let dmLinks = {
+                    wa: `https://wa.me/21629895846?text=${encodeURIComponent(invoice)}`,
+                    ig: "https://ig.me/m/yessine_ben_fraj",
+                    fb: "https://m.me/yessine_ben_fraj"
+                };
+                el('dm-btn').onclick = () => { window.open(dmLinks[cM] || dmLinks.wa); };
+
+                cart=[]; el('c-count').innerText="0"; 
+                if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} 
+                toast("Message Copied to Clipboard!", false); 
+            }
+            el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false;
+        } catch(e){el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; toast(T[lang].err,true);}
     }
 
     function buildW(){
@@ -783,7 +864,8 @@
     }
 
     function drawCharts(){
-        if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; db.ord.slice(1).forEach(o=>{if(o.length>3){let ir=String(o[4]).toLowerCase(); if(ir.includes("netflix")||ir.includes("spotify"))dC["Streaming"]++; else if(ir.includes("valorant")||ir.includes("gta"))dC["Gaming"]++; else dC["Other"]++; if(o[9]==="Delivered"){let dt=new Date(o[10]).toLocaleDateString(undefined,{weekday:'short',day:'numeric'}); let p=parseFloat(String(o[8]).replace(/[^0-9.]/g,'')); if(!isNaN(p)) rD[dt]=(rD[dt]||0)+p;}}});
+        if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; 
+        db.ord.slice(1).forEach(o=>{if(o.length>3){let ir=String(o[5]).toLowerCase(); if(ir.includes("netflix")||ir.includes("spotify"))dC["Streaming"]++; else if(ir.includes("valorant")||ir.includes("gta"))dC["Gaming"]++; else dC["Other"]++; if(o[10]==="Delivered"){let dt=new Date(o[11]).toLocaleDateString(undefined,{weekday:'short',day:'numeric'}); let p=parseFloat(String(o[9]).replace(/[^0-9.]/g,'')); if(!isNaN(p)) rD[dt]=(rD[dt]||0)+p;}}});
         if(c1)c1.destroy(); c1=new Chart(el('admC'),{type:'doughnut',data:{labels:Object.keys(dC),datasets:[{data:Object.values(dC),backgroundColor:['#00f0ff','#ffae00','#fff']}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#fff'}}}}});
         if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
     }
@@ -792,4 +874,3 @@
 </script>
 </body>
 </html>
-
