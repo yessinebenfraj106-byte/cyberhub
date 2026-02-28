@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,17 +17,19 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    
     <style>
+        /* CSS VARIABLES CONTROL THE THEME */
         :root{--p:#00f0ff;--bg:#050b14;--c:rgba(10,15,30,0.8);--b:rgba(0,240,255,0.2);--w:#ffae00;}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;transition:background 0.5s;}
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
         #particles-js{position:fixed;inset:0;z-index:-1;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
         
-        .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);}
+        .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);transition:border-color 0.5s;}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
-        .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.2s;}
-        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);}
+        .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.3s;}
+        .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px rgba(0,240,255,0.4);transition:0.5s;}
         
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
@@ -34,17 +40,20 @@
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s;}
         .i-row.sortable-ghost { opacity: 0.4; background: rgba(0,240,255,0.2); }
         
-        .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.2s;}
+        .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.3s;}
         .btn:active{transform:scale(0.95);}
+        .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
         
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px;}
-        .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px rgba(0,240,255,0.15);}
-        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;}
+        .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b);transition:0.5s;}
+        input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;transition:0.3s;}
         
-        .toast{position:fixed;bottom:-100px;left:50%;transform:translateX(-50%);background:var(--p);color:#000;padding:15px 25px;border-radius:30px;font-size:1rem;font-weight:bold;transition:0.4s;z-index:20000;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
-        .toast.show{bottom:30px;}
+        /* PREMIUM TOASTS */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 20000; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .toast.show { bottom: 40px; }
+        
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;}
-        .c-btn.act{background:rgba(0,240,255,0.15);border-color:var(--p);color:var(--p);}
+        .c-btn.act{background:var(--b);border-color:var(--p);color:var(--p);}
         
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:rgba(5,11,20,0.98);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column;}
         #sidebar.open{left:0;}
@@ -55,30 +64,35 @@
         .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
         .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
         
-        .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;}
+        .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px rgba(0,240,255,0.4);cursor:pointer;z-index:1000;border:none;transition:0.3s;}
         .fab-supp{position:fixed;bottom:105px;right:25px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
         
-        /* 🔥 UPGRADED CYBER-ROULETTE CSS */
+        /* UPGRADED CYBER-ROULETTE CSS */
         .wheel-cnt{position:relative;width:260px;height:260px;margin:20px auto;border-radius:50%;border:8px solid #222;box-shadow:0 0 40px rgba(0,240,255,0.5), inset 0 0 20px #000;overflow:hidden;}
-        .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--p);z-index:10;filter:drop-shadow(0 0 10px var(--p));}
-        .w-center{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:40px;height:40px;background:radial-gradient(circle, #555, #111);border:3px solid var(--p);border-radius:50%;z-index:5;box-shadow:0 0 15px rgba(0,0,0,0.8);}
+        .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--p);z-index:10;filter:drop-shadow(0 0 10px var(--p));transition:0.5s;}
+        .w-center{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:40px;height:40px;background:radial-gradient(circle, #555, #111);border:3px solid var(--p);border-radius:50%;z-index:5;box-shadow:0 0 15px rgba(0,0,0,0.8);transition:0.5s;}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);}
         
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;vertical-align:middle;}
         
-        .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, #00f0ff); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
+        .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
-        .admin-drag-handle:active { cursor: grabbing; }
-        .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
-        .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
+        
+        /* 🔥 NEW V90 FEATURES CSS */
+        .loyalty-banner { background: linear-gradient(90deg, #ff00ff, var(--w)); color: #fff; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; display: none; animation: glow 2s ease infinite; background-size: 200% 200%;}
+        .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
+        .ticker { position: fixed; bottom: 25px; left: -300px; background: rgba(0,0,0,0.85); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-weight: bold;}
+        .ticker.show { left: 0; }
+        .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
     </style>
 </head>
 <body>
 <div id="particles-js"></div>
 <div id="toast" class="toast"><span id="t-msg"></span></div>
+<div id="live-ticker" class="ticker"></div>
 
 <div id="sidebar">
     <button onclick="el('sidebar').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;">✖</button>
@@ -86,6 +100,7 @@
     <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
     <div class="m-item" onclick="openModal('pol-mod');el('sidebar').classList.remove('open');">📜 <span class="tr" data-k="pol">Store Policy</span></div>
     <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
+    <div class="m-item" onclick="openModal('vip-mod');el('sidebar').classList.remove('open');">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
     <div class="m-item" onclick="openModal('wheel-modal');el('sidebar').classList.remove('open');">🎁 <span class="tr" data-k="spin">Spin & Win</span></div>
     <div class="m-item" onclick="openModal('req-srv-mod');el('sidebar').classList.remove('open');">✨ <span class="tr" data-k="reqSrv">Request Service</span></div>
 </div>
@@ -95,6 +110,7 @@
         <button class="icon-btn" onclick="el('sidebar').classList.add('open')">☰ MENU</button>
         <div style="display:flex;gap:10px;">
             <button id="god-crown" class="icon-btn" onclick="openAdminDash()" style="display:none; color:#FFD700; border-color:#FFD700; font-size:1.2rem; background:rgba(255,215,0,0.1);">👑</button>
+            <button class="icon-btn" onclick="cycleTheme()" title="Change Theme">🎨</button>
             <button class="icon-btn" onclick="openProf()" style="color:var(--p);border-color:var(--p);font-size:1.2rem;">👤</button>
             <button class="icon-btn" onclick="tgLang()">🌐 <span id="l-ind">EN</span></button>
         </div>
@@ -112,7 +128,13 @@
     <div id="maint-banner" style="display:none;padding:20px;text-align:center;font-weight:bold;margin-bottom:20px;border-radius:15px;border:2px dashed var(--w);background:rgba(255,174,0,0.1);color:var(--w);">
         <div style="font-size:1.5rem;">📢 <span id="ui-m-t">ANNOUNCEMENT</span></div><div id="ui-m-m" style="margin-top:5px;"></div>
     </div>
-    <div id="loy-banner" style="display:none;background:linear-gradient(90deg,var(--w),#ff4d4d);color:#fff;padding:15px;border-radius:12px;text-align:center;font-weight:bold;margin-bottom:20px;font-size:1.1rem;">🎉 Loyalty Unlocked: <span id="l-pct">0</span>% OFF!</div>
+    
+    <div id="flash-banner" class="flash-banner">
+        <div style="font-size:1.4rem; font-weight:900;">⚡ FLASH SALE: <span id="flash-pct">0</span>% OFF!</div>
+        <div style="font-size:1.1rem; color:#fff; margin-top:5px;">Ends in: <span id="flash-cd" style="font-family:monospace; font-weight:bold; color:var(--w);">00:00:00</span></div>
+    </div>
+
+    <div id="loy-banner" class="loyalty-banner">🎉 Loyalty Unlocked: <span id="l-pct">0</span>% OFF Storewide!</div>
 
     <div style="text-align:center;margin-bottom:20px;">
         <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoClk()">
@@ -148,38 +170,44 @@
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="si">Sign In</h3>
         <button class="btn tr" data-k="bio" style="background:var(--c);color:var(--p);border:1px solid var(--p);margin-bottom:15px;margin-top:0;" onclick="bioLog(false)">📱 Use Passkey / Biometrics</button>
         <form onsubmit="event.preventDefault(); exLog();">
-            <input type="text" id="lEml" class="tr-ph" data-k="ep" autocomplete="username" placeholder="Email or Phone" required>
+            <input type="text" id="lEml" placeholder="Username, Email, or Phone" required>
             <div style="position:relative;"><input type="password" id="lPas" class="tr-ph" data-k="pw" autocomplete="current-password" placeholder="Password" required><span class="pwd-eye" onclick="togglePwd('lPas')">👁️</span></div>
             <button type="submit" class="btn tr" data-k="log">Log In</button>
         </form>
         <div style="display:flex;justify-content:space-between;margin-top:15px;font-weight:bold;font-size:0.85rem;"><span style="color:var(--p);cursor:pointer;" class="tr" data-k="ca" onclick="swA('r-step')">Create Account</span><span style="color:var(--w);cursor:pointer;" class="tr" data-k="fp" onclick="swA('rs-step')">Forgot Password?</span></div>
     </div>
+    
     <div id="r-step" style="display:none;">
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="ca">Create Account</h3>
         <div style="display:flex;gap:10px;margin-bottom:15px;"><button type="button" class="btn tr" data-k="em" style="margin:0;background:rgba(0,240,255,0.2);color:#fff;" id="b-em" onclick="sRM('email')">Email</button><button type="button" class="btn tr" data-k="ph" style="margin:0;background:rgba(255,255,255,0.05);color:#fff;" id="b-ph" onclick="sRM('phone')">Phone</button></div>
         <form onsubmit="event.preventDefault(); exReg();">
-            <input type="text" id="rCnt" class="tr-ph" data-k="em" autocomplete="username" placeholder="Email Address" required>
+            <input type="text" id="rCnt" placeholder="Name, Email, or Phone" required>
             <div style="position:relative;"><input type="password" id="rPas" class="tr-ph" data-k="cp" autocomplete="new-password" placeholder="Create Password" required><span class="pwd-eye" onclick="togglePwd('rPas')">👁️</span></div>
-            <button type="submit" class="btn tr" data-k="snd" id="b-reg">Send Code</button>
+            <button type="submit" class="btn tr" data-k="snd" id="b-reg">Send Code / Register</button>
         </form>
         <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" class="tr" data-k="bck" onclick="swA('l-step')">← Back</div>
     </div>
+    
     <div id="rs-step" style="display:none;">
-        <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="fp">Reset Password</h3>
-        <form onsubmit="event.preventDefault(); reqC(true);">
-            <input type="email" id="rsEml" class="tr-ph" data-k="em" autocomplete="username" placeholder="Email" required>
-            <div style="position:relative;"><input type="password" id="rsPas" class="tr-ph" data-k="np" autocomplete="new-password" placeholder="New Password" required><span class="pwd-eye" onclick="togglePwd('rsPas')">👁️</span></div>
-            <button type="submit" class="btn tr" data-k="rs" style="background:var(--w);">Send Reset Code</button>
-        </form>
+        <h3 style="color:var(--w);margin-top:0;">Account Recovery</h3>
+        <p style="color:var(--sub);font-size:0.85rem;">How would you like to access your account?</p>
+        <input type="text" id="rsEml" placeholder="Username, Email, or Phone" required>
+        <div style="display:flex;gap:5px;margin-top:10px;">
+            <button type="button" class="btn" style="background:var(--c);color:var(--p);border:1px solid var(--p);" onclick="reqRecover('login')">Login with Code</button>
+            <button type="button" class="btn" style="background:var(--c);color:var(--w);border:1px solid var(--w);" onclick="reqRecover('reset')">Reset Password</button>
+        </div>
         <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" class="tr" data-k="bck" onclick="swA('l-step')">← Back</div>
     </div>
+    
     <div id="c-step" style="display:none;">
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="vc">Enter Code</h3>
+        <p id="otp-msg" style="color:var(--sub);font-size:0.8rem;text-align:center;margin-bottom:15px;"></p>
         <div style="display:flex;justify-content:center;margin-bottom:15px;">
             <input type="number" id="o0" class="otp-box" onkeyup="mv(event,0)"><input type="number" id="o1" class="otp-box" onkeyup="mv(event,1)"><input type="number" id="o2" class="otp-box" onkeyup="mv(event,2)"><input type="number" id="o3" class="otp-box" onkeyup="mv(event,3)"><input type="number" id="o4" class="otp-box" onkeyup="mv(event,4)"><input type="number" id="o5" class="otp-box" onkeyup="mv(event,5)">
         </div>
         <button class="btn tr" data-k="ver" onclick="verC()">Verify & Login</button>
     </div>
+    
     <div id="a-step" style="display:none;">
         <h3 style="color:#ff4d4d;margin-top:0;" class="tr" data-k="god">God Mode</h3>
         <button class="btn" style="margin-top:0;background:var(--c);color:var(--w);border:1px solid var(--w);margin-bottom:10px;" onclick="bioLog(true)">📱 Passkey Login</button>
@@ -188,6 +216,23 @@
         <button class="btn" style="background:transparent;color:#00ff88;border:1px solid #00ff88;margin-top:0;" onclick="bioSet(true)">➕ Add Biometrics</button>
     </div>
     <button class="tr" data-k="canc" onclick="closeModal('log-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Cancel</button>
+</div></div>
+
+<div id="vip-mod" class="modal"><div class="m-cnt">
+    <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="vip">🏆 VIP Rewards</h3>
+    <p class="tr" data-k="vipDesc" style="color:var(--sub);font-size:0.9rem;margin-bottom:15px;">Earn automatic lifetime discounts by ordering more!</p>
+    
+    <div style="background:rgba(0,0,0,0.5); border:1px solid var(--w); padding:20px; border-radius:15px; text-align:center; margin-bottom:15px;">
+        <b class="tr" data-k="yOrd" style="font-size:1.1rem; color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br>
+        <b class="tr" data-k="cDisc" style="font-size:1.1rem; color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span>
+    </div>
+    
+    <div id="streak-box" style="background:rgba(0,240,255,0.1); border:1px dashed var(--p); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
+        <b style="color:var(--p); font-size:1rem;">🔥 Login Streak: <span id="vip-streak">0</span> Days</b>
+        <p style="color:var(--sub); font-size:0.8rem; margin-top:5px;">Hit 14 days in a row for a secret bonus discount!</p>
+    </div>
+    
+    <button class="tr" data-k="cls" onclick="closeModal('vip-mod')" style="background:none;border:none;color:var(--sub);font-weight:bold;cursor:pointer;width:100%;">Close</button>
 </div></div>
 
 <div id="prof-mod" class="modal"><div class="m-cnt">
@@ -231,14 +276,24 @@
 
 <div id="cart-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="crt">🛒 Cart</h3>
+    <div id="loy-cart-badge" style="display:none; background:rgba(255,174,0,0.2); border:1px solid var(--w); color:var(--w); padding:8px; border-radius:8px; text-align:center; font-size:0.85rem; font-weight:bold; margin-bottom:10px;">🌟 Loyalty Discount Applied!</div>
+    <div id="flash-cart-badge" style="display:none; background:rgba(255,77,77,0.2); border:1px solid #ff4d4d; color:#ff4d4d; padding:8px; border-radius:8px; text-align:center; font-size:0.85rem; font-weight:bold; margin-bottom:10px;">⚡ Flash Sale Active!</div>
+    <div id="streak-cart-badge" style="display:none; background:rgba(0,240,255,0.2); border:1px solid var(--p); color:var(--p); padding:8px; border-radius:8px; text-align:center; font-size:0.85rem; font-weight:bold; margin-bottom:10px;">🔥 14-Day Streak Bonus Applied!</div>
+    
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
+    
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--b);border-radius:10px;padding:15px;font-size:0.9rem;text-align:left;margin-bottom:15px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span class="tr" data-k="sub">Subtotal:</span><b id="m-sub">0 DT</b></div>
         <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%):<b id="m-pv">-0 DT</b></div>
-        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span class="tr" data-k="loy">Loyalty</span> (<span id="m-lp">0</span>%):<b id="m-lv">-0 DT</b></div>
+        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span>Auto-Discount</span> (<span id="m-lp">0</span>%):<b id="m-lv">-0 DT</b></div>
         <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span class="tr" data-k="tot">Total:</span><b id="m-tot">0 DT</b></div>
     </div>
-    <div style="display:flex;gap:5px;margin-bottom:15px;"><input type="text" id="pInp" class="tr-ph" data-k="pc" placeholder="Promo Code?" style="margin:0;"><button class="btn tr" data-k="apl" style="margin:0;width:auto;padding:0 20px;" onclick="appPrm()">Apply</button></div>
+    
+    <div style="display:flex;gap:5px;margin-bottom:15px;">
+        <input type="text" id="pInp" class="tr-ph" data-k="pc" placeholder="Promo Code? (Only 1 allowed)" style="margin:0;">
+        <button class="btn tr" id="pBtn" data-k="apl" style="margin:0;width:auto;padding:0 20px;" onclick="appPrm()">Apply</button>
+    </div>
+    
     <button class="btn tr" data-k="chk" onclick="opnCO()">Checkout</button>
     <button class="tr" data-k="clr" onclick="cart=[];updC();closeModal('cart-mod')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:pointer;margin-right:15px;">Clear</button>
     <button class="tr" data-k="cls" onclick="closeModal('cart-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Close</button>
@@ -271,9 +326,11 @@
     </div>
 </div></div>
 
-<div id="wheel-modal" class="modal"><div class="m-cnt" style="overflow:hidden;">
-    <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="spin">🎁 Spin & Win</h3>
-    <div style="color:var(--sub);font-size:0.85rem;margin-bottom:15px;" class="tr" data-k="spn">Spins reset every 48 Hours.</div>
+<div id="wheel-modal" class="modal"><div class="m-cnt" style="overflow:hidden; text-align:center;">
+    <h3 style="color:var(--w);margin-top:0;">🎁 <span class="tr" data-k="spin">Spin & Win</span></h3>
+    <div style="color:var(--sub);font-size:0.85rem;margin-bottom:5px;" class="tr" data-k="spn">Spins reset every 48 Hours.</div>
+    <p style="color:#ff4d4d; font-size:0.75rem; font-weight:bold; margin-bottom:15px;" class="tr" data-k="spnWrn">⚠️ Abuse (multiple accounts/IPs) will result in an instant ban.</p>
+    
     <div class="wheel-cnt"><div class="w-ptr"></div><div class="w-center"></div><div id="wheel"></div></div>
     <div id="w-leg" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;font-size:0.85rem;"></div>
     <button class="btn tr" data-k="sn" onclick="spinW()" id="b-spin">SPIN NOW</button>
@@ -298,14 +355,16 @@
     </div>
     <div class="grid">
         <button class="btn" style="margin:0;background:rgba(255,174,0,0.1);color:var(--w);border:1px solid var(--w);" onclick="fAdm('orders')">📦 Orders</button>
-        <button class="btn" style="margin:0;background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fAdm('users')">👥 CRM</button>
+        <button class="btn" style="margin:0;background:rgba(139,92,246,0.1);color:#8b5cf6;border:1px solid #8b5cf6;" onclick="fAdm('users')">👥 CRM VIPs</button>
         <button class="btn" style="margin:0;background:rgba(0,240,255,0.1);color:var(--p);border:1px solid var(--p);" onclick="openModal('mark-modal')">🎟️ Promos & Loyalty</button>
         <button class="btn tr" data-k="mn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
-        <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
+        <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
+        
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
+        <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
+        
         <button class="btn tr" data-k="invMng" style="margin:0;background:linear-gradient(90deg,var(--w),#ff4d4d);color:#fff;border:none;" onclick="openModal('inv-mng-mod')">➕ Add Item</button>
         <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px solid var(--w);" onclick="openModal('add-fld-mod')">📁 Add Folder</button>
-        <button class="btn" style="margin:0;background:rgba(255,0,0,0.2);color:#ff4d4d;border:1px solid #ff4d4d;grid-column: span 2;" onclick="trgMsg(true)">🛠️ Custom Maintenance Broadcast</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -382,29 +441,96 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
 <script>
-    // 🔥 PERFECT HARDCODED DEPLOYMENT LINK 🔥
     const SURL = "https://script.google.com/macros/s/AKfycbxJD4ZYi6DUvQBkrfh0Fq_1XcoWRkWpDvNP4Itd9loskiGw96gyvOLPXpWb2WqAjv1z/exec";
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
-    let uIg=localStorage.getItem('ch_ig')||"", uWa=localStorage.getItem('ch_wa')||"", uFb=localStorage.getItem('ch_fb')||"", cngEml=false; let pC="", pP=0, pM="D17", cM="wa", rM="email", lC=0, lT, isR=false, pE, pP2; let c1, c2;
+    let uIg=localStorage.getItem('ch_ig')||"", uWa=localStorage.getItem('ch_wa')||"", uFb=localStorage.getItem('ch_fb')||"", cngEml=false; 
+    let pCode="", pPct=0, pM="D17", cM="wa", rM="email", lC=0, lT, isR=false, pE, pP2, loginMode="pass"; let c1, c2;
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     let lastMaintState = "";
     
+    // 🔥 NEW VARIABLES FOR V90
+    let globalFlashPct = 0;
+    let loginStreak = 0;
+    
     const T = {
-      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "🎁 Spin & Win", god: "🛠️ God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping" },
-      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "🎁 Jouer & Gagner", god: "🛠️ Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article", itmAdd: "Article ajouté au panier!", itmSub: "Que voulez-vous faire ensuite?", chkNow: "Commander", conShop: "Continuer les achats" }
+      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse (multiple accounts/IPs) will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:" },
+      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article", itmAdd: "Article ajouté au panier!", itmSub: "Que voulez-vous faire ensuite?", chkNow: "Commander", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus (comptes/IP multiples) entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :" }
     };
 
     function el(i){return document.getElementById(i);}
-    function toast(m, e=false){let t=el('toast');el('t-msg').innerText=m;t.style.background=e?"#ff4d4d":"#00ff88";t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+    
+    // 🔥 PREMIUM TOAST ENGINE
+    function toast(m, type = 'success') {
+        let t = el('toast'); let icon = '', color = '';
+        if (type === false) type = 'success'; if (type === true) type = 'error';
+        if (type === 'success') { icon = '✅'; color = '#00ff88'; } 
+        else if (type === 'error') { icon = '🚨'; color = '#ff4d4d'; } 
+        else if (type === 'info') { icon = '⚡'; color = '#00f0ff'; }
+        el('t-msg').innerHTML = `<span style="font-size:1.2rem; margin-right:8px; vertical-align:middle;">${icon}</span><span style="color:${color}; text-shadow:0 0 10px ${color}80; vertical-align:middle;">${m}</span>`;
+        t.style.border = `1px solid ${color}80`;
+        t.style.boxShadow = `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${color}30`;
+        t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    
     function openModal(i){el(i).style.display='flex';document.body.classList.add('modal-open');}
     function closeModal(i){el(i).style.display='none';document.body.classList.remove('modal-open');}
     function toggleSidebar(){el('sidebar').classList.toggle('open');}
     function togglePwd(i){el(i).type=el(i).type==="password"?"text":"password";}
     function swA(i){['l-step','r-step','rs-step','c-step','a-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
-    function navTo(t, c, a){ cView.t=t; cView.c=c?decodeURIComponent(c):null; cView.a=a?decodeURIComponent(a):null; el('itemFinder').value=""; ren(); }
+    function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
+    
+    // 🔥 THEME SWITCHER ENGINE
+    const themes = [
+        {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14'},
+        {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108'},
+        {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515'}
+    ];
+    let curTheme = parseInt(localStorage.getItem('ch_theme')||0);
+    function applyTheme() {
+        let t = themes[curTheme];
+        document.documentElement.style.setProperty('--p', t.p);
+        document.documentElement.style.setProperty('--w', t.w);
+        document.documentElement.style.setProperty('--bg', t.bg);
+    }
+    function cycleTheme() {
+        curTheme = (curTheme + 1) % themes.length;
+        localStorage.setItem('ch_theme', curTheme);
+        applyTheme();
+        toast("Theme: " + themes[curTheme].n, "info");
+    }
+    applyTheme(); // Run on load
+    
+    // 🔥 LOGIN STREAK ENGINE
+    function calcStreak() {
+        if(!user) return 0;
+        let lastLogStr = localStorage.getItem('ch_last_log');
+        let streak = parseInt(localStorage.getItem('ch_streak')||0);
+        let today = new Date().toDateString();
+        if(lastLogStr === today) return streak; 
+        
+        let yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+        if(lastLogStr === yesterday.toDateString()) { streak++; } else { streak = 1; }
+        
+        localStorage.setItem('ch_last_log', today);
+        localStorage.setItem('ch_streak', streak);
+        return streak;
+    }
+
+    let catSubMapGlobal = {};
+    function navTo(t, c, a){ 
+        cView.t=t; cView.c=c?decodeURIComponent(c):null; cView.a=a?decodeURIComponent(a):null; 
+        if(t === 'apps' && cView.c) {
+            let subs = catSubMapGlobal[cView.c];
+            if(!subs || subs.length === 0 || (subs.length === 1 && (subs[0] === 'General' || subs[0] === ''))) {
+                cView.t = 'items'; cView.a = subs ? subs[0] : 'General';
+            }
+        }
+        if(t === 'items' && !a) { cView.t = 'cats'; cView.c = null; } 
+        el('itemFinder').value=""; ren(); 
+    }
     
     function tgLang(){lang=lang==='en'?'fr':'en'; localStorage.setItem('ch_lng',lang); appLang(); ren();}
     function appLang(){ el('l-ind').innerText=lang.toUpperCase(); document.querySelectorAll('.tr').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.innerText = T[lang][e.getAttribute('data-k')]; }); document.querySelectorAll('.tr-ph').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.placeholder = T[lang][e.getAttribute('data-k')]; }); ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>e.innerText=T[lang][k]);}); }
@@ -417,7 +543,7 @@
 
     function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
     async function bioSet(iA){
-        if(iA && el('aPas').value!=="26240608") return toast(T[lang].err,true); 
+        if(iA && el('aPas').value!=="26240608") return toast(T[lang].admErr,true); 
         try{ 
             let c=new Uint8Array(32); crypto.getRandomValues(c); 
             let cred = await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); 
@@ -428,14 +554,14 @@
     }
     
     async function bioLog(iA){
-        if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].err,true); 
+        if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].admErr,true); 
         try{ 
             let c=new Uint8Array(32); crypto.getRandomValues(c); 
             let cred = await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); 
             let bioId = buf2hex(cred.rawId);
             
             if(iA){
-                user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openAdminDash();
+                user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false); chkUI(); openAdminDash();
                 localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role);
             }else{
                 toast("Verifying Passkey...", "info");
@@ -444,7 +570,7 @@
                 if(d.s === 'ok') {
                     user=d.c; pass=d.p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; 
                     localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_bU',user);
-                    closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();
+                    loginStreak = calcStreak(); closeModal('log-mod'); toast("Welcome back!",false); chkUI(); ren();
                 } else if(d.s === 'banned') { toast(T[lang].bnc,true); } else { toast(T[lang].err,true); }
             }
         }catch(e){toast(T[lang].err,true);}
@@ -452,7 +578,9 @@
 
     function chkUI(){
         if(role==="Admin"||role==="Support"){el('adm-tools').style.display='block';el('god-crown').style.display='block';} else {el('adm-tools').style.display='none'; el('god-crown').style.display='none';} 
-        let lp=db.loy[uOrders+1]||0; if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}
+        let lp=db.loy[uOrders+1]||0; 
+        if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}
+        if(el('vip-ord-cnt')) { el('vip-ord-cnt').innerText = uOrders; el('vip-disc-pct').innerText = lp + "%"; el('vip-streak').innerText = loginStreak; }
     }
     
     function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
@@ -466,32 +594,55 @@
         }
     }
 
-    // 🔥 THE PULSE ENGINE (Checks for close store / instant updates every 10s)
+    // 🔥 THE LIVE TICKER & FLASH ENGINE (PULSE)
     setInterval(async () => {
         try {
             let r = await fetch(SURL + "?action=get_public_data");
             let d = await r.json();
-            if (d.status === "success" && d.maint !== lastMaintState) {
-                lastMaintState = d.maint;
-                hMaint(d.maint);
+            if (d.status === "success") {
+                if(d.maint !== lastMaintState) { lastMaintState = d.maint; hMaint(d.maint); }
+                updateFlash(d.flash);
             }
         } catch (e) {}
     }, 10000);
 
+    function updateFlash(flashStr) {
+        if(!flashStr) { el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+        let p = flashStr.split('|||');
+        let endMs = parseInt(p[0]), pct = parseInt(p[1]);
+        if(Date.now() > endMs) { el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+        
+        el('flash-banner').style.display='block'; el('flash-pct').innerText = pct; globalFlashPct = pct;
+        
+        if(window.flashInt) clearInterval(window.flashInt);
+        window.flashInt = setInterval(()=>{
+            let diff = endMs - Date.now();
+            if(diff <= 0) { clearInterval(window.flashInt); el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+            let h = Math.floor(diff / 3600000); let m = Math.floor((diff % 3600000) / 60000); let s = Math.floor((diff % 60000) / 1000);
+            el('flash-cd').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }, 1000);
+    }
+    
+    function trigFlash() {
+        let hrs = prompt("Start Flash Sale! How many hours? (Type 0 to cancel)");
+        if(!hrs) return;
+        if(hrs === "0") { pAPI('set_flash_sale', {v: ""}, true); return; }
+        let pct = prompt("Enter Discount Percentage (e.g. 15):");
+        if(pct) {
+            let ms = Date.now() + (parseFloat(hrs) * 3600000);
+            pAPI('set_flash_sale', {v: ms + "|||" + pct}, true);
+            toast("Flash Sale Started!", false);
+        }
+    }
+
     async function initApp() {
         initParticles();
         if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
-        appLang();
+        appLang(); loginStreak = calcStreak();
         
         let cached = localStorage.getItem('ch_db_cache');
-        if(cached){ 
-            try { 
-                let d = JSON.parse(cached); 
-                if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } 
-            } catch(e){} 
-        } else {
-            el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; 
-        }
+        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); } } catch(e){} } 
+        else { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;color:var(--p);font-weight:bold;">${T[lang].ld}</div>`; }
 
         try {
             let r = await fetch(SURL+"?action=get_public_data"); 
@@ -502,29 +653,46 @@
                 if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
                 localStorage.setItem('ch_db_cache', JSON.stringify(db));
                 lastMaintState = d.maint || "FALSE";
-                hMaint(lastMaintState); 
-                chkUI(); 
-                renderMkt(); 
-                buildW(); 
-                ren(); // Ensures UI renders instantly without language change!
+                hMaint(lastMaintState); updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
+                
+                // Start Live Ticker
+                if(d.rec && d.rec.length > 0 && !window.tickerRunning) {
+                    window.tickerRunning = true; let tIdx = 0;
+                    setInterval(() => {
+                        let tEl = el('live-ticker'); if(!tEl) return;
+                        let item = d.rec[tIdx];
+                        if(item) {
+                            tEl.innerHTML = `🛍️ <b style="color:var(--p)">${item.n}</b> bought <b style="color:var(--w)">${item.i}</b>!`;
+                            tEl.classList.add('show'); setTimeout(()=>tEl.classList.remove('show'), 4500);
+                        }
+                        tIdx = (tIdx + 1) % d.rec.length;
+                    }, 15000);
+                }
             } else throw "E";
         } catch(e) { 
             if(!cached) el('st-cnt').innerHTML=`<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌</div>`; 
         }
     }
 
+    // 🔥 SEARCH HIGHLIGHTER
+    function highlightMatch(text, q) {
+        if(!q) return text;
+        let regex = new RegExp(`(${q})`, "gi");
+        return text.replace(regex, "<span class='hl-search'>$1</span>");
+    }
+
     function ren(){
         let hHtml=""; let a=el('st-cnt'); let q=el('itemFinder').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`; return; }
         
-        let categories = []; let catSubMap = {};
+        let categories = []; catSubMapGlobal = {};
         db.inv.slice(1).forEach(r => {
-            if(!r || (!r[10] && !r[11])) return; // 🔥 Bug Fix: Replaced strict length check so items always load!
+            if(!r || (!r[10] && !r[11])) return; 
             let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
             let sub = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
             if(categories.indexOf(cat)===-1) categories.push(cat);
-            if(!catSubMap[cat]) catSubMap[cat] = [];
-            if(catSubMap[cat].indexOf(sub)===-1) catSubMap[cat].push(sub);
+            if(!catSubMapGlobal[cat]) catSubMapGlobal[cat] = [];
+            if(catSubMapGlobal[cat].indexOf(sub)===-1) catSubMapGlobal[cat].push(sub);
         });
         
         let distinctHues = [210, 140, 280, 25, 320, 50, 180, 250, 350, 80, 200, 300];
@@ -548,7 +716,7 @@
             let wrn=(lang==='en' && r[16]) ? String(r[16]) : (r[17] ? String(r[17]) : "");
             
             let catIndex = categories.indexOf(cat);
-            let subIndex = catSubMap[cat].indexOf(app);
+            let subIndex = catSubMapGlobal[cat].indexOf(app);
             let catHue = distinctHues[catIndex % distinctHues.length];
             let itemHex = hslToHex(catHue, shades[subIndex % shades.length][0], shades[subIndex % shades.length][1]);
             if (cView.c === cat) { catCol = `hsl(${catHue},80%,60%)`; }
@@ -575,7 +743,7 @@
 
         if(q){ 
             if(sA.length===0) hHtml=`<div style="text-align:center;color:var(--sub);">Empty.</div>`; 
-            else { hHtml += `<div id="store-sort-list">`; sA.forEach(i=>hHtml+=dR(i)); hHtml += `</div>`; }
+            else { hHtml += `<div id="store-sort-list">`; sA.forEach(i=>hHtml+=dR(i, q)); hHtml += `</div>`; }
         } 
         else if(cView.t==='cats'){ 
             hHtml+=`<div class="grid">`; 
@@ -616,13 +784,15 @@
         }
     }
     
-    function dR(i){
+    function dR(i, q=""){
         let eO=sEnc(i.id), eN=sEnc(i.n); 
         let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : '';
         let extHtml = i.exReq ? `<input type="text" id="ex-${i.id}" placeholder="${i.exTxt}" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">` : '';
         let btnCol = i.col || 'var(--p)';
         let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol}; opacity:0.8;">▶</span> ${i.sub}</div>` : '';
         let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>${T[lang].oos}</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}', ${i.exReq})">${T[lang].add}</button>`; 
+        
+        let nDisp = q ? highlightMatch(i.n, q) : i.n;
         
         let admBar = "";
         if(role === 'Admin') {
@@ -639,7 +809,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                 <div style="flex:1;">
                     ${catHtml}
-                    <span style="font-weight:900;font-size:1.15rem;color:#fff;">${i.n}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}
+                    <span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span>${i.oos?'<span class="oos-tag">OOS</span>':''}
                     <br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>
                     <br><b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>
                     ${wrnHtml}
@@ -656,12 +826,42 @@
     function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
     function logOut(){localStorage.clear(); sessionStorage.clear(); window.location.reload(true);}
     
-    async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
-    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openAdminDash();} else toast(T[lang].err,true);}
+    async function exLog(){let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); let d=await r.json(); if(d.s==="ok"){user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); loginStreak = calcStreak(); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); ren();} else if(d.s==="banned") toast(T[lang].bnc,true); else toast(T[lang].ic,true);}
+    
+    function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openAdminDash();} else toast(T[lang].admErr,true);}
+    
     function sRM(m){rM=m; el('b-em').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('b-ph').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('rCnt').placeholder=m==='email'?'Email':'Phone'; el('b-reg').innerText=T[lang].snd;}
-    async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast(T[lang].fill,true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); let d=await r.json(); el('b-reg').disabled=false; if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].err,true);} else {el('b-reg').disabled=true; await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); toast(T[lang].cd,false);}}
-    async function reqC(res, nE){isR=res; if(nE) {cngEml=true; pE=nE;} else {cngEml=false; pE=res?el('rsEml').value:pE; pP2=res?el('rsPas').value:pP2;} await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); if(!cngEml)swA('c-step'); toast(T[lang].cd,false);}
-    async function verC(){let c=gOTP(); if(c.length<6)return toast(T[lang].fill,true); if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast(T[lang].scs,false); closeModal('prof-mod');} else toast(T[lang].bdc,true); return;} let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].bdc,true);}
+    
+    async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast(T[lang].fill,true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); let d=await r.json(); el('b-reg').disabled=false; if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role); loginStreak = calcStreak(); closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].err,true);} else {el('b-reg').disabled=true; await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); el('otp-msg').innerText = "Code sent to: " + maskEm(pE); toast(T[lang].cd,false);}}
+    
+    async function reqRecover(mode){
+        pE = el('rsEml').value;
+        if(!pE) return toast(T[lang].fill, true);
+        loginMode = mode; 
+        fetch(SURL, {method:'POST', body:JSON.stringify({act:'req_code', eml:pE})});
+        toast(T[lang].cd, false);
+        el('otp-msg').innerText = "Code sent to: " + maskEm(pE);
+        swA('c-step');
+    }
+    
+    async function reqC(res, nE){isR=res; if(nE) {cngEml=true; pE=nE;} else {cngEml=false; pE=res?el('rsEml').value:pE; pP2=res?el('rsPas').value:pP2;} await fetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); if(!cngEml){swA('c-step'); el('otp-msg').innerText = "Code sent to: " + maskEm(pE);} toast(T[lang].cd,false);}
+    
+    async function verC(){
+        let c=gOTP(); if(c.length<6)return toast(T[lang].fill,true); 
+        if(loginMode === 'login' || loginMode === 'reset') {
+            let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:'passwordless',code:c})}); 
+            let d=await r.json(); 
+            if(d.s==='exists' || d.s==='ok'){
+                user=pE; localStorage.setItem('ch_user',user); loginStreak = calcStreak();
+                if(loginMode === 'reset') { let nP = prompt("Enter your new password:"); if(nP){ pass=nP; localStorage.setItem('ch_pass', pass); toast("Password Updated", false);} }
+                closeModal('log-mod'); toast("Logged In Successfully!",false); chkUI(); ren();
+            } else { toast(T[lang].bdc,true); }
+            loginMode = "pass"; return;
+        }
+        if(cngEml){let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'change_email',oldEml:user,newEml:pE,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE; localStorage.setItem('ch_user',user); toast(T[lang].scs,false); closeModal('prof-mod');} else toast(T[lang].bdc,true); return;} 
+        let r=await fetch(SURL,{method:'POST',body:JSON.stringify({act:'verify_reg',c:pE,p:pP2,code:c})}); let d=await r.json(); if(d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role); loginStreak = calcStreak(); closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].bdc,true);
+    }
+    
     function saveSoc(){uIg=el('p-ig').value; uWa=el('p-wa').value; uFb=el('p-fb').value; localStorage.setItem('ch_ig',uIg); localStorage.setItem('ch_wa',uWa); localStorage.setItem('ch_fb',uFb); pAPI('upd_soc',{c:user,ig:uIg,wa:uWa,fb:uFb},true); toast(T[lang].svd,false);}
 
     function trgMsg(isCustom){
@@ -687,7 +887,7 @@
         } catch(e) { toast(T[lang].err, true); }
     }
 
-    // 🔥 DB VIEWER WITH ORDER DELETION & GROUP LOGIC
+    // 🔥 CRM VIP BADGES ENGINE
     function fAdm(t){
         el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; 
         el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
@@ -704,50 +904,26 @@
             
             let gKeys = Object.keys(groups).reverse(); 
             for(let i=0; i<gKeys.length; i++) {
-               let gid = gKeys[i];
-               let g = groups[gid];
-               
-               let itemsHtml = g.items.map(item => `
-                   <div style="background:rgba(0,0,0,0.4); padding:8px; border-radius:5px; margin-bottom:5px;">
-                       - ${item[5]} <b style="color:var(--p)">(${item[9]} DT)</b><br>
-                       <span style="color:var(--sub); font-size:0.75rem;">ID: ${item[1]}</span><br>
-                       <select style="padding:4px; font-size:0.8rem; margin:3px 0;" onchange="pAPI('upd_ord_stat',{oid:'${item[1]}', stat:this.value},true)">
-                          <option ${item[10]==='Pending'?'selected':''}>Pending</option>
-                          <option ${item[10]==='Processing'?'selected':''}>Processing</option>
-                          <option ${item[10]==='Delivered'?'selected':''}>Delivered</option>
-                       </select>
-                   </div>
-               `).join('');
-               
-               h += `
-               <div class="i-row" style="border-left:4px solid var(--w); display:block; margin-bottom:15px;">
-                   <b style="color:var(--w);">${gid}</b><br>
-                   <span style="color:#00ff88; font-weight:bold;">${g.client} (${g.plat})</span><br>
-                   <span style="font-size:0.8rem; color:var(--sub)">${g.date}</span><br>
-                   <span style="font-size:0.8rem; color:var(--p)">Contact: ${g.contact}</span><br>
-                   <div style="margin:10px 0;">${itemsHtml}</div>
-                   <div style="padding-top:10px; border-top:1px dashed #444; display:flex; justify-content:space-between; align-items:center;">
-                     <label style="color:#fff; font-weight:bold; cursor:pointer;">
-                         <input type="checkbox" ${g.paid ? 'checked' : ''} onchange="pAPI('mark_group_paid',{gid:'${gid}', paid:this.checked}, true)"> Mark Paid
-                     </label>
-                     <button class="btn" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; padding:5px 10px; width:auto; margin:0;" onclick="if(confirm('Delete entire order?')) { pAPI('del_ord_group',{gid:'${gid}'},true); this.closest('.i-row').style.display='none'; }">🗑️ Delete</button>
-                   </div>
-               </div>`;
+               let gid = gKeys[i]; let g = groups[gid];
+               let itemsHtml = g.items.map(item => `<div style="background:rgba(0,0,0,0.4); padding:8px; border-radius:5px; margin-bottom:5px;">- ${item[5]} <b style="color:var(--p)">(${item[9]} DT)</b><br><span style="color:var(--sub); font-size:0.75rem;">ID: ${item[1]}</span><br><select style="padding:4px; font-size:0.8rem; margin:3px 0;" onchange="pAPI('upd_ord_stat',{oid:'${item[1]}', stat:this.value},true)"><option ${item[10]==='Pending'?'selected':''}>Pending</option><option ${item[10]==='Processing'?'selected':''}>Processing</option><option ${item[10]==='Delivered'?'selected':''}>Delivered</option></select></div>`).join('');
+               h += `<div class="i-row" style="border-left:4px solid var(--w); display:block; margin-bottom:15px;"><b style="color:var(--w);">${gid}</b><br><span style="color:#00ff88; font-weight:bold;">${g.client} (${g.plat})</span><br><span style="font-size:0.8rem; color:var(--sub)">${g.date}</span><br><span style="font-size:0.8rem; color:var(--p)">Contact: ${g.contact}</span><br><div style="margin:10px 0;">${itemsHtml}</div><div style="padding-top:10px; border-top:1px dashed #444; display:flex; justify-content:space-between; align-items:center;"><label style="color:#fff; font-weight:bold; cursor:pointer;"><input type="checkbox" ${g.paid ? 'checked' : ''} onchange="pAPI('mark_group_paid',{gid:'${gid}', paid:this.checked}, true)"> Mark Paid</label><button class="btn" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; padding:5px 10px; width:auto; margin:0;" onclick="if(confirm('Delete entire order?')) { pAPI('del_ord_group',{gid:'${gid}'},true); this.closest('.i-row').style.display='none'; }">🗑️ Delete</button></div></div>`;
             }
         } 
         else if(t==="spins") {
             if(db.spn) { db.spn.slice(1).reverse().forEach(s => {
                 if(!s[0]) return;
                 let c = String(s[6]).includes("YES") ? "#ff4d4d" : "var(--sub)";
-                h += `<div class="i-row" style="border-left:3px solid ${c}; display:block;">
-                    <b style="color:var(--w)">${s[4]}</b> - ${s[1]}<br>
-                    <span style="font-size:0.8rem">Date: ${s[0]}</span><br>
-                    <span style="font-size:0.8rem;color:var(--p)">IP: ${s[2]}</span><br>
-                    <span style="font-size:0.8rem;color:${c};font-weight:bold;">Flag: ${s[6]} | Status: ${s[7]}</span>
-                </div>`;
+                h += `<div class="i-row" style="border-left:3px solid ${c}; display:block;"><b style="color:var(--w)">${s[4]}</b> - ${s[1]}<br><span style="font-size:0.8rem">Date: ${s[0]}</span><br><span style="font-size:0.8rem;color:var(--p)">IP: ${s[2]}</span><br><span style="font-size:0.8rem;color:${c};font-weight:bold;">Flag: ${s[6]} | Status: ${s[7]}</span></div>`;
             });}
         } else {
-            db.usr.slice(1).forEach(u=>{if(u[0]){let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; h+=`<div class="i-row" style="display:block;"><b>${u[0]}</b><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;}});
+            let sortedUsr = [...db.usr.slice(1)].sort((a,b)=> parseFloat(b[11]||0) - parseFloat(a[11]||0));
+            let top5 = sortedUsr.slice(0,5).map(u => u[0]);
+            
+            db.usr.slice(1).forEach(u=>{if(u[0]){
+                let isVIP = top5.includes(u[0]) ? " 👑 <span style='color:var(--w);font-size:0.8rem;'>VIP</span>" : "";
+                let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; 
+                h+=`<div class="i-row" style="display:block;"><b>${u[0]}${isVIP}</b><br><span style="color:#00ff88;font-size:0.85rem;font-weight:bold;">Spent: ${u[11]||0} DT</span><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);padding:8px;margin:0;" onclick="pAPI('ban_user',{target:'${u[0]}'},true)">Ban</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;
+            }});
         } 
         el('d-box').innerHTML=h||"Empty.";
     }
@@ -758,7 +934,6 @@
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user}); closeModal('mnl-ord-mod');}
 
-    // 🔥 CREATE FOLDER ENGINE
     function createFolder() {
         let c = el('af-cat').value, s = el('af-sub').value, n = el('af-nom').value, e = el('af-emo').value;
         if(!c || !n) return toast(T[lang].fill, true);
@@ -807,10 +982,21 @@
     }
 
     function renderMkt(){let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('del_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;margin:0;" onclick="let val=parseFloat(el('lv-${i}').value); db.loy[${i}]=val; pAPI('upd_loy',{num:${i},v:val}, true); toast('Saved!', false);">Save</button></div>`; el('l-list').innerHTML=l;}
+    
     function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,pct:p});}
 
     function chkLoy(){return db.loy[uOrders+1]||0;}
-    function appPrm(){let c=el('pInp').value.toUpperCase(); if(db.promo[c]){pPct=db.promo[c];pCode=c;toast(T[lang].scs,false);updC();} else {pPct=0;pCode="";toast(T[lang].err,true);updC();}}
+    function appPrm(){
+        let c=el('pInp').value.toUpperCase(); 
+        if(db.promo[c]){
+            pPct=db.promo[c]; pCode=c; 
+            toast(T[lang].scs,false); 
+            el('pBtn').innerText = "Applied!"; el('pBtn').disabled = true; el('pInp').disabled = true;
+            updC();
+        } else {
+            pPct=0; pCode=""; toast(T[lang].err,true); updC();
+        }
+    }
     
     function addC(eO, p, eN, hasEx){
         let id = decodeURIComponent(eO); let n = decodeURIComponent(eN);
@@ -820,7 +1006,39 @@
         openModal('cart-prompt-mod');
     }
 
-    function updC(){let r=cart.reduce((s,i)=>s+i.p,0); let l=chkLoy(); let h=Math.max(pPct,l); el('m-sub').innerText=r.toFixed(2)+" DT"; let pr=el('m-pr'), lr=el('m-lr'); if(pPct>0){pr.style.display='flex';el('m-pp').innerText=pPct;el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT";} else pr.style.display='none'; if(l>0){lr.style.display='flex';el('m-lp').innerText=l;el('m-lv').innerText="-"+(r*(l/100)).toFixed(2)+" DT";} else lr.style.display='none'; el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');}
+    // 🔥 SMART CART DISCOUNT CALCULATOR (Promo + Loy + Flash + Streak)
+    function updC(){
+        let r = cart.reduce((s,i)=>s+i.p,0); 
+        let l = chkLoy(); 
+        let f = globalFlashPct || 0;
+        let s = (loginStreak >= 14) ? 5 : 0;
+        
+        // Find highest single discount
+        let h = Math.max(pPct, l, f, s); 
+        
+        el('m-sub').innerText=r.toFixed(2)+" DT"; 
+        
+        let pr=el('m-pr'), lr=el('m-lr');
+        let loyBadge = el('loy-cart-badge'), flashBadge = el('flash-cart-badge'), streakBadge = el('streak-cart-badge');
+        loyBadge.style.display='none'; flashBadge.style.display='none'; streakBadge.style.display='none';
+
+        if(pPct > 0) { pr.style.display='flex'; el('m-pp').innerText=pPct; el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT"; } 
+        else { pr.style.display='none'; }
+        
+        if (h > 0 && h !== pPct) {
+            lr.style.display='flex'; el('m-lp').innerText=h; el('m-lv').innerText="-"+(r*(h/100)).toFixed(2)+" DT";
+            if (h === f) { flashBadge.style.display='block'; }
+            else if (h === s && s > l) { streakBadge.style.display='block'; }
+            else { loyBadge.style.display='block'; }
+        } else {
+            lr.style.display='none';
+        }
+        
+        el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; 
+        el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
+    }
+    
+    function opnCart(){updC(); openModal('cart-mod');}
     function sPay(m){payM=m; el('p-d17').classList.remove('act'); el('p-csh').classList.remove('act'); el(m==='D17'?'p-d17':'p-csh').classList.add('act'); el('d-box-pay').style.display=m==='D17'?'block':'none';}
     function sCon(c){cM=c; ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); el('c-'+c).classList.add('act');}
     
@@ -831,17 +1049,18 @@
         openModal('co-mod');
     }
     
-    // 🔥 PROFESSIONAL INVOICE & DM REDIRECT
     async function finOrd(){
         let n=el('coN').value, c=el('coC').value, cm=el('coNts').value; if(!n||!c) return toast(T[lang].rq,true);
-        let h=Math.max(chkLoy(), pPct); 
+        
+        let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= 14) ? 5 : 0;
+        let h = Math.max(pPct, l, f, s); 
         
         let total = 0;
         cart.forEach(i=>{ i.finalPrice=i.p-(i.p*(h/100)); total += i.finalPrice; }); 
         
         el('b-fin').innerText="..."; el('b-fin').disabled=true;
         try { 
-            let res = await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:chkLoy(),comments:cm,c:user||"Guest"})}); 
+            let res = await fetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:h,comments:cm,c:user||"Guest"})}); 
             let data = await res.json();
             
             if(data.s === "ok") {
