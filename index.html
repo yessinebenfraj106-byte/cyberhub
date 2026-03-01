@@ -49,6 +49,7 @@
         .btn:active{transform:scale(0.95);}
         .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
         
+        /* SMOOTH MODAL ANIMATION */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
@@ -160,6 +161,7 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
+    <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
     <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
@@ -460,8 +462,6 @@
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
-        
-        <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -582,7 +582,7 @@
     function swA(i){['l-step','r-step','rs-step','c-step','a-step','2fa-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
     function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
     
-    // 🔥 FAIL-SAFE chkUI (Fixes the crash)
+    // 🔥 FAIL-SAFE chkUI
     function chkUI(){
         if(role==="Admin"||role==="Support"){
             if(el('adm-tools')) el('adm-tools').style.display='block'; 
@@ -654,29 +654,6 @@
         } else { toast("Invalid Authenticator Code!", true); }
     }
 
-    // CAPTCHA STREAK
-    function checkStreak() {
-        if(!user) return 0;
-        let lastLogStr = localStorage.getItem('ch_last_log'); let streak = parseInt(localStorage.getItem('ch_streak')||0); let today = new Date().toDateString();
-        if(lastLogStr === today) return streak; 
-        
-        let yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-        let n1 = Math.floor(Math.random() * 10) + 1; let n2 = Math.floor(Math.random() * 10) + 1;
-        captchaCorrect = n1 + n2; el('cap-math').innerText = `${n1} + ${n2} = ?`;
-        
-        window.tempStreakObj = { isConsecutive: (lastLogStr === yesterday.toDateString()), current: streak, today: today };
-        openModal('captcha-mod'); return streak;
-    }
-    
-    function verifyCaptcha() {
-        let ans = parseInt(el('cap-ans').value);
-        if(ans === captchaCorrect) {
-            let obj = window.tempStreakObj; let finalStreak = obj.isConsecutive ? obj.current + 1 : 1;
-            localStorage.setItem('ch_last_log', obj.today); localStorage.setItem('ch_streak', finalStreak);
-            loginStreak = finalStreak; closeModal('captcha-mod'); toast(T[lang].scs, false); chkUI();
-        } else { toast(T[lang].incMath, true); }
-    }
-
     let catSubMapGlobal = {};
     function navTo(t, c, a){ 
         cView.t=t; cView.c=c?decodeURIComponent(c):null; cView.a=a?decodeURIComponent(a):null; 
@@ -696,6 +673,13 @@
         ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>{if(el(e.id)) e.innerText=T[lang][k]||T['en'][k];});}); 
     }
 
+    // 🔥 THE RESTORED MISSING COLOR ENGINE
+    function hslToHex(h, s, l) {
+        s /= 100; l /= 100; let c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r=0, g=0, b=0;
+        if (0<=h && h<60) { r=c; g=x; b=0; } else if (60<=h && h<120) { r=x; g=c; b=0; } else if (120<=h && h<180) { r=0; g=c; b=x; } else if (180<=h && h<240) { r=0; g=x; b=c; } else if (240<=h && h<300) { r=x; g=0; b=c; } else if (300<=h && h<360) { r=c; g=0; b=x; }
+        return "#" + Math.round((r+m)*255).toString(16).padStart(2,'0') + Math.round((g+m)*255).toString(16).padStart(2,'0') + Math.round((b+m)*255).toString(16).padStart(2,'0');
+    }
+
     // 🔥 CUSTOM DIAGNOSTIC FETCH WRAPPER
     async function customFetch(url, options = {}) {
         try {
@@ -704,20 +688,15 @@
             try { return JSON.parse(text); } 
             catch(err) {
                 console.error("GOOGLE BLOCKED CONNECTION. RAW HTML:", text);
-                if(el('diag-out')) {
-                    el('diag-out').style.display = 'block';
-                    el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`;
-                }
+                if(el('diag-out')) { el('diag-out').style.display = 'block'; el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`; }
                 if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
                 return null;
             }
-        } catch(e) {
-            console.error("NETWORK ERROR:", e);
-            toast("Network Failure", true);
-            return null;
-        }
+        } catch(e) { console.error("NETWORK ERROR:", e); toast("Network Failure", true); return null; }
     }
 
+    function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
+    
     async function bioSet(iA){
         if(iA && el('aPas').value!=="26240608") return toast(T[lang].admErr,true); 
         try{ 
@@ -751,7 +730,6 @@
         }catch(e){toast(T[lang].err,true);}
     }
 
-    // LIVE AUTO-REFRESH ENGINE
     setInterval(async () => {
         try {
             let d = await customFetch(SURL + "?action=get_public_data");
@@ -957,7 +935,12 @@
         </div>`;
     }
 
-    // LOGIN & REGISTRATION LOGIC
+    function mv(e,i){if(e.key>=0&&e.key<=9){el('o'+i).value=e.key;if(i<5)el('o'+(i+1)).focus();}else if(e.key==='Backspace'&&i>0){el('o'+i).value='';el('o'+(i-1)).focus();}}
+    function gOTP(){let c='';for(let i=0;i<6;i++)c+=el('o'+i).value;return c;}
+    function openProf(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; el('p-ig').value=uIg; el('p-wa').value=uWa; el('p-fb').value=uFb; openModal('prof-mod');} else {openModal('log-mod'); swA('l-step');}}
+    function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
+    function logOut(){localStorage.clear(); sessionStorage.clear(); window.location.reload(true);}
+    
     async function exLog(){
         let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); 
         if(el('l-btn-m')) { el('l-btn-m').innerText = "..."; el('l-btn-m').disabled = true; }
