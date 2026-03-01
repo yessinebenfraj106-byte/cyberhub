@@ -49,7 +49,6 @@
         .btn:active{transform:scale(0.95);}
         .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
         
-        /* SMOOTH MODAL ANIMATION */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
@@ -94,7 +93,6 @@
         
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
-        .admin-drag-handle:active { cursor: grabbing; }
         .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
         .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
         
@@ -162,7 +160,6 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
-    <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
     <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
@@ -284,7 +281,7 @@
     </div>
 
     <div style="background:rgba(255,77,77,0.1); padding:15px; border-radius:10px; border:1px solid #ff4d4d; margin-bottom:10px; text-align:left;">
-        <b style="font-size:0.85rem;color:#ff4d4d;">🔒 Security (Authenticator App)</b>
+        <b style="font-size:0.85rem;color:#ff4d4d;">🔒 Security (Authenticator)</b>
         <p style="font-size:0.75rem; color:var(--sub); margin-top:5px; margin-bottom:10px;">Protect your wallet with Google Authenticator.</p>
         <button class="btn" id="btn-2fa-setup" style="margin:0; font-size:0.85rem; background:#ff4d4d; color:#fff;" onclick="setup2FA()">Enable 2FA</button>
     </div>
@@ -358,7 +355,7 @@
     </div>
     
     <button class="btn tr" data-k="chk" onclick="opnCO()">Checkout</button>
-    <button class="tr" data-k="clr" onclick="cart=[];updC();closeModal('cart-mod')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:margin-right:15px;">Clear</button>
+    <button class="tr" data-k="clr" onclick="cart=[];updC();closeModal('cart-mod')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:pointer;margin-right:15px;">Clear</button>
     <button class="tr" data-k="cls" onclick="closeModal('cart-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Close</button>
 </div></div>
 
@@ -584,9 +581,33 @@
     function togglePwd(i){el(i).type=el(i).type==="password"?"text":"password";}
     function swA(i){['l-step','r-step','rs-step','c-step','a-step','2fa-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
     function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
-    function cycleTheme() { curTheme = (curTheme + 1) % themes.length; localStorage.setItem('ch_theme', curTheme); applyTheme(); toast(T[lang].thm + themes[curTheme].n, "info"); }
+    
+    // 🔥 FAIL-SAFE chkUI (Fixes the crash)
+    function chkUI(){
+        if(role==="Admin"||role==="Support"){
+            if(el('adm-tools')) el('adm-tools').style.display='block'; 
+            if(el('god-crown')) el('god-crown').style.display='block'; 
+            if(el('fab-admin')) el('fab-admin').style.display='flex'; 
+        } else { 
+            if(el('adm-tools')) el('adm-tools').style.display='none'; 
+            if(el('god-crown')) el('god-crown').style.display='none'; 
+            if(el('fab-admin')) el('fab-admin').style.display='none'; 
+        } 
+        let lp=db.loy[uOrders+1]||0; 
+        if(el('loy-banner')) el('loy-banner').style.display=lp>0?'block':'none';
+        if(el('l-pct')) el('l-pct').innerText=lp;
+        
+        if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
+        if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
+        if(el('vip-streak')) el('vip-streak').innerText = loginStreak; 
+        
+        if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); 
+        if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); 
+    }
 
-    // 🔥 2FA GENERATOR ENGINE
+    function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
+
+    // 🔥 2FA ENGINE
     function generateBase32Secret() {
         let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let secret = '';
         for (let i = 0; i < 16; i++) { secret += chars.charAt(Math.floor(Math.random() * chars.length)); }
@@ -610,6 +631,7 @@
         let token = totp.generate();
         
         if(inputCode === token) {
+            el('btn-2fa-setup').innerText = "Saving...";
             let res = await customFetch(SURL, {method:'POST', body:JSON.stringify({act:'save_2fa', c:user, sec:window.temp2faSec})});
             if(res && res.s === 'ok') { toast("2FA Enabled!", false); closeModal('setup-2fa-mod'); } else { toast(T[lang].err, true); }
         } else { toast("Invalid Code!", true); }
@@ -632,6 +654,7 @@
         } else { toast("Invalid Authenticator Code!", true); }
     }
 
+    // CAPTCHA STREAK
     function checkStreak() {
         if(!user) return 0;
         let lastLogStr = localStorage.getItem('ch_last_log'); let streak = parseInt(localStorage.getItem('ch_streak')||0); let today = new Date().toDateString();
@@ -670,7 +693,7 @@
         el('l-ind').innerText=lang.toUpperCase(); 
         document.querySelectorAll('.tr').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.innerText = T[lang][e.getAttribute('data-k')]; }); 
         document.querySelectorAll('.tr-ph').forEach(e => { if(T[lang][e.getAttribute('data-k')]) e.placeholder = T[lang][e.getAttribute('data-k')]; }); 
-        ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>e.innerText=T[lang][k]||T['en'][k]);}); 
+        ['acc','pol','mord','hlp','pd','pt','ps','pr'].forEach(k=>{document.querySelectorAll('.t-'+k).forEach(e=>{if(el(e.id)) e.innerText=T[lang][k]||T['en'][k];});}); 
     }
 
     // 🔥 CUSTOM DIAGNOSTIC FETCH WRAPPER
@@ -681,9 +704,11 @@
             try { return JSON.parse(text); } 
             catch(err) {
                 console.error("GOOGLE BLOCKED CONNECTION. RAW HTML:", text);
-                el('diag-out').style.display = 'block';
-                el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`;
-                el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
+                if(el('diag-out')) {
+                    el('diag-out').style.display = 'block';
+                    el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`;
+                }
+                if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
                 return null;
             }
         } catch(e) {
@@ -698,8 +723,9 @@
         try{ 
             let c=new Uint8Array(32); crypto.getRandomValues(c); 
             let cred = await navigator.credentials.create({publicKey:{challenge:c,rp:{name:"CyberHub"},user:{id:new Uint8Array(16),name:iA?"Admin":user,displayName:iA?"Admin":user},pubKeyCredParams:[{type:"public-key",alg:-7}],timeout:6e4}}); 
+            let bioId = buf2hex(cred.rawId);
             if(iA){localStorage.setItem('ch_bA','1');closeModal('log-mod'); toast(T[lang].svd,false);}
-            else{localStorage.setItem('ch_bU',user); pAPI('reg_bio',{c:user, bioId: buf2hex(cred.rawId)},true); toast(T[lang].svd,false);} 
+            else{localStorage.setItem('ch_bU',user); pAPI('reg_bio',{c:user, bioId: bioId},true); toast(T[lang].svd,false);} 
         }catch(e){toast(T[lang].err,true);}
     }
     
@@ -708,13 +734,13 @@
         try{ 
             let c=new Uint8Array(32); crypto.getRandomValues(c); 
             let cred = await navigator.credentials.get({publicKey:{challenge:c,timeout:6e4}}); 
-            
+            let bioId = buf2hex(cred.rawId);
             if(iA){
                 user="yessinebenfraj106@gmail.com";role="Admin";closeModal('log-mod');toast(T[lang].scs,false);chkUI();openAdminDash();
                 localStorage.setItem('ch_user',user);localStorage.setItem('ch_role',role);
             }else{
                 toast("...", "info");
-                let d = await customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_bio', bioId: buf2hex(cred.rawId)})});
+                let d = await customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_bio', bioId: bioId})});
                 if(!d) return;
                 if(d.s === 'ok') {
                     user=d.c; pass=d.p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; userWallet = parseFloat(d.w) || 0;
@@ -725,18 +751,7 @@
         }catch(e){toast(T[lang].err,true);}
     }
 
-    function chkUI(){
-        if(role==="Admin"||role==="Support"){
-            el('adm-tools').style.display='block'; el('god-crown').style.display='block'; el('fab-admin').style.display='flex'; 
-        } else { el('adm-tools').style.display='none'; el('god-crown').style.display='none'; el('fab-admin').style.display='none'; } 
-        let lp=db.loy[uOrders+1]||0; 
-        if(el('loy-banner')){el('loy-banner').style.display=lp>0?'block':'none';el('l-pct').innerText=lp;}
-        if(el('vip-ord-cnt')) { el('vip-ord-cnt').innerText = uOrders; el('vip-disc-pct').innerText = lp + "%"; el('vip-streak').innerText = loginStreak; }
-        if(el('p-wal-bal')) { el('p-wal-bal').innerText = userWallet.toFixed(2); el('co-wal-bal').innerText = userWallet.toFixed(2); }
-    }
-    
-    function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
-
+    // LIVE AUTO-REFRESH ENGINE
     setInterval(async () => {
         try {
             let d = await customFetch(SURL + "?action=get_public_data");
@@ -750,16 +765,18 @@
     }, 10000);
 
     function updateFlash(flashStr) {
-        if(!flashStr) { el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+        if(!flashStr) { if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
         let p = flashStr.split('|||'); let endMs = parseInt(p[0]), pct = parseInt(p[1]);
-        if(Date.now() > endMs) { el('flash-banner').style.display='none'; globalFlashPct=0; return; }
-        el('flash-banner').style.display='block'; el('flash-pct').innerText = pct; globalFlashPct = pct;
+        if(Date.now() > endMs) { if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+        if(el('flash-banner')) el('flash-banner').style.display='block'; 
+        if(el('flash-pct')) el('flash-pct').innerText = pct; 
+        globalFlashPct = pct;
         if(window.flashInt) clearInterval(window.flashInt);
         window.flashInt = setInterval(()=>{
             let diff = endMs - Date.now();
-            if(diff <= 0) { clearInterval(window.flashInt); el('flash-banner').style.display='none'; globalFlashPct=0; return; }
+            if(diff <= 0) { clearInterval(window.flashInt); if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
             let h = Math.floor(diff / 3600000); let m = Math.floor((diff % 3600000) / 60000); let s = Math.floor((diff % 60000) / 1000);
-            el('flash-cd').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            if(el('flash-cd')) el('flash-cd').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }, 1000);
     }
     
@@ -781,7 +798,7 @@
         let cached = localStorage.getItem('ch_db_cache');
         if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); isCached = true; } } catch(e){} } 
         
-        if(!isCached) { el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
+        if(!isCached) { if(el('st-cnt')) el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
 
         let d = await customFetch(SURL+"?action=get_public_data"); 
         if(d && d.status==="success") {
@@ -806,7 +823,8 @@
     function highlightMatch(text, q) { if(!q) return text; let regex = new RegExp(`(${q})`, "gi"); return text.replace(regex, "<span class='hl-search'>$1</span>"); }
 
     function ren(){
-        let hHtml=""; let a=el('st-cnt'); let q=el('itemFinder').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
+        let hHtml=""; let a=el('st-cnt'); if(!a) return; 
+        let q=el('itemFinder').value.toLowerCase(); let c={}, ap={}, g={}, sA=[];
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`; return; }
         
         let categories = []; catSubMapGlobal = {};
@@ -939,18 +957,12 @@
         </div>`;
     }
 
-    function mv(e,i){if(e.key>=0&&e.key<=9){el('o'+i).value=e.key;if(i<5)el('o'+(i+1)).focus();}else if(e.key==='Backspace'&&i>0){el('o'+i).value='';el('o'+(i-1)).focus();}}
-    function gOTP(){let c='';for(let i=0;i<6;i++)c+=el('o'+i).value;return c;}
-    function openProf(){toggleSidebar(); if(user){el('p-uid').innerText="User: "+user; el('p-ig').value=uIg; el('p-wa').value=uWa; el('p-fb').value=uFb; openModal('prof-mod');} else {openModal('log-mod'); swA('l-step');}}
-    function logoClk(){lC++; clearTimeout(lT); lT=setTimeout(()=>lC=0,1500); if(lC===5){lC=0;openModal('log-mod');swA('a-step');}}
-    function logOut(){localStorage.clear(); sessionStorage.clear(); window.location.reload(true);}
-    
-    // 🔥 NEW 2FA SMART LOGIN
+    // LOGIN & REGISTRATION LOGIC
     async function exLog(){
         let e=el('lEml').value, p=el('lPas').value; if(!e||!p)return toast(T[lang].fill,true); 
-        el('l-btn-m').innerText = "..."; el('l-btn-m').disabled = true;
+        if(el('l-btn-m')) { el('l-btn-m').innerText = "..."; el('l-btn-m').disabled = true; }
         let d = await customFetch(SURL,{method:'POST',body:JSON.stringify({act:'login',c:e,p:p})}); 
-        el('l-btn-m').innerText = T[lang].log; el('l-btn-m').disabled = false;
+        if(el('l-btn-m')) { el('l-btn-m').innerText = T[lang].log; el('l-btn-m').disabled = false; }
         
         if(!d) return;
         if(d.s === "2fa_req") {
@@ -959,7 +971,6 @@
             swA('2fa-step');
             return;
         }
-        
         if(d.s==="ok"){
             user=e; pass=p; role=d.r; uOrders=parseInt(d.o); uIg=d.ig||""; uWa=d.wa||""; uFb=d.fb||""; userWallet = parseFloat(d.w) || 0; 
             localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); 
@@ -970,7 +981,6 @@
     }
     
     function exAdm(){let p=el('aPas').value; if(p==="26240608"){user="yessinebenfraj106@gmail.com"; pass=p; role="Admin"; localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); closeModal('log-mod'); toast(T[lang].scs,false); chkUI(); openAdminDash();} else toast(T[lang].admErr,true);}
-    
     function sRM(m){rM=m; el('b-em').style.background=m==='email'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('b-ph').style.background=m==='phone'?'rgba(0,240,255,0.2)':'rgba(255,255,255,0.05)'; el('rCnt').placeholder=m==='email'?'Email':'Phone'; el('b-reg').innerText=T[lang].sndReg;}
     
     async function exReg(){pE=el('rCnt').value; pP2=el('rPas').value; if(!pE||!pP2)return toast(T[lang].fill,true); isR=false; if(rM==='phone'){el('b-reg').disabled=true; let d=await customFetch(SURL,{method:'POST',body:JSON.stringify({act:'reg_phone',c:pE,p:pP2})}); el('b-reg').disabled=false; if(d&&d.s==='ok'){user=pE;pass=pP2;role="User";uOrders=0;userWallet=0;localStorage.setItem('ch_user',user);localStorage.setItem('ch_pass',pass);localStorage.setItem('ch_role',role);localStorage.setItem('ch_wal',0); loginStreak = checkStreak(); closeModal('log-mod');toast(T[lang].scs,false);chkUI();} else toast(T[lang].err,true);} else {el('b-reg').disabled=true; await customFetch(SURL,{method:'POST',body:JSON.stringify({act:'req_code',eml:pE})}); el('b-reg').disabled=false; swA('c-step'); el('otp-msg').innerText = "Code sent to: " + maskEm(pE); toast(T[lang].cd,false);}}
@@ -1001,7 +1011,7 @@
         else { let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`); }
     }
     
-    function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; t.innerHTML=m; if(c==="RED" && role !== 'Admin') { el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; el('ui-m-t').innerHTML="STORE CLOSED"; t.innerHTML="Maintenance in progress."; el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; el('st-cnt').style.display='block';}}
+    function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} if(el('ui-m-t')) el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; if(t) t.innerHTML=m; if(c==="RED" && role !== 'Admin') { if(el('st-cnt')) el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; if(el('ui-m-t')) el('ui-m-t').innerHTML="STORE CLOSED"; if(t) t.innerHTML="Maintenance in progress."; if(el('st-cnt')) el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; if(el('st-cnt')) el('st-cnt').style.display='block';}}
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v); lastMaintState = v;}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...", "info"); let d=await customFetch(SURL,{method:'POST',body:JSON.stringify(p)}); if(d&&d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}
 
@@ -1012,8 +1022,8 @@
     }
 
     function fAdm(t){
-        el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; 
-        el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
+        if(el('d-tit')) el('d-tit').innerText=t==="orders"?"📦 Orders":t==="spins"?"🎯 Spin Logs":"👥 CRM"; 
+        if(el('d-box')) el('d-box').innerHTML="Loading..."; openModal('d-mod'); 
         let h=""; 
         
         if(t==="orders"){
@@ -1024,7 +1034,6 @@
                if(!groups[gid]) groups[gid] = { client: o[2], plat: o[3], contact: o[4], date: o[11], pM: o[13], pL: o[14], proof: o[15], items: [], paid: (o[16]===true || o[16]==="TRUE") };
                groups[gid].items.push(o);
             });
-            
             let gKeys = Object.keys(groups).reverse(); 
             for(let i=0; i<gKeys.length; i++) {
                let gid = gKeys[i]; let g = groups[gid];
@@ -1042,19 +1051,18 @@
         } else {
             let sortedUsr = [...db.usr.slice(1)].sort((a,b)=> parseFloat(b[11]||0) - parseFloat(a[11]||0));
             let top5 = sortedUsr.slice(0,5).map(u => u[0]);
-            
             db.usr.slice(1).forEach(u=>{if(u[0]){
                 let isVIP = top5.includes(u[0]) ? " 👑 <span style='color:var(--w);font-size:0.8rem;'>VIP</span>" : "";
                 let s=`<select onchange="pAPI('upd_usr',{t:'${u[0]}',sub:'role',v:this.value},true)"><option ${u[3]==='User'?'selected':''}>User</option><option ${u[3]==='Support'?'selected':''}>Support</option><option ${u[3]==='Admin'?'selected':''}>Admin</option></select>`; 
                 h+=`<div class="i-row" style="display:block;"><b>${u[0]}${isVIP}</b><br><span style="color:#00ff88;font-size:0.85rem;font-weight:bold;">Spent: ${u[11]||0} DT</span><br>${s}<div style="display:flex;gap:5px;margin-top:5px;"><button class="btn" style="background:var(--w);color:#000;padding:8px;margin:0;" onclick="let a=prompt('Amount to Top-Up?'); if(a) pAPI('topup_wallet',{t:'${u[0]}',amt:a},true)">💳 Top-Up</button><button class="btn" style="background:#ff4d4d;color:#fff;padding:8px;margin:0;" onclick="if(confirm('Del?'))pAPI('upd_usr',{t:'${u[0]}',sub:'del'},true)">Del</button></div></div>`;
             }});
         } 
-        el('d-box').innerHTML=h||"Empty.";
+        if(el('d-box')) el('d-box').innerHTML=h||"Empty.";
     }
     
-    async function fUsrOrd(){closeModal('prof-mod'); el('d-tit').innerText=T[lang].mord; el('d-box').innerHTML="Loading..."; openModal('d-mod'); let d=await customFetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let h=""; if(d&&d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[10]==="Pending"?`<button class="btn tr" data-k="canc" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[1]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[1]}</b> (${o[10]})<br>${o[5]}<br>${o[9]} DT${cnl}</div>`;});} el('d-box').innerHTML=h||"Empty.";}
+    async function fUsrOrd(){closeModal('prof-mod'); if(el('d-tit')) el('d-tit').innerText=T[lang].mord; if(el('d-box')) el('d-box').innerHTML="Loading..."; openModal('d-mod'); let d=await customFetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let h=""; if(d&&d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[10]==="Pending"?`<button class="btn tr" data-k="canc" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[1]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[1]}</b> (${o[10]})<br>${o[5]}<br>${o[9]} DT${cnl}</div>`;});} if(el('d-box')) el('d-box').innerHTML=h||"Empty.";}
     
-    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Custom --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[10]||r[11]){ let n=(lang==='en'&&r[10])?r[10]:r[11]; h+=`<option value="${sEnc(n)}||${r[12]||0}">${n} (${r[12]||0} DT)</option>`;} }); } s.innerHTML=h; }
+    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Custom --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[10]||r[11]){ let n=(lang==='en'&&r[10])?r[10]:r[11]; h+=`<option value="${sEnc(n)}||${r[12]||0}">${n} (${r[12]||0} DT)</option>`;} }); } if(s) s.innerHTML=h; }
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user, payM:"Cash", payLater:false}); closeModal('mnl-ord-mod');}
 
@@ -1093,10 +1101,10 @@
             Req Contact: <select id="we-r-${i}" style="padding:5px;margin:2px 0;"><option value="true" ${w[5]?'selected':''}>Yes</option><option value="false" ${!w[5]?'selected':''}>No</option></select><br>
             <button class="btn" style="padding:5px;width:auto;" onclick="pAPI('upd_whl',{oldN:'${w[0]}', n:el('we-n-${i}').value, e:el('we-e-${i}').value, c:el('we-c-${i}').value, p:el('we-p-${i}').value, msg:el('we-m-${i}').value, req:el('we-r-${i}').value})">Save</button></div>`;
         }); }
-        h+=`</div>`; el('whl-list').innerHTML = h; openModal('whl-ed-mod');
+        h+=`</div>`; if(el('whl-list')) el('whl-list').innerHTML = h; openModal('whl-ed-mod');
     }
 
-    function renderMkt(){let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('del_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;margin:0;" onclick="let val=parseFloat(el('lv-${i}').value); db.loy[${i}]=val; pAPI('upd_loy',{num:${i},v:val}, true); toast(T[lang].scs, false);">Save</button></div>`; el('l-list').innerHTML=l;}
+    function renderMkt(){let p=""; for(let c in db.promo) p+=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid #333;padding:5px 0;"><span>${c} (${db.promo[c]}%)</span><button onclick="pAPI('del_promo',{code:'${c}'});event.target.parentElement.style.display='none';" style="background:none;border:none;color:#ff4d4d;cursor:pointer;">✖</button></div>`; if(el('p-list')) el('p-list').innerHTML=p||"None"; let l=""; for(let i=1;i<=20;i++) l+=`<div style="display:flex;align-items:center;gap:5px;"><span>#${i}:</span><input type="number" id="lv-${i}" value="${db.loy[i]||0}" style="margin:0;padding:5px;width:50px;"><button class="btn" style="width:auto;padding:5px;margin:0;" onclick="let val=parseFloat(el('lv-${i}').value); db.loy[${i}]=val; pAPI('upd_loy',{num:${i},v:val}, true); toast(T[lang].scs, false);">Save</button></div>`; if(el('l-list')) el('l-list').innerHTML=l;}
     
     function addPromo(){let c=el('np-code').value.toUpperCase(), p=el('np-pct').value; if(c&&p) pAPI('add_promo',{code:c,pct:p});}
 
@@ -1106,7 +1114,9 @@
         if(db.promo[c]){
             pPct=db.promo[c]; pCode=c; 
             toast(T[lang].scs,false); 
-            el('pBtn').innerText = "Applied!"; el('pBtn').disabled = true; el('pInp').disabled = true; updC();
+            if(el('pBtn')){ el('pBtn').innerText = "Applied!"; el('pBtn').disabled = true; }
+            if(el('pInp')){ el('pInp').disabled = true; }
+            updC();
         } else { pPct=0; pCode=""; toast(T[lang].err,true); updC(); }
     }
     
@@ -1114,49 +1124,58 @@
         let id = decodeURIComponent(eO); let n = decodeURIComponent(eN);
         if(hasEx) { let inp = el('ex-'+id); if(!inp || !inp.value) return toast(T[lang].fill, true); n += " (" + inp.value + ")"; inp.value = ''; }
         cart.push({id:id, n:n, p:parseFloat(p)}); 
-        el('c-count').innerText=cart.length; 
+        if(el('c-count')) el('c-count').innerText=cart.length; 
         openModal('cart-prompt-mod');
     }
 
     function updC(){
         let r = cart.reduce((s,i)=>s+i.p,0); let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= 14) ? 5 : 0;
         let h = Math.max(pPct, l, f, s); 
-        el('m-sub').innerText=r.toFixed(2)+" DT"; 
+        if(el('m-sub')) el('m-sub').innerText=r.toFixed(2)+" DT"; 
+        
         let pr=el('m-pr'), lr=el('m-lr');
         let loyBadge = el('loy-cart-badge'), flashBadge = el('flash-cart-badge'), streakBadge = el('streak-cart-badge');
-        loyBadge.style.display='none'; flashBadge.style.display='none'; streakBadge.style.display='none';
+        if(loyBadge) loyBadge.style.display='none'; 
+        if(flashBadge) flashBadge.style.display='none'; 
+        if(streakBadge) streakBadge.style.display='none';
 
-        if(pPct > 0) { pr.style.display='flex'; el('m-pp').innerText=pPct; el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT"; } 
-        else { pr.style.display='none'; }
+        if(pPct > 0) { if(pr) pr.style.display='flex'; if(el('m-pp')) el('m-pp').innerText=pPct; if(el('m-pv')) el('m-pv').innerText="-"+(r*(pPct/100)).toFixed(2)+" DT"; } 
+        else { if(pr) pr.style.display='none'; }
         
         if (h > 0 && h !== pPct) {
-            lr.style.display='flex'; el('m-lp').innerText=h; el('m-lv').innerText="-"+(r*(h/100)).toFixed(2)+" DT";
-            if (h === f) { flashBadge.style.display='block'; } else if (h === s && s > l) { streakBadge.style.display='block'; } else { loyBadge.style.display='block'; }
-        } else { lr.style.display='none'; }
+            if(lr) lr.style.display='flex'; 
+            if(el('m-lp')) el('m-lp').innerText=h; 
+            if(el('m-lv')) el('m-lv').innerText="-"+(r*(h/100)).toFixed(2)+" DT";
+            if (h === f) { if(flashBadge) flashBadge.style.display='block'; } 
+            else if (h === s && s > l) { if(streakBadge) streakBadge.style.display='block'; } 
+            else { if(loyBadge) loyBadge.style.display='block'; }
+        } else { if(lr) lr.style.display='none'; }
         
-        el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; 
-        el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
+        if(el('m-tot')) el('m-tot').innerText=(r-(r*(h/100))).toFixed(2)+" DT"; 
+        if(el('c-list')) el('c-list').innerHTML=cart.map(i=>`<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
     }
     
     function opnCart(){updC(); openModal('cart-mod');}
     
     function sPay(m){
         payM=m; 
-        ['p-d17','p-mm','p-csh','p-wal'].forEach(x=>el(x).classList.remove('act'));
-        el(m==='D17'?'p-d17':m==='Mandat Minute'?'p-mm':m==='Wallet'?'p-wal':'p-csh').classList.add('act'); 
+        ['p-d17','p-mm','p-csh','p-wal'].forEach(x=>{if(el(x)) el(x).classList.remove('act')});
+        let target = el(m==='D17'?'p-d17':m==='Mandat Minute'?'p-mm':m==='Wallet'?'p-wal':'p-csh');
+        if(target) target.classList.add('act'); 
         
-        let inst = el('pay-inst'); let proofSec = el('proof-section');
+        let inst = el('pay-inst'); let proofSec = el('proof-section'); let dbox = el('d-box-pay');
         
         if(m === 'D17' || m === 'Mandat Minute') {
-            el('d-box-pay').style.display = 'block'; proofSec.style.display = 'block';
-            if(m === 'D17') inst.innerHTML = `<span class="tr" data-k="d17Inst">${T[lang].d17Inst}</span> <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b>`;
-            if(m === 'Mandat Minute') inst.innerHTML = `<span class="tr" data-k="mmInst">${T[lang].mmInst}</span> <b style="color:var(--w);font-size:1.2rem;display:block;margin-top:5px;">${T[lang].mmName}</b><b style="color:var(--p);font-size:1.3rem;letter-spacing:2px;display:block;">${T[lang].mmNum}</b>`;
-        } else { el('d-box-pay').style.display = 'none'; }
+            if(dbox) dbox.style.display = 'block'; 
+            if(proofSec) proofSec.style.display = 'block';
+            if(m === 'D17' && inst) inst.innerHTML = `<span class="tr" data-k="d17Inst">${T[lang].d17Inst}</span> <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b>`;
+            if(m === 'Mandat Minute' && inst) inst.innerHTML = `<span class="tr" data-k="mmInst">${T[lang].mmInst}</span> <b style="color:var(--w);font-size:1.2rem;display:block;margin-top:5px;">${T[lang].mmName}</b><b style="color:var(--p);font-size:1.3rem;letter-spacing:2px;display:block;">${T[lang].mmNum}</b>`;
+        } else { if(dbox) dbox.style.display = 'none'; }
     }
     
     function toggleProof(isLate) {
-        el('proof-inputs').style.display = isLate ? 'none' : 'block';
-        if(isLate) { proofB64 = ""; el('co-proof-file').value = ""; el('co-tx-id').value = ""; }
+        if(el('proof-inputs')) el('proof-inputs').style.display = isLate ? 'none' : 'block';
+        if(isLate) { proofB64 = ""; if(el('co-proof-file')) el('co-proof-file').value = ""; if(el('co-tx-id')) el('co-tx-id').value = ""; }
     }
 
     function handleProofUpload(e) {
@@ -1166,9 +1185,10 @@
     
     function sCon(c){
         cM=c; 
-        ['wa','ig','fb'].forEach(x=>el('c-'+x).classList.remove('act')); 
-        el('c-'+c).classList.add('act');
+        ['wa','ig','fb'].forEach(x=>{if(el('c-'+x)) el('c-'+x).classList.remove('act')}); 
+        if(el('c-'+c)) el('c-'+c).classList.add('act');
         let inp = el('coC');
+        if(!inp) return;
         if(c==='wa') { inp.placeholder = T[lang].entWa; } else if(c==='ig') { inp.placeholder = T[lang].entIg; } else if(c==='fb') { inp.placeholder = T[lang].entFb; }
     }
     
@@ -1191,11 +1211,11 @@
         
         if(payM === 'Wallet' && userWallet < total) { return toast(T[lang].noFunds, true); }
         
-        el('b-fin').innerText="..."; el('b-fin').disabled=true;
+        if(el('b-fin')) { el('b-fin').innerText="..."; el('b-fin').disabled=true; }
         try { 
             let d = await customFetch(SURL,{method:'POST',body:JSON.stringify({act:"place_order",client:n,plat:cM,contact:c,items:cart,promo:pCode,loy:h,comments:cm,c:user||"Guest", payM:payM, payLater:isLate, txId:txId, proofB64:proofB64})}); 
             
-            if(d && d.s === "insufficient_funds") { el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; return toast(T[lang].noFunds, true); }
+            if(d && d.s === "insufficient_funds") { if(el('b-fin')) { el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; } return toast(T[lang].noFunds, true); }
             
             if(d && d.s === "ok") {
                 if(d.isPaid && payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); }
@@ -1206,55 +1226,59 @@
 
                 navigator.clipboard.writeText(invoice).catch(e=>{});
                 
-                el('co-form').style.display = 'none'; el('co-succ').style.display = 'block'; el('succ-gid').innerText = d.gId;
+                if(el('co-form')) el('co-form').style.display = 'none'; 
+                if(el('co-succ')) el('co-succ').style.display = 'block'; 
+                if(el('succ-gid')) el('succ-gid').innerText = d.gId;
                 
                 let dmLinks = { wa: `https://wa.me/21629895846?text=${encodeURIComponent(invoice)}`, ig: "https://ig.me/m/yessine_ben_fraj", fb: "https://m.me/yessine_ben_fraj" };
-                el('dm-btn').onclick = () => { window.open(dmLinks[cM] || dmLinks.wa); };
+                if(el('dm-btn')) el('dm-btn').onclick = () => { window.open(dmLinks[cM] || dmLinks.wa); };
 
-                cart=[]; el('c-count').innerText="0"; 
+                cart=[]; if(el('c-count')) el('c-count').innerText="0"; 
                 if(user){uOrders++; localStorage.setItem('ch_ord',uOrders); chkUI();} 
                 toast(T[lang].invCop, false); 
             }
-            el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false;
-        } catch(e){el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; toast(T[lang].err,true);}
+            if(el('b-fin')){ el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; }
+        } catch(e){ if(el('b-fin')){ el('b-fin').innerText=T[lang].plc; el('b-fin').disabled=false; } toast(T[lang].err,true);}
     }
 
     function buildW(){
         if(!db.whl||db.whl.length<2)return; let cg=[], leg="", ang=360/(db.whl.length-1);
         for(let i=1;i<db.whl.length;i++){ cg.push(`${db.whl[i][2]} ${(i-1)*ang}deg ${i*ang}deg`); leg+=`<div style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:12px;height:12px;background:${db.whl[i][2]};border-radius:50%;"></span>${db.whl[i][1]} ${db.whl[i][0]}</div>`; }
-        el('wheel').style.background=`conic-gradient(${cg.join(',')})`; el('w-leg').innerHTML=leg;
+        if(el('wheel')) el('wheel').style.background=`conic-gradient(${cg.join(',')})`; 
+        if(el('w-leg')) el('w-leg').innerHTML=leg;
     }
 
     async function spinW(){
         if(!user) { toast(T[lang].rqLog, true); return openProf(); }
         if(Date.now()-(localStorage.getItem('ch_l_spn')||0) < 172800000) return toast(T[lang].err, true);
-        el('b-spin').disabled=true; el('b-spin').innerText="...";
+        if(el('b-spin')) { el('b-spin').disabled=true; el('b-spin').innerText="..."; }
         let ip="Unknown"; try{let r=await fetch('https://api.ipify.org?format=json'); let d=await r.json(); ip=d.ip;}catch(e){}
         let rnd=Math.random()*100, acc=0, tIdx=0; for(let i=1;i<db.whl.length;i++){acc+=parseFloat(db.whl[i][3]); if(rnd<=acc){tIdx=i-1; break;}}
         let wRow = db.whl[tIdx+1]; let wP = wRow[0]; let reqContact = (wRow[5] === true || wRow[5] === "TRUE"); let custMsg = wRow[4] || `You won: ${wP}!`;
 
         try {
             let d=await customFetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:ip, did:dId, prize:wP, contactInfo: "Pending"})});
-            if(d && d.s!=='ok') { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; return toast(T[lang].err,true); }
+            if(d && d.s!=='ok') { if(el('b-spin')){el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn;} return toast(T[lang].err,true); }
             
-            let s=db.whl.length-1, a=360/s; let tD=(360*5)+(360-(tIdx*a)-(a/2)); el('wheel').style.transform=`rotate(${tD}deg)`;
+            let s=db.whl.length-1, a=360/s; let tD=(360*5)+(360-(tIdx*a)-(a/2)); 
+            if(el('wheel')) el('wheel').style.transform=`rotate(${tD}deg)`;
             localStorage.setItem('ch_l_spn', Date.now()); 
             
             setTimeout(async () => {
                 let finalContact = "None";
                 if (reqContact) { finalContact = prompt(`${custMsg}\n\n${T[lang].rContact}`) || "Refused"; } else { alert(custMsg); }
                 if (reqContact && finalContact !== "None") { customFetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user, ip:ip, did:dId, prize:wP + " (Contact Update)", contactInfo: finalContact})}); }
-                el('b-spin').innerText=T[lang].sn; el('b-spin').disabled=false;
+                if(el('b-spin')) { el('b-spin').innerText=T[lang].sn; el('b-spin').disabled=false; }
             }, 4600);
-        } catch(e) { el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn; toast(T[lang].err, true); }
+        } catch(e) { if(el('b-spin')){el('b-spin').disabled=false; el('b-spin').innerText=T[lang].sn;} toast(T[lang].err, true); }
     }
 
     function drawCharts(){
         if(typeof Chart === 'undefined') return setTimeout(drawCharts, 500);
         if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; 
         db.ord.slice(1).forEach(o=>{if(o.length>3){let ir=String(o[5]).toLowerCase(); if(ir.includes("netflix")||ir.includes("spotify"))dC["Streaming"]++; else if(ir.includes("valorant")||ir.includes("gta"))dC["Gaming"]++; else dC["Other"]++; if(o[10]==="Delivered"){let dt=new Date(o[11]).toLocaleDateString(undefined,{weekday:'short',day:'numeric'}); let p=parseFloat(String(o[9]).replace(/[^0-9.]/g,'')); if(!isNaN(p)) rD[dt]=(rD[dt]||0)+p;}}});
-        if(c1)c1.destroy(); c1=new Chart(el('admC'),{type:'doughnut',data:{labels:Object.keys(dC),datasets:[{data:Object.values(dC),backgroundColor:['#00f0ff','#ffae00','#fff']}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#fff'}}}}});
-        if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
+        if(c1)c1.destroy(); if(el('admC')) c1=new Chart(el('admC'),{type:'doughnut',data:{labels:Object.keys(dC),datasets:[{data:Object.values(dC),backgroundColor:['#00f0ff','#ffae00','#fff']}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#fff'}}}}});
+        if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); if(el('revC')) c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
     }
 
     window.onload = initApp;
