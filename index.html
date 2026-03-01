@@ -49,7 +49,7 @@
         .btn:active{transform:scale(0.95);}
         .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
         
-        /* 🔥 UPGRADED SMOOTH MODAL ANIMATION */
+        /* SMOOTH MODAL ANIMATION */
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
@@ -94,6 +94,7 @@
         
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
+        .admin-drag-handle:active { cursor: grabbing; }
         .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
         .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
         
@@ -103,11 +104,9 @@
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
         
-        /* PREMIUM LOADER */
         .loader { border: 4px solid var(--b); border-top: 4px solid var(--p); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; margin: 0 auto 15px auto; box-shadow: 0 0 15px var(--b); }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* SELF-REPAIR DIAGNOSTIC BOX */
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
     </style>
 </head>
@@ -163,6 +162,7 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
+    <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
     <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
@@ -180,9 +180,6 @@
         </div>
     </div>
     
-    <div style="text-align:center; margin-top:20px;">
-        <button onclick="purgeCache()" style="background:none; border:1px solid #ffae00; color:#ffae00; padding:8px 15px; border-radius:10px; font-weight:bold; cursor:pointer;">⚙️ Reset System Cache</button>
-    </div>
     <div style="text-align:center;color:var(--sub);font-size:0.9rem;font-weight:bold;margin-top:20px;">Made by Yessine ❤️</div>
 </div>
 
@@ -361,7 +358,7 @@
     </div>
     
     <button class="btn tr" data-k="chk" onclick="opnCO()">Checkout</button>
-    <button class="tr" data-k="clr" onclick="cart=[];updC();closeModal('cart-mod')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:pointer;margin-right:15px;">Clear</button>
+    <button class="tr" data-k="clr" onclick="cart=[];updC();closeModal('cart-mod')" style="background:none;border:none;color:#ff4d4d;font-weight:bold;margin-top:15px;cursor:margin-right:15px;">Clear</button>
     <button class="tr" data-k="cls" onclick="closeModal('cart-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Close</button>
 </div></div>
 
@@ -466,6 +463,8 @@
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
+        
+        <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -535,7 +534,6 @@
 <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js"></script>
 
 <script>
-    // 🔥 NEW DEPLOYMENT URL
     const SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     
@@ -557,6 +555,12 @@
 
     function el(i){return document.getElementById(i);}
     
+    function purgeCache() { 
+        localStorage.removeItem('ch_db_cache'); 
+        toast("Cache Cleared! Reloading...", "info");
+        setTimeout(() => window.location.reload(true), 1000); 
+    }
+
     function toast(m, type = 'success') {
         let t = el('toast'); let icon = '', color = '';
         if (type === false) type = 'success'; if (type === true) type = 'error';
@@ -580,12 +584,9 @@
     function togglePwd(i){el(i).type=el(i).type==="password"?"text":"password";}
     function swA(i){['l-step','r-step','rs-step','c-step','a-step','2fa-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
     function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
-    
     function cycleTheme() { curTheme = (curTheme + 1) % themes.length; localStorage.setItem('ch_theme', curTheme); applyTheme(); toast(T[lang].thm + themes[curTheme].n, "info"); }
-    
-    function purgeCache() { localStorage.removeItem('ch_db_cache'); window.location.reload(true); }
 
-    // 🔥 2FA GENERATOR ENGINE (Google Authenticator)
+    // 🔥 2FA GENERATOR ENGINE
     function generateBase32Secret() {
         let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let secret = '';
         for (let i = 0; i < 16; i++) { secret += chars.charAt(Math.floor(Math.random() * chars.length)); }
@@ -594,8 +595,7 @@
     
     function setup2FA() {
         if(!user) return;
-        let secret = generateBase32Secret();
-        el('sec-2fa').innerText = secret;
+        let secret = generateBase32Secret(); el('sec-2fa').innerText = secret;
         let otpUrl = `otpauth://totp/CyberHub:${user}?secret=${secret}&issuer=CyberHub`;
         el('qr-2fa').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(otpUrl)}`;
         window.temp2faSec = secret;
@@ -610,12 +610,8 @@
         let token = totp.generate();
         
         if(inputCode === token) {
-            el('btn-2fa-setup').innerText = "Saving...";
             let res = await customFetch(SURL, {method:'POST', body:JSON.stringify({act:'save_2fa', c:user, sec:window.temp2faSec})});
-            if(res && res.s === 'ok') {
-                toast("2FA Enabled Successfully!", false);
-                closeModal('setup-2fa-mod');
-            } else { toast(T[lang].err, true); }
+            if(res && res.s === 'ok') { toast("2FA Enabled!", false); closeModal('setup-2fa-mod'); } else { toast(T[lang].err, true); }
         } else { toast("Invalid Code!", true); }
     }
     
@@ -627,7 +623,6 @@
         let token = totp.generate();
         
         if(inputCode === token) {
-            // Success! Save user
             user = pending2faUser.c; pass = pending2faUser.p; role = pending2faUser.r; uOrders = parseInt(pending2faUser.o); 
             uIg = pending2faUser.ig||""; uWa = pending2faUser.wa||""; uFb = pending2faUser.fb||""; userWallet = parseFloat(pending2faUser.w) || 0; 
             localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); 
@@ -1266,4 +1261,3 @@
 </script>
 </body>
 </html>
-
