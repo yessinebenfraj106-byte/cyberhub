@@ -13,6 +13,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#050b14">
     
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <script>
@@ -104,7 +107,9 @@
         
         .loyalty-banner { background: linear-gradient(90deg, #ff00ff, var(--w)); color: #fff; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; display: none; animation: glow 2s ease infinite; background-size: 200% 200%;}
         .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
-        .ticker { position: fixed; bottom: 25px; left: -300px; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold;}
+        
+        /* 🔥 FIXED TICKER FOR MOBILE RESPONSIVENESS */
+        .ticker { position: fixed; bottom: 100px; left: -100%; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold; max-width: 80vw; word-wrap: break-word; line-height: 1.4; }
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
         
@@ -113,7 +118,6 @@
 
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
 
-        /* 🔥 FIREWALL SCREEN STYLING */
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
     </style>
 </head>
@@ -144,6 +148,9 @@
     <button onclick="el('sidebar').classList.remove('open')" style="background:none;border:none;color:#fff;font-size:2rem;position:absolute;top:15px;right:15px;cursor:pointer;">✖</button>
     <div style="text-align:center;margin-top:20px;margin-bottom:30px;"><img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--p);"></div>
     <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
+    
+    <div class="m-item" id="install-btn-sidebar" onclick="installPWA()" style="color:#00ff88; display:none;">📲 <span class="tr" data-k="instApp">Install App</span></div>
+    
     <div class="m-item" onclick="openModal('pol-mod');el('sidebar').classList.remove('open');">📜 <span class="tr" data-k="pol">Store Policy</span></div>
     <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
     <div class="m-item" onclick="openModal('vip-mod');el('sidebar').classList.remove('open');">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
@@ -187,7 +194,6 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
-    <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
     <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
@@ -201,10 +207,9 @@
         <p style="font-size:0.85rem;color:var(--sub);margin-bottom:15px;">cyber.hub.contact.now@gmail.com</p>
         <div style="display:flex;justify-content:center;gap:10px;">
             <button class="btn" style="width:auto;margin:0;background:#25D366;color:#fff;padding:12px 20px;" onclick="window.open('https://wa.me/21629895846')">WhatsApp</button>
-            <button class="btn" style="width:auto;margin:0;background:#E1306C;color:#fff;padding:12px 20px;" onclick="window.open('https://ig.me/m/yessine_ben_fraj')">Instagram</button>
+            <button class="btn" style="width:auto;margin:0;background:#E1306C;color:#fff;padding:12px 20px;" onclick="window.open('https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet')">Instagram</button>
         </div>
     </div>
-    
     <div style="text-align:center;color:var(--sub);font-size:0.9rem;font-weight:bold;margin-top:20px;">Made by Yessine ❤️</div>
 </div>
 
@@ -223,7 +228,6 @@
         </form>
         <div style="display:flex;justify-content:space-between;margin-top:15px;font-weight:bold;font-size:0.85rem;"><span style="color:var(--p);cursor:pointer;" class="tr" data-k="ca" onclick="swA('r-step')">Create Account</span><span style="color:var(--w);cursor:pointer;" class="tr" data-k="fp" onclick="swA('rs-step')">Forgot Password?</span></div>
     </div>
-
     <div id="2fa-step" style="display:none; text-align:center;">
         <h3 style="color:var(--p);margin-top:0;">🔒 Authenticator Required</h3>
         <p style="color:var(--sub);font-size:0.85rem;margin-bottom:15px;">Open your Google Authenticator app and enter the 6-digit code.</p>
@@ -231,7 +235,6 @@
         <button class="btn" style="background:#00ff88; color:#000;" onclick="verify2FALogin()">Verify & Login</button>
         <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" onclick="swA('l-step')">← Back to Login</div>
     </div>
-    
     <div id="r-step" style="display:none;">
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="ca">Create Account</h3>
         <div style="display:flex;gap:10px;margin-bottom:15px;"><button type="button" class="btn tr" data-k="em" style="margin:0;background:rgba(0,240,255,0.2);color:#fff;" id="b-em" onclick="sRM('email')">Email</button><button type="button" class="btn tr" data-k="ph" style="margin:0;background:rgba(255,255,255,0.05);color:#fff;" id="b-ph" onclick="sRM('phone')">Phone</button></div>
@@ -242,7 +245,6 @@
         </form>
         <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" class="tr" data-k="bck" onclick="swA('l-step')">← Back</div>
     </div>
-    
     <div id="rs-step" style="display:none;">
         <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="accRec">Account Recovery</h3>
         <p style="color:var(--sub);font-size:0.85rem;" class="tr" data-k="accHow">How would you like to access your account?</p>
@@ -253,7 +255,6 @@
         </div>
         <div style="margin-top:15px;color:var(--sub);font-size:0.85rem;cursor:pointer;" class="tr" data-k="bck" onclick="swA('l-step')">← Back</div>
     </div>
-    
     <div id="c-step" style="display:none;">
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="vc">Enter Code</h3>
         <p id="otp-msg" style="color:var(--sub);font-size:0.8rem;text-align:center;margin-bottom:15px;"></p>
@@ -262,7 +263,6 @@
         </div>
         <button class="btn tr" data-k="ver" onclick="verC()">Verify & Login</button>
     </div>
-    
     <div id="a-step" style="display:none;">
         <h3 style="color:#ff4d4d;margin-top:0;" class="tr" data-k="god">God Mode</h3>
         <button class="btn tr" data-k="passLog" style="margin-top:0;background:var(--c);color:var(--w);border:1px solid var(--w);margin-bottom:10px;" onclick="bioLog(true)">📱 Passkey Login</button>
@@ -284,36 +284,30 @@
 <div id="vip-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--w);margin-top:0;" class="tr" data-k="vip">🏆 VIP Rewards</h3>
     <p class="tr" data-k="vipDesc" style="color:var(--sub);font-size:0.9rem;margin-bottom:15px;">Earn automatic lifetime discounts by ordering more!</p>
-    
     <div style="background:rgba(0,0,0,0.5); border:1px solid var(--w); padding:20px; border-radius:15px; text-align:center; margin-bottom:15px;">
         <b class="tr" data-k="yOrd" style="font-size:1.1rem; color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br>
         <b class="tr" data-k="cDisc" style="font-size:1.1rem; color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span>
     </div>
-    
     <div id="streak-box" style="background:rgba(0,240,255,0.1); border:1px dashed var(--p); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
         <b style="color:var(--p); font-size:1rem;">🔥 <span class="tr" data-k="logStr">Login Streak:</span> <span id="vip-streak">0</span> <span class="tr" data-k="days">Days</span></b>
         <p style="color:var(--sub); font-size:0.8rem; margin-top:5px;" class="tr" data-k="strDesc">Hit 14 days in a row for a secret bonus discount!</p>
     </div>
-    
     <button class="tr" data-k="cls" onclick="closeModal('vip-mod')" style="background:none;border:none;color:var(--sub);font-weight:bold;cursor:pointer;width:100%;">Close</button>
 </div></div>
 
 <div id="prof-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="pro">My Profile</h3>
     <p style="color:var(--sub);font-size:0.9rem;margin-bottom:15px;" id="p-uid"></p>
-    
     <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
         <div style="color:var(--sub); font-size:0.85rem; font-weight:bold; text-transform:uppercase;" class="tr" data-k="digWal">Digital Wallet Balance</div>
         <div style="color:#00ff88; font-size:2rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
         <button class="btn tr" data-k="reqTop" style="margin:0; background:#00ff88; color:#000; padding:8px; font-size:0.85rem;" onclick="window.open('https://wa.me/21629895846?text=I%20want%20to%20top%20up%20my%20CyberHub%20Wallet')">➕ Request Top-Up</button>
     </div>
-
     <div style="background:rgba(255,77,77,0.1); padding:15px; border-radius:10px; border:1px solid #ff4d4d; margin-bottom:10px; text-align:left;">
         <b style="font-size:0.85rem;color:#ff4d4d;">🔒 Security (Authenticator)</b>
         <p style="font-size:0.75rem; color:var(--sub); margin-top:5px; margin-bottom:10px;">Protect your wallet with Google Authenticator.</p>
         <button class="btn" id="btn-2fa-setup" style="margin:0; font-size:0.85rem; background:#ff4d4d; color:#fff;" onclick="setup2FA()">Enable 2FA</button>
     </div>
-
     <div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:10px;text-align:left;">
         <b style="font-size:0.85rem;color:var(--w);" class="tr" data-k="ls">Link Socials (Auto-fills checkout)</b>
         <input type="text" id="p-ig" class="tr-ph" data-k="ig" placeholder="Instagram (@)">
@@ -390,24 +384,20 @@
 <div id="co-mod" class="modal"><div class="m-cnt">
     <div id="co-form">
         <h3 style="color:var(--p);margin-top:0;" class="tr" data-k="sco">Secure Checkout</h3>
-        
         <div style="display:flex;gap:5px;margin-bottom:15px; flex-wrap:wrap;">
             <div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div>
             <div class="c-btn tr" data-k="manMin" id="p-mm" onclick="sPay('Mandat Minute')">🏦 Mandat Min.</div>
             <div class="c-btn tr" data-k="csh" id="p-csh" onclick="sPay('Cash')">🤝 Cash</div>
             <div class="c-btn tr" data-k="walPay" id="p-wal" onclick="sPay('Wallet')" style="width:100%; margin-top:5px;">💳 Pay with Wallet (<span id="co-wal-bal">0</span> DT)</div>
         </div>
-        
         <div id="d-box-pay" style="background:rgba(0,0,0,0.5);border-radius:10px;padding:15px;margin-bottom:15px; border:1px solid var(--b);">
             <div id="pay-inst" style="text-align:center;">
                 <span class="tr" data-k="d17Inst">📱 D17 Transfer to:</span> <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b>
             </div>
-            
             <div id="proof-section" style="margin-top:15px; padding-top:15px; border-top:1px dashed #444; text-align:left;">
                 <label style="display:flex;align-items:center;gap:10px;font-weight:bold;margin-bottom:10px;cursor:pointer;color:var(--w);">
                     <input type="checkbox" id="co-pay-later" onchange="toggleProof(this.checked)" style="width:auto;margin:0;"> <span class="tr" data-k="payLat">Will Pay Later?</span>
                 </label>
-                
                 <div id="proof-inputs">
                     <input type="text" id="co-tx-id" class="tr-ph" data-k="txId" placeholder="Transaction ID (Optional)" style="margin-bottom:10px;">
                     <label style="display:block; font-size:0.85rem; color:var(--sub); margin-bottom:5px; font-weight:bold;" class="tr" data-k="upRec">📸 Upload Receipt Screenshot:</label>
@@ -415,9 +405,7 @@
                 </div>
             </div>
         </div>
-        
         <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
-        
         <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
             <b style="font-size:0.9rem;color:#fff;" class="tr" data-k="cm">Contact Method:</b>
             <div style="display:flex;gap:5px;margin:10px 0;">
@@ -427,7 +415,6 @@
             </div>
             <input type="text" id="coC" class="tr-ph" data-k="entWa" placeholder="Enter WhatsApp Number (e.g. +216...)" style="margin:0;">
         </div>
-        
         <textarea id="coNts" class="tr-ph" data-k="nts" placeholder="Comments or Game IDs" style="height:70px;"></textarea>
         <button class="btn tr" data-k="plc" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
         <button class="tr" data-k="canc" onclick="closeModal('co-mod')" style="background:none;border:none;color:var(--sub);margin-top:15px;cursor:pointer;font-weight:bold;">Cancel</button>
@@ -448,7 +435,6 @@
     <h3 style="color:var(--w);margin-top:0;">🎁 <span class="tr" data-k="spin">Spin & Win</span></h3>
     <div style="color:var(--sub);font-size:0.85rem;margin-bottom:5px;" class="tr" data-k="spn">Spins reset every 48 Hours.</div>
     <p style="color:#ff4d4d; font-size:0.75rem; font-weight:bold; margin-bottom:15px;" class="tr" data-k="spnWrn">⚠️ Abuse (multiple accounts/IPs) will result in an instant ban.</p>
-    
     <div class="wheel-cnt"><div class="w-ptr"></div><div class="w-center"></div><div id="wheel"></div></div>
     <div id="w-leg" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;font-size:0.85rem;"></div>
     <button class="btn tr" data-k="sn" onclick="spinW()" id="b-spin">SPIN NOW</button>
@@ -486,19 +472,21 @@
         <button class="btn" style="margin:0;background:rgba(0,240,255,0.1);color:var(--p);border:1px solid var(--p);" onclick="openModal('mark-modal')">🎟️ Promos & Loyalty</button>
         <button class="btn tr" data-k="mn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
+        
+        <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px dashed #ff4d4d;grid-column: span 2;" onclick="banUserIpPrompt()">🔨 Manual Ban User/IP</button>
+        
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
+        <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
 
 <div id="add-fld-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--w);margin-top:0;">📁 Create New Folder</h3>
-    <p style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">This creates a structure to hold your items.</p>
     <input type="text" id="af-cat" placeholder="Category Name (e.g. Gaming)">
     <input type="text" id="af-sub" placeholder="Subcategory Name (e.g. PC Games) - OPTIONAL">
     <input type="text" id="af-nom" placeholder="Folder Name (e.g. Valorant Points)">
-    
     <select id="af-emo" style="margin-bottom:5px; font-size:1.2rem;">
         <option value="📁">📁 Default Folder</option><option value="🎮">🎮 Gaming</option><option value="📱">📱 Mobile</option><option value="💻">💻 PC</option><option value="📺">📺 Streaming</option><option value="💰">💰 Money</option><option value="🎵">🎵 Music</option><option value="🎬">🎬 Movies</option><option value="📚">📚 Books</option><option value="🔑">🔑 Keys/Software</option><option value="🎨">🎨 Art/Design</option><option value="🛒">🛒 Store</option><option value="💎">💎 Premium</option><option value="⚡">⚡ Fast</option><option value="📦">📦 Box</option><option value="🌐">🌐 Web</option><option value="🎟️">🎟️ Tickets</option><option value="❤️">❤️ Hearts</option><option value="🚀">🚀 Rocket</option><option value="🔥">🔥 Hot</option><option value="⚙️">⚙️ Settings/Mods</option><option value="🔫">🔫 Shooter</option><option value="⚽">⚽ Sports</option><option value="🏎️">🏎️ Racing</option><option value="🗡️">🗡️ RPG/Sword</option><option value="🏆">🏆 Trophy</option><option value="👑">👑 Crown</option><option value="🎧">🎧 Audio</option><option value="🕹️">🕹️ Arcade</option><option value="🧩">🧩 Puzzle</option><option value="🧸">🧸 Toys</option><option value="🪙">🪙 Coins</option><option value="💳">💳 Cards</option><option value="🎁">🎁 Gifts</option><option value="🛍️">🛍️ Shopping</option><option value="🔧">🔧 Tools</option><option value="🛡️">🛡️ Shield</option><option value="🍔">🍔 Food</option><option value="🍕">🍕 Pizza</option><option value="🛸">🛸 Sci-Fi</option><option value="🤖">🤖 Bot</option><option value="👾">👾 Monster</option><option value="🎓">🎓 Education</option><option value="💼">💼 Work</option><option value="📈">📈 Stocks</option>
     </select>
@@ -568,17 +556,37 @@
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     let lastMaintState = "", globalFlashPct = 0, loginStreak = 0, captchaCorrect = 0, proofB64 = "";
     let pending2faSecret = ""; let pending2faUser = {};
-    
     let lastActionTime = 0; let actionCount = 0; let userIP = "Unknown";
+    
+    // PWA INSTALL LOGIC
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'flex';
+    });
+
+    function installPWA() {
+        if(!deferredPrompt) {
+            let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if(isIOS) { alert("To install on iPhone: Tap the 'Share' icon at the bottom of Safari, then tap 'Add to Home Screen'."); }
+            else { alert("App is already installed, or your browser does not support this feature."); }
+            return;
+        }
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') { if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'none'; }
+            deferredPrompt = null;
+        });
+    }
 
     const T = {
-      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse (multiple accounts/IPs) will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "📸 Upload Receipt Screenshot:", walPay: "💳 Pay with Wallet", manMin: "🏦 Mandat Min.", csh: "🤝 Cash", reqTop: "➕ Request Top-Up", digWal: "Digital Wallet Balance", humVer: "🤖 Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "📱 Passkey Login", pwdLog: "🔑 Password Login", addBio: "➕ Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "🌟 Loyalty Discount Applied!", flAct: "⚡ Flash Sale Active!", strApp: "🔥 14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "📱 D17 Transfer to:", mmInst: "🏦 Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "💬 OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for?", reqNm: "Service Name", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:" },
-      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article", itmAdd: "Article ajouté au panier!", itmSub: "Que voulez-vous faire ensuite?", chkNow: "Commander", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus (comptes/IP multiples) entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "📸 Télécharger une capture du reçu :", walPay: "💳 Payer avec Portefeuille", manMin: "🏦 Mandat Min.", csh: "🤝 Espèces", reqTop: "➕ Recharger", digWal: "Solde du Portefeuille", humVer: "🤖 Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous vous connecter ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "📱 Connexion Passkey", pwdLog: "🔑 Connexion Mot de passe", addBio: "➕ Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "🌟 Réduction de Fidélité Appliquée !", flAct: "⚡ Vente Flash Active !", strApp: "🔥 Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "📱 Transfert D17 à :", mmInst: "🏦 Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "💬 OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ?", reqNm: "Nom du service", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence du Bannissement", appBan: "Faire appel de ce bannissement :" }
+      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "📞 Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "📱 Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "📧 Change Email", ab: "⚙️ Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "🛒 Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "➕ Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "➕ Create New Item", addItm: "➕ Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse (multiple accounts/IPs) will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "📸 Upload Receipt Screenshot:", walPay: "💳 Pay with Wallet", manMin: "🏦 Mandat Min.", csh: "🤝 Cash", reqTop: "➕ Request Top-Up", digWal: "Digital Wallet Balance", humVer: "🤖 Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "📱 Passkey Login", pwdLog: "🔑 Password Login", addBio: "➕ Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "🌟 Loyalty Discount Applied!", flAct: "⚡ Flash Sale Active!", strApp: "🔥 14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "📱 D17 Transfer to:", mmInst: "🏦 Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "💬 OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for?", reqNm: "Service Name", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:", instApp: "Install App" },
+      fr: { ld: "Chargement... ⏳", srch: "Recherche Nom ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "📞 Besoin d'Aide?", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Réinitialiser", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier", canc: "Annuler", bio: "📱 Connexion Biométrique", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "URL Facebook", sav: "Enregistrer", ce: "📧 Changer Email", ab: "⚙️ Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Code", crt: "🛒 Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo?", apl: "Appliquer", chk: "Valider", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs", plc: "COMMANDER", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Remplissez les champs", bnc: "Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur", scs: "Succès", rq: "Nom/Contact Requis", mn: "➕ Commande Manuelle", rqLog: "Connectez-vous pour jouer!", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix:", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "➕ Créer un Article", addItm: "➕ Créer un Article", itmAdd: "Article ajouté au panier!", itmSub: "Que voulez-vous faire ensuite?", chkNow: "Commander", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus (comptes/IP multiples) entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "📸 Télécharger une capture du reçu :", walPay: "💳 Payer avec Portefeuille", manMin: "🏦 Mandat Min.", csh: "🤝 Espèces", reqTop: "➕ Recharger", digWal: "Solde du Portefeuille", humVer: "🤖 Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous vous connecter ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "📱 Connexion Passkey", pwdLog: "🔑 Connexion Mot de passe", addBio: "➕ Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "🌟 Réduction de Fidélité Appliquée !", flAct: "⚡ Vente Flash Active !", strApp: "🔥 Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "📱 Transfert D17 à :", mmInst: "🏦 Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "💬 OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ?", reqNm: "Nom du service", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence du Bannissement", appBan: "Faire appel de ce bannissement :", instApp: "Installer l'Appli" }
     };
 
     function el(i){return document.getElementById(i);}
     
-    // FIREWALL & RATE LIMITING LOGIC
     function checkRateLimit() {
         let now = Date.now();
         if(now - lastActionTime < 2000) { 
@@ -589,7 +597,7 @@
     }
 
     function appealWA() { window.open(`https://wa.me/21629895846?text=Hello,%20my%20IP%20was%20banned.%20Code:%20${el('fw-code').innerText}%20IP:%20${userIP}`); }
-    function appealIG() { window.open(`https://ig.me/m/yessine_ben_fraj`); }
+    function appealIG() { window.open(`https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet`); }
 
     function checkFirewall() {
         if(!db.bans) return;
@@ -599,6 +607,30 @@
             el('firewall-screen').style.display = 'flex';
             document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
         }
+    }
+
+    function banUserIpPrompt() {
+        let ipToBan = prompt("Enter IP Address to Ban:");
+        if(!ipToBan) return;
+        let r = prompt("Reason for ban?");
+        pAPI('ban_ip', {ip: ipToBan, reason: r || "Manual Admin Ban"}, true);
+    }
+
+    // THEME FIX
+    function applyTheme() {
+        let t = themes[curTheme];
+        document.documentElement.style.setProperty('--p', t.p);
+        document.documentElement.style.setProperty('--w', t.w);
+        document.documentElement.style.setProperty('--bg', t.bg);
+        document.documentElement.style.setProperty('--b', t.b);
+        document.documentElement.style.setProperty('--c', t.c);
+    }
+
+    function cycleTheme() { 
+        curTheme = (curTheme + 1) % themes.length; 
+        localStorage.setItem('ch_theme', curTheme); 
+        applyTheme(); 
+        toast(T[lang].thm + themes[curTheme].n, "info"); 
     }
 
     function purgeCache() { localStorage.removeItem('ch_db_cache'); toast("Cache Cleared! Reloading...", "info"); setTimeout(() => window.location.reload(true), 1000); }
@@ -837,7 +869,6 @@
             if(!isCached) { startFakeTicker(); }
         }
 
-        // 🔥 LOG VISIT SYSTEM
         if(!sessionStorage.getItem('ch_vst_lggd')) {
             sessionStorage.setItem('ch_vst_lggd', 'true');
             customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
@@ -1305,7 +1336,7 @@
                 if(el('co-succ')) el('co-succ').style.display = 'block'; 
                 if(el('succ-gid')) el('succ-gid').innerText = d.gId;
                 
-                let dmLinks = { wa: `https://wa.me/21629895846?text=${encodeURIComponent(invoice)}`, ig: "https://ig.me/m/yessine_ben_fraj", fb: "https://m.me/yessine_ben_fraj" };
+                let dmLinks = { wa: `https://wa.me/21629895846?text=${encodeURIComponent(invoice)}`, ig: "https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet", fb: "https://m.me/yessine_ben_fraj" };
                 if(el('dm-btn')) el('dm-btn').onclick = () => { window.open(dmLinks[cM] || dmLinks.wa); };
 
                 cart=[]; if(el('c-count')) el('c-count').innerText="0"; 
