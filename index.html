@@ -467,6 +467,7 @@
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
+        <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -530,10 +531,10 @@
 
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button class="tr" data-k="cls" onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;">Close</button></div></div>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" defer></script>
+<script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
 
 <script>
     const SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
@@ -546,7 +547,6 @@
     let pCode="", pPct=0, payM="D17", cM="wa", rM="email", lC=0, lT, isR=false, pE, pP2, loginMode="pass"; let c1, c2;
     let dId=localStorage.getItem('ch_did'); if(!dId){dId=Math.random().toString(36).slice(2); localStorage.setItem('ch_did',dId);}
     let lastMaintState = "", globalFlashPct = 0, loginStreak = 0, captchaCorrect = 0, proofB64 = "";
-    
     let pending2faSecret = ""; let pending2faUser = {};
     
     const T = {
@@ -622,6 +622,7 @@
     async function confirm2FASetup() {
         let inputCode = el('inp-2fa').value;
         if(!inputCode || inputCode.length < 6) return toast(T[lang].fill, true);
+        if(typeof window.OTPAuth === 'undefined') return toast("Loading Security Module...", "info");
         let totp = new window.OTPAuth.TOTP({ issuer: "CyberHub", label: user, algorithm: "SHA1", digits: 6, period: 30, secret: window.OTPAuth.Secret.fromBase32(window.temp2faSec) });
         if(inputCode === totp.generate()) {
             el('btn-2fa-setup').innerText = "Saving...";
@@ -633,6 +634,7 @@
     function verify2FALogin() {
         let inputCode = el('2fa-code-inp').value;
         if(!inputCode || inputCode.length < 6) return toast(T[lang].fill, true);
+        if(typeof window.OTPAuth === 'undefined') return toast("Loading Security Module...", "info");
         let totp = new window.OTPAuth.TOTP({ issuer: "CyberHub", label: pending2faUser.c, algorithm: "SHA1", digits: 6, period: 30, secret: window.OTPAuth.Secret.fromBase32(pending2faSecret) });
         if(inputCode === totp.generate()) {
             user = pending2faUser.c; pass = pending2faUser.p; role = pending2faUser.r; uOrders = parseInt(pending2faUser.o); 
@@ -712,7 +714,6 @@
         }catch(e){toast(T[lang].err,true);}
     }
 
-    // CACHE-BUSTED REFRESH
     setInterval(async () => {
         try {
             let d = await customFetch(SURL + "?action=get_public_data&_cb=" + Date.now());
@@ -748,22 +749,17 @@
         if(pct) { let ms = Date.now() + (parseFloat(hrs) * 3600000); pAPI('set_flash_sale', {v: ms + "|||" + pct}, true); toast(T[lang].flStr, false); }
     }
 
-    // 🔥 SMART FAKE TICKER ALGORITHM (V99)
     function startFakeTicker() {
         if(window.tickerInt) clearInterval(window.tickerInt);
         window.tickerInt = setInterval(() => {
             if(!db.inv || db.inv.length < 2) return;
-            
-            // Filter out items with "cash" or price 0
             let validItems = db.inv.slice(1).filter(r => {
                 let n = r[10] || r[11] || "";
                 return n && n !== "Dummy Item" && !n.toLowerCase().includes('cash') && parseFloat(r[12]) > 0;
             });
             if(validItems.length === 0) return;
-
             let names = ['Ahmed', 'Yassine', 'Farah', 'Mariem', 'Aziz', 'Sami', 'Nour', 'Omar', 'Amira', 'Khaled', 'Syrine', 'Wael', 'Rayen', 'Eya', 'Youssef', 'Mehdi', 'Skander', 'Chaima'];
             let initials = ['A.', 'B.', 'C.', 'M.', 'S.', 'T.', 'K.', 'F.', 'H.', 'R.'];
-            
             let rName = names[Math.floor(Math.random()*names.length)] + " " + initials[Math.floor(Math.random()*initials.length)];
             let rItemRow = validItems[Math.floor(Math.random()*validItems.length)];
             
@@ -778,13 +774,11 @@
                 tEl.classList.add('show');
                 setTimeout(() => tEl.classList.remove('show'), 5000);
             }
-        }, 60000); // Exactly 1 min
+        }, 60000);
     }
 
+    // THE SPEED BOOSTER: Executes logic instantly
     async function initApp() {
-        function checkPart(){ if(typeof particlesJS !== 'undefined') particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); else setTimeout(checkPart, 200); }
-        checkPart();
-
         if(!localStorage.getItem('ch_pol')) openModal('pol-mod'); 
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
         
@@ -793,6 +787,10 @@
         if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); startFakeTicker(); isCached = true; } } catch(e){} } 
         
         if(!isCached) { if(el('st-cnt')) el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
+
+        // Start background load of particles
+        function checkPart(){ if(typeof particlesJS !== 'undefined') particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); else setTimeout(checkPart, 200); }
+        checkPart();
 
         let d = await customFetch(SURL+"?action=get_public_data&_cb=" + Date.now()); 
         if(d && d.status==="success") {
@@ -907,7 +905,6 @@
     }
     
     function dR(i, q=""){
-        // FIXED CART FULL PATH
         let fullItemName = `${i.cat} > ${i.sub} > ${i.n}`;
         let eO=sEnc(i.id), eN=sEnc(fullItemName); 
         
@@ -1325,7 +1322,9 @@
         if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); if(el('revC')) c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
     }
 
-    window.onload = initApp;
+    // RUN INSTANTLY (No more waiting for window.onload)
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
+
 </script>
 </body>
 </html>
