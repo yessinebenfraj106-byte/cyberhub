@@ -108,7 +108,6 @@
         .loyalty-banner { background: linear-gradient(90deg, #ff00ff, var(--w)); color: #fff; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; display: none; animation: glow 2s ease infinite; background-size: 200% 200%;}
         .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
         
-        /* 🔥 FIXED TICKER FOR MOBILE RESPONSIVENESS */
         .ticker { position: fixed; bottom: 100px; left: -100%; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold; max-width: 80vw; word-wrap: break-word; line-height: 1.4; }
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
@@ -118,6 +117,7 @@
 
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
 
+        /* 🔥 FIREWALL SCREEN STYLING */
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
     </style>
 </head>
@@ -194,6 +194,7 @@
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
+    <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
     <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn tr" data-k="reqSrv" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ Request Custom Service</button>
@@ -472,9 +473,7 @@
         <button class="btn" style="margin:0;background:rgba(0,240,255,0.1);color:var(--p);border:1px solid var(--p);" onclick="openModal('mark-modal')">🎟️ Promos & Loyalty</button>
         <button class="btn tr" data-k="mn" style="margin:0;background:rgba(0,255,136,0.1);color:#00ff88;border:1px solid #00ff88;" onclick="loadInvToSel();openModal('mnl-ord-mod')">➕ Manual Order</button>
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
-        
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px dashed #ff4d4d;grid-column: span 2;" onclick="banUserIpPrompt()">🔨 Manual Ban User/IP</button>
-        
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
         <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
@@ -484,9 +483,11 @@
 
 <div id="add-fld-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--w);margin-top:0;">📁 Create New Folder</h3>
+    <p style="color:var(--sub);font-size:0.8rem;margin-bottom:10px;">This creates a structure to hold your items.</p>
     <input type="text" id="af-cat" placeholder="Category Name (e.g. Gaming)">
     <input type="text" id="af-sub" placeholder="Subcategory Name (e.g. PC Games) - OPTIONAL">
     <input type="text" id="af-nom" placeholder="Folder Name (e.g. Valorant Points)">
+    
     <select id="af-emo" style="margin-bottom:5px; font-size:1.2rem;">
         <option value="📁">📁 Default Folder</option><option value="🎮">🎮 Gaming</option><option value="📱">📱 Mobile</option><option value="💻">💻 PC</option><option value="📺">📺 Streaming</option><option value="💰">💰 Money</option><option value="🎵">🎵 Music</option><option value="🎬">🎬 Movies</option><option value="📚">📚 Books</option><option value="🔑">🔑 Keys/Software</option><option value="🎨">🎨 Art/Design</option><option value="🛒">🛒 Store</option><option value="💎">💎 Premium</option><option value="⚡">⚡ Fast</option><option value="📦">📦 Box</option><option value="🌐">🌐 Web</option><option value="🎟️">🎟️ Tickets</option><option value="❤️">❤️ Hearts</option><option value="🚀">🚀 Rocket</option><option value="🔥">🔥 Hot</option><option value="⚙️">⚙️ Settings/Mods</option><option value="🔫">🔫 Shooter</option><option value="⚽">⚽ Sports</option><option value="🏎️">🏎️ Racing</option><option value="🗡️">🗡️ RPG/Sword</option><option value="🏆">🏆 Trophy</option><option value="👑">👑 Crown</option><option value="🎧">🎧 Audio</option><option value="🕹️">🕹️ Arcade</option><option value="🧩">🧩 Puzzle</option><option value="🧸">🧸 Toys</option><option value="🪙">🪙 Coins</option><option value="💳">💳 Cards</option><option value="🎁">🎁 Gifts</option><option value="🛍️">🛍️ Shopping</option><option value="🔧">🔧 Tools</option><option value="🛡️">🛡️ Shield</option><option value="🍔">🍔 Food</option><option value="🍕">🍕 Pizza</option><option value="🛸">🛸 Sci-Fi</option><option value="🤖">🤖 Bot</option><option value="👾">👾 Monster</option><option value="🎓">🎓 Education</option><option value="💼">💼 Work</option><option value="📈">📈 Stocks</option>
     </select>
@@ -558,7 +559,6 @@
     let pending2faSecret = ""; let pending2faUser = {};
     let lastActionTime = 0; let actionCount = 0; let userIP = "Unknown";
     
-    // PWA INSTALL LOGIC
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -600,13 +600,32 @@
     function appealIG() { window.open(`https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet`); }
 
     function checkFirewall() {
-        if(!db.bans) return;
-        let isBanned = db.bans.find(b => b.ip === userIP);
-        if(isBanned) {
-            el('fw-ip').innerText = userIP; el('fw-code').innerText = isBanned.code;
-            el('firewall-screen').style.display = 'flex';
-            document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
+        // INSTANT HARD BAN CACHE CHECK
+        let hardBan = localStorage.getItem('ch_ban_code');
+        let isBanned = false;
+        
+        if (db.bans && userIP !== "Unknown") {
+            isBanned = db.bans.find(b => b.ip === userIP);
         }
+
+        if(isBanned) {
+            localStorage.setItem('ch_ban_code', isBanned.code);
+            if(el('fw-ip')) el('fw-ip').innerText = userIP; 
+            if(el('fw-code')) el('fw-code').innerText = isBanned.code;
+            if(el('firewall-screen')) el('firewall-screen').style.display = 'flex';
+            document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
+            return true;
+        } else if (hardBan && (!db.bans || db.bans.length === 0)) {
+             if(el('fw-ip')) el('fw-ip').innerText = userIP; 
+             if(el('fw-code')) el('fw-code').innerText = hardBan;
+             if(el('firewall-screen')) el('firewall-screen').style.display = 'flex';
+             document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
+             return true;
+        } else if (!isBanned && db.bans && db.bans.length > 0 && hardBan) {
+            localStorage.removeItem('ch_ban_code');
+            if(el('firewall-screen')) el('firewall-screen').style.display = 'none';
+        }
+        return false;
     }
 
     function banUserIpPrompt() {
@@ -616,7 +635,6 @@
         pAPI('ban_ip', {ip: ipToBan, reason: r || "Manual Admin Ban"}, true);
     }
 
-    // THEME FIX
     function applyTheme() {
         let t = themes[curTheme];
         document.documentElement.style.setProperty('--p', t.p);
@@ -849,29 +867,33 @@
         }, 60000);
     }
 
+    // THE V107 INSTANT-LOCK ENGINE
     async function initApp() {
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
+        userIP = localStorage.getItem('ch_last_ip') || "Unknown";
         
-        try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); userIP = d.ip; } catch(e) {}
+        // Instant async IP fetch
+        fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{
+            userIP = d.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
+            if(!sessionStorage.getItem('ch_vst_lggd')) {
+                sessionStorage.setItem('ch_vst_lggd', 'true');
+                customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+            }
+        }).catch(e=>{});
 
         let isCached = false; let cached = localStorage.getItem('ch_db_cache');
-        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); checkFirewall(); renderMkt(); buildW(); ren(); startFakeTicker(); isCached = true; } } catch(e){} } 
-        if(!isCached) { if(el('st-cnt')) el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
+        if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; if(checkFirewall()) return; chkUI(); renderMkt(); buildW(); ren(); startFakeTicker(); isCached = true; } } catch(e){} } 
+        if(!isCached) { if(checkFirewall()) return; if(el('st-cnt')) el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
 
         let d = await customFetch(SURL+"?action=get_public_data&_cb=" + Date.now()); 
         if(d && d.status==="success") {
             db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl; db.bans=d.bans || [];
-            checkFirewall();
+            if(checkFirewall()) return; // Stop if db fetch reveals new ban
             if (d.promo && d.promo.length > 1) { d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); }
             if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
             localStorage.setItem('ch_db_cache', JSON.stringify(db));
             lastMaintState = d.maint || "FALSE"; hMaint(lastMaintState); updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
             if(!isCached) { startFakeTicker(); }
-        }
-
-        if(!sessionStorage.getItem('ch_vst_lggd')) {
-            sessionStorage.setItem('ch_vst_lggd', 'true');
-            customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
         }
         
         function checkPart(){ if(typeof particlesJS !== 'undefined') particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); else setTimeout(checkPart, 200); }
