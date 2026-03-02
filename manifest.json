@@ -1,15 +1,24 @@
 {
-  "name": "CyberHub Store",
+  "name": "CyberHub Premium Store",
   "short_name": "CyberHub",
-  "start_url": ".",
+  "description": "Premium Digital & Gaming Store",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#050b14",
-  "theme_color": "#050b14",
+  "theme_color": "#00f0ff",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
