@@ -467,7 +467,6 @@
         <button class="btn" style="margin:0;background:linear-gradient(90deg,#ff4d4d,#ffae00);color:#fff;border:none;grid-column: span 2;animation: glow 2s ease infinite;background-size:200% 200%;" onclick="trigFlash()">⚡ Trigger Flash Sale</button>
         <button class="btn" style="margin:0;background:rgba(255,255,255,0.1);color:#fff;border:1px solid #fff;" onclick="openWhlEd()">🎡 Wheel Edit</button>
         <button class="btn" style="margin:0;background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid #ff4d4d;" onclick="fAdm('spins')">🎯 Spin Logs</button>
-        <button class="btn" style="margin:0;background:rgba(255,174,0,0.2);color:var(--w);border:1px dashed var(--w);grid-column: span 2;" onclick="purgeCache()">⚙️ Force App Restart & Reset Cache</button>
     </div>
     <button class="tr" data-k="cls" onclick="closeModal('adm-dash')" style="background:none;border:none;color:var(--sub);margin-top:20px;font-weight:bold;cursor:pointer;">Close Console</button>
 </div></div>
@@ -520,7 +519,7 @@
 <div id="mnl-ord-mod" class="modal"><div class="m-cnt">
     <h3 style="color:#00ff88;margin-top:0;" class="tr" data-k="mn">➕ Manual Order</h3>
     <input type="text" id="mo-c" placeholder="Client Name">
-    <select id="mo-sel" onchange="if(this.value==='CUSTOM'){el('mo-i').style.display='block';el('mo-p').value='';}else{el('mo-i').style.display='none';el('mo-p').value=this.value.split('||')[1];el('mo-i').value=decodeURIComponent(this.value.split('||')[0]);}" style="margin-bottom:8px;">
+    <select id="mo-sel" onchange="if(this.value==='CUSTOM'){el('mo-i').style.display='block';el('mo-p').value='';}else{el('mo-i').style.display='none';el('mo-p').value=this.value.split('||')[1];el('mo-i').value=decodeURIComponent(this.value.split('||')[0]);}" style="margin-bottom:8px; font-size:0.9rem;">
         <option value="CUSTOM">-- Custom --</option>
     </select>
     <input type="text" id="mo-i" placeholder="Custom Item Name">
@@ -577,7 +576,6 @@
     function swA(i){['l-step','r-step','rs-step','c-step','a-step','2fa-step'].forEach(x=>el(x).style.display='none');el(i).style.display='block';}
     function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0, 2) + "***@" + p[1]; } return str.slice(0, 3) + "***" + str.slice(-2); }
     
-    // RESTORED HSL ENGINE
     function hslToHex(h, s, l) {
         s /= 100; l /= 100; let c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r=0, g=0, b=0;
         if (0<=h && h<60) { r=c; g=x; b=0; } else if (60<=h && h<120) { r=x; g=c; b=0; } else if (120<=h && h<180) { r=0; g=c; b=x; } else if (180<=h && h<240) { r=0; g=x; b=c; } else if (240<=h && h<300) { r=x; g=0; b=c; } else if (300<=h && h<360) { r=c; g=0; b=x; }
@@ -606,7 +604,6 @@
 
     function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
 
-    // 2FA ENGINE
     function generateBase32Secret() {
         let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let secret = '';
         for (let i = 0; i < 16; i++) { secret += chars.charAt(Math.floor(Math.random() * chars.length)); }
@@ -715,9 +712,10 @@
         }catch(e){toast(T[lang].err,true);}
     }
 
+    // CACHE-BUSTED REFRESH
     setInterval(async () => {
         try {
-            let d = await customFetch(SURL + "?action=get_public_data");
+            let d = await customFetch(SURL + "?action=get_public_data&_cb=" + Date.now());
             if (d && d.status === "success") {
                 if(d.maint !== lastMaintState) { lastMaintState = d.maint; hMaint(d.maint); }
                 updateFlash(d.flash);
@@ -750,7 +748,7 @@
         if(pct) { let ms = Date.now() + (parseFloat(hrs) * 3600000); pAPI('set_flash_sale', {v: ms + "|||" + pct}, true); toast(T[lang].flStr, false); }
     }
 
-    // 🔥 SMART FAKE TICKER ALGORITHM
+    // 🔥 SMART FAKE TICKER ALGORITHM (V99)
     function startFakeTicker() {
         if(window.tickerInt) clearInterval(window.tickerInt);
         window.tickerInt = setInterval(() => {
@@ -768,15 +766,19 @@
             
             let rName = names[Math.floor(Math.random()*names.length)] + " " + initials[Math.floor(Math.random()*initials.length)];
             let rItemRow = validItems[Math.floor(Math.random()*validItems.length)];
-            let rItem = (lang==='en' && rItemRow[10]) ? rItemRow[10] : (rItemRow[11] ? rItemRow[11] : rItemRow[10]);
+            
+            let rCat = (lang==='en' && rItemRow[1]) ? rItemRow[1] : (rItemRow[2] ? rItemRow[2] : "Misc");
+            let rSub = (lang==='en' && rItemRow[4]) ? rItemRow[4] : (rItemRow[5] ? rItemRow[5] : "General");
+            let rItemN = (lang==='en' && rItemRow[10]) ? rItemRow[10] : (rItemRow[11] ? rItemRow[11] : rItemRow[10]);
+            let rFull = `${rCat} > ${rSub} > ${rItemN}`;
 
             let tEl = el('live-ticker');
             if(tEl) {
-                tEl.innerHTML = `🛍️ <b style="color:var(--p)">${rName}</b> ${lang==='en'?'bought':'a acheté'} <b style="color:var(--w)">${rItem}</b>!`;
+                tEl.innerHTML = `🛍️ <b style="color:var(--p)">${rName}</b> ${lang==='en'?'bought':'a acheté'} <b style="color:var(--w)">${rFull}</b>!`;
                 tEl.classList.add('show');
                 setTimeout(() => tEl.classList.remove('show'), 5000);
             }
-        }, 60000); // 1 Notification per minute exactly
+        }, 60000); // Exactly 1 min
     }
 
     async function initApp() {
@@ -792,14 +794,13 @@
         
         if(!isCached) { if(el('st-cnt')) el('st-cnt').innerHTML=`<div style="text-align:center;padding:40px;"><div class="loader"></div><div style="color:var(--p);font-weight:bold;" class="tr" data-k="ld">${T[lang].ld}</div></div>`; }
 
-        let d = await customFetch(SURL+"?action=get_public_data"); 
+        let d = await customFetch(SURL+"?action=get_public_data&_cb=" + Date.now()); 
         if(d && d.status==="success") {
             db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl;
             if (d.promo && d.promo.length > 1) { d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); }
             if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
             localStorage.setItem('ch_db_cache', JSON.stringify(db));
             lastMaintState = d.maint || "FALSE"; hMaint(lastMaintState); updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
-            
             if(!isCached) { startFakeTicker(); }
         }
     }
@@ -906,7 +907,10 @@
     }
     
     function dR(i, q=""){
-        let eO=sEnc(i.id), eN=sEnc(i.n); 
+        // FIXED CART FULL PATH
+        let fullItemName = `${i.cat} > ${i.sub} > ${i.n}`;
+        let eO=sEnc(i.id), eN=sEnc(fullItemName); 
+        
         let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : '';
         let extHtml = i.exReq ? `<input type="text" id="ex-${i.id}" placeholder="${i.exTxt}" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">` : '';
         let btnCol = i.col || 'var(--p)';
@@ -1000,13 +1004,49 @@
         else { let c=prompt("1=RED, 2=YELLOW, 3=GREEN"); if(!c)return; let cn="YELLOW"; if(c==="1")cn="RED"; if(c==="3")cn="GREEN"; let m=prompt("Msg:"); if(!m)return; setMaint(`ANNOUNCE|||${cn}|||${m}`); }
     }
     
-    function hMaint(mD){let b=el('maint-banner'), t=el('ui-m-m'), s=String(mD).toUpperCase().trim(); if(!b)return; if(s.startsWith("ANNOUNCE|||")){let p=s.split("|||"); let c=p[1], m=p[2]; b.style.display='block'; if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} if(el('ui-m-t')) el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; if(t) t.innerHTML=m; if(c==="RED" && role !== 'Admin') { if(el('st-cnt')) el('st-cnt').style.display='none'; } return;} b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; if(s==="TRUE"||s==="UNTIL"){b.style.display='block'; if(el('ui-m-t')) el('ui-m-t').innerHTML="STORE CLOSED"; if(t) t.innerHTML="Maintenance in progress."; if(el('st-cnt')) el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';} else {b.style.display='none'; if(el('st-cnt')) el('st-cnt').style.display='block';}}
+    function hMaint(mD){
+        let b=el('maint-banner'), t=el('ui-m-m'); if(!b) return;
+        let rawStr = String(mD).trim(); let s = rawStr.toUpperCase();
+        
+        if(s.startsWith("ANNOUNCE|||")){
+            let p = rawStr.split("|||"); 
+            let c = p[1] ? p[1].toUpperCase() : "YELLOW"; 
+            let m = p[2] || ""; 
+            
+            b.style.display='block'; 
+            if(c==="RED"){b.style.borderColor='#ff4d4d';b.style.color='#ff4d4d';b.style.background='rgba(255,77,77,0.1)';}
+            else if(c==="GREEN"){b.style.borderColor='#00ff88';b.style.color='#00ff88';b.style.background='rgba(0,255,136,0.1)';}
+            else{b.style.borderColor='var(--w)';b.style.color='var(--w)';b.style.background='rgba(255,174,0,0.1)';} 
+            
+            if(el('ui-m-t')) el('ui-m-t').innerHTML="📢 ANNOUNCEMENT"; 
+            if(t) t.innerHTML=m; 
+            
+            if(c==="RED" && role !== 'Admin' && role !== 'Support') { 
+                if(el('st-cnt')) el('st-cnt').style.display='none'; 
+            } else {
+                if(el('st-cnt')) el('st-cnt').style.display='block';
+            }
+            return;
+        } 
+        
+        b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; 
+        if(s==="TRUE" || s==="UNTIL"){
+            b.style.display='block'; 
+            if(el('ui-m-t')) el('ui-m-t').innerHTML="STORE CLOSED"; 
+            if(t) t.innerHTML="Maintenance in progress."; 
+            if(el('st-cnt')) el('st-cnt').style.display=(role==='Admin'||role==='Support')?'block':'none';
+        } else {
+            b.style.display='none'; 
+            if(el('st-cnt')) el('st-cnt').style.display='block';
+        }
+    }
+    
     function setMaint(m){let v=(m==="OFF")?"FALSE":m; pAPI('maint',{v:v}); hMaint(v); lastMaintState = v;}
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...", "info"); let d=await customFetch(SURL,{method:'POST',body:JSON.stringify(p)}); if(d&&d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}
 
     async function openAdminDash() {
         toast("Fetching Secure Data...", "info");
-        let d=await customFetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}`); 
+        let d=await customFetch(SURL+`?action=get_admin&role=${role}&user=${encodeURIComponent(user)}&_cb=${Date.now()}`); 
         if(d&&d.status==="success") { db.ord=d.ord; db.usr=d.usr; db.spn=d.spn; db.inv=d.inv; openModal('adm-dash'); setTimeout(drawCharts,300); }
     }
 
@@ -1049,9 +1089,24 @@
         if(el('d-box')) el('d-box').innerHTML=h||"Empty.";
     }
     
-    async function fUsrOrd(){closeModal('prof-mod'); if(el('d-tit')) el('d-tit').innerText=T[lang].mord; if(el('d-box')) el('d-box').innerHTML="Loading..."; openModal('d-mod'); let d=await customFetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}`); let h=""; if(d&&d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[10]==="Pending"?`<button class="btn tr" data-k="canc" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[1]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[1]}</b> (${o[10]})<br>${o[5]}<br>${o[9]} DT${cnl}</div>`;});} if(el('d-box')) el('d-box').innerHTML=h||"Empty.";}
+    async function fUsrOrd(){closeModal('prof-mod'); if(el('d-tit')) el('d-tit').innerText=T[lang].mord; if(el('d-box')) el('d-box').innerHTML="Loading..."; openModal('d-mod'); let d=await customFetch(SURL+`?action=get_user_orders&user=${encodeURIComponent(user)}&_cb=${Date.now()}`); let h=""; if(d&&d.status==="success"&&d.ord.length>0){d.ord.forEach(o=>{let cnl=o[10]==="Pending"?`<button class="btn tr" data-k="canc" style="background:none;border:1px solid #ff4d4d;color:#ff4d4d;padding:5px;" onclick="if(confirm('Cancel?')){pAPI('client_cancel',{oid:'${o[1]}',c:'${user}'},true);event.target.innerText='Cancelled';}">${T[lang].canc}</button>`:""; h+=`<div class="i-row" style="display:block;"><b style="color:var(--p);">${o[1]}</b> (${o[10]})<br>${o[5]}<br>${o[9]} DT${cnl}</div>`;});} if(el('d-box')) el('d-box').innerHTML=h||"Empty.";}
     
-    function loadInvToSel(){ let s=el('mo-sel'), h=`<option value="CUSTOM">-- Custom --</option>`; if(db.inv){ db.inv.slice(1).forEach(r=>{if(r[10]||r[11]){ let n=(lang==='en'&&r[10])?r[10]:r[11]; h+=`<option value="${sEnc(n)}||${r[12]||0}">${n} (${r[12]||0} DT)</option>`;} }); } if(s) s.innerHTML=h; }
+    function loadInvToSel(){ 
+        let s=el('mo-sel'), h=`<option value="CUSTOM">-- Custom --</option>`; 
+        if(db.inv){ 
+            db.inv.slice(1).forEach(r=>{
+                if(r[10]||r[11]){ 
+                    let cat = (lang==='en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc");
+                    let sub = (lang==='en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General");
+                    let n=(lang==='en'&&r[10])?r[10]:r[11]; 
+                    let fullN = `${cat} > ${sub} > ${n}`;
+                    h+=`<option value="${sEnc(fullN)}||${r[12]||0}">${fullN} (${r[12]||0} DT)</option>`;
+                } 
+            }); 
+        } 
+        if(s) s.innerHTML=h; 
+    }
+
     function opMnl(){loadInvToSel();openModal('mnl-ord-mod');} 
     function addMnl(){pAPI('admin_order',{client:el('mo-c').value,plat:"NA",contact:"NA",items:[{name:el('mo-i').value,price:el('mo-p').value,finalPrice:el('mo-p').value}],promo:"",loy:0,comments:"",c:user, payM:"Cash", payLater:false}); closeModal('mnl-ord-mod');}
 
@@ -1210,8 +1265,8 @@
                 if(d.isPaid && payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); }
                 
                 let invoice = `🛒 *CYBERHUB ORDER*\n\n*Order Group ID:* ${d.gId}\n*Total Amount:* ${total.toFixed(2)} DT\n\n*--- ITEMS ---*\n`;
-                cart.forEach(i => { invoice += `🔹 ${i.n} (ID: ${i.id})\n   Price: ${i.finalPrice.toFixed(2)} DT\n`; });
-                invoice += `\nStatus: ${d.isPaid ? 'Paid via Wallet ✅' : 'Pending Payment ⏳'}`;
+                cart.forEach(i => { invoice += `🔹 ${i.n}\n   ID: ${i.id}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; });
+                invoice += `Status: ${d.isPaid ? 'Paid via Wallet ✅' : 'Pending Payment ⏳'}`;
 
                 navigator.clipboard.writeText(invoice).catch(e=>{});
                 
