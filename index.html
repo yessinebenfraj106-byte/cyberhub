@@ -29,7 +29,6 @@
 
     <script>
         const SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
-        // LAUNCH FETCH IMMEDIATELY BEFORE PAGE DRAWS
         window.globalDataPromise = fetch(SURL + "?action=get_public_data&_cb=" + Date.now()).then(r => r.json()).catch(e => null);
         window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
         
@@ -129,7 +128,7 @@
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
         
-        /* 🔥 FAST-LOAD SKELETON ANIMATIONS */
+        /* 🔥 NEW FAST-LOAD SKELETON ANIMATIONS */
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -206,7 +205,7 @@
     </div>
 
     <div style="display:none;" aria-hidden="true"><input type="text" name="fake_username_trap" tabindex="-1"><input type="password" name="fake_password_trap" tabindex="-1"></div>
-    <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
+    <input type="search" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" oninput="ren()" style="width:100%;margin-bottom:15px;">
     
     <button class="btn glow-btn" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ <span class="tr" data-k="reqSrv">Request Custom Service</span></button>
     
@@ -215,7 +214,7 @@
             <div class="skel-card"></div><div class="skel-card"></div>
             <div class="skel-card"></div><div class="skel-card"></div>
         </div>
-        <p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">Connecting to Secure Server...</span> ⏳</p>
+        <p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">Loading Store... ⏳</span></p>
     </div>
 
     <div id="diag-out" class="diag-box"></div>
@@ -758,11 +757,12 @@
             let text = await res.text();
             try { return JSON.parse(text); } 
             catch(err) {
+                console.error("GOOGLE BLOCKED CONNECTION. RAW HTML:", text);
                 if(el('diag-out')) { el('diag-out').style.display = 'block'; el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`; }
                 if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
                 return null;
             }
-        } catch(e) { toast("Network Failure", true); return null; }
+        } catch(e) { console.error("NETWORK ERROR:", e); toast("Network Failure", true); return null; }
     }
 
     function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
@@ -801,6 +801,7 @@
         }catch(e){toast(T[lang].err,true);}
     }
 
+    // SILENT BACKGROUND REFRESH
     setInterval(async () => {
         try {
             let d = await customFetch(SURL + "?action=get_public_data&_cb=" + Date.now());
@@ -856,28 +857,7 @@
         }, 60000);
     }
 
-    function checkStreak() {
-        if(!user) return 0;
-        let lastLogStr = localStorage.getItem('ch_last_log'); let streak = parseInt(localStorage.getItem('ch_streak')||0); let today = new Date().toDateString();
-        if(lastLogStr === today) return streak; 
-        
-        let yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-        let n1 = Math.floor(Math.random() * 10) + 1; let n2 = Math.floor(Math.random() * 10) + 1;
-        captchaCorrect = n1 + n2; if(el('cap-math')) el('cap-math').innerText = `${n1} + ${n2} = ?`;
-        
-        window.tempStreakObj = { isConsecutive: (lastLogStr === yesterday.toDateString()), current: streak, today: today };
-        openModal('captcha-mod'); return streak;
-    }
-    
-    function verifyCaptcha() {
-        let ans = parseInt(el('cap-ans').value);
-        if(ans === captchaCorrect) {
-            let obj = window.tempStreakObj; let finalStreak = obj.isConsecutive ? obj.current + 1 : 1;
-            localStorage.setItem('ch_last_log', obj.today); localStorage.setItem('ch_streak', finalStreak);
-            loginStreak = finalStreak; closeModal('captcha-mod'); toast(T[lang].scs, false); chkUI();
-        } else { toast(T[lang].incMath, true); }
-    }
-
+    // THE SPEED BOOSTER: NON-BLOCKING INIT
     async function initApp() {
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
         userIP = localStorage.getItem('ch_last_ip') || "Unknown";
@@ -885,17 +865,22 @@
         let isCached = false; let cached = localStorage.getItem('ch_db_cache');
         if(cached){ try { let d = JSON.parse(cached); if(d.inv && d.inv.length > 1) { db=d; chkUI(); renderMkt(); buildW(); ren(); startFakeTicker(); isCached = true; setTimeout(() => checkFirewall(), 0); } } catch(e){} } 
         
+        if(!isCached) { if(el('st-cnt')) el('st-cnt').innerHTML=`<div class="grid"><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">${T[lang].ld}</span></p>`; }
+
+        // Fetch IP without blocking the main render
         if(window.globalIpPromise) {
-            let ipData = await window.globalIpPromise;
-            if(ipData && ipData.ip) {
-                userIP = ipData.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
-                if(!sessionStorage.getItem('ch_vst_lggd')) {
-                    sessionStorage.setItem('ch_vst_lggd', 'true');
-                    customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+            window.globalIpPromise.then(ipData => {
+                if(ipData && ipData.ip) {
+                    userIP = ipData.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
+                    if(!sessionStorage.getItem('ch_vst_lggd')) {
+                        sessionStorage.setItem('ch_vst_lggd', 'true');
+                        customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+                    }
                 }
-            }
+            }).catch(e=>{});
         }
 
+        // Fetch data and render IMMEDIATELY when it arrives
         if(window.globalDataPromise) {
             let d = await window.globalDataPromise;
             if(d && d.status==="success") {
@@ -1171,6 +1156,38 @@
         } catch(e){ if(el('b-fin')){ el('b-fin').innerHTML=`<span class="tr" data-k="plc">${T[lang].plc}</span>`; el('b-fin').disabled=false; } toast(T[lang].err,true);}
     }
 
+    function buildW(){
+        if(!db.whl||db.whl.length<2)return; let cg=[], leg="", ang=360/(db.whl.length-1);
+        for(let i=1;i<db.whl.length;i++){ cg.push(`${db.whl[i][2]} ${(i-1)*ang}deg ${i*ang}deg`); leg+=`<div style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:12px;height:12px;background:${db.whl[i][2]};border-radius:50%;"></span>${db.whl[i][1]} ${db.whl[i][0]}</div>`; }
+        if(el('wheel')) el('wheel').style.background=`conic-gradient(${cg.join(',')})`; 
+        if(el('w-leg')) el('w-leg').innerHTML=leg;
+    }
+
+    async function spinW(){
+        if(!checkRateLimit()) return;
+        if(!user) { toast(T[lang].rqLog, true); return openProf(); }
+        if(Date.now()-(localStorage.getItem('ch_l_spn')||0) < 172800000) return toast(T[lang].err, true);
+        if(el('b-spin')) { el('b-spin').disabled=true; el('b-spin').innerText="..."; }
+        let rnd=Math.random()*100, acc=0, tIdx=0; for(let i=1;i<db.whl.length;i++){acc+=parseFloat(db.whl[i][3]); if(rnd<=acc){tIdx=i-1; break;}}
+        let wRow = db.whl[tIdx+1]; let wP = wRow[0]; let reqContact = (wRow[5] === true || wRow[5] === "TRUE"); let custMsg = wRow[4] || `You won: ${wP}!`;
+
+        try {
+            let d=await customFetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:userIP, did:dId, prize:wP, contactInfo: "Pending"})});
+            if(d && d.s!=='ok') { if(el('b-spin')){el('b-spin').disabled=false; el('b-spin').innerHTML=`<span class="tr" data-k="sn">${T[lang].sn}</span>`;} return toast(T[lang].err,true); }
+            
+            let s=db.whl.length-1, a=360/s; let tD=(360*5)+(360-(tIdx*a)-(a/2)); 
+            if(el('wheel')) el('wheel').style.transform=`rotate(${tD}deg)`;
+            localStorage.setItem('ch_l_spn', Date.now()); 
+            
+            setTimeout(async () => {
+                let finalContact = "None";
+                if (reqContact) { finalContact = prompt(`${custMsg}\n\n${T[lang].rContact}`) || "Refused"; } else { alert(custMsg); }
+                if (reqContact && finalContact !== "None") { customFetch(SURL,{method:'POST',body:JSON.stringify({act:'log_spin', c:user, ip:userIP, did:dId, prize:wP + " (Contact Update)", contactInfo: finalContact})}); }
+                if(el('b-spin')) { el('b-spin').innerHTML=`<span class="tr" data-k="sn">${T[lang].sn}</span>`; el('b-spin').disabled=false; }
+            }, 4600);
+        } catch(e) { if(el('b-spin')){el('b-spin').disabled=false; el('b-spin').innerHTML=`<span class="tr" data-k="sn">${T[lang].sn}</span>`;} toast(T[lang].err, true); }
+    }
+
     function drawCharts(){
         if(typeof Chart === 'undefined') return setTimeout(drawCharts, 500);
         if(!db.ord||db.ord.length===0)return; let dC={"Gaming":0,"Streaming":0,"Other":0}; let rD={}; 
@@ -1179,7 +1196,7 @@
         if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); if(el('revC')) c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
     }
 
-    initApp();
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 
 </script>
 </body>
