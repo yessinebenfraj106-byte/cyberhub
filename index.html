@@ -28,92 +28,113 @@
     <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
 
     <script>
-        // YOUR ACTIVE GOOGLE SCRIPT URL
         window.SURL = "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec";
         
-        // PRE-FETCH DATA
-        window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now())
-            .then(async r => { if(!r.ok) throw new Error("HTTP " + r.status); return await r.json(); })
-            .catch(e => { return null; });
-            
-        window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
-        
-        // THEMES
-        const themes = [
-            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
-            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
-        ];
-        let curTheme = parseInt(localStorage.getItem('ch_theme') || 0);
-        let t = themes[curTheme];
-        document.documentElement.style.setProperty('--p', t.p);
-        document.documentElement.style.setProperty('--w', t.w);
-        document.documentElement.style.setProperty('--bg', t.bg);
-        document.documentElement.style.setProperty('--b', t.b);
-        document.documentElement.style.setProperty('--c', t.c);
+        try {
+            window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now())
+                .then(async r => { if(!r.ok) throw new Error("HTTP " + r.status); return await r.json(); })
+                .catch(e => { return null; });
+                
+            window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
+        } catch(err) {}
+
+        try {
+            const headThemes = [
+                {p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
+                {p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
+                {p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
+            ];
+            let ct = parseInt(localStorage.getItem('ch_theme') || 0);
+            document.documentElement.style.setProperty('--p', headThemes[ct].p);
+            document.documentElement.style.setProperty('--w', headThemes[ct].w);
+            document.documentElement.style.setProperty('--bg', headThemes[ct].bg);
+            document.documentElement.style.setProperty('--b', headThemes[ct].b);
+            document.documentElement.style.setProperty('--c', headThemes[ct].c);
+        } catch(err) {}
     </script>
 
     <style>
-        /* CSS (Kept relatively dense to save space) */
         :root{--p:#00f0ff;--bg:#050b14;--c:rgba(10,15,30,0.8);--b:rgba(0,240,255,0.2);--w:#ffae00;}
         body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;transition:background 0.5s;}
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
         #particles-js{position:fixed;inset:0;z-index:-1;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
+        
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);transition:border-color 0.5s;}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.3s;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px var(--b);transition:0.5s;}
+        
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
         .n-card:active{transform:scale(0.96);}
         .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
+        
         .f-head{background:linear-gradient(135deg,rgba(0,0,0,0.5),rgba(0,0,0,0.2));border:1px solid var(--b);border-left:4px solid var(--p);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s;}
+        .i-row.sortable-ghost { opacity: 0.4; background: var(--b); }
+        
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.3s;}
         .btn:active{transform:scale(0.95);}
         .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
+        
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
         .modal.show .m-cnt {transform:scale(1);}
+        
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;transition:0.3s;}
+        
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 20000; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 40px; }
+        
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:10px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;transition:0.3s;font-size:0.85rem;}
         .c-btn.act{background:var(--b);border-color:var(--p);color:var(--p);}
+        
         .sm-wa.act { background: #25D366; color: #fff; border-color: #25D366; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
         .sm-ig.act { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border-color: transparent; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
         .sm-fb.act { background: #1877F2; color: #fff; border-color: #1877F2; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
+        
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:var(--c);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column; backdrop-filter:blur(20px);}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
         .m-item:hover{background:var(--b); padding-left:25px;}
+        
         .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
         .otp-box{width:45px;height:55px;text-align:center;font-size:1.5rem;font-weight:bold;margin:0 4px;border-radius:10px;}
+        
         .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
         .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
+        
         .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px var(--b);cursor:pointer;z-index:1000;border:none;transition:0.3s;}
         .fab-supp{position:fixed;bottom:105px;right:25px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
         .fab-admin{position:fixed;bottom:25px;left:25px;background:linear-gradient(90deg, #ff4d4d, var(--w));color:#fff;width:55px;height:55px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:24px;box-shadow:0 5px 20px rgba(255,77,77,0.4);cursor:pointer;z-index:1000;border:none; animation: glow 3s ease infinite;}
+        
         .wheel-cnt{position:relative;width:260px;height:260px;margin:20px auto;border-radius:50%;border:8px solid #222;box-shadow:0 0 40px var(--b), inset 0 0 20px #000;overflow:hidden;}
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--p);z-index:10;filter:drop-shadow(0 0 10px var(--p));transition:0.5s;}
         .w-center{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:40px;height:40px;background:radial-gradient(circle, #555, #111);border:3px solid var(--p);border-radius:50%;z-index:5;box-shadow:0 0 15px rgba(0,0,0,0.8);transition:0.5s;}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);}
+        
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;vertical-align:middle;}
+        
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
         .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
         .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
+        
         .loyalty-banner { background: linear-gradient(90deg, #ff00ff, var(--w)); color: #fff; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; display: none; animation: glow 2s ease infinite; background-size: 200% 200%;}
         .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
+        
         .ticker { position: fixed; bottom: 100px; left: -100%; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold; max-width: 80vw; word-wrap: break-word; line-height: 1.4; }
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
+        
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
+        
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -392,10 +413,10 @@
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
     
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--b);border-radius:10px;padding:15px;font-size:0.9rem;text-align:left;margin-bottom:15px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal:</span> </span> <b id="m-sub">0 DT</b></div>
-        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%): </span> <b id="m-pv">-0 DT</b></div>
-        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%): </span> <b id="m-lv">-0 DT</b></div>
-        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total:</span> </span> <b id="m-tot">0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal : </span></span> <b id="m-sub">0 DT</b></div>
+        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%) : </span> <b id="m-pv">-0 DT</b></div>
+        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%) : </span> <b id="m-lv">-0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total : </span></span> <b id="m-tot">0 DT</b></div>
     </div>
     
     <div style="display:flex;gap:5px;margin-bottom:15px;">
@@ -434,7 +455,7 @@
         </div>
         <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
         <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
-            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method:</span></b>
+            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method</span></b>
             <div style="display:flex;gap:5px;margin:10px 0;">
                 <div class="c-btn sm-wa act" id="c-wa" onclick="sCon('wa')">💬 WA</div>
                 <div class="c-btn sm-ig" id="c-ig" onclick="sCon('ig')">📸 IG</div>
@@ -566,6 +587,12 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;"><span class="tr" data-k="cls">Close</span></button></div></div>
 
 <script>
+    // CORE DICTIONARY AND GLOBAL VARIABLES MUST BE FIRST IN SCRIPT BLOCK
+    const T = {
+      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help? Contact Us", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "Change Email", ab: "Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "Cart", sub: "Subtotal: ", prm: "Promo", loy: "Loyalty", tot: "Total: ", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "Create New Item", addItm: "Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "Upload Receipt Screenshot:", walPay: "Pay with Wallet", manMin: "Mandat Min.", csh: "Cash", reqTop: "Request Top-Up", digWal: "Digital Wallet Balance", humVer: "Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "Passkey Login", pwdLog: "Password Login", addBio: "Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "Loyalty Discount Applied!", flAct: "Flash Sale Active!", strApp: "14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for? Tell us what you need and we will make it happen.", reqNm: "Service Name (e.g., Custom Website)", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:", instApp: "Install App" },
+      fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ? Contactez-Nous", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Envoyer le code", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier & Connexion", canc: "Annuler", bio: "Utiliser Passkey / Biométrie", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Lien Profil Facebook", sav: "Enregistrer", ce: "Changer Email", ab: "Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Vérification", crt: "Panier", sub: "Sous-total : ", prm: "Promo", loy: "Fidélité", tot: "Total : ", pc: "Code Promo ?", apl: "Appliquer", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais de Livraison", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur Système", scs: "Succès !", rq: "Nom/Contact Requis", mn: "Commande Manuelle", rqLog: "Connectez-vous pour jouer !", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix :", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "Créer un Article", addItm: "Créer un Article", itmAdd: "Article ajouté au panier !", itmSub: "Que voulez-vous faire ensuite ?", chkNow: "Passer à la caisse", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "Télécharger une capture du reçu :", walPay: "Payer avec le Portefeuille", manMin: "Mandat Minute", csh: "Espèces", reqTop: "Recharger", digWal: "Solde du Portefeuille", humVer: "Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous accéder à votre compte ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "Connexion Passkey", pwdLog: "Connexion Mot de passe", addBio: "Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "Réduction de Fidélité Appliquée !", flAct: "Vente Flash Active !", strApp: "Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "Transfert D17 à :", mmInst: "Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ? Dites-nous ce dont vous avez besoin.", reqNm: "Nom du service (ex: Site Web)", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence", appBan: "Faire appel de ce bannissement :", instApp: "Installer l'Appli" }
+    };
+
     let db = {inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; 
     let cart = []; 
     let cView = {t:'cats', c:null, a:null}; 
@@ -613,8 +640,33 @@
     
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     
-    function el(i) { 
-        return document.getElementById(i); 
+    function el(i) { return document.getElementById(i); }
+
+    // PWA ENGINE
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'flex';
+    });
+
+    function installPWA() {
+        if(!deferredPrompt) {
+            let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if(isIOS) { 
+                alert("To install on iPhone: Tap the 'Share' icon at the bottom of Safari, then tap 'Add to Home Screen'."); 
+            } else { 
+                alert("App is already installed, or your browser does not support this feature."); 
+            }
+            return;
+        }
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') { 
+                if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'none'; 
+            }
+            deferredPrompt = null;
+        });
     }
 
     // ADBLOCKER SAFE IP FETCHER
@@ -634,10 +686,7 @@
         let now = Date.now();
         if(now - lastActionTime < 2000) { 
             actionCount++;
-            if(actionCount > 4) { 
-                toast("Rate Limit Exceeded. Slow down!", true); 
-                return false; 
-            }
+            if(actionCount > 4) { toast("Rate Limit Exceeded. Slow down!", true); return false; }
         } else { 
             actionCount = 1; 
         }
@@ -656,7 +705,6 @@
     function checkFirewall() {
         let hardBan = localStorage.getItem('ch_ban_code');
         let isBanned = false;
-        
         if (db.bans && userIP !== "Unknown" && !userIP.includes("Adblock_User_")) { 
             isBanned = db.bans.find(b => b.ip === userIP); 
         }
@@ -689,7 +737,12 @@
     }
 
     function applyTheme() {
-        let t = themes[curTheme];
+        const themesList = [
+            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
+            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
+            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
+        ];
+        let t = themesList[curTheme];
         document.documentElement.style.setProperty('--p', t.p);
         document.documentElement.style.setProperty('--w', t.w);
         document.documentElement.style.setProperty('--bg', t.bg);
@@ -698,10 +751,10 @@
     }
 
     function cycleTheme() { 
-        curTheme = (curTheme + 1) % themes.length; 
+        curTheme = (curTheme + 1) % 3; 
         localStorage.setItem('ch_theme', curTheme); 
         applyTheme(); 
-        toast(T[lang].thm + themes[curTheme].n, "info"); 
+        toast(T[lang].thm + " Updated", "info"); 
     }
     
     function purgeCache() { 
@@ -895,7 +948,6 @@
         }
     }
 
-    let catSubMapGlobal = {};
     function navTo(t, c, a){ 
         cView.t = t; 
         cView.c = c ? decodeURIComponent(c) : null; 
@@ -967,10 +1019,6 @@
             toast("Network Failure", true); 
             return null; 
         }
-    }
-
-    function buf2hex(buffer) { 
-        return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); 
     }
     
     async function bioSet(iA){
@@ -1045,7 +1093,7 @@
         }
     }
 
-    // 🔥 MAINTENANCE LOGIC
+    // MAINTENANCE ENGINE
     window.maintInt = null;
     function hMaint(m) {
         if (!m) return;
@@ -1240,7 +1288,6 @@
         }
     }
 
-    // 🔥 THE SAFE INIT ENGINE
     function initApp() {
         appLang(); 
         loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
@@ -1268,7 +1315,6 @@
             if(el('st-cnt')) el('st-cnt').innerHTML=`<div class="grid"><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">${T[lang].ld}</span></p>`; 
         }
 
-        // ADBLOCK SAFE IP FETCH
         if(window.globalIpPromise) {
             window.globalIpPromise.then(ipData => {
                 if(ipData && ipData.ip) {
@@ -1337,12 +1383,6 @@
         if(typeof particlesJS !== 'undefined') {
             particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); 
         }
-    }
-
-    function highlightMatch(text, q) { 
-        if(!q) return text; 
-        let regex = new RegExp(`(${q})`, "gi"); 
-        return text.replace(regex, "<span class='hl-search'>$1</span>"); 
     }
 
     function ren() {
@@ -1765,96 +1805,6 @@
                 el('b-fin').disabled = false; 
             } 
             toast(T[lang].err, true);
-        }
-    }
-
-    function buildW(){
-        if(!db.whl || db.whl.length < 2) return; 
-        
-        let cg = []; 
-        let leg = ""; 
-        let ang = 360 / (db.whl.length - 1);
-        
-        for(let i=1; i<db.whl.length; i++) { 
-            cg.push(`${db.whl[i][2]} ${(i-1)*ang}deg ${i*ang}deg`); 
-            leg += `<div style="display:flex;align-items:center;gap:5px;"><span style="display:inline-block;width:12px;height:12px;background:${db.whl[i][2]};border-radius:50%;"></span>${db.whl[i][1]} ${db.whl[i][0]}</div>`; 
-        }
-        
-        if(el('wheel')) el('wheel').style.background = `conic-gradient(${cg.join(',')})`; 
-        if(el('w-leg')) el('w-leg').innerHTML = leg;
-    }
-
-    async function spinW(){
-        if(!checkRateLimit()) return;
-        if(!user) { 
-            toast(T[lang].rqLog, true); 
-            return openProf(); 
-        }
-        
-        if(Date.now() - (localStorage.getItem('ch_l_spn') || 0) < 172800000) {
-            return toast(T[lang].err, true);
-        }
-        
-        if(el('b-spin')) { 
-            el('b-spin').disabled = true; 
-            el('b-spin').innerText = "..."; 
-        }
-        
-        let rnd = Math.random() * 100;
-        let acc = 0;
-        let tIdx = 0; 
-        
-        for(let i=1; i<db.whl.length; i++) {
-            acc += parseFloat(db.whl[i][3]); 
-            if(rnd <= acc) {
-                tIdx = i - 1; 
-                break;
-            }
-        }
-        
-        let wRow = db.whl[tIdx+1]; 
-        let wP = wRow[0]; 
-        let reqContact = (wRow[5] === true || wRow[5] === "TRUE"); 
-        let custMsg = wRow[4] || `You won: ${wP}!`;
-
-        try {
-            let d = await customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_spin', c:user||'Guest', ip:userIP, did:dId, prize:wP, contactInfo: "Pending"})});
-            if(d && d.s !== 'ok') { 
-                if(el('b-spin')){
-                    el('b-spin').disabled = false; 
-                    el('b-spin').innerHTML = `<span class="tr" data-k="sn">${T[lang].sn}</span>`;
-                } 
-                return toast(T[lang].err, true); 
-            }
-            
-            let s = db.whl.length - 1;
-            let a = 360 / s; 
-            let tD = (360 * 5) + (360 - (tIdx * a) - (a / 2)); 
-            
-            if(el('wheel')) el('wheel').style.transform = `rotate(${tD}deg)`;
-            localStorage.setItem('ch_l_spn', Date.now()); 
-            
-            setTimeout(async () => {
-                let finalContact = "None";
-                if (reqContact) { 
-                    finalContact = prompt(`${custMsg}\n\n${T[lang].rContact}`) || "Refused"; 
-                } else { 
-                    alert(custMsg); 
-                }
-                if (reqContact && finalContact !== "None") { 
-                    customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_spin', c:user, ip:userIP, did:dId, prize:wP + " (Contact Update)", contactInfo: finalContact})}); 
-                }
-                if(el('b-spin')) { 
-                    el('b-spin').innerHTML = `<span class="tr" data-k="sn">${T[lang].sn}</span>`; 
-                    el('b-spin').disabled = false; 
-                }
-            }, 4600);
-        } catch(e) { 
-            if(el('b-spin')){
-                el('b-spin').disabled = false; 
-                el('b-spin').innerHTML = `<span class="tr" data-k="sn">${T[lang].sn}</span>`;
-            } 
-            toast(T[lang].err, true); 
         }
     }
 
