@@ -17,12 +17,10 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     
     <link rel="preconnect" href="https://script.google.com">
-    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
-    <link rel="preconnect" href="https://api.ipify.org">
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <script>
+        const SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
         const themes = [
             {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
             {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
@@ -41,7 +39,7 @@
         :root{--p:#00f0ff;--bg:#050b14;--c:rgba(10,15,30,0.8);--b:rgba(0,240,255,0.2);--w:#ffae00;}
         body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:100px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;transition:background 0.5s;}
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
-        #particles-js{position:fixed;inset:0;z-index:-1;}
+        #particles-js{position:fixed;inset:0;z-index:-1; width:100%; height:100%;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
         
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);transition:border-color 0.5s;}
@@ -116,7 +114,6 @@
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
         
-        .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
         
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
@@ -545,6 +542,11 @@
 
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;"><span class="tr" data-k="cls">Close</span></button></div></div>
 
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js"></script>
+
 <script>
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
@@ -842,7 +844,29 @@
         }, 60000);
     }
 
-    // THE V112 ANTI-FREEZE INIT
+    function checkStreak() {
+        if(!user) return 0;
+        let lastLogStr = localStorage.getItem('ch_last_log'); let streak = parseInt(localStorage.getItem('ch_streak')||0); let today = new Date().toDateString();
+        if(lastLogStr === today) return streak; 
+        
+        let yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+        let n1 = Math.floor(Math.random() * 10) + 1; let n2 = Math.floor(Math.random() * 10) + 1;
+        captchaCorrect = n1 + n2; if(el('cap-math')) el('cap-math').innerText = `${n1} + ${n2} = ?`;
+        
+        window.tempStreakObj = { isConsecutive: (lastLogStr === yesterday.toDateString()), current: streak, today: today };
+        openModal('captcha-mod'); return streak;
+    }
+    
+    function verifyCaptcha() {
+        let ans = parseInt(el('cap-ans').value);
+        if(ans === captchaCorrect) {
+            let obj = window.tempStreakObj; let finalStreak = obj.isConsecutive ? obj.current + 1 : 1;
+            localStorage.setItem('ch_last_log', obj.today); localStorage.setItem('ch_streak', finalStreak);
+            loginStreak = finalStreak; closeModal('captcha-mod'); toast(T[lang].scs, false); chkUI();
+        } else { toast(T[lang].incMath, true); }
+    }
+
+    // 🔥 THE SAFE-MODE INIT ENGINE
     async function initApp() {
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
         userIP = localStorage.getItem('ch_last_ip') || "Unknown";
@@ -854,53 +878,46 @@
             if(el('st-cnt')) el('st-cnt').innerHTML=`<div class="grid"><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">${T[lang].ld}</span></p>`; 
         }
 
-        // Fire & Forget IP Tracker (Never blocks the store)
-        if(window.globalIpPromise) {
-            window.globalIpPromise.then(ipData => {
-                if(ipData && ipData.ip) {
-                    userIP = ipData.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
-                    if(!sessionStorage.getItem('ch_vst_lggd')) {
-                        sessionStorage.setItem('ch_vst_lggd', 'true');
-                        customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
-                    }
-                }
-            }).catch(e=>{});
+        // Trigger Particles
+        if(typeof particlesJS !== 'undefined') {
+            particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#00f0ff"},"shape":{"type":"circle"},"opacity":{"value":0.4},"size":{"value":3},"line_linked":{"enable":true,"distance":150,"color":"#00f0ff","opacity":0.15,"width":1},"move":{"enable":true,"speed":1.5}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":true,"mode":"push"}},"modes":{"grab":{"distance":140,"line_linked":{"opacity":1}},"push":{"particles_nb":3}}}});
         }
 
-        // Setup an 8-Second Fail-Safe Timer
+        // Fetch IP Safely
+        fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{
+            userIP = d.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
+            if(!sessionStorage.getItem('ch_vst_lggd')) {
+                sessionStorage.setItem('ch_vst_lggd', 'true');
+                customFetch(SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+            }
+        }).catch(e=>{});
+
+        // 8 Second Timeout
         let timeoutTriggered = false;
         let fallbackTimer = setTimeout(() => {
             if (!isCached && (!db.inv || db.inv.length < 2)) {
                 timeoutTriggered = true;
-                if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ffae00;padding:40px;"><b>Connection Timeout ⏱️</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Google's servers are responding very slowly.<br>Please try refreshing the page.</span><br><br><button class="btn" style="width:auto;padding:10px 20px;background:#ffae00;color:#000;" onclick="window.location.reload(true)">↻ Refresh</button></div>`;
+                if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ffae00;padding:40px;"><b>Connection Timeout ⏱️</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Google's servers are responding very slowly.</span><br><br><button class="btn" style="width:auto;padding:10px 20px;background:#ffae00;color:#000;" onclick="window.location.reload(true)">↻ Refresh</button></div>`;
             }
         }, 8000);
 
-        // Fetch Data and display immediately
-        if(window.globalDataPromise) {
-            window.globalDataPromise.then(d => {
-                if(timeoutTriggered) return;
-                clearTimeout(fallbackTimer);
-                
-                if(d && d.status==="success") {
-                    db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl; db.bans=d.bans || [];
-                    if(checkFirewall()) return; 
-                    if (d.promo && d.promo.length > 1) { d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); }
-                    if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
-                    localStorage.setItem('ch_db_cache', JSON.stringify(db));
-                    lastMaintState = d.maint || "FALSE"; hMaint(lastMaintState); updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
-                    if(!isCached) { startFakeTicker(); }
-                } else {
-                    if(!isCached && el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;padding:40px;"><b>Google Blocked Connection ❌</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Your Apps Script is missing permissions.<br>You must set: <b>"Execute as: Me"</b><br>and <b>"Who has access: Anyone"</b></span></div>`;
-                }
-            }).catch(err => {
-                clearTimeout(fallbackTimer);
-                if(!isCached && el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;padding:40px;"><b>Network Disconnected ❌</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Check your internet connection and try again.</span><br><br><button class="btn" style="width:auto;padding:10px 20px;background:#ff4d4d;color:#fff;" onclick="window.location.reload(true)">↻ Retry</button></div>`;
-            });
-        }
+        // Fetch Store Data Safely
+        let d = await customFetch(SURL + "?action=get_public_data&_cb=" + Date.now());
         
-        function checkPart(){ if(typeof particlesJS !== 'undefined') particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); else setTimeout(checkPart, 200); }
-        checkPart();
+        if(timeoutTriggered) return;
+        clearTimeout(fallbackTimer);
+        
+        if(d && d.status==="success") {
+            db.inv=d.inv; db.promo={}; db.loy={}; db.whl=d.whl; db.bans=d.bans || [];
+            if(checkFirewall()) return; 
+            if (d.promo && d.promo.length > 1) { d.promo.slice(1).forEach(x=>{if(x[0]){ db.promo[String(x[0]).toUpperCase()]=parseFloat(x[1]); }}); }
+            if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
+            localStorage.setItem('ch_db_cache', JSON.stringify(db));
+            lastMaintState = d.maint || "FALSE"; hMaint(lastMaintState); updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
+            if(!isCached) { startFakeTicker(); }
+        } else {
+            if(!isCached && el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;padding:40px;"><b>Google Blocked Connection ❌</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Your Apps Script is missing permissions.<br>You must set: <b>"Execute as: Me"</b><br>and <b>"Who has access: Anyone"</b></span></div>`;
+        }
     }
 
     function highlightMatch(text, q) { if(!q) return text; let regex = new RegExp(`(${q})`, "gi"); return text.replace(regex, "<span class='hl-search'>$1</span>"); }
