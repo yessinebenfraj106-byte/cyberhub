@@ -22,7 +22,17 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" defer></script>
+    <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
+
     <script>
+        const T = {
+          en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help? Contact Us", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "Change Email", ab: "Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "Cart", sub: "Subtotal", prm: "Promo", loy: "Loyalty", tot: "Total", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "Create New Item", addItm: "Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "Upload Receipt Screenshot:", walPay: "Pay with Wallet", manMin: "Mandat Min.", csh: "Cash", reqTop: "Request Top-Up", digWal: "Digital Wallet Balance", humVer: "Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "Passkey Login", pwdLog: "Password Login", addBio: "Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "Loyalty Discount Applied!", flAct: "Flash Sale Active!", strApp: "14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for? Tell us what you need and we will make it happen.", reqNm: "Service Name (e.g., Custom Website)", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:", instApp: "Install App" },
+      fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ? Contactez-Nous", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Envoyer le code", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier & Connexion", canc: "Annuler", bio: "Utiliser Passkey / Biométrie", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Lien Profil Facebook", sav: "Enregistrer", ce: "Changer Email", ab: "Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Vérification", crt: "Panier", sub: "Sous-total", prm: "Promo", loy: "Fidélité", tot: "Total", pc: "Code Promo ?", apl: "Appliquer", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais de Livraison", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur Système", scs: "Succès !", rq: "Nom/Contact Requis", mn: "Commande Manuelle", rqLog: "Connectez-vous pour jouer !", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix :", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "Créer un Article", addItm: "Créer un Article", itmAdd: "Article ajouté au panier !", itmSub: "Que voulez-vous faire ensuite ?", chkNow: "Passer à la caisse", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "Télécharger une capture du reçu :", walPay: "Payer avec le Portefeuille", manMin: "Mandat Minute", csh: "Espèces", reqTop: "Recharger", digWal: "Solde du Portefeuille", humVer: "Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous accéder à votre compte ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "Connexion Passkey", pwdLog: "Connexion Mot de passe", addBio: "Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "Réduction de Fidélité Appliquée !", flAct: "Vente Flash Active !", strApp: "Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "Transfert D17 à :", mmInst: "Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ? Dites-nous ce dont vous avez besoin.", reqNm: "Nom du service (ex: Site Web)", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence", appBan: "Faire appel de ce bannissement :", instApp: "Installer l'Appli" }
+        };
+
         window.SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
         window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now()).then(r => r.json()).catch(e => null);
         window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
@@ -183,7 +193,9 @@
     </div>
 
     <div id="maint-banner" style="display:none;padding:20px;text-align:center;font-weight:bold;margin-bottom:20px;border-radius:15px;border:2px dashed var(--w);background:rgba(255,174,0,0.1);color:var(--w);">
-        <div style="font-size:1.5rem;">📢 <span id="ui-m-t">ANNOUNCEMENT</span></div><div id="ui-m-m" style="margin-top:5px;"></div>
+        <div style="font-size:1.5rem;">📢 <span id="ui-m-t">ANNOUNCEMENT</span></div>
+        <div id="ui-m-m" style="margin-top:5px;"></div>
+        <div id="ui-m-timer" style="margin-top:10px; font-family:monospace; font-size:1.2rem; display:none; color:#fff;"></div>
     </div>
     
     <div id="flash-banner" class="flash-banner">
@@ -751,8 +763,13 @@
             let res = await fetch(url, options);
             let text = await res.text();
             try { return JSON.parse(text); } 
-            catch(err) { return null; }
-        } catch(e) { return null; }
+            catch(err) {
+                console.error("GOOGLE BLOCKED CONNECTION. RAW HTML:", text);
+                if(el('diag-out')) { el('diag-out').style.display = 'block'; el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`; }
+                if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
+                return null;
+            }
+        } catch(e) { console.error("NETWORK ERROR:", e); toast("Network Failure", true); return null; }
     }
 
     function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
@@ -789,6 +806,87 @@
                 } else if(d.s === 'banned') { toast(T[lang].bnc,true); } else { toast(T[lang].err,true); }
             }
         }catch(e){toast(T[lang].err,true);}
+    }
+
+    // 🔥 MAINTENANCE UI MANAGER
+    window.maintInt = null;
+    function hMaint(m) {
+        if (!m) return;
+        lastMaintState = JSON.stringify(m);
+        let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'), timerEl = el('ui-m-timer');
+        if(!b) return;
+
+        if (m.showBanner) {
+            b.style.display = 'block';
+            if (m.color === "RED") { b.style.borderColor='#ff4d4d'; b.style.color='#ff4d4d'; b.style.background='rgba(255,77,77,0.1)'; }
+            else if (m.color === "GREEN") { b.style.borderColor='#00ff88'; b.style.color='#00ff88'; b.style.background='rgba(0,255,136,0.1)'; }
+            else { b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; }
+            if(tit) tit.innerHTML = m.closed ? "STORE CLOSED" : "📢 ANNOUNCEMENT";
+            if(t) t.innerHTML = m.msg;
+            
+            // TIMER LOGIC
+            if(window.maintInt) clearInterval(window.maintInt);
+            if (m.endTime && !isNaN(parseInt(m.endTime))) {
+                let endMs = parseInt(m.endTime);
+                if (Date.now() < endMs) {
+                    timerEl.style.display = 'block';
+                    window.maintInt = setInterval(() => {
+                        let diff = endMs - Date.now();
+                        if (diff <= 0) {
+                            clearInterval(window.maintInt);
+                            timerEl.innerText = "Maintenance Complete. Refreshing...";
+                            setTimeout(()=>location.reload(true), 2000);
+                            return;
+                        }
+                        let h = Math.floor(diff / 3600000); 
+                        let mins = Math.floor((diff % 3600000) / 60000); 
+                        let s = Math.floor((diff % 60000) / 1000);
+                        timerEl.innerText = `⏳ Ends in: ${h.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                    }, 1000);
+                } else {
+                    timerEl.style.display = 'none';
+                }
+            } else {
+                timerEl.style.display = 'none';
+            }
+        } else {
+            b.style.display = 'none';
+            if(window.maintInt) clearInterval(window.maintInt);
+        }
+
+        if (m.closed && role !== 'Admin' && role !== 'Support') {
+            if(el('st-cnt')) el('st-cnt').style.display = 'none';
+        } else {
+            if(el('st-cnt')) el('st-cnt').style.display = 'block';
+        }
+    }
+
+    function closeStorePrompt() {
+        let show = confirm("Show the yellow 'Under Maintenance' ribbon to customers?");
+        let msg = ""; let endTime = "";
+        if (show) { msg = prompt("Enter the maintenance message:", "Store is currently under maintenance.") || "Store is currently under maintenance."; }
+        let hrs = prompt("How many hours until maintenance ends? (Leave blank for no timer)");
+        if (hrs && !isNaN(hrs)) { endTime = Date.now() + (parseFloat(hrs) * 3600000); }
+        pAPI('maint', {closed: true, show: show, color: "YELLOW", msg: msg, endTime: endTime});
+        hMaint({closed: true, showBanner: show, color: "YELLOW", msg: msg, endTime: endTime});
+    }
+
+    function openStorePrompt() {
+        pAPI('maint', {closed: false, show: false, color: "YELLOW", msg: "", endTime: ""});
+        hMaint({closed: false, showBanner: false, color: "YELLOW", msg: "", endTime: ""});
+    }
+
+    function trgMsg() {
+        let c = prompt("Ribbon Color: 1=RED, 2=YELLOW, 3=GREEN", "2");
+        if(!c) return;
+        let col = c==="1" ? "RED" : (c==="3" ? "GREEN" : "YELLOW");
+        let m = prompt("Enter Broadcast Message:");
+        if(!m) return;
+        let endTime = "";
+        let hrs = prompt("How many hours until message disappears? (Leave blank for no timer)");
+        if (hrs && !isNaN(hrs)) { endTime = Date.now() + (parseFloat(hrs) * 3600000); }
+        pAPI('maint', {closed: false, show: true, color: col, msg: m, endTime: endTime});
+        hMaint({closed: false, showBanner: true, color: col, msg: m, endTime: endTime});
     }
 
     setInterval(async () => {
@@ -868,54 +966,6 @@
         } else { toast(T[lang].incMath, true); }
     }
 
-    // 🔥 NEW MAINTENANCE LOGIC
-    function hMaint(m) {
-        if (!m) return;
-        lastMaintState = JSON.stringify(m);
-        let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t');
-        if(!b) return;
-
-        if (m.showBanner) {
-            b.style.display = 'block';
-            if (m.color === "RED") { b.style.borderColor='#ff4d4d'; b.style.color='#ff4d4d'; b.style.background='rgba(255,77,77,0.1)'; }
-            else if (m.color === "GREEN") { b.style.borderColor='#00ff88'; b.style.color='#00ff88'; b.style.background='rgba(0,255,136,0.1)'; }
-            else { b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; }
-            if(tit) tit.innerHTML = m.closed ? "STORE CLOSED" : "📢 ANNOUNCEMENT";
-            if(t) t.innerHTML = m.msg;
-        } else {
-            b.style.display = 'none';
-        }
-
-        if (m.closed && role !== 'Admin' && role !== 'Support') {
-            if(el('st-cnt')) el('st-cnt').style.display = 'none';
-        } else {
-            if(el('st-cnt')) el('st-cnt').style.display = 'block';
-        }
-    }
-
-    function closeStorePrompt() {
-        let show = confirm("Show the yellow 'Under Maintenance' ribbon to customers?");
-        let msg = "";
-        if (show) { msg = prompt("Enter the maintenance message:", "Store is currently under maintenance.") || "Store is currently under maintenance."; }
-        pAPI('maint', {closed: true, show: show, color: "YELLOW", msg: msg});
-        hMaint({closed: true, showBanner: show, color: "YELLOW", msg: msg});
-    }
-
-    function openStorePrompt() {
-        pAPI('maint', {closed: false, show: false, color: "YELLOW", msg: ""});
-        hMaint({closed: false, showBanner: false, color: "YELLOW", msg: ""});
-    }
-
-    function trgMsg() {
-        let c = prompt("Ribbon Color: 1=RED, 2=YELLOW, 3=GREEN", "2");
-        if(!c) return;
-        let col = c==="1" ? "RED" : (c==="3" ? "GREEN" : "YELLOW");
-        let m = prompt("Enter Broadcast Message:");
-        if(!m) return;
-        pAPI('maint', {closed: false, show: true, color: col, msg: m});
-        hMaint({closed: false, showBanner: true, color: col, msg: m});
-    }
-
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...", "info"); let d=await customFetch(window.SURL,{method:'POST',body:JSON.stringify(p)}); if(d&&d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}
 
     function initApp() {
@@ -961,7 +1011,6 @@
                     if (d.loy && d.loy.length > 1) { d.loy.slice(1).forEach(x=>{if(x[0]){ db.loy[parseInt(x[0])]=parseFloat(x[1]); }}); }
                     localStorage.setItem('ch_db_cache', JSON.stringify(db));
                     
-                    // LOAD MAINTENANCE UI
                     if(d.maintObj) { hMaint(d.maintObj); }
                     
                     updateFlash(d.flash); chkUI(); renderMkt(); buildW(); ren(); 
