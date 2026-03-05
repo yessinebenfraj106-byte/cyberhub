@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://script.google.com">
     <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
     <link rel="preconnect" href="https://api.ipify.org">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
@@ -27,22 +28,18 @@
     <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
 
     <script>
-        window.SURL = "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec";
-        window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now()).then(async r => { if(!r.ok) throw new Error("HTTP"); return await r.json(); }).catch(e => null);
-        window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
-        
-        const themes = [
-            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
-            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
-        ];
         try {
+            const headThemes = [
+                {p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
+                {p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
+                {p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
+            ];
             let ct = parseInt(localStorage.getItem('ch_theme') || 0);
-            document.documentElement.style.setProperty('--p', themes[ct].p);
-            document.documentElement.style.setProperty('--w', themes[ct].w);
-            document.documentElement.style.setProperty('--bg', themes[ct].bg);
-            document.documentElement.style.setProperty('--b', themes[ct].b);
-            document.documentElement.style.setProperty('--c', themes[ct].c);
+            document.documentElement.style.setProperty('--p', headThemes[ct].p);
+            document.documentElement.style.setProperty('--w', headThemes[ct].w);
+            document.documentElement.style.setProperty('--bg', headThemes[ct].bg);
+            document.documentElement.style.setProperty('--b', headThemes[ct].b);
+            document.documentElement.style.setProperty('--c', headThemes[ct].c);
         } catch(e) {}
     </script>
 
@@ -64,6 +61,7 @@
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s;}
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.3s;}
         .btn:active{transform:scale(0.95);}
+        .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
@@ -73,6 +71,9 @@
         .toast.show { bottom: 40px; }
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:10px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;transition:0.3s;font-size:0.85rem;}
         .c-btn.act{background:var(--b);border-color:var(--p);color:var(--p);}
+        .sm-wa.act { background: #25D366; color: #fff; border-color: #25D366; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
+        .sm-ig.act { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border-color: transparent; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
+        .sm-fb.act { background: #1877F2; color: #fff; border-color: #1877F2; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:var(--c);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column; backdrop-filter:blur(20px);}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
@@ -91,9 +92,15 @@
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;vertical-align:middle;}
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
+        .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
+        .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
+        .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
         .ticker { position: fixed; bottom: 100px; left: -100%; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold; max-width: 80vw; word-wrap: break-word; line-height: 1.4; }
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
+        .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -165,10 +172,8 @@
         <div style="font-size:1.1rem; color:#fff; margin-top:5px;"><span class="tr" data-k="endsIn">Ends in:</span> <span id="flash-cd" style="font-family:monospace; font-weight:bold; color:var(--w);">00:00:00</span></div>
     </div>
 
-    <div id="loy-banner" class="loyalty-banner">🎉 <span class="tr" data-k="loyUnl">Loyalty Unlocked:</span> <span id="l-pct">0</span>% OFF Storewide!</div>
-
     <div style="text-align:center;margin-bottom:20px;">
-        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="logoClk()">
+        <img src="https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400" class="logo" onclick="location.reload()">
         <h2 style="color:var(--p);letter-spacing:3px;margin-top:15px;font-weight:800;">CYBERHUB</h2>
     </div>
 
@@ -184,7 +189,7 @@
         <p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">Loading Store... ⏳</span></p>
     </div>
 
-    <div id="diag-out" style="display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto;"></div>
+    <div id="diag-out" class="diag-box"></div>
 
     <div class="glass" style="text-align:center;margin-top:40px;border-style:dashed;border-color:var(--p);">
         <h3 style="margin-top:0;color:#fff;"><span class="tr" data-k="hlp">Need Help? Contact Us</span></h3>
@@ -372,10 +377,10 @@
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
     
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--b);border-radius:10px;padding:15px;font-size:0.9rem;text-align:left;margin-bottom:15px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal</span></span> <b id="m-sub">0 DT</b></div>
-        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%)</span> <b id="m-pv">-0 DT</b></div>
-        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%)</span> <b id="m-lv">-0 DT</b></div>
-        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total</span></span> <b id="m-tot">0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal : </span></span> <b id="m-sub">0 DT</b></div>
+        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%) : </span> <b id="m-pv">-0 DT</b></div>
+        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%) : </span> <b id="m-lv">-0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total : </span></span> <b id="m-tot">0 DT</b></div>
     </div>
     
     <div style="display:flex;gap:5px;margin-bottom:15px;">
@@ -414,7 +419,7 @@
         </div>
         <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
         <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
-            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method</span></b>
+            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method:</span></b>
             <div style="display:flex;gap:5px;margin:10px 0;">
                 <div class="c-btn sm-wa act" id="c-wa" onclick="sCon('wa')">💬 WA</div>
                 <div class="c-btn sm-ig" id="c-ig" onclick="sCon('ig')">📸 IG</div>
@@ -546,6 +551,11 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;"><span class="tr" data-k="cls">Close</span></button></div></div>
 
 <script>
+    const T = {
+      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help? Contact Us", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "Change Email", ab: "Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "Cart", sub: "Subtotal: ", prm: "Promo", loy: "Loyalty", tot: "Total: ", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "Create New Item", addItm: "Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "Upload Receipt Screenshot:", walPay: "Pay with Wallet", manMin: "Mandat Min.", csh: "Cash", reqTop: "Request Top-Up", digWal: "Digital Wallet Balance", humVer: "Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "Passkey Login", pwdLog: "Password Login", addBio: "Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "Loyalty Discount Applied!", flAct: "Flash Sale Active!", strApp: "14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for? Tell us what you need and we will make it happen.", reqNm: "Service Name (e.g., Custom Website)", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:", instApp: "Install App" },
+      fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ? Contactez-Nous", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Envoyer le code", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier & Connexion", canc: "Annuler", bio: "Utiliser Passkey / Biométrie", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Lien Profil Facebook", sav: "Enregistrer", ce: "Changer Email", ab: "Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Vérification", crt: "Panier", sub: "Sous-total : ", prm: "Promo", loy: "Fidélité", tot: "Total : ", pc: "Code Promo ?", apl: "Appliquer", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais de Livraison", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur Système", scs: "Succès !", rq: "Nom/Contact Requis", mn: "Commande Manuelle", rqLog: "Connectez-vous pour jouer !", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix :", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "Créer un Article", addItm: "Créer un Article", itmAdd: "Article ajouté au panier !", itmSub: "Que voulez-vous faire ensuite ?", chkNow: "Passer à la caisse", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "Télécharger une capture du reçu :", walPay: "Payer avec le Portefeuille", manMin: "Mandat Minute", csh: "Espèces", reqTop: "Recharger", digWal: "Solde du Portefeuille", humVer: "Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous accéder à votre compte ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "Connexion Passkey", pwdLog: "Connexion Mot de passe", addBio: "Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "Réduction de Fidélité Appliquée !", flAct: "Vente Flash Active !", strApp: "Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "Transfert D17 à :", mmInst: "Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ? Dites-nous ce dont vous avez besoin.", reqNm: "Nom du service (ex: Site Web)", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence", appBan: "Faire appel de ce bannissement :", instApp: "Installer l'Appli" }
+    };
+
     let db = {inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; 
     let cart = []; 
     let cView = {t:'cats', c:null, a:null}; 
@@ -591,7 +601,6 @@
     let actionCount = 0; 
     let userIP = "Unknown";
 
-    // CORE FUNCTIONS
     const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
     function el(i) { return document.getElementById(i); }
 
@@ -715,8 +724,6 @@
             if(el('fab-admin')) el('fab-admin').style.display='none'; 
         } 
         let lp = db.loy[uOrders+1] || 0; 
-        if(el('loy-banner')) el('loy-banner').style.display = lp > 0 ? 'block' : 'none';
-        if(el('l-pct')) el('l-pct').innerText = lp;
         if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
         if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
         if(el('vip-streak')) el('vip-streak').innerText = loginStreak; 
@@ -1357,4 +1364,3 @@
 </script>
 </body>
 </html>
-
