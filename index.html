@@ -17,9 +17,6 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     
     <link rel="preconnect" href="https://script.google.com">
-    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
-    <link rel="preconnect" href="https://api.ipify.org">
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
@@ -28,26 +25,17 @@
     <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
 
     <script>
-        window.SURL = "https://script.google.com/macros/s/AKfycbwaLDVoMyjjZdrPTj-WSVIjSEFuMGzIWzVb-R5IPA2D22iWpXAUPb15YcEP6VQaTw5k/exec";
-        
-        window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now())
-            .then(async r => { if(!r.ok) throw new Error("HTTP " + r.status); return await r.json(); })
-            .catch(e => { return null; });
-            
-        window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
-        
         const themes = [
             {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
             {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
             {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
         ];
         let curTheme = parseInt(localStorage.getItem('ch_theme')||0);
-        let t = themes[curTheme];
-        document.documentElement.style.setProperty('--p', t.p);
-        document.documentElement.style.setProperty('--w', t.w);
-        document.documentElement.style.setProperty('--bg', t.bg);
-        document.documentElement.style.setProperty('--b', t.b);
-        document.documentElement.style.setProperty('--c', t.c);
+        document.documentElement.style.setProperty('--p', themes[curTheme].p);
+        document.documentElement.style.setProperty('--w', themes[curTheme].w);
+        document.documentElement.style.setProperty('--bg', themes[curTheme].bg);
+        document.documentElement.style.setProperty('--b', themes[curTheme].b);
+        document.documentElement.style.setProperty('--c', themes[curTheme].c);
     </script>
 
     <style>
@@ -387,10 +375,10 @@
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
     
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--b);border-radius:10px;padding:15px;font-size:0.9rem;text-align:left;margin-bottom:15px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal</span>: </span> <b id="m-sub">0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal:</span> </span> <b id="m-sub">0 DT</b></div>
         <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%): </span> <b id="m-pv">-0 DT</b></div>
         <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%): </span> <b id="m-lv">-0 DT</b></div>
-        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total</span>: </span> <b id="m-tot">0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total:</span> </span> <b id="m-tot">0 DT</b></div>
     </div>
     
     <div style="display:flex;gap:5px;margin-bottom:15px;">
@@ -561,6 +549,7 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;"><span class="tr" data-k="cls">Close</span></button></div></div>
 
 <script>
+    // CORE VARIABLES
     let db={inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; let cart=[]; let cView={t:'cats',c:null,a:null}; let lang=localStorage.getItem('ch_lng')||'en';
     let user=localStorage.getItem('ch_user'), role=localStorage.getItem('ch_role'), pass=localStorage.getItem('ch_pass'), uOrders=parseInt(localStorage.getItem('ch_ord')||0);
     let userWallet = parseFloat(localStorage.getItem('ch_wal')||0);
@@ -571,6 +560,10 @@
     let pending2faSecret = ""; let pending2faUser = {};
     let lastActionTime = 0; let actionCount = 0; let userIP = "Unknown";
     
+    const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
+    function el(i){return document.getElementById(i);}
+
+    // PWA ENGINE
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -592,8 +585,19 @@
         });
     }
 
-    function el(i){return document.getElementById(i);}
-    
+    // ADBLOCKER SAFE IP FETCHER
+    async function fetchSafeIP() {
+        try {
+            let r = await fetch('https://api.ipify.org?format=json');
+            let d = await r.json();
+            return d.ip;
+        } catch(e) {
+            console.warn("IP Tracker blocked by Adblocker. Using secure fallback ID.");
+            return "Adblock_User_" + Math.random().toString(36).substring(7);
+        }
+    }
+
+    // SECURITY ENGINE
     function checkRateLimit() {
         let now = Date.now();
         if(now - lastActionTime < 2000) { 
@@ -609,7 +613,7 @@
     function checkFirewall() {
         let hardBan = localStorage.getItem('ch_ban_code');
         let isBanned = false;
-        if (db.bans && userIP !== "Unknown") { isBanned = db.bans.find(b => b.ip === userIP); }
+        if (db.bans && userIP !== "Unknown" && !userIP.includes("Adblock_User_")) { isBanned = db.bans.find(b => b.ip === userIP); }
         if(isBanned) {
             localStorage.setItem('ch_ban_code', isBanned.code);
             if(el('fw-ip')) el('fw-ip').innerText = userIP; 
@@ -768,10 +772,8 @@
                 if(el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
                 return null;
             }
-        } catch(e) { console.error("NETWORK ERROR:", e); toast("Network Failure", true); return null; }
+        } catch(e) { console.error("NETWORK ERROR:", e); return null; }
     }
-
-    function buf2hex(buffer) { return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join(''); }
     
     async function bioSet(iA){
         if(iA && el('aPas').value!=="26240608") return toast(T[lang].admErr,true); 
@@ -962,6 +964,7 @@
 
     async function pAPI(a, p, nS){p.act=a; p.adminUser=user; p.adminPass=pass; toast("...", "info"); let d=await customFetch(window.SURL,{method:'POST',body:JSON.stringify(p)}); if(d&&d.s==='ok'){toast(T[lang].scs,false); if(!nS)initApp();} else toast(T[lang].err,true);}
 
+    // 🔥 THE FAIL-PROOF INIT ENGINE
     function initApp() {
         appLang(); loginStreak = parseInt(localStorage.getItem('ch_streak')||0);
         userIP = localStorage.getItem('ch_last_ip') || "Unknown";
@@ -973,17 +976,13 @@
             if(el('st-cnt')) el('st-cnt').innerHTML=`<div class="grid"><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">${T[lang].ld}</span></p>`; 
         }
 
-        if(window.globalIpPromise) {
-            window.globalIpPromise.then(ipData => {
-                if(ipData && ipData.ip) {
-                    userIP = ipData.ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
-                    if(!sessionStorage.getItem('ch_vst_lggd')) {
-                        sessionStorage.setItem('ch_vst_lggd', 'true');
-                        customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
-                    }
-                }
-            }).catch(e=>{});
-        }
+        fetchSafeIP().then(ip => {
+            userIP = ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall();
+            if(!sessionStorage.getItem('ch_vst_lggd')) {
+                sessionStorage.setItem('ch_vst_lggd', 'true');
+                customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+            }
+        });
 
         let timeoutTriggered = false;
         let fallbackTimer = setTimeout(() => {
@@ -1323,7 +1322,6 @@
         if(c2)c2.destroy(); let rK=Object.keys(rD).slice(-7); let rV=rK.map(k=>rD[k]); if(el('revC')) c2=new Chart(el('revC'),{type:'bar',data:{labels:rK,datasets:[{data:rV,backgroundColor:'#00ff88',borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{color:'#fff'}},y:{ticks:{color:'#fff'}}},plugins:{legend:{display:false}}}});
     }
 
-    // 🔥 THE REQUEST SERVICE LOGGER
     function reqServiceWa() {
         let srv = el('rs-nom').value, desc = el('rs-desc').value;
         if(!srv) return toast(T[lang].fill, true);
