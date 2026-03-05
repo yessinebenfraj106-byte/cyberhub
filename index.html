@@ -28,29 +28,32 @@
     <script src="https://unpkg.com/otpauth/dist/otpauth.umd.min.js" defer></script>
 
     <script>
+        // YOUR ACTIVE GOOGLE SCRIPT URL
         window.SURL = "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec";
         
+        // PRE-FETCH DATA
+        window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now())
+            .then(async r => { if(!r.ok) throw new Error("HTTP " + r.status); return await r.json(); })
+            .catch(e => { return null; });
+            
+        window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
+        
+        // THEMES
+        const themes = [
+            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
+            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
+            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
+        ];
+        
         try {
-            window.globalDataPromise = fetch(window.SURL + "?action=get_public_data&_cb=" + Date.now())
-                .then(async r => { if(!r.ok) throw new Error("HTTP " + r.status); return await r.json(); })
-                .catch(e => { return null; });
-                
-            window.globalIpPromise = fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(e => null);
-        } catch(err) {}
-
-        try {
-            const headThemes = [
-                {p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
-                {p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
-                {p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
-            ];
-            let ct = parseInt(localStorage.getItem('ch_theme') || 0);
-            document.documentElement.style.setProperty('--p', headThemes[ct].p);
-            document.documentElement.style.setProperty('--w', headThemes[ct].w);
-            document.documentElement.style.setProperty('--bg', headThemes[ct].bg);
-            document.documentElement.style.setProperty('--b', headThemes[ct].b);
-            document.documentElement.style.setProperty('--c', headThemes[ct].c);
-        } catch(err) {}
+            let curTheme = parseInt(localStorage.getItem('ch_theme') || 0);
+            let t = themes[curTheme];
+            document.documentElement.style.setProperty('--p', t.p);
+            document.documentElement.style.setProperty('--w', t.w);
+            document.documentElement.style.setProperty('--bg', t.bg);
+            document.documentElement.style.setProperty('--b', t.b);
+            document.documentElement.style.setProperty('--c', t.c);
+        } catch(e) {}
     </script>
 
     <style>
@@ -59,82 +62,60 @@
         body.modal-open{overflow:hidden;height:100vh;position:fixed;width:100%;}
         #particles-js{position:fixed;inset:0;z-index:-1;}
         .cont{max-width:500px;margin:auto;padding:20px;position:relative;z-index:1;}
-        
         .glass{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:20px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.4);transition:border-color 0.5s;}
         .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
         .icon-btn{background:var(--c);border:1px solid var(--b);color:#fff;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:1rem;transition:0.3s;}
         .logo{width:110px;height:110px;border-radius:50%;border:3px solid var(--p);display:block;margin:0 auto;cursor:pointer;box-shadow:0 0 25px var(--b);transition:0.5s;}
-        
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
         .n-card{background:var(--c);border:1px solid var(--b);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;overflow:hidden;}
         .n-card:active{transform:scale(0.96);}
         .n-card img{width:55px;height:55px;margin:0 auto 10px auto;display:block;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5));}
-        
         .f-head{background:linear-gradient(135deg,rgba(0,0,0,0.5),rgba(0,0,0,0.2));border:1px solid var(--b);border-left:4px solid var(--p);padding:18px 20px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.05rem;margin-bottom:8px;}
         .i-row{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s;}
-        .i-row.sortable-ghost { opacity: 0.4; background: var(--b); }
-        
         .btn{background:var(--p);color:#000;border:none;padding:14px;border-radius:12px;font-weight:800;width:100%;cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:1px;transition:0.3s;}
         .btn:active{transform:scale(0.95);}
         .btn:disabled{background:#555;color:#888;cursor:not-allowed;}
-        
         .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.95);z-index:10000;justify-content:center;align-items:center;backdrop-filter:blur(15px);padding:15px; opacity:0; transition:opacity 0.3s ease;}
         .modal.show{display:flex; opacity:1;}
         .m-cnt{background:var(--bg);border:1px solid var(--p);padding:25px;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 40px var(--b); transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
         .modal.show .m-cnt {transform:scale(1);}
-        
         input,select,textarea{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--b);background:rgba(0,0,0,0.5);color:#fff;box-sizing:border-box;font-family:inherit;font-size:1rem;transition:0.3s;}
-        
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 20000; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 40px; }
-        
         .c-btn{background:rgba(0,0,0,0.5);border:1px solid var(--b);color:#fff;padding:10px;border-radius:10px;text-align:center;cursor:pointer;flex:1;font-weight:bold;transition:0.3s;font-size:0.85rem;}
         .c-btn.act{background:var(--b);border-color:var(--p);color:var(--p);}
-        
         .sm-wa.act { background: #25D366; color: #fff; border-color: #25D366; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
         .sm-ig.act { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border-color: transparent; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
         .sm-fb.act { background: #1877F2; color: #fff; border-color: #1877F2; text-shadow: 0 1px 3px rgba(0,0,0,0.5);}
-        
         #sidebar{position:fixed;top:0;left:-300px;width:260px;height:100vh;background:var(--c);z-index:9999;transition:0.4s ease;padding:20px;border-right:1px solid var(--p);display:flex;flex-direction:column; backdrop-filter:blur(20px);}
         #sidebar.open{left:0;}
         .m-item{padding:18px;color:#fff;font-size:1.1rem;font-weight:bold;border-bottom:1px solid var(--b);cursor:pointer;display:flex;align-items:center;gap:15px;transition:0.2s;}
         .m-item:hover{background:var(--b); padding-left:25px;}
-        
         .pwd-eye{position:absolute;right:15px;top:20px;cursor:pointer;font-size:1.2rem;}
         .otp-box{width:45px;height:55px;text-align:center;font-size:1.5rem;font-weight:bold;margin:0 4px;border-radius:10px;}
-        
         .pol-row{background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:15px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;text-align:left;}
         .pol-icon{background:var(--p);color:#000;min-width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;}
-        
         .fab-cart{position:fixed;bottom:25px;right:25px;background:var(--p);color:#000;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 20px var(--b);cursor:pointer;z-index:1000;border:none;transition:0.3s;}
         .fab-supp{position:fixed;bottom:105px;right:25px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;border:none;}
         .fab-admin{position:fixed;bottom:25px;left:25px;background:linear-gradient(90deg, #ff4d4d, var(--w));color:#fff;width:55px;height:55px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:24px;box-shadow:0 5px 20px rgba(255,77,77,0.4);cursor:pointer;z-index:1000;border:none; animation: glow 3s ease infinite;}
-        
         .wheel-cnt{position:relative;width:260px;height:260px;margin:20px auto;border-radius:50%;border:8px solid #222;box-shadow:0 0 40px var(--b), inset 0 0 20px #000;overflow:hidden;}
         .w-ptr{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--p);z-index:10;filter:drop-shadow(0 0 10px var(--p));transition:0.5s;}
         .w-center{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:40px;height:40px;background:radial-gradient(circle, #555, #111);border:3px solid var(--p);border-radius:50%;z-index:5;box-shadow:0 0 15px rgba(0,0,0,0.8);transition:0.5s;}
         #wheel{width:100%;height:100%;border-radius:50%;transition:transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);}
-        
         .oos-tag{color:#ff4d4d;font-size:0.7rem;font-weight:800;border:1px solid #ff4d4d;padding:2px 6px;border-radius:6px;margin-left:10px;vertical-align:middle;}
-        
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        
         .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-drag-handle { cursor: grab; font-size: 1.5rem; color: var(--w); margin-right: 5px; }
         .admin-edit-inp { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.85rem; margin: 0; }
         .admin-edit-btn { padding: 6px 12px; margin: 0; width: auto; font-size: 0.8rem; border-radius: 6px; }
-        
         .loyalty-banner { background: linear-gradient(90deg, #ff00ff, var(--w)); color: #fff; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; display: none; animation: glow 2s ease infinite; background-size: 200% 200%;}
         .flash-banner { background: rgba(255,77,77,0.15); border: 2px solid #ff4d4d; color: #ff4d4d; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,77,77,0.3); display: none; }
-        
         .ticker { position: fixed; bottom: 100px; left: -100%; background: var(--c); border-left: 4px solid var(--p); border-radius: 0 10px 10px 0; padding: 12px 18px; color: #fff; font-size: 0.85rem; z-index: 999; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px var(--b); font-weight: bold; max-width: 80vw; word-wrap: break-word; line-height: 1.4; }
         .ticker.show { left: 0; }
         .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
-        
         .diag-box { display:none; background:#110000; border:2px dashed #ff4d4d; color:#ff4d4d; padding:20px; border-radius:15px; margin-top:20px; font-family:monospace; text-align:left; overflow-x:auto; }
         #firewall-screen { display:none; position:fixed; inset:0; background:#050b14; z-index:999999; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
-        
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -413,10 +394,10 @@
     <div id="c-list" style="text-align:left;max-height:150px;overflow-y:auto;margin-bottom:10px;font-size:0.9rem;"></div>
     
     <div style="background:rgba(0,0,0,0.5);border:1px solid var(--b);border-radius:10px;padding:15px;font-size:0.9rem;text-align:left;margin-bottom:15px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal : </span></span> <b id="m-sub">0 DT</b></div>
-        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%) : </span> <b id="m-pv">-0 DT</b></div>
-        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%) : </span> <b id="m-lv">-0 DT</b></div>
-        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total : </span></span> <b id="m-tot">0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal</span></span> <b id="m-sub">0 DT</b></div>
+        <div id="m-pr" style="display:none;justify-content:space-between;color:var(--p);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="prm">Promo</span> (<span id="m-pp">0</span>%)</span> <b id="m-pv">-0 DT</b></div>
+        <div id="m-lr" style="display:none;justify-content:space-between;color:var(--w);margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="autDisc">Auto-Discount</span> (<span id="m-lp">0</span>%)</span> <b id="m-lv">-0 DT</b></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px dashed #333;margin-top:5px;padding-top:10px;font-size:1.2rem;color:var(--p);font-weight:800;"><span><span class="tr" data-k="tot">Total</span></span> <b id="m-tot">0 DT</b></div>
     </div>
     
     <div style="display:flex;gap:5px;margin-bottom:15px;">
@@ -455,7 +436,7 @@
         </div>
         <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
         <div style="background:rgba(0,0,0,0.4);padding:15px;border-radius:10px;border:1px dashed var(--sub);margin:10px 0;text-align:left;">
-            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method</span></b>
+            <b style="font-size:0.9rem;color:#fff;"><span class="tr" data-k="cm">Contact Method:</span></b>
             <div style="display:flex;gap:5px;margin:10px 0;">
                 <div class="c-btn sm-wa act" id="c-wa" onclick="sCon('wa')">💬 WA</div>
                 <div class="c-btn sm-ig" id="c-ig" onclick="sCon('ig')">📸 IG</div>
@@ -587,719 +568,24 @@
 <div id="mark-modal" class="modal"><div class="m-cnt"><h3 style="color:#ff4d4d;margin-top:0;">🎟️ Marketing</h3><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);margin-bottom:15px;text-align:left;"><b>Promo Codes</b><div id="p-list" style="margin-bottom:10px;"></div><div style="display:flex;gap:5px;"><input type="text" id="np-code" placeholder="Code" style="margin:0;"><input type="number" id="np-pct" placeholder="%" style="margin:0;width:70px;"><button class="btn" style="margin:0;width:auto;padding:0 15px;" onclick="addPromo()">Add</button></div></div><div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:10px;border:1px solid var(--b);text-align:left;"><b>Loyalty Settings</b><div id="l-list" class="grid" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div></div><button onclick="closeModal('mark-modal')" style="background:none;border:none;color:var(--sub);margin-top:15px;font-weight:bold;cursor:pointer;"><span class="tr" data-k="cls">Close</span></button></div></div>
 
 <script>
-    // CORE DICTIONARY AND GLOBAL VARIABLES MUST BE FIRST IN SCRIPT BLOCK
-    const T = {
-      en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help? Contact Us", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", ep: "Email or Phone", pw: "Password", cp: "Create Password", np: "New Password", log: "Log In", snd: "Send Code", rs: "Send Reset Code", vc: "Enter Code", vcd: "6-Digit Code", ver: "Verify & Login", canc: "Cancel", bio: "Use Passkey / Biometrics", pro: "My Profile", ls: "Link Socials (Auto-fills checkout)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Facebook URL", sav: "Save Socials", ce: "Change Email", ab: "Add Passkey", lo: "Log Out", sv: "Send Verification", crt: "Cart", sub: "Subtotal: ", prm: "Promo", loy: "Loyalty", tot: "Total: ", pc: "Promo Code?", apl: "Apply", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", spn: "Spins reset every 48 Hours.", sn: "SPIN NOW", pd: "Data Privacy", pt: "Delivery Time", ps: "Support (SAV)", pr: "Refunds", acpt: "I ACCEPT", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", cd: "Code Sent", bdc: "Bad Code", svd: "Saved", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "Manual Order", rqLog: "Please Login to Spin!", rContact: "Please enter your IG/WA to claim your prize:", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", invMng: "Create New Item", addItm: "Create New Item", itmAdd: "Item Added to Cart!", itmSub: "What would you like to do next?", chkNow: "Checkout Now", conShop: "Continue Shopping", spnWrn: "⚠️ Abuse will result in an instant ban.", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", payLat: "Will Pay Later?", txId: "Transaction ID (Optional)", upRec: "Upload Receipt Screenshot:", walPay: "Pay with Wallet", manMin: "Mandat Min.", csh: "Cash", reqTop: "Request Top-Up", digWal: "Digital Wallet Balance", humVer: "Human Verification", solvStr: "Solve this to claim your Daily Streak!", yAns: "Your Answer...", verClaim: "Verify & Claim", incMath: "Incorrect Math!", welcBack: "Welcome back!", pwdUpd: "Password Updated", flStr: "Flash Sale Started!", thm: "Theme: ", userP: "Username, Email, or Phone", sndReg: "Send Code / Register", accRec: "Account Recovery", accHow: "How would you like to access your account?", logCode: "Login with Code", resPass: "Reset Password", passLog: "Passkey Login", pwdLog: "Password Login", addBio: "Add Biometrics", logStr: "Login Streak:", days: "Days", strDesc: "Hit 14 days in a row for a secret bonus discount!", loyApp: "Loyalty Discount Applied!", flAct: "Flash Sale Active!", strApp: "14-Day Streak Bonus Applied!", autDisc: "Auto-Discount", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Enter WhatsApp Number (e.g. +216...)", entIg: "Enter Instagram @username", entFb: "Enter Facebook Profile Link", ordPlc: "ORDER PLACED", invCop: "Your detailed invoice has been copied to your clipboard!", clkDm: "Click below to open your DM and paste the invoice to us!", opnDm: "OPEN DM & PASTE", clsRet: "Close & Return", flSale: "FLASH SALE:", endsIn: "Ends in:", loyUnl: "Loyalty Unlocked:", reqDesc: "Can't find what you are looking for? Tell us what you need and we will make it happen.", reqNm: "Service Name (e.g., Custom Website)", reqDt: "Details...", provId: "Please provide a Transaction ID or Photo!", accDen: "ACCESS DENIED", ipBanDesc: "Your IP address has been permanently restricted from accessing CyberHub due to a violation of our security policies.", urIp: "Your IP Address", banRef: "Ban Reference Code", appBan: "Appeal this ban:", instApp: "Install App" },
-      fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Jouer & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ? Contactez-Nous", si: "Se Connecter", ca: "Créer un compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", ep: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer Mot de passe", np: "Nouveau Mot de passe", log: "Connexion", snd: "Envoyer le code", rs: "Envoyer le code", vc: "Entrer le code", vcd: "Code à 6 chiffres", ver: "Vérifier & Connexion", canc: "Annuler", bio: "Utiliser Passkey / Biométrie", pro: "Mon Profil", ls: "Lier Réseaux (Remplissage auto)", ig: "Instagram (@)", wa: "WhatsApp", fb: "Lien Profil Facebook", sav: "Enregistrer", ce: "Changer Email", ab: "Ajouter Passkey", lo: "Déconnexion", sv: "Envoyer Vérification", crt: "Panier", sub: "Sous-total : ", prm: "Promo", loy: "Fidélité", tot: "Total : ", pc: "Code Promo ?", apl: "Appliquer", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", spn: "1 essai toutes les 48 Heures.", sn: "TOURNER", pd: "Confidentialité", pt: "Délais de Livraison", ps: "Support (SAV)", pr: "Remboursements", acpt: "J'ACCEPTE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", cd: "Code Envoyé", bdc: "Code Incorrect", svd: "Enregistré", err: "Erreur Système", scs: "Succès !", rq: "Nom/Contact Requis", mn: "Commande Manuelle", rqLog: "Connectez-vous pour jouer !", rContact: "Veuillez entrer votre IG/WA pour recevoir votre prix :", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", invMng: "Créer un Article", addItm: "Créer un Article", itmAdd: "Article ajouté au panier !", itmSub: "Que voulez-vous faire ensuite ?", chkNow: "Passer à la caisse", conShop: "Continuer les achats", spnWrn: "⚠️ L'abus entraînera un bannissement définitif.", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie en commandant plus !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", payLat: "Payer plus tard ?", txId: "ID de transaction (Optionnel)", upRec: "Télécharger une capture du reçu :", walPay: "Payer avec le Portefeuille", manMin: "Mandat Minute", csh: "Espèces", reqTop: "Recharger", digWal: "Solde du Portefeuille", humVer: "Vérification Humaine", solvStr: "Résolvez ceci pour valider votre série !", yAns: "Votre réponse...", verClaim: "Vérifier & Réclamer", incMath: "Calcul incorrect !", welcBack: "Bon retour !", pwdUpd: "Mot de passe mis à jour", flStr: "Vente Flash lancée !", thm: "Thème : ", userP: "Pseudo, Email ou Tél", sndReg: "Envoyer Code / Inscription", accRec: "Récupération de compte", accHow: "Comment voulez-vous accéder à votre compte ?", logCode: "Connexion avec Code", resPass: "Réinitialiser le mot de passe", passLog: "Connexion Passkey", pwdLog: "Connexion Mot de passe", addBio: "Ajouter Biométrie", logStr: "Série de connexions :", days: "Jours", strDesc: "Atteignez 14 jours pour une réduction secrète !", loyApp: "Réduction de Fidélité Appliquée !", flAct: "Vente Flash Active !", strApp: "Bonus 14 Jours Appliqué !", autDisc: "Réduction Auto", d17Inst: "Transfert D17 à :", mmInst: "Transfert Mandat Minute :", mmName: "Zied Ben Fraj", mmNum: "21 357 058", entWa: "Entrez le numéro WhatsApp (+216...)", entIg: "Entrez le @ pseudo Instagram", entFb: "Entrez le lien du profil Facebook", ordPlc: "COMMANDE VALIDÉE", invCop: "Votre facture a été copiée dans le presse-papiers !", clkDm: "Cliquez ci-dessous pour ouvrir vos DM et coller la facture !", opnDm: "OUVRIR DM & COLLER", clsRet: "Fermer & Retour", flSale: "VENTE FLASH :", endsIn: "Finit dans :", loyUnl: "Fidélité débloquée :", reqDesc: "Vous ne trouvez pas ce que vous cherchez ? Dites-nous ce dont vous avez besoin.", reqNm: "Nom du service (ex: Site Web)", reqDt: "Détails...", provId: "Veuillez fournir un ID de transaction ou une photo !", accDen: "ACCÈS REFUSÉ", ipBanDesc: "Votre adresse IP a été définitivement restreinte d'accès à CyberHub en raison d'une violation de nos politiques de sécurité.", urIp: "Votre Adresse IP", banRef: "Code de Référence", appBan: "Faire appel de ce bannissement :", instApp: "Installer l'Appli" }
-    };
-
-    let db = {inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; 
-    let cart = []; 
-    let cView = {t:'cats', c:null, a:null}; 
-    let lang = localStorage.getItem('ch_lng') || 'en';
-    
-    let user = localStorage.getItem('ch_user');
-    let role = localStorage.getItem('ch_role');
-    let pass = localStorage.getItem('ch_pass');
-    let uOrders = parseInt(localStorage.getItem('ch_ord') || 0);
-    let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
-    
-    let uIg = localStorage.getItem('ch_ig') || "";
-    let uWa = localStorage.getItem('ch_wa') || "";
-    let uFb = localStorage.getItem('ch_fb') || "";
-    let cngEml = false; 
-    let pCode = "";
-    let pPct = 0;
-    let payM = "D17";
-    let cM = "wa";
-    let rM = "email";
-    let lC = 0;
-    let lT;
-    let isR = false;
-    let pE;
-    let pP2;
-    let loginMode = "pass";
-    let c1, c2;
-    
-    let dId = localStorage.getItem('ch_did'); 
-    if(!dId) { 
-        dId = Math.random().toString(36).slice(2); 
-        localStorage.setItem('ch_did', dId);
-    }
-    
-    let lastMaintState = ""; 
-    let globalFlashPct = 0; 
-    let loginStreak = 0; 
-    let captchaCorrect = 0; 
-    let proofB64 = "";
-    let pending2faSecret = ""; 
-    let pending2faUser = {};
-    let lastActionTime = 0; 
-    let actionCount = 0; 
-    let userIP = "Unknown";
-    
-    const sEnc = s => encodeURIComponent(s).replace(/'/g, "%27");
-    
-    function el(i) { return document.getElementById(i); }
-
-    // PWA ENGINE
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'flex';
-    });
-
-    function installPWA() {
-        if(!deferredPrompt) {
-            let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            if(isIOS) { 
-                alert("To install on iPhone: Tap the 'Share' icon at the bottom of Safari, then tap 'Add to Home Screen'."); 
-            } else { 
-                alert("App is already installed, or your browser does not support this feature."); 
-            }
-            return;
-        }
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') { 
-                if(el('install-btn-sidebar')) el('install-btn-sidebar').style.display = 'none'; 
-            }
-            deferredPrompt = null;
-        });
-    }
-
-    // ADBLOCKER SAFE IP FETCHER
-    async function fetchSafeIP() {
-        try {
-            let r = await fetch('https://api.ipify.org?format=json');
-            let d = await r.json();
-            return d.ip;
-        } catch(e) {
-            console.warn("IP Tracker blocked by Adblocker. Using secure fallback ID.");
-            return "Adblock_User_" + Math.random().toString(36).substring(7);
-        }
-    }
-
-    // SECURITY ENGINE
-    function checkRateLimit() {
-        let now = Date.now();
-        if(now - lastActionTime < 2000) { 
-            actionCount++;
-            if(actionCount > 4) { toast("Rate Limit Exceeded. Slow down!", true); return false; }
-        } else { 
-            actionCount = 1; 
-        }
-        lastActionTime = now; 
-        return true;
-    }
-
-    function appealWA() { 
-        window.open(`https://wa.me/21629895846?text=Hello,%20my%20IP%20was%20banned.%20Code:%20${el('fw-code').innerText}%20IP:%20${userIP}`); 
-    }
-    
-    function appealIG() { 
-        window.open(`https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet`); 
-    }
-
-    function checkFirewall() {
-        let hardBan = localStorage.getItem('ch_ban_code');
-        let isBanned = false;
-        if (db.bans && userIP !== "Unknown" && !userIP.includes("Adblock_User_")) { 
-            isBanned = db.bans.find(b => b.ip === userIP); 
-        }
-        
-        if(isBanned) {
-            localStorage.setItem('ch_ban_code', isBanned.code);
-            if(el('fw-ip')) el('fw-ip').innerText = userIP; 
-            if(el('fw-code')) el('fw-code').innerText = isBanned.code;
-            if(el('firewall-screen')) el('firewall-screen').style.display = 'flex';
-            document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
-            return true;
-        } else if (hardBan && (!db.bans || db.bans.length === 0)) {
-             if(el('fw-ip')) el('fw-ip').innerText = userIP; 
-             if(el('fw-code')) el('fw-code').innerText = hardBan;
-             if(el('firewall-screen')) el('firewall-screen').style.display = 'flex';
-             document.querySelectorAll('.cont, .fab-cart, .fab-supp, #sidebar').forEach(e => { if(e) e.style.display='none'; });
-             return true;
-        } else if (!isBanned && db.bans && db.bans.length > 0 && hardBan) {
-            localStorage.removeItem('ch_ban_code');
-            if(el('firewall-screen')) el('firewall-screen').style.display = 'none';
-        }
-        return false;
-    }
-
-    function banUserIpPrompt() {
-        let ipToBan = prompt("Enter IP Address to Ban:");
-        if(!ipToBan) return;
-        let r = prompt("Reason for ban?");
-        pAPI('ban_ip', {ip: ipToBan, reason: r || "Manual Admin Ban"}, true);
-    }
-
-    function applyTheme() {
-        const themesList = [
-            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
-            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
-        ];
-        let t = themesList[curTheme];
-        document.documentElement.style.setProperty('--p', t.p);
-        document.documentElement.style.setProperty('--w', t.w);
-        document.documentElement.style.setProperty('--bg', t.bg);
-        document.documentElement.style.setProperty('--b', t.b);
-        document.documentElement.style.setProperty('--c', t.c);
-    }
-
-    function cycleTheme() { 
-        curTheme = (curTheme + 1) % 3; 
-        localStorage.setItem('ch_theme', curTheme); 
-        applyTheme(); 
-        toast(T[lang].thm + " Updated", "info"); 
-    }
-    
-    function purgeCache() { 
-        localStorage.removeItem('ch_db_cache'); 
-        toast("Cache Cleared! Reloading...", "info"); 
-        setTimeout(() => window.location.reload(true), 1000); 
-    }
-
-    function toast(m, type = 'success') {
-        let t = el('toast'); 
-        let icon = ''; 
-        let color = '';
-        
-        if (type === false) type = 'success'; 
-        if (type === true) type = 'error';
-        
-        if (type === 'success') { icon = '✅'; color = '#00ff88'; } 
-        else if (type === 'error') { icon = '🚨'; color = '#ff4d4d'; } 
-        else if (type === 'info') { icon = '⚡'; color = '#00f0ff'; }
-        
-        el('t-msg').innerHTML = `<span style="font-size:1.2rem; margin-right:8px; vertical-align:middle;">${icon}</span><span style="color:${color}; text-shadow:0 0 10px ${color}80; vertical-align:middle;">${m}</span>`;
-        t.style.border = `1px solid ${color}80`; 
-        t.style.boxShadow = `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${color}30`;
-        t.classList.add('show'); 
-        setTimeout(() => t.classList.remove('show'), 3000);
-    }
-    
-    function openModal(i){ 
-        let m = el(i); 
-        m.style.display = 'flex'; 
-        document.body.classList.add('modal-open'); 
-        setTimeout(() => m.classList.add('show'), 10); 
-    }
-    
-    function closeModal(i){ 
-        let m = el(i); 
-        m.classList.remove('show'); 
-        document.body.classList.remove('modal-open'); 
-        setTimeout(() => m.style.display = 'none', 300); 
-    }
-    
-    function toggleSidebar(){
-        el('sidebar').classList.toggle('open');
-    }
-    
-    function togglePwd(i){
-        el(i).type = el(i).type === "password" ? "text" : "password";
-    }
-    
-    function swA(i){
-        ['l-step','r-step','rs-step','c-step','a-step','2fa-step'].forEach(x => el(x).style.display = 'none');
-        el(i).style.display = 'block';
-    }
-    
-    function maskEm(str) { 
-        if(!str) return ""; 
-        if(str.includes('@')) { 
-            let p = str.split('@'); 
-            return p[0].slice(0, 2) + "***@" + p[1]; 
-        } 
-        return str.slice(0, 3) + "***" + str.slice(-2); 
-    }
-    
-    function hslToHex(h, s, l) {
-        s /= 100; l /= 100; 
-        let c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r=0, g=0, b=0;
-        if (0<=h && h<60) { r=c; g=x; b=0; } 
-        else if (60<=h && h<120) { r=x; g=c; b=0; } 
-        else if (120<=h && h<180) { r=0; g=c; b=x; } 
-        else if (180<=h && h<240) { r=0; g=x; b=c; } 
-        else if (240<=h && h<300) { r=x; g=0; b=c; } 
-        else if (300<=h && h<360) { r=c; g=0; b=x; }
-        return "#" + Math.round((r+m)*255).toString(16).padStart(2,'0') + Math.round((g+m)*255).toString(16).padStart(2,'0') + Math.round((b+m)*255).toString(16).padStart(2,'0');
-    }
-
-    function chkUI() {
-        if(role === "Admin" || role === "Support"){
-            if(el('adm-tools')) el('adm-tools').style.display='block'; 
-            if(el('god-crown')) el('god-crown').style.display='block'; 
-            if(el('fab-admin')) el('fab-admin').style.display='flex'; 
-        } else { 
-            if(el('adm-tools')) el('adm-tools').style.display='none'; 
-            if(el('god-crown')) el('god-crown').style.display='none'; 
-            if(el('fab-admin')) el('fab-admin').style.display='none'; 
-        } 
-        let lp = db.loy[uOrders+1] || 0; 
-        if(el('loy-banner')) el('loy-banner').style.display = lp > 0 ? 'block' : 'none';
-        if(el('l-pct')) el('l-pct').innerText = lp;
-        if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
-        if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
-        if(el('vip-streak')) el('vip-streak').innerText = loginStreak; 
-        if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); 
-        if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); 
-    }
-
-    function acceptPolicy() { 
-        localStorage.setItem('ch_pol', 'true'); 
-        closeModal('pol-mod'); 
-    }
-
-    function generateBase32Secret() {
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; 
-        let secret = '';
-        for (let i = 0; i < 16; i++) { 
-            secret += chars.charAt(Math.floor(Math.random() * chars.length)); 
-        }
-        return secret;
-    }
-    
-    function setup2FA() {
-        if(!user) return;
-        let secret = generateBase32Secret(); 
-        el('sec-2fa').innerText = secret;
-        let otpUrl = `otpauth://totp/CyberHub:${user}?secret=${secret}&issuer=CyberHub`;
-        el('qr-2fa').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(otpUrl)}`;
-        window.temp2faSec = secret;
-        closeModal('prof-mod'); 
-        openModal('setup-2fa-mod');
-    }
-    
-    async function confirm2FASetup() {
-        if(!checkRateLimit()) return;
-        let inputCode = el('inp-2fa').value;
-        if(!inputCode || inputCode.length < 6) return toast(T[lang].fill, true);
-        if(typeof window.OTPAuth === 'undefined') return toast("Loading Security Module...", "info");
-        
-        let totp = new window.OTPAuth.TOTP({ 
-            issuer: "CyberHub", 
-            label: user, 
-            algorithm: "SHA1", 
-            digits: 6, 
-            period: 30, 
-            secret: window.OTPAuth.Secret.fromBase32(window.temp2faSec) 
-        });
-        
-        if(inputCode === totp.generate()) {
-            el('btn-2fa-setup').innerText = "Saving...";
-            let res = await customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'save_2fa', c:user, sec:window.temp2faSec})});
-            if(res && res.s === 'ok') { 
-                toast("2FA Enabled!", false); 
-                closeModal('setup-2fa-mod'); 
-            } else { 
-                toast(T[lang].err, true); 
-            }
-        } else { 
-            toast("Invalid Code!", true); 
-        }
-    }
-    
-    function verify2FALogin() {
-        if(!checkRateLimit()) return;
-        let inputCode = el('2fa-code-inp').value;
-        if(!inputCode || inputCode.length < 6) return toast(T[lang].fill, true);
-        if(typeof window.OTPAuth === 'undefined') return toast("Loading Security Module...", "info");
-        
-        let totp = new window.OTPAuth.TOTP({ 
-            issuer: "CyberHub", 
-            label: pending2faUser.c, 
-            algorithm: "SHA1", 
-            digits: 6, 
-            period: 30, 
-            secret: window.OTPAuth.Secret.fromBase32(pending2faSecret) 
-        });
-        
-        if(inputCode === totp.generate()) {
-            user = pending2faUser.c; 
-            pass = pending2faUser.p; 
-            role = pending2faUser.r; 
-            uOrders = parseInt(pending2faUser.o); 
-            uIg = pending2faUser.ig||""; 
-            uWa = pending2faUser.wa||""; 
-            uFb = pending2faUser.fb||""; 
-            userWallet = parseFloat(pending2faUser.w) || 0; 
-            
-            localStorage.setItem('ch_user',user); 
-            localStorage.setItem('ch_pass',pass); 
-            localStorage.setItem('ch_role',role); 
-            localStorage.setItem('ch_ord',uOrders); 
-            localStorage.setItem('ch_ig',uIg); 
-            localStorage.setItem('ch_wa',uWa); 
-            localStorage.setItem('ch_fb',uFb); 
-            localStorage.setItem('ch_wal',userWallet); 
-            
-            loginStreak = checkStreak(); 
-            closeModal('log-mod'); 
-            toast(T[lang].welcBack, false); 
-            chkUI(); 
-            ren();
-        } else { 
-            toast("Invalid Authenticator Code!", true); 
-        }
-    }
-
-    function navTo(t, c, a){ 
-        cView.t = t; 
-        cView.c = c ? decodeURIComponent(c) : null; 
-        cView.a = a ? decodeURIComponent(a) : null; 
-        
-        if(t === 'apps' && cView.c) {
-            let subs = catSubMapGlobal[cView.c];
-            if(!subs || subs.length === 0 || (subs.length === 1 && (subs[0] === 'General' || subs[0] === ''))) { 
-                cView.t = 'items'; 
-                cView.a = subs ? subs[0] : 'General'; 
-            }
-        }
-        
-        if(t === 'items' && !a) { 
-            cView.t = 'cats'; 
-            cView.c = null; 
-        } 
-        
-        el('itemFinder').value = ""; 
-        ren(); 
-    }
-    
-    function tgLang(){
-        lang = lang === 'en' ? 'fr' : 'en'; 
-        localStorage.setItem('ch_lng', lang); 
+    // MAIN SCRIPT ENGINE
+    async function initApp() {
         appLang(); 
-        ren(); 
-        updC();
-    }
-    
-    function appLang() { 
-        if(el('l-ind')) el('l-ind').innerText = lang.toUpperCase(); 
         
-        document.querySelectorAll('.tr').forEach(e => { 
-            let key = e.getAttribute('data-k');
-            if(T[lang] && T[lang][key]) {
-                e.innerHTML = T[lang][key]; 
-            }
-        }); 
-        
-        document.querySelectorAll('.tr-ph').forEach(e => { 
-            let key = e.getAttribute('data-k');
-            if(T[lang] && T[lang][key]) {
-                e.placeholder = T[lang][key]; 
-            }
-        }); 
-    }
-
-    async function customFetch(url, options = {}) {
         try {
-            let res = await fetch(url, options);
-            let text = await res.text();
-            try { 
-                return JSON.parse(text); 
-            } 
-            catch(err) {
-                console.error("GOOGLE BLOCKED CONNECTION. RAW HTML:", text);
-                if(el('diag-out')) { 
-                    el('diag-out').style.display = 'block'; 
-                    el('diag-out').innerHTML = `<b>CRITICAL ERROR:</b> Google did not return data. Did you set 'Execute as: Me' and 'Who has access: Anyone' in deployments?<br><br><b>RAW OUTPUT:</b><br>${text.substring(0,250)}...`; 
-                }
-                if(el('st-cnt')) {
-                    el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;font-weight:bold;padding:40px;">Connection Error ❌<br><span style="font-size:0.8rem;color:var(--sub);">Check diagnostic box below</span></div>`;
-                }
-                return null;
-            }
-        } catch(e) { 
-            console.error("NETWORK ERROR:", e); 
-            toast("Network Failure", true); 
-            return null; 
-        }
-    }
-    
-    async function bioSet(iA){
-        if(iA && el('aPas').value !== "26240608") return toast(T[lang].admErr, true); 
-        try { 
-            let c = new Uint8Array(32); 
-            crypto.getRandomValues(c); 
-            let cred = await navigator.credentials.create({
-                publicKey: {
-                    challenge: c,
-                    rp: {name: "CyberHub"},
-                    user: {id: new Uint8Array(16), name: iA ? "Admin" : user, displayName: iA ? "Admin" : user},
-                    pubKeyCredParams: [{type: "public-key", alg: -7}],
-                    timeout: 6e4
-                }
-            }); 
-            let bioId = buf2hex(cred.rawId);
-            if(iA){
-                localStorage.setItem('ch_bA', '1');
-                closeModal('log-mod'); 
-                toast(T[lang].svd, false);
-            } else {
-                localStorage.setItem('ch_bU', user); 
-                pAPI('reg_bio', {c: user, bioId: bioId}, true); 
-                toast(T[lang].svd, false);
-            } 
+            loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
+            userIP = localStorage.getItem('ch_last_ip') || "Unknown";
         } catch(e) {
-            toast(T[lang].err, true);
+            console.warn("Storage Blocked");
         }
-    }
-    
-    async function bioLog(iA){
-        if(!checkRateLimit()) return;
-        if(iA && !localStorage.getItem('ch_bA')) return toast(T[lang].admErr, true); 
-        try { 
-            let c = new Uint8Array(32); 
-            crypto.getRandomValues(c); 
-            let cred = await navigator.credentials.get({
-                publicKey: { challenge: c, timeout: 6e4 }
-            }); 
-            let bioId = buf2hex(cred.rawId);
-            
-            if(iA){
-                user = "yessinebenfraj106@gmail.com";
-                role = "Admin";
-                closeModal('log-mod');
-                toast(T[lang].scs, false);
-                chkUI();
-                openAdminDash();
-                localStorage.setItem('ch_user', user);
-                localStorage.setItem('ch_role', role);
-            } else {
-                toast("...", "info");
-                let d = await customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_bio', bioId: bioId})});
-                if(!d) return;
-                if(d.s === 'ok') {
-                    user = d.c; pass = d.p; role = d.r; uOrders = parseInt(d.o); uIg = d.ig||""; uWa = d.wa||""; uFb = d.fb||""; userWallet = parseFloat(d.w) || 0;
-                    localStorage.setItem('ch_user',user); localStorage.setItem('ch_pass',pass); localStorage.setItem('ch_role',role); localStorage.setItem('ch_ord',uOrders); localStorage.setItem('ch_bU',user); localStorage.setItem('ch_wal', userWallet);
-                    loginStreak = checkStreak(); 
-                    closeModal('log-mod'); 
-                    toast(T[lang].welcBack, false); 
-                    chkUI(); 
-                    ren();
-                } else if(d.s === 'banned') { 
-                    toast(T[lang].bnc, true); 
-                } else { 
-                    toast(T[lang].err, true); 
-                }
-            }
-        } catch(e) {
-            toast(T[lang].err, true);
-        }
-    }
-
-    // MAINTENANCE ENGINE
-    window.maintInt = null;
-    function hMaint(m) {
-        if (!m) return;
-        lastMaintState = JSON.stringify(m);
-        let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'), timerEl = el('ui-m-timer');
-        if(!b) return;
-
-        if (m.showBanner) {
-            b.style.display = 'block';
-            if (m.color === "RED") { b.style.borderColor='#ff4d4d'; b.style.color='#ff4d4d'; b.style.background='rgba(255,77,77,0.1)'; }
-            else if (m.color === "GREEN") { b.style.borderColor='#00ff88'; b.style.color='#00ff88'; b.style.background='rgba(0,255,136,0.1)'; }
-            else { b.style.borderColor='var(--w)'; b.style.color='var(--w)'; b.style.background='rgba(255,174,0,0.1)'; }
-            
-            if(tit) tit.innerHTML = m.closed ? "STORE CLOSED" : "📢 ANNOUNCEMENT";
-            if(t) t.innerHTML = m.msg;
-            
-            if(window.maintInt) clearInterval(window.maintInt);
-            if (m.endTime && !isNaN(parseInt(m.endTime))) {
-                let endMs = parseInt(m.endTime);
-                if (Date.now() < endMs) {
-                    timerEl.style.display = 'block';
-                    window.maintInt = setInterval(() => {
-                        let diff = endMs - Date.now();
-                        if (diff <= 0) {
-                            clearInterval(window.maintInt);
-                            timerEl.innerText = "Maintenance Complete. Refreshing...";
-                            setTimeout(()=>location.reload(true), 2000);
-                            return;
-                        }
-                        let h = Math.floor(diff / 3600000); 
-                        let mins = Math.floor((diff % 3600000) / 60000); 
-                        let s = Math.floor((diff % 60000) / 1000);
-                        timerEl.innerText = `⏳ Ends in: ${h.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                    }, 1000);
-                } else { timerEl.style.display = 'none'; }
-            } else { timerEl.style.display = 'none'; }
-        } else {
-            b.style.display = 'none';
-            if(window.maintInt) clearInterval(window.maintInt);
-        }
-
-        if (m.closed && role !== 'Admin' && role !== 'Support') {
-            if(el('st-cnt')) el('st-cnt').style.display = 'none';
-        } else {
-            if(el('st-cnt')) el('st-cnt').style.display = 'block';
-        }
-    }
-
-    function closeStorePrompt() {
-        let show = confirm("Show the yellow 'Under Maintenance' ribbon to customers?");
-        let msg = ""; let endTime = "";
-        if (show) { msg = prompt("Enter the maintenance message:", "Store is currently under maintenance.") || "Store is currently under maintenance."; }
-        let hrs = prompt("How many hours until maintenance ends? (Leave blank for no timer)");
-        if (hrs && !isNaN(hrs)) { endTime = Date.now() + (parseFloat(hrs) * 3600000); }
-        pAPI('maint', {closed: true, show: show, color: "YELLOW", msg: msg, endTime: endTime});
-        hMaint({closed: true, showBanner: show, color: "YELLOW", msg: msg, endTime: endTime});
-    }
-
-    function openStorePrompt() {
-        pAPI('maint', {closed: false, show: false, color: "YELLOW", msg: "", endTime: ""});
-        hMaint({closed: false, showBanner: false, color: "YELLOW", msg: "", endTime: ""});
-    }
-
-    function trgMsg() {
-        let c = prompt("Ribbon Color: 1=RED, 2=YELLOW, 3=GREEN", "2");
-        if(!c) return;
-        let col = c === "1" ? "RED" : (c === "3" ? "GREEN" : "YELLOW");
-        let m = prompt("Enter Broadcast Message:");
-        if(!m) return;
-        let endTime = "";
-        let hrs = prompt("How many hours until message disappears? (Leave blank for no timer)");
-        if (hrs && !isNaN(hrs)) { endTime = Date.now() + (parseFloat(hrs) * 3600000); }
-        pAPI('maint', {closed: false, show: true, color: col, msg: m, endTime: endTime});
-        hMaint({closed: false, showBanner: true, color: col, msg: m, endTime: endTime});
-    }
-
-    setInterval(async () => {
-        try {
-            let d = await customFetch(window.SURL + "?action=get_public_data&_cb=" + Date.now());
-            if (d && d.status === "success") {
-                if(JSON.stringify(d.maintObj) !== lastMaintState) { hMaint(d.maintObj); }
-                updateFlash(d.flash);
-                db.bans = d.bans || []; 
-                checkFirewall(); 
-                let oldInvStr = JSON.stringify(db.inv);
-                if(oldInvStr !== JSON.stringify(d.inv)) { 
-                    db.inv = d.inv; 
-                    localStorage.setItem('ch_db_cache', JSON.stringify(db)); 
-                    ren(); 
-                }
-            }
-        } catch (e) {}
-    }, 10000);
-
-    function updateFlash(flashStr) {
-        if(!flashStr) { if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
-        let p = flashStr.split('|||'); let endMs = parseInt(p[0]), pct = parseInt(p[1]);
-        if(Date.now() > endMs) { if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
-        if(el('flash-banner')) el('flash-banner').style.display='block'; 
-        if(el('flash-pct')) el('flash-pct').innerText = pct; 
-        globalFlashPct = pct;
-        if(window.flashInt) clearInterval(window.flashInt);
-        window.flashInt = setInterval(()=>{
-            let diff = endMs - Date.now();
-            if(diff <= 0) { clearInterval(window.flashInt); if(el('flash-banner')) el('flash-banner').style.display='none'; globalFlashPct=0; return; }
-            let h = Math.floor(diff / 3600000); let m = Math.floor((diff % 3600000) / 60000); let s = Math.floor((diff % 60000) / 1000);
-            if(el('flash-cd')) el('flash-cd').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }, 1000);
-    }
-    
-    function trigFlash() {
-        let hrs = prompt("Start Flash Sale! How many hours? (Type 0 to cancel)");
-        if(!hrs) return; 
-        if(hrs === "0") { pAPI('set_flash_sale', {v: ""}, true); return; }
-        let pct = prompt("Enter Discount Percentage (e.g. 15):");
-        if(pct) { 
-            let ms = Date.now() + (parseFloat(hrs) * 3600000); 
-            pAPI('set_flash_sale', {v: ms + "|||" + pct}, true); 
-            toast(T[lang].flStr, false); 
-        }
-    }
-
-    function startFakeTicker() {
-        if(window.tickerInt) clearInterval(window.tickerInt);
-        window.tickerInt = setInterval(() => {
-            if(!db.inv || db.inv.length < 2) return;
-            let validItems = db.inv.slice(1).filter(r => { let n = r[10] || r[11] || ""; return n && n !== "Dummy Item" && !n.toLowerCase().includes('cash') && parseFloat(r[12]) > 0; });
-            if(validItems.length === 0) return;
-            let names = ['Ahmed', 'Yassine', 'Farah', 'Mariem', 'Aziz', 'Sami', 'Nour', 'Omar', 'Amira', 'Khaled', 'Syrine', 'Wael', 'Rayen', 'Eya', 'Youssef', 'Mehdi', 'Skander', 'Chaima'];
-            let initials = ['A.', 'B.', 'C.', 'M.', 'S.', 'T.', 'K.', 'F.', 'H.', 'R.'];
-            let rName = names[Math.floor(Math.random()*names.length)] + " " + initials[Math.floor(Math.random()*initials.length)];
-            let rItemRow = validItems[Math.floor(Math.random()*validItems.length)];
-            let rCat = (lang==='en' && rItemRow[1]) ? rItemRow[1] : (rItemRow[2] ? rItemRow[2] : "Misc");
-            let rSub = (lang==='en' && rItemRow[4]) ? rItemRow[4] : (rItemRow[5] ? rItemRow[5] : "General");
-            let rItemN = (lang==='en' && rItemRow[10]) ? rItemRow[10] : (rItemRow[11] ? rItemRow[11] : rItemRow[10]);
-            let rFull = `${rCat} > ${rSub} > ${rItemN}`;
-            let tEl = el('live-ticker');
-            if(tEl) { 
-                tEl.innerHTML = `🛍️ <b style="color:var(--p)">${rName}</b> ${lang==='en'?'bought':'a acheté'} <b style="color:var(--w)">${rFull}</b>!`; 
-                tEl.classList.add('show'); 
-                setTimeout(() => tEl.classList.remove('show'), 5000); 
-            }
-        }, 60000);
-    }
-
-    function checkStreak() {
-        if(!user) return 0;
-        let lastLogStr = localStorage.getItem('ch_last_log'); 
-        let streak = parseInt(localStorage.getItem('ch_streak')||0); 
-        let today = new Date().toDateString();
-        
-        if(lastLogStr === today) return streak; 
-        
-        let yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-        let n1 = Math.floor(Math.random() * 10) + 1; 
-        let n2 = Math.floor(Math.random() * 10) + 1;
-        captchaCorrect = n1 + n2; 
-        if(el('cap-math')) el('cap-math').innerText = `${n1} + ${n2} = ?`;
-        
-        window.tempStreakObj = { isConsecutive: (lastLogStr === yesterday.toDateString()), current: streak, today: today };
-        openModal('captcha-mod'); 
-        return streak;
-    }
-    
-    function verifyCaptcha() {
-        let ans = parseInt(el('cap-ans').value);
-        if(ans === captchaCorrect) {
-            let obj = window.tempStreakObj; 
-            let finalStreak = obj.isConsecutive ? obj.current + 1 : 1;
-            localStorage.setItem('ch_last_log', obj.today); 
-            localStorage.setItem('ch_streak', finalStreak);
-            loginStreak = finalStreak; 
-            closeModal('captcha-mod'); 
-            toast(T[lang].scs, false); 
-            chkUI();
-        } else { 
-            toast(T[lang].incMath, true); 
-        }
-    }
-
-    async function pAPI(a, p, nS) {
-        p.act = a; 
-        p.adminUser = user; 
-        p.adminPass = pass; 
-        toast("...", "info"); 
-        let d = await customFetch(window.SURL, {method:'POST', body:JSON.stringify(p)}); 
-        if(d && d.s === 'ok') {
-            toast(T[lang].scs, false); 
-            if(!nS) initApp();
-        } else {
-            toast(T[lang].err, true);
-        }
-    }
-
-    function initApp() {
-        appLang(); 
-        loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
-        userIP = localStorage.getItem('ch_last_ip') || "Unknown";
 
         let isCached = false; 
-        let cached = localStorage.getItem('ch_db_cache');
-        if(cached) { 
-            try { 
+        try {
+            let cached = localStorage.getItem('ch_db_cache');
+            if(cached){ 
                 let d = JSON.parse(cached); 
                 if(d.inv && d.inv.length > 1) { 
-                    db = d; 
+                    db=d; 
                     chkUI(); 
                     renderMkt(); 
                     buildW(); 
@@ -1308,32 +594,39 @@
                     isCached = true; 
                     setTimeout(() => checkFirewall(), 0); 
                 } 
-            } catch(e){} 
-        } 
+            }
+        } catch(e){}
         
         if(!isCached) { 
             if(el('st-cnt')) el('st-cnt').innerHTML=`<div class="grid"><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold; font-size:0.85rem;"><span class="tr" data-k="ld">${T[lang].ld}</span></p>`; 
         }
 
+        // ADBLOCK SAFE IP FETCH
         if(window.globalIpPromise) {
             window.globalIpPromise.then(ipData => {
                 if(ipData && ipData.ip) {
                     userIP = ipData.ip; 
-                    localStorage.setItem('ch_last_ip', userIP); 
+                    try{ localStorage.setItem('ch_last_ip', userIP); } catch(e){}
                     checkFirewall();
-                    if(!sessionStorage.getItem('ch_vst_lggd')) {
-                        sessionStorage.setItem('ch_vst_lggd', 'true');
-                        customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
-                    }
+                    try {
+                        if(!sessionStorage.getItem('ch_vst_lggd')) {
+                            sessionStorage.setItem('ch_vst_lggd', 'true');
+                            customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_visit', ip: userIP, did: dId, date: new Date().toLocaleString(), platform: navigator.userAgent.substring(0, 100)})}).catch(e=>{});
+                        }
+                    } catch(e){}
                 }
             }).catch(async e => {
                 let safeIp = await fetchSafeIP();
                 userIP = safeIp; 
-                localStorage.setItem('ch_last_ip', userIP); 
+                try { localStorage.setItem('ch_last_ip', userIP); } catch(e){}
                 checkFirewall();
             });
         } else {
-             fetchSafeIP().then(ip => { userIP = ip; localStorage.setItem('ch_last_ip', userIP); checkFirewall(); });
+             fetchSafeIP().then(ip => { 
+                 userIP = ip; 
+                 try { localStorage.setItem('ch_last_ip', userIP); } catch(e){}
+                 checkFirewall(); 
+             });
         }
 
         let timeoutTriggered = false;
@@ -1349,7 +642,7 @@
                 if(timeoutTriggered) return;
                 clearTimeout(fallbackTimer);
                 
-                if(d && d.status === "success") {
+                if(d && d.status==="success") {
                     db.inv = d.inv; db.promo = {}; db.loy = {}; db.whl = d.whl; db.bans = d.bans || [];
                     if(checkFirewall()) return; 
                     
@@ -1360,7 +653,7 @@
                         d.loy.slice(1).forEach(x => { if(x[0]) db.loy[parseInt(x[0])] = parseFloat(x[1]); }); 
                     }
                     
-                    localStorage.setItem('ch_db_cache', JSON.stringify(db));
+                    try { localStorage.setItem('ch_db_cache', JSON.stringify(db)); } catch(e){}
                     
                     if(d.maintObj) { hMaint(d.maintObj); }
                     
@@ -1376,16 +669,21 @@
                 }
             }).catch(err => {
                 clearTimeout(fallbackTimer);
-                if(!isCached && el('st-cnt')) el('st-cnt').innerHTML = `<div style="text-align:center;color:#ff4d4d;padding:40px;"><b>Network Disconnected ❌</b><br><br><span style="font-size:0.85rem;color:var(--sub);">Check your internet connection and try again.</span><br><br><button class="btn" style="width:auto;padding:10px 20px;background:#ff4d4d;color:#fff;" onclick="window.location.reload(true)">↻ Retry</button></div>`;
+                if(!isCached && el('st-cnt')) {
+                    let errMsg = err ? err.toString() : "Unknown Error";
+                    el('st-cnt').innerHTML = `<div style="text-align:left;background:#110;border:2px dashed #ff4d4d;color:#ff4d4d;padding:20px;margin:20px;border-radius:10px;font-family:monospace;font-size:12px;word-wrap:break-word;"><b>CRASH DETECTED ❌</b><br><br>${errMsg}<br><br><button class="btn" style="width:auto;padding:10px 20px;background:#ff4d4d;color:#fff;" onclick="window.location.reload(true)">↻ Retry</button></div>`;
+                }
             });
         }
         
-        if(typeof particlesJS !== 'undefined') {
-            particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); 
-        }
+        try {
+            if(typeof particlesJS !== 'undefined') {
+                particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.5 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 3 } } } }); 
+            }
+        } catch(e) {}
     }
 
-    function ren() {
+    function ren(){
         let hHtml = ""; 
         let a = el('st-cnt'); 
         if(!a) return; 
@@ -1559,310 +857,6 @@
             </div>
             ${admBar}
         </div>`;
-    }
-
-    function addC(eO, p, eN, hasEx){
-        let id = decodeURIComponent(eO); 
-        let n = decodeURIComponent(eN);
-        if(hasEx) { 
-            let inp = el('ex-'+id); 
-            if(!inp || !inp.value) return toast(T[lang].fill, true); 
-            n += " (" + inp.value + ")"; 
-            inp.value = ''; 
-        }
-        cart.push({id:id, n:n, p:parseFloat(p)}); 
-        if(el('c-count')) el('c-count').innerText = cart.length; 
-        openModal('cart-prompt-mod');
-    }
-
-    function updC(){
-        let r = cart.reduce((s,i) => s + i.p, 0); 
-        let l = chkLoy(); 
-        let f = globalFlashPct || 0; 
-        let s = (loginStreak >= 14) ? 5 : 0;
-        let h = Math.max(pPct, l, f, s); 
-        
-        if(el('m-sub')) el('m-sub').innerText = r.toFixed(2) + " DT"; 
-        
-        let pr = el('m-pr');
-        let lr = el('m-lr');
-        let loyBadge = el('loy-cart-badge');
-        let flashBadge = el('flash-cart-badge');
-        let streakBadge = el('streak-cart-badge');
-        
-        if(loyBadge) loyBadge.style.display='none'; 
-        if(flashBadge) flashBadge.style.display='none'; 
-        if(streakBadge) streakBadge.style.display='none';
-
-        if(pPct > 0) { 
-            if(pr) pr.style.display='flex'; 
-            if(el('m-pp')) el('m-pp').innerText=pPct; 
-            if(el('m-pv')) el('m-pv').innerText="-" + (r * (pPct/100)).toFixed(2) + " DT"; 
-        } else { 
-            if(pr) pr.style.display='none'; 
-        }
-        
-        if (h > 0 && h !== pPct) {
-            if(lr) lr.style.display = 'flex'; 
-            if(el('m-lp')) el('m-lp').innerText = h; 
-            if(el('m-lv')) el('m-lv').innerText = "-" + (r * (h/100)).toFixed(2) + " DT";
-            if (h === f) { 
-                if(flashBadge) flashBadge.style.display = 'block'; 
-            } else if (h === s && s > l) { 
-                if(streakBadge) streakBadge.style.display = 'block'; 
-            } else { 
-                if(loyBadge) loyBadge.style.display = 'block'; 
-            }
-        } else { 
-            if(lr) lr.style.display = 'none'; 
-        }
-        
-        if(el('m-tot')) el('m-tot').innerText = (r - (r * (h/100))).toFixed(2) + " DT"; 
-        if(el('c-list')) el('c-list').innerHTML = cart.map(i => `<div style="padding:5px 0;border-bottom:1px solid #333;">• ${i.n} (${i.p} DT)</div>`).join('');
-    }
-    
-    function opnCart(){
-        updC(); 
-        openModal('cart-mod');
-    }
-    
-    function sPay(m){
-        payM = m; 
-        ['p-d17','p-mm','p-csh','p-wal'].forEach(x => { if(el(x)) el(x).classList.remove('act') });
-        
-        let target = el(m === 'D17' ? 'p-d17' : m === 'Mandat Minute' ? 'p-mm' : m === 'Wallet' ? 'p-wal' : 'p-csh');
-        if(target) target.classList.add('act'); 
-        
-        let inst = el('pay-inst'); 
-        let proofSec = el('proof-section'); 
-        let dbox = el('d-box-pay');
-        
-        if(m === 'D17' || m === 'Mandat Minute') {
-            if(dbox) dbox.style.display = 'block'; 
-            if(proofSec) proofSec.style.display = 'block';
-            if(m === 'D17' && inst) {
-                inst.innerHTML = `<span class="tr" data-k="d17Inst">${T[lang].d17Inst}</span> <b style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">21 357 058</b>`;
-            }
-            if(m === 'Mandat Minute' && inst) {
-                inst.innerHTML = `<span class="tr" data-k="mmInst">${T[lang].mmInst}</span> <b style="color:var(--w);font-size:1.2rem;display:block;margin-top:5px;">${T[lang].mmName}</b><b style="color:var(--p);font-size:1.3rem;letter-spacing:2px;display:block;">${T[lang].mmNum}</b>`;
-            }
-        } else { 
-            if(dbox) dbox.style.display = 'none'; 
-        }
-    }
-    
-    function toggleProof(isLate) {
-        if(el('proof-inputs')) el('proof-inputs').style.display = isLate ? 'none' : 'block';
-        if(isLate) { 
-            proofB64 = ""; 
-            if(el('co-proof-file')) el('co-proof-file').value = ""; 
-            if(el('co-tx-id')) el('co-tx-id').value = ""; 
-        }
-    }
-
-    function handleProofUpload(e) {
-        let f = e.target.files[0]; 
-        if(!f) return;
-        let reader = new FileReader(); 
-        reader.onload = function(ev) { 
-            proofB64 = ev.target.result; 
-        }; 
-        reader.readAsDataURL(f);
-    }
-    
-    function sCon(c){
-        cM = c; 
-        ['wa','ig','fb'].forEach(x => { if(el('c-'+x)) el('c-'+x).classList.remove('act') }); 
-        if(el('c-'+c)) el('c-'+c).classList.add('act');
-        
-        let inp = el('coC');
-        if(!inp) return;
-        if(c === 'wa') { inp.placeholder = T[lang].entWa; } 
-        else if(c === 'ig') { inp.placeholder = T[lang].entIg; } 
-        else if(c === 'fb') { inp.placeholder = T[lang].entFb; }
-    }
-    
-    function opnCO(){
-        if(cart.length === 0) return toast(T[lang].emp, true); 
-        closeModal('cart-mod'); 
-        if(uIg) el('coC').value = uIg; 
-        else if(uWa) el('coC').value = uWa; 
-        else if(uFb) el('coC').value = uFb; 
-        openModal('co-mod');
-    }
-    
-    async function finOrd(){
-        if(!checkRateLimit()) return;
-        
-        let n = el('coN').value;
-        let c = el('coC').value;
-        let cm = el('coNts').value; 
-        
-        if(!n || !c) return toast(T[lang].rq, true);
-        
-        let txId = el('co-tx-id').value; 
-        let isLate = el('co-pay-later').checked;
-        
-        if((payM === 'D17' || payM === 'Mandat Minute') && !isLate && !txId && !proofB64) { 
-            return toast(T[lang].provId, true); 
-        }
-        
-        let l = chkLoy(); 
-        let f = globalFlashPct || 0; 
-        let s = (loginStreak >= 14) ? 5 : 0; 
-        let h = Math.max(pPct, l, f, s); 
-        
-        let total = 0; 
-        cart.forEach(i => { 
-            i.finalPrice = i.p - (i.p * (h/100)); 
-            total += i.finalPrice; 
-        }); 
-        
-        if(payM === 'Wallet' && userWallet < total) { 
-            return toast(T[lang].noFunds, true); 
-        }
-        
-        if(el('b-fin')) { 
-            el('b-fin').innerHTML = `<span class="tr" data-k="plc">...</span>`; 
-            el('b-fin').disabled = true; 
-        }
-        
-        try { 
-            let d = await customFetch(window.SURL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    act: "place_order",
-                    client: n,
-                    plat: cM,
-                    contact: c,
-                    items: cart,
-                    promo: pCode,
-                    loy: h,
-                    comments: cm,
-                    c: user || "Guest",
-                    payM: payM,
-                    payLater: isLate,
-                    txId: txId,
-                    proofB64: proofB64
-                })
-            }); 
-            
-            if(d && d.s === "insufficient_funds") { 
-                if(el('b-fin')) { 
-                    el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; 
-                    el('b-fin').disabled = false; 
-                } 
-                return toast(T[lang].noFunds, true); 
-            }
-            
-            if(d && d.s === "ok") {
-                if(d.isPaid && payM === 'Wallet') { 
-                    userWallet -= total; 
-                    localStorage.setItem('ch_wal', userWallet); 
-                    chkUI(); 
-                }
-                
-                let invoice = `🛒 *CYBERHUB ORDER*\n\n*Order Group ID:* ${d.gId}\n*Total Amount:* ${total.toFixed(2)} DT\n\n*--- ITEMS ---*\n`;
-                cart.forEach(i => { 
-                    invoice += `🔹 ${i.n}\n   ID: ${i.id}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; 
-                });
-                invoice += `Status: ${d.isPaid ? 'Paid via Wallet ✅' : 'Pending Payment ⏳'}`;
-
-                navigator.clipboard.writeText(invoice).catch(e=>{});
-                
-                if(el('co-form')) el('co-form').style.display = 'none'; 
-                if(el('co-succ')) el('co-succ').style.display = 'block'; 
-                if(el('succ-gid')) el('succ-gid').innerText = d.gId;
-                
-                let dmLinks = { 
-                    wa: `https://wa.me/21629895846?text=${encodeURIComponent(invoice)}`, 
-                    ig: "https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet", 
-                    fb: "https://m.me/yessine_ben_fraj" 
-                };
-                
-                if(el('dm-btn')) {
-                    el('dm-btn').onclick = () => { window.open(dmLinks[cM] || dmLinks.wa); };
-                }
-
-                cart = []; 
-                if(el('c-count')) el('c-count').innerText = "0"; 
-                
-                if(user){
-                    uOrders++; 
-                    localStorage.setItem('ch_ord', uOrders); 
-                    chkUI();
-                } 
-                toast(T[lang].invCop, false); 
-            }
-            
-            if(el('b-fin')){ 
-                el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; 
-                el('b-fin').disabled = false; 
-            }
-        } catch(e) { 
-            if(el('b-fin')){ 
-                el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; 
-                el('b-fin').disabled = false; 
-            } 
-            toast(T[lang].err, true);
-        }
-    }
-
-    function drawCharts(){
-        if(typeof Chart === 'undefined') return setTimeout(drawCharts, 500);
-        if(!db.ord || db.ord.length === 0) return; 
-        
-        let dC = {"Gaming":0, "Streaming":0, "Other":0}; 
-        let rD = {}; 
-        
-        db.ord.slice(1).forEach(o => {
-            if(o.length > 3) {
-                let ir = String(o[5]).toLowerCase(); 
-                if(ir.includes("netflix") || ir.includes("spotify")) dC["Streaming"]++; 
-                else if(ir.includes("valorant") || ir.includes("gta")) dC["Gaming"]++; 
-                else dC["Other"]++; 
-                
-                if(o[10] === "Delivered") {
-                    let dt = new Date(o[11]).toLocaleDateString(undefined, {weekday:'short', day:'numeric'}); 
-                    let p = parseFloat(String(o[9]).replace(/[^0-9.]/g,'')); 
-                    if(!isNaN(p)) rD[dt] = (rD[dt] || 0) + p;
-                }
-            }
-        });
-        
-        if(c1) c1.destroy(); 
-        if(el('admC')) {
-            c1 = new Chart(el('admC'), {
-                type: 'doughnut',
-                data: {labels: Object.keys(dC), datasets: [{data: Object.values(dC), backgroundColor: ['#00f0ff', '#ffae00', '#fff']}]},
-                options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {position: 'right', labels: {color: '#fff'}}}}
-            });
-        }
-        
-        if(c2) c2.destroy(); 
-        let rK = Object.keys(rD).slice(-7); 
-        let rV = rK.map(k => rD[k]); 
-        if(el('revC')) {
-            c2 = new Chart(el('revC'), {
-                type: 'bar',
-                data: {labels: rK, datasets: [{data: rV, backgroundColor: '#00ff88', borderRadius: 5}]},
-                options: {responsive: true, maintainAspectRatio: false, scales: {x: {ticks: {color: '#fff'}}, y: {ticks: {color: '#fff'}}}, plugins: {legend: {display: false}}}
-            });
-        }
-    }
-
-    function reqServiceWa() {
-        let srv = el('rs-nom').value;
-        let desc = el('rs-desc').value;
-        
-        if(!srv) return toast(T[lang].fill, true);
-        
-        customFetch(window.SURL, {method:'POST', body:JSON.stringify({act:'log_request', c:user||'Guest', srv:srv, desc:desc})});
-        
-        let msg = `*New Service Request*\n\n*Service:* ${srv}\n*Details:* ${desc}\n*User:* ${user || 'Guest'}`;
-        window.open(`https://wa.me/21629895846?text=${encodeURIComponent(msg)}`);
-        
-        closeModal('req-srv-mod');
     }
 
     if (document.readyState === 'loading') { 
