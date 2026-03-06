@@ -6,72 +6,105 @@
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" id="fav-icon" href="">
     <meta name="theme-color" content="#050b14">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" defer></script>
 
     <script>
-        // ==========================================
-        // ⚙️ THE MASTER CONFIGURATION
-        // ==========================================
+        // ⚙️ PASTE YOUR GOOGLE SCRIPT URL HERE:
         window.CFG = {
-            SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec", // <--- PASTE NEW URL HERE
+            SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
             NAME: "CYBERHUB",
             PASS: "26240608",
             WA: "21629895846",
             LOGO: "https://drive.google.com/thumbnail?id=139ftYKuLVxgpGLxvCbJE6hq0m9rPIUkm&sz=w400",
+            EMAIL: "cyber.hub.contact.now@gmail.com",
             D17: "21 357 058",
             M_NAME: "Zied Ben Fraj",
             M_NUM: "21 357 058"
         };
         
-        const themes = [{n:'Cyber Blue',p:'#00f0ff',w:'#ffae00',bg:'#050b14',b:'rgba(0,240,255,0.2)',c:'rgba(10,15,30,0.8)'},{n:'Matrix Green',p:'#00ff88',w:'#00f0ff',bg:'#021108',b:'rgba(0,255,136,0.2)',c:'rgba(2,17,8,0.8)'},{n:'Vaporwave Pink',p:'#ff00ff',w:'#00f0ff',bg:'#1a0515',b:'rgba(255,0,255,0.2)',c:'rgba(26,5,21,0.8)'}];
+        const themes = [
+            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'},
+            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'},
+            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
+        ];
         try { let ct = parseInt(localStorage.getItem('ch_theme') || 0); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); } catch(e) {}
     </script>
 
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: background 0.5s; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; transition: background 0.5s; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        input:-webkit-autofill { -webkit-box-shadow: 0 0 0 30px var(--bg) inset !important; -webkit-text-fill-color: white !important; transition: background-color 5000s ease-in-out 0s; }
+        
+        /* 🔥 FIX FOR CHROME AUTOFILL WHITE BACKGROUND */
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px var(--bg) inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; transition: max-width 0.4s ease; }
         .phone-mockup { max-width: 400px !important; border: 14px solid #111; border-radius: 40px; margin: 30px auto !important; box-shadow: 0 0 0 4px #333, 0 30px 60px rgba(0,0,0,0.8); background: var(--bg); min-height: 800px; overflow: hidden; position:relative; }
         .phone-mockup::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 130px; height: 25px; background: #111; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 100; }
-        .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); }
+
+        .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); transition: border-color 0.5s; }
+        
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--p); display: block; margin: 0 auto; cursor: pointer; box-shadow: 0 0 25px var(--b); transition: 0.5s; background:#111; }
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
         .n-card:active { transform: scale(0.96); }
         .n-card img { width: 55px; height: 55px; margin: 0 auto 10px auto; display: block; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        
         .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; }
         .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s; }
+        
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .btn:active { transform: scale(0.95); } .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
+        
         .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
         .m-cnt { background: var(--bg); border: 1px solid var(--p); padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px var(--b); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal.show .m-cnt { transform: scale(1); }
-        #ab-cart-mod .m-cnt { max-width: 600px; width: 90vw; padding: 40px; border: 2px solid var(--w); box-shadow: 0 0 50px rgba(255,174,0,0.5); text-align: center; }
-        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; font-family: inherit; font-size: 1rem; outline: none; }
+        
+        #ab-cart-mod .m-cnt { max-width: 600px; width: 90vw; padding: 40px; border: 2px solid var(--w); box-shadow: 0 0 50px rgba(255,174,0,0.5); }
+        
+        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; font-family: inherit; font-size: 1rem; transition: 0.3s; outline: none; }
+        
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 20000; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
         .toast.show { bottom: 40px; }
+        
         .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s; font-size: 0.85rem; }
         .c-btn.act { background: var(--b); border-color: var(--p); color: var(--p); }
+        
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: var(--c); z-index: 9999; transition: 0.4s ease; padding: 20px; border-right: 1px solid var(--p); display: flex; flex-direction: column; backdrop-filter: blur(20px); }
         #sidebar.open { left: 0; }
         .m-item { padding: 18px; color: #fff; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--b); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
         .m-item:hover { background: var(--b); padding-left: 25px; }
+        
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; transition: 0.3s; }
-        .fab-supp { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 5px 20px rgba(37,211,102,0.4); cursor: pointer; z-index: 1000; border: none; }
         .fab-admin { position: fixed; bottom: 25px; left: 25px; background: linear-gradient(90deg, #ff4d4d, var(--w)); color: #fff; width: 55px; height: 55px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px rgba(255,77,77,0.4); cursor: pointer; z-index: 1000; border: none; animation: glow 3s ease infinite; }
+        
+        .wheel-cnt { position: relative; width: 260px; height: 260px; margin: 20px auto; border-radius: 50%; border: 8px solid #222; box-shadow: 0 0 40px var(--b), inset 0 0 20px #000; overflow: hidden; }
+        .w-ptr { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--p); z-index: 10; filter: drop-shadow(0 0 10px var(--p)); transition: 0.5s; }
+        .w-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: radial-gradient(circle, #555, #111); border: 3px solid var(--p); border-radius: 50%; z-index: 5; box-shadow: 0 0 15px rgba(0,0,0,0.8); transition: 0.5s; }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1); }
+        
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+        
+        .admin-live-edit { background: rgba(0,240,255,0.05); border: 1px dashed var(--p); padding: 10px; margin-top: 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         #firewall-screen { display: none; position: fixed; inset: 0; background: #050b14; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        
         .skel-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 15px; height: 110px; margin-bottom: 12px; border: 1px solid var(--b); }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
         .maint-stripes { position: fixed; left: 0; right: 0; height: 16px; z-index: 99999; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); box-shadow: 0 0 25px rgba(255,174,0,0.7); display: none; border-bottom: 2px solid #000; }
         #stripe-top { top: 0; } #stripe-bot { bottom: 0; border-top: 2px solid #000; border-bottom: none; }
     </style>
@@ -85,26 +118,28 @@
 <div id="firewall-screen">
     <div style="font-size:4rem; margin-bottom:10px;">🛑</div>
     <h1 style="color:#ff4d4d; font-weight:900; letter-spacing:2px; font-size:2.5rem; margin:0;">ACCESS DENIED</h1>
-    <p style="color:gray; font-size:1rem; max-width:400px; margin-top:10px;">Your IP address has been restricted.</p>
+    <p style="color:var(--sub); font-size:1rem; max-width:400px; margin-top:10px;">Your IP address has been permanently restricted.</p>
     <div style="background:rgba(255,77,77,0.1); border:1px dashed #ff4d4d; padding:20px; border-radius:15px; margin:20px 0; width:100%; max-width:400px;">
-        <div style="color:gray; font-size:0.85rem; text-transform:uppercase;">Your IP Address</div>
+        <div style="color:var(--sub); font-size:0.85rem; text-transform:uppercase;">Your IP Address</div>
         <div id="fw-ip" style="color:#fff; font-size:1.5rem; font-weight:bold; font-family:monospace; margin-bottom:10px;">0.0.0.0</div>
     </div>
 </div>
 
 <div id="toast" class="toast"><span id="t-msg"></span></div>
+<div id="live-ticker" class="ticker"></div>
 
 <div id="sidebar">
     <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
     <div style="text-align:center; margin-top:20px; margin-bottom:30px;">
         <img id="sb-logo" src="" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p);">
     </div>
-    <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account</span></div>
-    <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Policy</span></div>
-    <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">Orders</span></div>
-    <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP</span></div>
+    <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
+    <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
+    <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
+    <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
+    <div class="m-item" onclick="openModal('wheel-modal'); toggleSidebar();">🎁 <span class="tr" data-k="spin">Spin & Win</span></div>
     <div class="m-item" onclick="openModal('req-srv-mod'); toggleSidebar();">✨ <span class="tr" data-k="reqSrv">Request Service</span></div>
-    <div class="m-item" onclick="openModal('game-mod'); toggleSidebar();" style="color:#ff00ff;">🔐 Cyber Hack</div>
+    <div class="m-item" onclick="openModal('game-mod'); toggleSidebar();" style="color:#00ff88;">⛏️ Cyber Miner</div>
 </div>
 
 <div class="cont" id="main-cont">
@@ -112,11 +147,9 @@
         <button class="icon-btn" onclick="toggleSidebar()">☰ MENU</button>
         <div style="display:flex; gap:10px;">
             <button id="god-crown" class="icon-btn" onclick="openAdminDash()" style="display:none; color:#FFD700; border-color:#FFD700; background:rgba(255,215,0,0.1);">👑</button>
-            <button class="icon-btn" onclick="cycleTheme()">🎨</button>
-            <button class="icon-btn" onclick="openProf()" style="color:var(--p); border-color:var(--p); font-size:1.2rem; position:relative;">
-                👤<div id="streak-fire-badge" style="position:absolute; top:-8px; right:-8px; background:linear-gradient(45deg, #ff4d4d, #ffae00); color:#fff; font-size:0.7rem; font-weight:900; padding:2px 5px; border-radius:10px; display:none; align-items:center; border:1px solid #fff;">🔥<span id="streak-fire-cnt"></span></div>
-            </button>
-            <button class="icon-btn" onclick="tgLang()"><span id="l-ind" style="font-size:1.1rem;">🇬🇧 EN</span></button>
+            <button class="icon-btn" onclick="cycleTheme()" title="Change Theme">🎨</button>
+            <button class="icon-btn" onclick="openProf()" style="color:var(--p); border-color:var(--p); font-size:1.2rem; position:relative;">👤</button>
+            <button class="icon-btn" onclick="tgLang()"><span id="l-ind" style="font-size:1.1rem; display:flex; align-items:center; gap:5px;">🇬🇧 EN</span></button>
         </div>
     </div>
 
@@ -138,32 +171,22 @@
         <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
     </div>
 
-    <input type="search" id="itemFinder" autocomplete="off" autocorrect="off" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." oninput="ren()" style="width:100%; margin-bottom:15px;">
+    <input type="search" id="itemFinder" name="safe_search_99" autocomplete="off" autocorrect="off" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." oninput="ren()" style="width:100%; margin-bottom:15px;">
     
     <button class="btn glow-btn" style="margin-bottom:25px;" onclick="openModal('req-srv-mod')">✨ <span class="tr" data-k="reqSrv">Request Custom Service</span></button>
     
-    <div id="st-cnt"><div class="grid"><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:gray; margin-top:15px; font-weight:bold;"><span class="tr" data-k="ld">Loading Store... ⏳</span></p></div>
-
-    <div class="glass" style="text-align:center; margin-top:40px; border-style:dashed; border-color:var(--p);">
-        <h3 style="margin-top:0; color:#fff;"><span class="tr" data-k="hlp">Need Help?</span></h3>
-        <p id="ui-contact-email" style="font-size:0.85rem; color:gray; margin-bottom:15px;">email@store.com</p>
-        <div style="display:flex; justify-content:center; gap:10px;">
-            <button class="btn" style="width:auto; margin:0; background:#25D366; color:#fff; padding:12px 20px;" onclick="window.open(`https://wa.me/${window.CFG.WA}`)">WhatsApp</button>
-            <button class="btn" style="width:auto; margin:0; background:#E1306C; color:#fff; padding:12px 20px;" onclick="window.open(`https://www.instagram.com/__cyber__hub__/?utm_source=ig_web_button_share_sheet`)">Instagram</button>
-        </div>
-    </div>
+    <div id="st-cnt"><div class="grid"><div class="skel-card"></div><div class="skel-card"></div></div><p style="text-align:center; color:var(--sub); margin-top:15px; font-weight:bold;"><span class="tr" data-k="ld">Loading Store... ⏳</span></p></div>
 </div>
 
-<button class="fab-supp" id="fab-sup" onclick="window.open(`https://wa.me/${window.CFG.WA}`)">💬</button>
 <button class="fab-cart" id="fab-crt" onclick="opnCart()">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 <button id="fab-admin" class="fab-admin" onclick="openModal('admin-hub-mod')">➕</button>
 
-<div id="ab-cart-mod" class="modal"><div class="m-cnt" id="ab-cart-box">
+<div id="ab-cart-mod" class="modal"><div class="m-cnt" style="text-align:center; padding: 40px; border: 2px solid var(--w); box-shadow: 0 0 50px rgba(255,174,0,0.5);">
     <div style="font-size:5rem; margin-bottom:10px;">🛒</div>
     <h2 style="color:var(--w); margin-top:0; font-size:2rem;">Items Left Behind!</h2>
-    <p style="color:gray; font-size:1.1rem; margin-bottom:20px;">You still have items waiting in your cart. Do you want to complete your order?</p>
+    <p style="color:var(--sub); font-size:1.1rem; margin-bottom:20px;">You still have items waiting in your cart. Do you want to complete your order?</p>
     <button class="btn glow-btn" style="color:#fff; margin-bottom:10px; font-size:1.2rem; padding: 18px;" onclick="closeModal('ab-cart-mod'); opnCart();">View My Cart</button>
-    <button class="btn" style="background:transparent; border:1px solid gray; color:gray; padding: 15px;" onclick="closeModal('ab-cart-mod');">Maybe Later</button>
+    <button class="btn" style="background:transparent; border:1px solid var(--sub); color:var(--sub); padding: 15px;" onclick="closeModal('ab-cart-mod');">Maybe Later</button>
 </div></div>
 
 <div id="log-mod" class="modal"><div class="m-cnt">
@@ -175,43 +198,35 @@
             <button type="submit" class="btn" id="l-btn-m"><span class="tr" data-k="log">Log In</span></button>
         </form>
         <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;">
-            <span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')"><span class="tr" data-k="ca">Create Account</span></span>
+            <span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span>
         </div>
     </div>
     <div id="r-step" style="display:none;">
-        <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="ca">Create Account</span></h3>
+        <h3 style="color:var(--p); margin-top:0;">Create Account</h3>
         <form onsubmit="event.preventDefault(); exReg();">
-            <input type="text" id="rCnt" placeholder="Email" required>
-            <input type="password" id="rPas" placeholder="Password" required>
-            <button type="submit" class="btn" id="b-reg"><span class="tr" data-k="sndReg">Register</span></button>
+            <input type="text" id="rCnt" placeholder="Email or Phone" required>
+            <input type="password" id="rPas" placeholder="Create Password" required>
+            <button type="submit" class="btn" id="b-reg">Register</button>
         </form>
-        <div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')"><span class="tr" data-k="bck">← Back</span></div>
+        <div style="margin-top:15px; color:var(--sub); font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div>
     </div>
     <div id="a-step" style="display:none;">
         <h3 style="color:#ff4d4d; margin-top:0;">God Mode</h3>
         <input type="password" id="aPas" placeholder="Admin Password" style="margin-bottom:10px;">
         <button class="btn" style="background:#ff4d4d; color:#fff; margin-top:0; margin-bottom:10px;" onclick="exAdm()">🔑 Login</button>
     </div>
-    <button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer;"><span class="tr" data-k="canc">Cancel</span></button>
+    <button onclick="closeModal('log-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; font-weight:bold; cursor:pointer;">Cancel</button>
 </div></div>
 
 <div id="prof-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="pro">My Profile</span></h3>
-    <p style="color:gray; font-size:0.9rem; margin-bottom:15px;" id="p-uid"></p>
+    <p style="color:var(--sub); font-size:0.9rem; margin-bottom:15px;" id="p-uid"></p>
     <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
-        <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;"><span class="tr" data-k="digWal">Wallet Balance</span></div>
+        <div style="color:var(--sub); font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div>
         <div style="color:#00ff88; font-size:2rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
     </div>
-    <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()"><span class="tr" data-k="lo">Log Out</span></button>
-    <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer;"><span class="tr" data-k="cls">Close</span></button>
-</div></div>
-
-<div id="captcha-mod" class="modal"><div class="m-cnt" style="text-align:center;">
-    <h3 style="color:var(--p); margin-top:0;">🤖 <span class="tr" data-k="humVer">Human Verification</span></h3>
-    <p style="color:gray; font-size:0.9rem; margin-bottom:15px;"><span class="tr" data-k="solvStr">Solve this to claim your Daily Streak!</span></p>
-    <div style="font-size:2rem; font-weight:bold; margin-bottom:15px; color:#fff;" id="cap-math">5 + 3 = ?</div>
-    <input type="number" id="cap-ans" placeholder="..." style="text-align:center; font-size:1.2rem;">
-    <button class="btn" style="background:#00ff88; color:#000;" onclick="verifyCaptcha()"><span class="tr" data-k="verClaim">Verify</span></button>
+    <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button>
+    <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; font-weight:bold; cursor:pointer;">Close</button>
 </div></div>
 
 <div id="vip-mod" class="modal"><div class="m-cnt">
@@ -220,50 +235,54 @@
         <b style="font-size:1.1rem; color:#fff;"><span class="tr" data-k="yOrd">Your Orders:</span></b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br>
         <b style="font-size:1.1rem; color:#fff;"><span class="tr" data-k="cDisc">Current Discount:</span></b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span>
     </div>
-    <div style="background:rgba(0,240,255,0.1); border:1px dashed var(--p); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
-        <b style="color:var(--p); font-size:1rem;">🔥 <span class="tr" data-k="logStr">Login Streak:</span> <span id="vip-streak">0</span> <span class="tr" data-k="days">Days</span></b>
-    </div>
-    <button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;"><span class="tr" data-k="cls">Close</span></button>
+    <button onclick="closeModal('vip-mod')" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer; width:100%;">Close</button>
 </div></div>
 
 <div id="cart-mod" class="modal"><div class="m-cnt">
     <h3 style="color:var(--p); margin-top:0;">🛒 <span class="tr" data-k="crt">Cart</span></h3>
-    <div id="str-warn" style="display:none; background:rgba(0,240,255,0.2); border:1px solid var(--p); color:var(--p); padding:8px; border-radius:8px; text-align:center; font-size:0.85rem; font-weight:bold; margin-bottom:10px;">🔥 Streak Bonus Applied!</div>
     <div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin-bottom:10px; font-size:0.9rem;"></div>
     <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; text-align:left; margin-bottom:15px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal:</span> </span> <b id="m-sub">0 DT</b></div>
-        <div id="m-lr" style="display:none; justify-content:space-between; color:var(--w); margin-bottom:5px;"><span style="font-weight:bold;">Auto-Discount: </span> <b id="m-lv">-0 DT</b></div>
-        <div style="display:flex; justify-content:space-between; border-top:1px dashed #333; margin-top:5px; padding-top:10px; font-size:1.2rem; color:var(--p); font-weight:800;"><span><span class="tr" data-k="tot">Total:</span> </span> <b id="m-tot">0 DT</b></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div>
+        <div id="m-lr" style="display:none; justify-content:space-between; color:var(--w); margin-bottom:5px;"><span style="font-weight:bold;">Auto-Discount (<span id="m-lp">0</span>%): </span> <b id="m-lv">-0 DT</b></div>
+        <div style="display:flex; justify-content:space-between; border-top:1px dashed #333; margin-top:5px; padding-top:10px; font-size:1.2rem; color:var(--p); font-weight:800;"><span>Total: </span> <b id="m-tot">0 DT</b></div>
     </div>
-    <button class="btn" onclick="opnCO()"><span class="tr" data-k="chk">Checkout</span></button>
-    <button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; margin-top:15px; cursor:pointer; margin-right:15px;"><span class="tr" data-k="clr">Clear</span></button>
-    <button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold;"><span class="tr" data-k="cls">Close</span></button>
+    <button class="btn" onclick="opnCO()">Checkout</button>
+    <button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; margin-top:15px; cursor:pointer; margin-right:15px;">Clear</button>
+    <button onclick="closeModal('cart-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer; font-weight:bold;">Close</button>
 </div></div>
 
 <div id="co-mod" class="modal"><div class="m-cnt">
     <div id="co-form">
-        <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="sco">Secure Checkout</span></h3>
+        <h3 style="color:var(--p); margin-top:0;">Secure Checkout</h3>
         <div style="display:flex; gap:5px; margin-bottom:15px; flex-wrap:wrap;">
             <div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div>
-            <div class="c-btn" id="p-mm" onclick="sPay('Mandat Minute')">🏦 <span class="tr" data-k="manMin">Mandat</span></div>
-            <div class="c-btn" id="p-wal" onclick="sPay('Wallet')" style="width:100%; margin-top:5px;">💳 <span class="tr" data-k="walPay">Wallet</span> (<span id="co-wal-bal">0</span> DT)</div>
+            <div class="c-btn" id="p-csh" onclick="sPay('Cash')">🤝 Cash</div>
+            <div class="c-btn" id="p-wal" onclick="sPay('Wallet')" style="width:100%; margin-top:5px;">💳 Wallet (<span id="co-wal-bal">0</span> DT)</div>
         </div>
-        <div id="d-box-pay" style="background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin-bottom:15px; border:1px solid var(--b);">
-            <div id="pay-inst" style="text-align:center;"><span class="tr" data-k="d17Inst">Transfer to:</span> <b id="ui-d17-in" style="color:var(--w); font-size:1.3rem; letter-spacing:2px; display:block; margin-top:5px;">00 000 000</b></div>
-        </div>
-        <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
-        <input type="text" id="coC" class="tr-ph" data-k="entWa" placeholder="Contact Info (WA/IG)" style="margin:0;">
-        <textarea id="coNts" class="tr-ph" data-k="nts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
-        <button class="btn" id="b-fin" onclick="finOrd()"><span class="tr" data-k="plc">PLACE ORDER</span></button>
-        <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold;"><span class="tr" data-k="canc">Cancel</span></button>
+        
+        <input type="text" id="coN" placeholder="Full Name">
+        <input type="text" id="coC" placeholder="Enter Contact Info..." style="margin:0;">
+        <textarea id="coNts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
+        
+        <button class="btn" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
+        <button onclick="closeModal('co-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; cursor:pointer; font-weight:bold;">Cancel</button>
     </div>
+    
     <div id="co-succ" style="display:none; text-align:center;">
         <div style="font-size:3.5rem; margin-bottom:10px;">📋</div>
-        <h2 style="color:#00ff88; margin-top:0;"><span class="tr" data-k="ordPlc">ORDER PLACED</span></h2>
+        <h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2>
         <div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div>
-        <button class="btn" id="dm-btn" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:15px;">💬 <span class="tr" data-k="opnDm">OPEN DM & PASTE</span></button>
-        <button onclick="location.reload()" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer;"><span class="tr" data-k="clsRet">Close</span></button>
+        <button class="btn" id="dm-btn" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:15px;">💬 OPEN DM & PASTE INVOICE</button>
+        <button onclick="location.reload()" style="background:none; border:none; color:var(--sub); font-weight:bold; cursor:pointer;">Close</button>
     </div>
+</div></div>
+
+<div id="pol-mod" class="modal"><div class="m-cnt">
+    <button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button>
+    <h3 style="color:var(--p); margin-top:0;">Store Agreement</h3>
+    <div class="pol-row"><div class="pol-icon">🛡️</div><div><b style="color:#fff;">Data Privacy</b></div></div>
+    <div class="pol-row" style="border-color:var(--w);"><div class="pol-icon" style="background:var(--w);">⚡</div><div><b style="color:var(--w);">Delivery Time</b></div></div>
+    <button id="pol-btn" class="btn" onclick="acceptPolicy()">I ACCEPT</button>
 </div></div>
 
 <div id="adm-dash" class="modal"><div class="m-cnt" style="max-width:700px;">
@@ -272,40 +291,38 @@
     <div class="grid">
         <button class="btn" style="margin:0; background:rgba(255,174,0,0.1); color:var(--w); border:1px solid var(--w);" onclick="fAdm('orders')">📦 Orders</button>
         <button class="btn" style="margin:0; background:rgba(139,92,246,0.1); color:#8b5cf6; border:1px solid #8b5cf6;" onclick="fAdm('users')">👥 CRM VIPs</button>
-        <button class="btn" style="margin:0; background:rgba(255,77,77,0.1); color:#ff4d4d; border:1px dashed #ff4d4d; grid-column: span 2;" onclick="banUserIpPrompt()">🔨 Manual Ban User/IP</button>
         <button class="btn" style="margin:0; background:rgba(255,174,0,0.2); color:var(--w); border:1px dashed var(--w); grid-column: span 2;" onclick="pAPI('force_refresh', {}, true)">🔄 Force Sync Clients</button>
     </div>
-    <button onclick="closeModal('adm-dash')" style="background:none; border:none; color:gray; margin-top:20px; font-weight:bold; cursor:pointer;">Close Console</button>
+    <button onclick="closeModal('adm-dash')" style="background:none; border:none; color:var(--sub); margin-top:20px; font-weight:bold; cursor:pointer;">Close Console</button>
 </div></div>
 
 <div id="game-mod" class="modal"><div class="m-cnt" style="text-align:center;">
-    <h3 style="color:#ff00ff; margin-top:0;">🔐 Cyber Hack</h3>
-    <p style="color:gray; font-size:0.9rem; margin-bottom:15px;">Guess the 3-digit access code (100-999).</p>
-    <div style="font-size:3rem; font-weight:900; color:var(--w); margin-bottom:10px; font-family:monospace;" id="gh-feedback">***</div>
-    <input type="number" id="gh-guess" placeholder="Enter 3 digits..." style="text-align:center; font-size:1.5rem; letter-spacing:5px;">
-    <button class="btn glow-btn" onclick="checkGuess()">HACK</button>
-    <button class="btn" style="background:transparent; border:1px solid gray; color:gray; margin-top:10px;" onclick="startHack()">Reset Game</button>
-    <button onclick="closeModal('game-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer;">Close</button>
+    <h3 style="color:#00ff88; margin-top:0;">⛏️ Cyber Miner</h3>
+    <p style="color:var(--sub); font-size:0.9rem; margin-bottom:15px;">Click the core to mine hashes!</p>
+    <div id="mine-core" style="width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, #00ff88, #003311); margin:20px auto; cursor:pointer; box-shadow:0 0 30px #00ff88; transition:transform 0.05s;" onmousedown="mineHash()"></div>
+    <div style="font-size:1.5rem; font-weight:bold; color:#fff; margin-bottom:15px;">Hashes: <span id="m-hash" style="color:#00ff88;">0.00000</span></div>
+    <button onclick="closeModal('game-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; font-weight:bold; cursor:pointer;">Close</button>
 </div></div>
 
-<div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer;">Close</button></div></div>
-    
-<div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;" class="t-pol">Store Agreement</h3><p style="color:gray; font-size:0.85rem;">You must accept the terms before ordering.</p><button class="btn" onclick="acceptPolicy()"><span class="tr" data-k="acpt">I ACCEPT</span></button></div></div>
-<div id="req-srv-mod" class="modal"><div class="m-cnt"><h3 style="color:#ff00ff; margin-top:0;">✨ <span class="tr" data-k="reqSrv">Request Service</span></h3><input type="text" id="rs-nom" placeholder="Service Name"><textarea id="rs-desc" placeholder="Details..." style="height:80px;"></textarea><button class="btn glow-btn" onclick="reqServiceWa()">Send via WhatsApp</button><button onclick="closeModal('req-srv-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Cancel</button></div></div>
-<script>
+<div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:var(--sub); margin-top:15px; font-weight:bold; cursor:pointer;">Close</button></div></div>   
+    <script>
+// ==========================================
 // 🌍 TRANSLATION DICTIONARY
+// ==========================================
 const T = {
-    en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD", oos: "OUT OF STOCK", bck: "← Back", acc: "Account", pol: "Policy", mord: "Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", vc: "Enter Code", ver: "Verify & Login", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments", plc: "PLACE ORDER", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", err: "Error", scs: "Success", rq: "Contact Required", mn: "Manual Order", rqLog: "Please Login!", reqSrv: "Request Service", sndWa: "Send WhatsApp", admErr: "Invalid Admin Pass", vip: "VIP Rewards", vipDesc: "Earn lifetime discounts!", yOrd: "Your Orders:", cDisc: "Discount:", noFunds: "Insufficient Wallet!", welcBack: "Welcome back!", flStr: "Flash Sale Started!", thm: "Theme: ", logStr: "Login Streak:", days: "Days", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute to:", ordPlc: "ORDER PLACED", invCop: "Invoice copied!", accDen: "ACCESS DENIED" },
-    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article ou ID...", add: "AJOUTER", oos: "RUPTURE", bck: "← Retour", acc: "Compte", pol: "Politique", mord: "Commandes", spin: "Tourner", god: "Mode Admin", hlp: "Besoin d'Aide ?", si: "Se Connecter", ca: "Créer un Compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Tél", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mdp", log: "Connexion", sndReg: "S'inscrire", vc: "Entrer le Code", ver: "Vérifier", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", fill: "Remplir les champs", bnc: "Banni", ic: "Invalide", err: "Erreur", scs: "Succès !", rq: "Contact Requis", mn: "Cmd Manuelle", rqLog: "Connectez-vous !", reqSrv: "Demander Service", sndWa: "Envoyer WhatsApp", admErr: "Mdp Admin Invalide", vip: "VIP", vipDesc: "Gagnez des réductions !", yOrd: "Vos Commandes :", cDisc: "Réduction :", noFunds: "Solde insuffisant !", welcBack: "Bon retour !", flStr: "Vente Flash lancée !", thm: "Thème : ", logStr: "Série :", days: "Jours", d17Inst: "Transfert D17 au :", mmInst: "Mandat au :", ordPlc: "COMMANDE VALIDÉE", invCop: "Facture copiée !", accDen: "ACCÈS REFUSÉ" }
+    en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", vc: "Enter Code", ver: "Verify & Login", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", err: "Error", scs: "Success", rq: "Name/Contact Required", mn: "Manual Order", rqLog: "Please Login!", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", welcBack: "Welcome back!", flStr: "Flash Sale Started!", thm: "Theme: ", logStr: "Login Streak:", days: "Days", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", ordPlc: "ORDER PLACED", invCop: "Invoice copied to clipboard!", accDen: "ACCESS DENIED" },
+    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article ou ID...", add: "AJOUTER AU PANIER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ?", si: "Se Connecter", ca: "Créer un Compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", vc: "Entrer le Code", ver: "Vérifier & Se Connecter", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", err: "Erreur Système", scs: "Succès !", rq: "Nom/Contact Requis", mn: "Commande Manuelle", rqLog: "Connectez-vous !", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", welcBack: "Bon retour !", flStr: "Vente Flash lancée !", thm: "Thème : ", logStr: "Série de connexions :", days: "Jours", d17Inst: "Transfert D17 au :", mmInst: "Transfert Mandat Minute au :", ordPlc: "COMMANDE VALIDÉE", invCop: "Facture copiée !", accDen: "ACCÈS REFUSÉ" }
 };
 
+// ==========================================
 // ⚙️ GLOBAL ENGINE
+// ==========================================
 let db = {inv:[], promo:{}, loy:{}, ord:[], whl:[], spn:[], bans:[]}; 
 let cart = []; let cView = {t:'cats', c:null, a:null}; let lang = localStorage.getItem('ch_lng') || 'en';
 let user = localStorage.getItem('ch_user'); let role = localStorage.getItem('ch_role'); let pass = localStorage.getItem('ch_pass');
 let uOrders = parseInt(localStorage.getItem('ch_ord') || 0); let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
 
-let pCode = ""; let pPct = 0; let payM = "D17"; let cM = "wa"; let rM = "email"; let proofB64 = "";
+let pCode = ""; let pPct = 0; let payM = "D17"; let cM = "wa"; let rM = "email"; let lT; let proofB64 = "";
 let lastMaintState = ""; let globalFlashPct = 0; let loginStreak = 0; let captchaCorrect = 0; 
 let userIP = "Unknown"; let sysStreakDays = 14; let sysStreakPct = 5; let appVersion = 1;
 let logoClicks = 0; let logoTimer; let streakUsed = localStorage.getItem('ch_str_u') === '1';
@@ -313,10 +330,21 @@ let logoClicks = 0; let logoTimer; let streakUsed = localStorage.getItem('ch_str
 const el = id => document.getElementById(id);
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 
+function toggleDeviceView() { let c = el('main-cont'); if(c.classList.contains('phone-mockup')) { c.classList.remove('phone-mockup'); toast("💻 PC View Active", "info"); } else { c.classList.add('phone-mockup'); toast("📱 Phone View Active", "info"); } }
+
+function logoClk() { 
+    logoClicks++; clearTimeout(logoTimer); logoTimer = setTimeout(() => logoClicks = 0, 2000); 
+    if (logoClicks >= 5) { 
+        logoClicks = 0; if(role === 'Admin') return toast("Already Admin", "info"); 
+        swA('a-step'); openModal('log-mod'); toast("Admin Protocol Initiated", "info"); 
+    } 
+}
+
 function cycleTheme() { let ct = parseInt(localStorage.getItem('ch_theme') || 0); ct = (ct + 1) % 3; localStorage.setItem('ch_theme', ct); let t = themes[ct]; document.documentElement.style.setProperty('--p', t.p); document.documentElement.style.setProperty('--w', t.w); document.documentElement.style.setProperty('--bg', t.bg); document.documentElement.style.setProperty('--b', t.b); document.documentElement.style.setProperty('--c', t.c); toast(T[lang].thm + " Updated", "info"); }
 
 function chkUI() { 
-    if (role === "Admin") { if(el('adm-tools')) el('adm-tools').style.display = 'block'; if(el('god-crown')) el('god-crown').style.display = 'block'; if(el('fab-admin')) el('fab-admin').style.display = 'flex'; } else { if(el('adm-tools')) el('adm-tools').style.display = 'none'; if(el('god-crown')) el('god-crown').style.display = 'none'; if(el('fab-admin')) el('fab-admin').style.display = 'none'; } 
+    if (role === "Admin") { if(el('adm-tools')) el('adm-tools').style.display = 'block'; if(el('god-crown')) el('god-crown').style.display = 'block'; if(el('fab-admin')) el('fab-admin').style.display = 'flex'; } 
+    else { if(el('adm-tools')) el('adm-tools').style.display = 'none'; if(el('god-crown')) el('god-crown').style.display = 'none'; if(el('fab-admin')) el('fab-admin').style.display = 'none'; } 
     let lp = chkLoy(); 
     if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; if(el('vip-streak')) el('vip-streak').innerText = loginStreak; 
     if (loginStreak > 0) { if(el('streak-fire-badge')) el('streak-fire-badge').style.display = 'flex'; if(el('streak-fire-cnt')) el('streak-fire-cnt').innerText = loginStreak; } else { if(el('streak-fire-badge')) el('streak-fire-badge').style.display = 'none'; } 
@@ -326,7 +354,7 @@ function toast(m, type = 'success') { let t = el('toast'); let i = ''; let c = '
 function openModal(i) { let m = el(i); m.style.display = 'flex'; document.body.classList.add('modal-open'); setTimeout(() => m.classList.add('show'), 10); }
 function closeModal(i) { let m = el(i); m.classList.remove('show'); document.body.classList.remove('modal-open'); setTimeout(() => m.style.display = 'none', 300); }
 function toggleSidebar() { el('sidebar').classList.toggle('open'); }
-function swA(i) { ['l-step', 'r-step', 'a-step'].forEach(x => el(x).style.display = 'none'); el(i).style.display = 'block'; }
+function swA(i) { ['l-step', 'r-step', 'rs-step', 'c-step', 'a-step'].forEach(x => el(x).style.display = 'none'); el(i).style.display = 'block'; }
 function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0,2) + "***@" + p[1]; } return str.slice(0,3) + "***" + str.slice(-2); }
 function hslToHex(h, s, l) { s /= 100; l /= 100; let c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r = 0, g = 0, b = 0; if(0<=h && h<60) { r=c; g=x; b=0; } else if(60<=h && h<120) { r=x; g=c; b=0; } else if(120<=h && h<180) { r=0; g=c; b=x; } else if(180<=h && h<240) { r=0; g=x; b=c; } else if(240<=h && h<300) { r=x; g=0; b=c; } else if(300<=h && h<360) { r=c; g=0; b=x; } return "#" + Math.round((r+m)*255).toString(16).padStart(2,'0') + Math.round((g+m)*255).toString(16).padStart(2,'0') + Math.round((b+m)*255).toString(16).padStart(2,'0'); }
 
@@ -339,11 +367,19 @@ function banUserIpPrompt() { let ip = prompt("Enter IP Address to Ban:"); if(!ip
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); try { return JSON.parse(text); } catch(err) { return null; } } catch(e) { return null; } }
 async function pAPI(a, p, nS) { p.act = a; p.adminUser = user; p.adminPass = pass; toast("...", "info"); let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify(p) }); if(d && d.s === 'ok') { toast(T[lang].scs, false); if(!nS) initApp(); return d; } else { toast(T[lang].err, true); return null; } }
 
-// AUTH (FIXED CANCEL BUG)
+// AUTH
 function acceptPolicy() { localStorage.setItem('ch_pol', 'true'); closeModal('pol-mod'); }
 async function exLog() { let c = el('lEml').value, p = el('lPas').value; if(!c || !p) return toast(T[lang].fill, true); toast("...", "info"); let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'login', c: c, p: p, ip: userIP }) }); if(!d) return toast(T[lang].err, true); if(d.s === 'ok') { user = c; pass = p; role = d.r; uOrders = parseInt(d.o); userWallet = parseFloat(d.w) || 0; localStorage.setItem('ch_user', user); localStorage.setItem('ch_pass', pass); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); if(d.cart && d.cart !== "[]" && d.cart !== "") { cart = JSON.parse(d.cart); localStorage.setItem('ch_cart', d.cart); setTimeout(() => { openModal('ab-cart-mod'); if(el('c-count')) el('c-count').innerText = cart.length; }, 1500); } loginStreak = checkStreak(); closeModal('log-mod'); toast(T[lang].welcBack, false); chkUI(); ren(); } else if(d.s === 'banned') { toast(T[lang].bnc, true); } else { toast(T[lang].ic, true); } }
 function exAdm() { if(el('aPas').value === window.CFG.PASS) { user = "Admin"; role = "Admin"; closeModal('log-mod'); chkUI(); openAdminDash(); } else toast(T[lang].admErr, true); }
-function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
+
+// THE PROFILE "CANCEL" FIX
+function openProf() { 
+    if(!user) { swA('l-step'); return openModal('log-mod'); } // FORCE LOGIN UI IF EMPTY
+    el('p-uid').innerText = maskEm(user); 
+    if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2);
+    chkUI(); openModal('prof-mod'); 
+}
+
 function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); user = null; role = null; closeModal('prof-mod'); chkUI(); ren(); }
 function fUsrOrd() { if(!user) { swA('l-step'); openModal('log-mod'); return toast(T[lang].rqLog, true); } customFetch(window.CFG.SURL + "?action=get_user_orders&user=" + encodeURIComponent(user)).then(d => { if(d && d.status === 'success') { let h = `<h3 style="color:var(--w);">📦 ${T[lang].mord}</h3>`; if(d.ord.length === 0) h += `<div style="text-align:center;color:var(--sub);">No orders found.</div>`; d.ord.forEach(o => { h += `<div class="glass"><b>${o[5]}</b><br><span style="color:var(--p);font-weight:bold;">${o[9]} DT</span> - ${o[10]}</div>` }); el('d-box').innerHTML = h; openModal('d-mod'); } else toast(T[lang].err, true); }); }
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); updC(); }
@@ -372,31 +408,10 @@ setInterval(async () => {
     } catch(e) {}
 }, 4000);
 
-function checkStreak() {
-    if(!user) return 0; if(streakUsed) return 0;
-    let lastLogStr = localStorage.getItem('ch_last_log'); let streak = parseInt(localStorage.getItem('ch_streak') || 0); let today = new Date().toDateString();
-    if(lastLogStr === today) return streak; 
-    let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-    if(lastLogStr && lastLogStr !== yesterday.toDateString()) { streak = 0; }
-    let n1 = Math.floor(Math.random() * 10) + 1; let n2 = Math.floor(Math.random() * 10) + 1; captchaCorrect = n1 + n2;
-    if(el('cap-math')) el('cap-math').innerText = `${n1} + ${n2} = ?`;
-    window.tempStreakObj = { current: streak, today: today }; openModal('captcha-mod'); return streak;
-}
-
-function verifyCaptcha() {
-    let ans = parseInt(el('cap-ans').value);
-    if(ans === captchaCorrect) {
-        let obj = window.tempStreakObj; let finalStreak = obj.current + 1;
-        localStorage.setItem('ch_last_log', obj.today); localStorage.setItem('ch_streak', finalStreak);
-        loginStreak = finalStreak; closeModal('captcha-mod'); toast(T[lang].scs, false); chkUI();
-    } else { toast(T[lang].incMath, true); }
-}
-
 function initApp() {
     if(el('ui-store-name')) el('ui-store-name').innerText = window.CFG.NAME;
     if(el('main-logo')) el('main-logo').src = window.CFG.LOGO;
     if(el('sb-logo')) el('sb-logo').src = window.CFG.LOGO;
-    if(el('ui-contact-email')) el('ui-contact-email').innerText = window.CFG.EMAIL;
     if(el('fav-icon')) el('fav-icon').href = window.CFG.LOGO;
 
     appLang(); 
@@ -419,12 +434,15 @@ function initApp() {
                 try { localStorage.setItem('ch_db_cache', JSON.stringify(db)); } catch(e) {}
                 if(d.maintObj) hMaint(d.maintObj); chkUI(); setTimeout(() => ren(), 150);
             } 
-        });
+        }).catch(err => { console.log(err); });
     }
 
     if(window.gIP) { window.gIP.then(ipData => { if(ipData && ipData.ip) { userIP = ipData.ip; try { localStorage.setItem('ch_last_ip', userIP); } catch(e) {} checkFirewall(); } }).catch(async e => { let safeIp = await fetchSafeIP(); userIP = safeIp; try { localStorage.setItem('ch_last_ip', userIP); } catch(e) {} checkFirewall(); }); }
     
-    setTimeout(() => { try { if(typeof particlesJS !== 'undefined') { particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#00f0ff"},"shape":{"type":"circle"},"opacity":{"value":0.4},"size":{"value":3},"line_linked":{"enable":true,"distance":150,"color":"#00f0ff","opacity":0.15,"width":1},"move":{"enable":true,"speed":1.5}}}); } } catch(e) {} }, 500);
+    // RENDER PARTICLES SAFELY
+    setTimeout(() => {
+        try { if(typeof particlesJS !== 'undefined') { particlesJS("particles-js", {"particles":{"number":{"value":60},"color":{"value":"#00f0ff"},"shape":{"type":"circle"},"opacity":{"value":0.4},"size":{"value":3},"line_linked":{"enable":true,"distance":150,"color":"#00f0ff","opacity":0.15,"width":1},"move":{"enable":true,"speed":1.5}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":true,"mode":"push"}},"modes":{"grab":{"distance":140,"line_linked":{"opacity":1}},"push":{"particles_nb":3}}}}); } } catch(e) {}
+    }, 500);
 }
 
 function chkLoy() { let pct = 0; if(!db.loy) return 0; for(let k in db.loy) { if(uOrders >= parseInt(k) && db.loy[k] > pct) pct = db.loy[k]; } return pct; }
@@ -432,22 +450,22 @@ function chkLoy() { let pct = 0; if(!db.loy) return 0; for(let k in db.loy) { if
 function ren() {
     let hHtml = ""; let a = el('st-cnt'); if(!a) return; let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = [];
     
-    // FIXED ADMIN TRIGGER (NO SPACES)
-    if (q.toUpperCase() === "ADMINMODEACTIVATE") { 
+    // NO-SPACE ADMIN TRIGGER FIX
+    if (q.replace(/\s+/g, '').toUpperCase() === "ADMINMODEACTIVATE") { 
         el('itemFinder').value = ""; if(role === 'Admin') { toast("Already Admin", "info"); return; } 
         swA('a-step'); openModal('log-mod'); toast("Admin Protocol Initiated", "info"); return; 
     }
 
-    if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; }
+    if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now! Add items in Admin Panel.</div>`; return; }
     
     let categories = []; catSubMapGlobal = {};
-    db.inv.slice(1).forEach(r => { if(!r || (!r[9] && !r[10])) return; let cat = (lang === 'en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc"); let sub = (lang === 'en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General"); if(categories.indexOf(cat) === -1) categories.push(cat); if(!catSubMapGlobal[cat]) catSubMapGlobal[cat] = []; if(catSubMapGlobal[cat].indexOf(sub) === -1) catSubMapGlobal[cat].push(sub); });
+    db.inv.slice(1).forEach(r => { if(!r || (!r[10] && !r[11])) return; let cat = (lang === 'en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc"); let sub = (lang === 'en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General"); if(categories.indexOf(cat) === -1) categories.push(cat); if(!catSubMapGlobal[cat]) catSubMapGlobal[cat] = []; if(catSubMapGlobal[cat].indexOf(sub) === -1) catSubMapGlobal[cat].push(sub); });
 
     db.inv.slice(1).forEach(r => {
-        if(!r || (!r[9] && !r[10])) return;
-        let itmId = r[0] ? String(r[0]).trim() : "ID-000"; let cat = (lang === 'en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc"); let imgC = ''; let app = (lang === 'en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General"); let imgA = ''; let hasFld = (r[6] === true || String(r[6]).toLowerCase() === 'true'); let fldN = r[7] ? String(r[7]).trim() : "Folder"; let fldE = r[8] || "📁"; let n = (lang === 'en' && r[9]) ? String(r[9]).trim() : (r[10] ? String(r[10]).trim() : "Item"); let p = parseFloat(r[11]) || 0; let oos = (r.length > 12 && String(r[12]).toUpperCase().includes("OOS")); let exReq = (r[13] === true || String(r[13]).toLowerCase() === 'true'); let exTxt = r[14] ? String(r[14]) : "Details..."; let wrn = (lang === 'en' && r[15]) ? String(r[15]) : (r[16] ? String(r[16]) : "");
+        if(!r || (!r[10] && !r[11])) return;
+        let itmId = r[0] ? String(r[0]).trim() : "ID-000"; let cat = (lang === 'en' && r[1]) ? String(r[1]).trim() : (r[2] ? String(r[2]).trim() : "Misc"); let imgC = r[3] || ''; let app = (lang === 'en' && r[4]) ? String(r[4]).trim() : (r[5] ? String(r[5]).trim() : "General"); let imgA = r[6] || ''; let hasFld = (r[6] === true || String(r[6]).toLowerCase() === 'true'); let fldN = r[7] ? String(r[7]).trim() : "Folder"; let fldE = r[8] || "📁"; let n = (lang === 'en' && r[9]) ? String(r[9]).trim() : (r[10] ? String(r[10]).trim() : "Item"); let p = parseFloat(r[11]) || 0; let oos = (r.length > 12 && String(r[12]).toUpperCase().includes("OOS")); let exReq = (r[13] === true || String(r[13]).toLowerCase() === 'true'); let exTxt = r[14] ? String(r[14]) : "Details..."; let wrn = (lang === 'en' && r[15]) ? String(r[15]) : (r[16] ? String(r[16]) : "");
         
-        let itemHex = (r[3] && String(r[3]).includes('#')) ? String(r[3]).trim() : 'var(--p)'; 
+        let itemHex = (r[3] && String(r[3]).includes('#')) ? String(r[3]).trim() : 'var(--p)'; // COLOR FROM SHEET!
         let catCol = cView.c === cat ? itemHex : 'var(--p)';
         
         if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, on: r[9] || r[10], n, p, oos, exReq, exTxt, wrn, col: itemHex, cat: cat, sub: app }); } return; }
@@ -461,7 +479,7 @@ function ren() {
     a.innerHTML = hHtml; appLang();
 }
 
-function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
+function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; if(t === 'apps' && cView.c) { let s = catSubMapGlobal[cView.c]; if(!s || s.length === 0 || (s.length === 1 && (s[0] === 'General' || s[0] === ''))) { cView.t = 'items'; cView.a = s ? s[0] : 'General'; } } if(t === 'items' && !a) { cView.t = 'cats'; cView.c = null; } el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span class='hl-search'>$1</span>"); }
 
 function dR(i, q = "") {
@@ -476,7 +494,7 @@ function dR(i, q = "") {
     
     let btnCol = i.col || 'var(--p)';
     let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : '';
-    let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled><span class="tr" data-k="oos">${T[lang].oos}</span></button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount})"><span class="tr" data-k="add">${T[lang].add}</span></button>`;
+    let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled><span class="tr" data-k="oos">OUT OF STOCK</span></button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount})"><span class="tr" data-k="add">ADD</span></button>`;
     let nDisp = q ? highlightMatch(i.n, q) : i.n;
     return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span> ${i.oos?'<span class="oos-tag">OOS</span>':''}<br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span><br><b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`;
 }
@@ -499,24 +517,10 @@ function updC() {
     let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= sysStreakDays && !streakUsed) ? sysStreakPct : 0;
     let autoDisc = Math.max(l, f, s); let h = Math.max(autoDisc, 0); 
     if(el('m-sub')) el('m-sub').innerText = r.toFixed(2) + " DT"; 
-    
-    let lr = el('m-lr'); let strB = el('str-warn');
-    if(strB) strB.style.display = 'none';
-    
-    if(autoDisc > 0) {
-        if(lr) lr.style.display = 'flex'; if(el('m-lp')) el('m-lp').innerText = autoDisc; if(el('m-lv')) el('m-lv').innerText = "-" + (r * (autoDisc / 100)).toFixed(2) + " DT";
-        if(autoDisc === s && s > l && strB) strB.style.display = 'block';
-    } else { if(lr) lr.style.display = 'none'; }
-    
+    let lr = el('m-lr'); if(autoDisc > 0) { if(lr) lr.style.display = 'flex'; if(el('m-lp')) el('m-lp').innerText = autoDisc; if(el('m-lv')) el('m-lv').innerText = "-" + (r * (autoDisc / 100)).toFixed(2) + " DT"; } else { if(lr) lr.style.display = 'none'; }
     if(el('m-tot')) el('m-tot').innerText = (r - (r * (h / 100))).toFixed(2) + " DT"; 
-    if(el('c-list')) {
-        el('c-list').innerHTML = cart.map(i => {
-            let nHtml = i.n; if(nHtml.includes("⚠️ MISSING INFO")) { nHtml = nHtml.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>"); }
-            return `<div style="padding:5px 0;border-bottom:1px solid #333;">• ${nHtml} (${i.p} DT)</div>`;
-        }).join('');
-    }
-    localStorage.setItem('ch_cart', JSON.stringify(cart)); 
-    if(user) pAPI('save_cart', { c: user, cart: JSON.stringify(cart) }, true);
+    if(el('c-list')) { el('c-list').innerHTML = cart.map(i => { let nHtml = i.n; if(nHtml.includes("⚠️ MISSING INFO")) { nHtml = nHtml.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>"); } return `<div style="padding:5px 0;border-bottom:1px solid #333;">• ${nHtml} (${i.p} DT)</div>`; }).join(''); }
+    localStorage.setItem('ch_cart', JSON.stringify(cart)); if(user) pAPI('save_cart', { c: user, cart: JSON.stringify(cart) }, true);
 }
 
 function opnCart() { updC(); openModal('cart-mod'); }
@@ -535,34 +539,26 @@ function opnCO() {
     closeModal('cart-mod'); openModal('co-mod'); 
 }
 
-function sPay(m) { payM = m; ['p-d17','p-mm','p-csh','p-wal'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); let target = el(m === 'D17' ? 'p-d17' : m === 'Mandat Minute' ? 'p-mm' : m === 'Wallet' ? 'p-wal' : 'p-csh'); if(target) target.classList.add('act'); let inst = el('pay-inst'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { if(dbox) dbox.style.display = 'block'; if(m === 'D17' && inst) { inst.innerHTML = `<span class="tr" data-k="d17Inst">${T[lang].d17Inst}</span> <b id="ui-d17-in" style="color:var(--w);font-size:1.3rem;letter-spacing:2px;display:block;margin-top:5px;">${CFG.D17}</b>`; } if(m === 'Mandat Minute' && inst) { inst.innerHTML = `<span class="tr" data-k="mmInst">${T[lang].mmInst}</span> <b style="color:var(--w);font-size:1.2rem;display:block;margin-top:5px;">${CFG.M_NAME}</b><b style="color:var(--p);font-size:1.3rem;letter-spacing:2px;display:block;">${CFG.M_NUM}</b>`; } } else { if(dbox) dbox.style.display = 'none'; } }
-
 async function finOrd() {
     if(!checkRateLimit()) return;
     let n = el('coN').value; let c = el('coC').value; let cm = el('coNts').value; if(!n || !c) return toast(T[lang].rq, true);
-    
-    let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= sysStreakDays && !streakUsed) ? sysStreakPct : 0;
+    let txId = ""; let isLate = false; let l = chkLoy(); let f = globalFlashPct || 0; let s = (loginStreak >= sysStreakDays && !streakUsed) ? sysStreakPct : 0;
     let h = Math.max(l, f, s); let total = 0; cart.forEach(i => { i.finalPrice = i.p - (i.p * (h / 100)); total += i.finalPrice; });
-    
-    let isUsingStreak = (h === s && s > 0 && s > l && s > f); 
-    
     if(payM === 'Wallet' && userWallet < total) { return toast(T[lang].noFunds, true); }
     if(el('b-fin')) { el('b-fin').innerHTML = `...`; el('b-fin').disabled = true; }
-    
     try {
-        let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: "place_order", client: n, plat: cM, contact: c, items: cart, promo: "", loy: h, comments: cm, c: user || "Guest", payM: payM, payLater: false, txId: "", proofB64: "", usedStreak: isUsingStreak }) });
-        if(d && d.s === "insufficient_funds") { if(el('b-fin')) { el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; el('b-fin').disabled = false; } return toast(T[lang].noFunds, true); }
+        let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: "place_order", client: n, plat: cM, contact: c, items: cart, promo: "", loy: h, comments: cm, c: user || "Guest", payM: payM, payLater: isLate, txId: txId, proofB64: proofB64 }) });
+        if(d && d.s === "insufficient_funds") { if(el('b-fin')) { el('b-fin').innerHTML = `PLACE ORDER`; el('b-fin').disabled = false; } return toast(T[lang].noFunds, true); }
         if(d && d.s === "ok") {
-            if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); }
-            if(isUsingStreak) { localStorage.setItem('ch_str_u', '1'); streakUsed = true; loginStreak = 0; localStorage.setItem('ch_streak', 0); }
-            
+            if(d.isPaid && payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); }
+            if(h === s && s > 0) { localStorage.setItem('ch_str_u', '1'); streakUsed = true; loginStreak = 0; localStorage.setItem('ch_streak', 0); }
             let invoice = `🛒 *${CFG.NAME} ORDER*\n\n*Order Group ID:* ${d.gId}\n*Total Amount:* ${total.toFixed(2)} DT\n\n*--- ITEMS ---*\n`; cart.forEach(i => { invoice += `🔹 ${i.n}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; }); invoice += `Status: Pending`; navigator.clipboard.writeText(invoice).catch(e => {});
             if(el('co-form')) el('co-form').style.display = 'none'; if(el('co-succ')) el('co-succ').style.display = 'block'; if(el('succ-gid')) el('succ-gid').innerText = d.gId;
             let dmLinks = { wa: `https://wa.me/${CFG.WA}?text=${encodeURIComponent(invoice)}` }; if(el('dm-btn')) { el('dm-btn').onclick = () => { window.open(dmLinks.wa); }; }
             cart = []; localStorage.removeItem('ch_cart'); if(el('c-count')) el('c-count').innerText = "0"; if(user) { uOrders++; localStorage.setItem('ch_ord', uOrders); chkUI(); } toast(T[lang].invCop, false);
         }
-        if(el('b-fin')) { el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; el('b-fin').disabled = false; }
-    } catch(e) { if(el('b-fin')) { el('b-fin').innerHTML = `<span class="tr" data-k="plc">${T[lang].plc}</span>`; el('b-fin').disabled = false; } toast(T[lang].err, true); }
+        if(el('b-fin')) { el('b-fin').innerHTML = `PLACE ORDER`; el('b-fin').disabled = false; }
+    } catch(e) { if(el('b-fin')) { el('b-fin').innerHTML = `PLACE ORDER`; el('b-fin').disabled = false; } toast(T[lang].err, true); }
 }
 
 function openAdminDash() { openModal('adm-dash'); setTimeout(drawCharts, 500); }
@@ -570,7 +566,7 @@ function fAdm(t) {
     customFetch(window.CFG.SURL + "?action=get_admin").then(d => {
         if(!d || d.status !== 'success') return; let html = `<h3 style="color:var(--w);">${t.toUpperCase()}</h3>`;
         if(t === 'orders') d.ord.forEach(o => html += `<div class="glass">${o[2]} - ${o[5]} - ${o[10]}</div>`);
-        if(t === 'users') { let ipMap = {}; d.usr.forEach(u => { let ip = u[13]; if(ip) ipMap[ip] = (ipMap[ip] || 0) + 1; }); d.usr.forEach(u => { let ip = u[13] || "No IP Logged"; let isMulti = ipMap[ip] > 1; let bg = isMulti ? "rgba(255,0,0,0.2)" : "rgba(255,255,255,0.05)"; let border = isMulti ? "1px dashed #ff4d4d" : "1px solid var(--b)"; let warn = isMulti ? `<b style="color:#ff4d4d;">⚠️ MULTI-ACCOUNT</b>` : ""; let banBtn = isMulti ? `<button onclick="pAPI('ban_ip',{ip:'${ip}',reason:'Multi-Account System Flag'},true)" style="background:#ff4d4d;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-weight:bold;margin-top:5px;cursor:pointer;">🔨 BAN THIS IP</button>` : ""; html += `<div class="glass" style="background:${bg}; border:${border}; text-align:left;"><b>${u[0]}</b> (${u[2]})<br><span style="font-family:monospace;font-size:0.8rem;color:var(--sub);">IP: ${ip}</span> ${warn}<br>${banBtn}</div>`; }); }
+        if(t === 'users') { let ipMap = {}; d.usr.forEach(u => { let ip = u[8]; if(ip) ipMap[ip] = (ipMap[ip] || 0) + 1; }); d.usr.forEach(u => { let ip = u[8] || "No IP Logged"; let isMulti = ipMap[ip] > 1; let bg = isMulti ? "rgba(255,0,0,0.2)" : "rgba(255,255,255,0.05)"; let border = isMulti ? "1px dashed #ff4d4d" : "1px solid var(--b)"; let warn = isMulti ? `<b style="color:#ff4d4d;">⚠️ MULTI-ACCOUNT</b>` : ""; let banBtn = isMulti ? `<button onclick="pAPI('ban_ip',{ip:'${ip}',reason:'Multi-Account System Flag'},true)" style="background:#ff4d4d;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-weight:bold;margin-top:5px;cursor:pointer;">🔨 BAN THIS IP</button>` : ""; html += `<div class="glass" style="background:${bg}; border:${border}; text-align:left;"><b>${u[0]}</b> (${u[2]})<br><span style="font-family:monospace;font-size:0.8rem;color:var(--sub);">IP: ${ip}</span> ${warn}<br>${banBtn}</div>`; }); }
         el('d-box').innerHTML = html; openModal('d-mod'); closeModal('adm-dash');
     });
 }
@@ -582,16 +578,17 @@ function drawCharts() {
     if(c2) c2.destroy(); let rK = Object.keys(rD).slice(-7); let rV = rK.map(k => rD[k]); if(el('revC')) { c2 = new Chart(el('revC'), { type: 'bar', data: { labels: rK, datasets: [{ data: rV, backgroundColor: '#00ff88', borderRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' } } }, plugins: { legend: { display: false } } } }); }
 }
 
-// 🔐 CYBER HACK GAME
-let ghTarget = 0;
-function startHack() { ghTarget = Math.floor(Math.random() * 900) + 100; el('gh-feedback').innerText = "***"; el('gh-feedback').style.color = "var(--w)"; el('gh-guess').value = ""; }
-function checkGuess() {
-    if(ghTarget === 0) startHack();
-    let g = parseInt(el('gh-guess').value);
-    if(isNaN(g) || g < 100 || g > 999) return toast("Enter a 3-digit number!", true);
-    if(g === ghTarget) { el('gh-feedback').innerText = "HACKED!"; el('gh-feedback').style.color = "#00ff88"; toast("System Breached!", false); setTimeout(startHack, 3000); }
-    else if(g < ghTarget) { el('gh-feedback').innerText = "TOO LOW"; el('gh-feedback').style.color = "#ff4d4d"; }
-    else { el('gh-feedback').innerText = "TOO HIGH"; el('gh-feedback').style.color = "#ff4d4d"; }
+// ==========================================
+// ⛏️ CYBER MINER (NEW GAME)
+// ==========================================
+let mineHashes = 0;
+function mineHash() { 
+    mineHashes += (Math.random() * 0.0001); 
+    el('m-hash').innerText = mineHashes.toFixed(5); 
+    let core = el('mine-core');
+    core.style.transform = 'scale(0.9)'; 
+    core.style.boxShadow = `0 0 ${Math.floor(Math.random()*50)+20}px #00ff88`;
+    setTimeout(() => { core.style.transform = 'scale(1)'; }, 50);
 }
 
 if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
