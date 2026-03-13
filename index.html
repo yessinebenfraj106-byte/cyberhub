@@ -6,6 +6,7 @@
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" id="fav-icon" href="icon-192.png">
     <meta name="theme-color" content="#050b14">
+    
     <link rel="manifest" href="manifest.json">
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
@@ -14,8 +15,14 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
     <script>
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) { 
+            window.addEventListener('load', () => { 
+                navigator.serviceWorker.register('sw.js').catch(()=>{}); 
+            }); 
+        }
 
+        // GLOBAL CONFIGURATION (Your new SURL is live here)
         window.CFG = {
             SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
             NAME: "CYBERHUB", 
@@ -45,6 +52,7 @@
             document.documentElement.style.setProperty('--c', themes[ct].c); 
         } catch(e) {}
         
+        // Haptic Audio Engine
         const playSnd = () => { 
             try { 
                 let ctx = new(window.AudioContext||window.webkitAudioContext)(); 
@@ -64,10 +72,16 @@
     </script>
 
     <style>
-        :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
+        /* --- CORE STYLES --- */
+        :root { 
+            --p: #00f0ff; 
+            --bg: #050b14; 
+            --c: rgba(10,15,30,0.8); 
+            --b: rgba(0,240,255,0.2); 
+            --w: #ffae00; 
+        }
         
         body { 
-            /* THE ULTIMATE EMOJI FIX STACK */
             font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', 'Apple Color Emoji', 'Twemoji Mozilla', 'Noto Color Emoji', sans-serif; 
             background: var(--bg); 
             color: #fff; 
@@ -78,8 +92,14 @@
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="%2300f0ff"><path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4.7z"/></svg>'), auto; 
         }
         
-        body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+        body.modal-open { 
+            overflow: hidden; 
+            height: 100vh; 
+            position: fixed; 
+            width: 100%; 
+        }
         
+        /* Hacker Terminal Mode (God Mode) */
         body.terminal-mode { 
             font-family: monospace; 
             background: #000; 
@@ -92,64 +112,477 @@
             cursor: crosshair; 
         }
         
-        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        #particles-js { 
+            position: fixed; 
+            inset: 0; 
+            z-index: -1; 
+            pointer-events: none; 
+        }
         
-        .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; transition: max-width 0.4s ease; }
-        .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--p); display: block; margin: 0 auto; cursor: pointer; box-shadow: 0 0 25px var(--b); transition: 0.5s; background: #111; object-fit: cover; }
+        /* --- LAYOUT & CONTAINERS --- */
+        .cont { 
+            max-width: 500px; 
+            margin: auto; 
+            padding: 20px; 
+            position: relative; 
+            z-index: 1; 
+            transition: max-width 0.4s ease; 
+        }
         
-        /* FACEBOOK STYLE SKELETON LOADER */
-        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-        .skeleton { animation: shimmer 2s infinite linear; background: linear-gradient(to right, rgba(255,255,255,0.03) 4%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.03) 36%); background-size: 1000px 100%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .glass { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid var(--b); 
+            border-radius: 20px; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); 
+        }
+        
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        
+        .logo { 
+            width: 110px; 
+            height: 110px; 
+            border-radius: 50%; 
+            border: 3px solid var(--p); 
+            display: block; 
+            margin: 0 auto; 
+            cursor: pointer; 
+            box-shadow: 0 0 25px var(--b); 
+            transition: 0.5s; 
+            background: #111; 
+            object-fit: cover; 
+        }
+        
+        /* --- FACEBOOK-STYLE SKELETON LOADER --- */
+        @keyframes shimmer { 
+            0% { background-position: -1000px 0; } 
+            100% { background-position: 1000px 0; } 
+        }
+        .skeleton { 
+            animation: shimmer 2s infinite linear; 
+            background: linear-gradient(to right, rgba(255,255,255,0.03) 4%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.03) 36%); 
+            background-size: 1000px 100%; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+        }
         .skel-card { height: 140px; width: 100%; }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
-        .n-card:active { transform: scale(0.96); }
-        .img-transparent { width: 65px; height: 65px; margin: 0 auto 10px auto; display: block; object-fit: contain; background: transparent !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
+        /* --- GRID, CARDS & LISTS --- */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+        }
         
-        .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); transition: background 0.3s; }
-        .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; margin-bottom: 8px; }
+        .n-card { 
+            background: var(--c); 
+            border: 1px solid var(--b); 
+            padding: 20px; 
+            border-radius: 15px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        
+        .n-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px var(--b); 
+        }
+        
+        .n-card:active { 
+            transform: scale(0.96); 
+        }
+        
+        .img-transparent { 
+            width: 65px; 
+            height: 65px; 
+            margin: 0 auto 10px auto; 
+            display: block; 
+            object-fit: contain; 
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); 
+        }
+        
+        .i-row { 
+            background: rgba(0,0,0,0.5); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            padding: 15px; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+            transition: background 0.3s; 
+        }
+        
+        .f-head { 
+            background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); 
+            border: 1px solid var(--b); 
+            border-left: 4px solid var(--p); 
+            padding: 18px 20px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: bold; 
+            font-size: 1.05rem; 
+            margin-bottom: 8px; 
+        }
 
-        .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
-        .btn:active { transform: scale(0.95); } .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
-        .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
+        /* --- BUTTONS & INPUTS --- */
+        .btn { 
+            background: var(--p); 
+            color: #000; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            width: 100%; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+        }
         
-        .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .btn:active { transform: scale(0.95); } 
+        .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
         
-        input, select, textarea { font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', sans-serif; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; font-size: 1rem; outline: none; }
+        .glow-btn { 
+            background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); 
+            background-size: 200% 200%; 
+            animation: glow 3s ease infinite; 
+            color: #fff; 
+            border: none; 
+            font-weight: 900; 
+        }
         
-        .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
+        @keyframes glow { 
+            0% { background-position: 0% 50% } 
+            50% { background-position: 100% 50% } 
+            100% { background-position: 0% 50% } 
+        }
+        
+        .icon-btn { 
+            background: var(--c); 
+            border: 1px solid var(--b); 
+            color: #fff; 
+            padding: 10px 15px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+        }
+        
+        input, select, textarea { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            width: 100%; 
+            padding: 14px; 
+            margin: 8px 0; 
+            border-radius: 12px; 
+            border: 1px solid var(--b); 
+            background: rgba(0,0,0,0.5) !important; 
+            color: #fff !important; 
+            box-sizing: border-box; 
+            font-size: 1rem; 
+            outline: none; 
+        }
+        
+        /* --- MODALS & MENUS --- */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(2,6,23,0.95); 
+            z-index: 10000; 
+            justify-content: center; 
+            align-items: center; 
+            backdrop-filter: blur(15px); 
+            padding: 15px; 
+            opacity: 0; 
+            transition: opacity 0.3s ease; 
+        }
+        
         .modal.show { display: flex; opacity: 1; }
-        .m-cnt { background: var(--bg); border: 1px solid var(--p); padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px var(--b); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        .m-cnt { 
+            background: var(--bg); 
+            border: 1px solid var(--p); 
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 100%; 
+            max-width: 500px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            position: relative; 
+            box-shadow: 0 10px 40px var(--b); 
+            transform: scale(0.9); 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        
         .modal.show .m-cnt { transform: scale(1); }
         
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 20000; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .toast { 
+            position: fixed; 
+            bottom: -100px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(10, 15, 30, 0.95); 
+            backdrop-filter: blur(15px); 
+            color: #fff; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-size: 0.95rem; 
+            font-weight: 800; 
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+            z-index: 20000; 
+            white-space: nowrap; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        
         .toast.show { bottom: 40px; }
         
-        .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s; font-size: 0.85rem; }
-        .c-btn.act { background: var(--b); border-color: var(--p); color: var(--p); }
+        .c-btn { 
+            background: rgba(0,0,0,0.5); 
+            border: 1px solid var(--b); 
+            color: #fff; 
+            padding: 10px; 
+            border-radius: 10px; 
+            text-align: center; 
+            cursor: pointer; 
+            flex: 1; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            font-size: 0.85rem; 
+        }
         
-        #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: var(--c); z-index: 9999; transition: 0.4s ease; padding: 20px; border-right: 1px solid var(--p); display: flex; flex-direction: column; backdrop-filter: blur(20px); }
+        .c-btn.act { 
+            background: var(--b); 
+            border-color: var(--p); 
+            color: var(--p); 
+        }
+        
+        #sidebar { 
+            position: fixed; 
+            top: 0; 
+            left: -300px; 
+            width: 260px; 
+            height: 100vh; 
+            background: var(--c); 
+            z-index: 9999; 
+            transition: 0.4s ease; 
+            padding: 20px; 
+            border-right: 1px solid var(--p); 
+            display: flex; 
+            flex-direction: column; 
+            backdrop-filter: blur(20px); 
+        }
+        
         #sidebar.open { left: 0; }
-        .m-item { padding: 18px; color: #fff; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--b); cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
-        .m-item:hover { background: var(--b); padding-left: 25px; }
         
-        .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; transition: 0.3s; }
+        .m-item { 
+            padding: 18px; 
+            color: #fff; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            border-bottom: 1px solid var(--b); 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            transition: 0.2s; 
+        }
         
-        .maint-stripes { position: fixed; left: 0; right: 0; height: 16px; z-index: 99999; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; }
-        #stripe-top { top: 0; border-bottom: 2px solid #000; } #stripe-bot { bottom: 0; border-top: 2px solid #000; }
-        .hl-search { color: var(--w); text-shadow: 0 0 8px var(--w); font-weight: 900; }
+        .m-item:hover { 
+            background: var(--b); 
+            padding-left: 25px; 
+        }
         
-        details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
-        summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
-        details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
+        .fab-cart { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 25px; 
+            background: var(--p); 
+            color: #000; 
+            width: 65px; 
+            height: 65px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 28px; 
+            box-shadow: 0 5px 20px var(--b); 
+            cursor: pointer; 
+            z-index: 1000; 
+            border: none; 
+            transition: 0.3s; 
+        }
+        
+        .maint-stripes { 
+            position: fixed; 
+            left: 0; 
+            right: 0; 
+            height: 16px; 
+            z-index: 99999; 
+            background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); 
+            display: none; 
+        }
+        
+        #stripe-top { top: 0; border-bottom: 2px solid #000; } 
+        #stripe-bot { bottom: 0; border-top: 2px solid #000; }
+        
+        /* --- SPECIAL WIDGETS (God's Eye, WhatsApp, Policy) --- */
+        #wa-widget { 
+            position: fixed; 
+            bottom: 105px; 
+            right: 25px; 
+            background: #25D366; 
+            color: #fff; 
+            border-radius: 50px; 
+            padding: 10px 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            cursor: pointer; 
+            box-shadow: 0 5px 20px rgba(37,211,102,0.4); 
+            z-index: 1000; 
+            transition: transform 0.3s; 
+            font-weight: bold; 
+        }
+        
+        #wa-widget:hover { transform: scale(1.05); }
+        
+        .wa-dot { animation: waBlink 1.4s infinite both; }
+        .wa-dot:nth-child(2) { animation-delay: 0.2s; } 
+        .wa-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes waBlink { 
+            0% { opacity: 0.2; } 
+            20% { opacity: 1; } 
+            100% { opacity: 0.2; } 
+        }
 
-        #wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; overflow: hidden; border: 4px solid var(--p); box-shadow: 0 0 30px var(--b); transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); }
-        .wheel-slice { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 1.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); box-sizing: border-box; padding-top: 40px; padding-right: 40px; }
-        #wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 3rem; z-index: 10; color: #fff; text-shadow: 0 0 10px #000; }
+        #admin-page { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: var(--bg); 
+            z-index: 100000; 
+            overflow-y: auto; 
+            padding: 20px; 
+            padding-bottom: 100px; 
+        }
+        
+        .admin-fab { 
+            display: none; 
+            position: fixed; 
+            bottom: 25px; 
+            left: 25px; 
+            background: #ff00ff; 
+            color: #fff; 
+            width: 65px; 
+            height: 65px; 
+            border-radius: 50%; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 35px; 
+            box-shadow: 0 5px 20px rgba(255,0,255,0.4); 
+            cursor: pointer; 
+            z-index: 1000; 
+            border: none; 
+        }
+        
+        #gods-eye { 
+            display: none; 
+            position: fixed; 
+            top: 15px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(0,0,0,0.8); 
+            border: 1px solid #00ff88; 
+            color: #00ff88; 
+            padding: 8px 20px; 
+            border-radius: 30px; 
+            font-size: 0.9rem; 
+            font-weight: bold; 
+            z-index: 10000; 
+            box-shadow: 0 0 15px rgba(0,255,136,0.3); 
+        }
+
+        details { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--b); 
+            border-radius: 10px; 
+            margin-bottom: 10px; 
+            padding: 10px; 
+        }
+        
+        summary { 
+            font-weight: bold; 
+            cursor: pointer; 
+            outline: none; 
+            color: var(--p); 
+            font-size: 1.1rem; 
+        }
+        
+        details p { 
+            color: #ccc; 
+            font-size: 0.9rem; 
+            margin-top: 10px; 
+            line-height: 1.4; 
+        }
+
+        /* --- SPIN WHEEL --- */
+        #wheel-container { 
+            position: relative; 
+            width: 300px; 
+            height: 300px; 
+            margin: 20px auto; 
+            border-radius: 50%; 
+            overflow: hidden; 
+            border: 4px solid var(--p); 
+            box-shadow: 0 0 30px var(--b); 
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); 
+        }
+        
+        .wheel-slice { 
+            position: absolute; 
+            width: 50%; 
+            height: 50%; 
+            transform-origin: 100% 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            color: #fff; 
+            font-size: 1.5rem; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
+            box-sizing: border-box; 
+            padding-top: 40px; 
+            padding-right: 40px; 
+        }
+        
+        #wheel-pointer { 
+            position: absolute; 
+            top: -10px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 3rem; 
+            z-index: 10; 
+            color: #fff; 
+            text-shadow: 0 0 10px #000; 
+        }
     </style>
 </head>
 <body>
@@ -157,26 +590,54 @@
 <div id="stripe-bot" class="maint-stripes"></div>
 <div id="particles-js"></div>
 
+<div id="gods-eye">
+    👁️ <span id="online-count">42</span> Users Online
+</div>
+
 <div id="firewall-screen" style="display: none; position: fixed; inset: 0; background: #050b14; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
     <div style="font-size:4rem; margin-bottom:10px;">🛑</div>
     <h1 style="color:#ff4d4d; font-weight:900; letter-spacing:2px; font-size:2.5rem; margin:0;">ACCESS DENIED</h1>
+    <p style="color:gray; font-size:1rem; max-width:400px; margin-top:10px;">Your IP address has been permanently restricted by the firewall.</p>
 </div>
 
-<div id="toast" class="toast"><span id="t-msg"></span></div>
+<div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)">
+    <span style="font-size:1.5rem;">💬</span>
+    <span id="wa-text">Chat with us</span>
+</div>
+
+<div id="toast" class="toast">
+    <span id="t-msg"></span>
+</div>
 
 <div id="sidebar">
     <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
+    
     <div style="text-align:center; margin-top:20px; margin-bottom:30px;">
-        <img id="sb-logo" src="" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;">
+        <img id="sb-logo" src="icon-512.png" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;">
     </div>
-    <div class="m-item" onclick="openProf()">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
-    <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
-    <div class="m-item" onclick="fUsrOrd()">📦 <span class="tr" data-k="mord">My Orders</span></div>
-    <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
-    <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">🎡 <span class="tr" data-k="spin">Spin & Win</span></div>
+    
+    <div class="m-item" onclick="openProf(); toggleSidebar();">
+        👤 <span class="tr" data-k="acc">Account & Profile</span>
+    </div>
+    <div class="m-item" onclick="openPolicyModal(); toggleSidebar();">
+        📜 <span class="tr" data-k="pol">Store Policy</span>
+    </div>
+    <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">
+        📦 <span class="tr" data-k="mord">My Orders</span>
+    </div>
+    <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">
+        🏆 <span class="tr" data-k="vip">VIP Rewards</span>
+    </div>
+    <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">
+        🎡 <span class="tr" data-k="spin">Spin & Win</span>
+    </div>
+    <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">
+        🛠️ Request Custom Service
+    </div>
 </div>
 
 <div class="cont" id="main-cont">
+    
     <div id="install-banner" style="display:none; background:linear-gradient(90deg, #ff00ff, var(--p)); padding:12px; border-radius:15px; text-align:center; font-weight:bold; margin-bottom:15px; cursor:pointer; box-shadow:0 5px 15px rgba(255,0,255,0.4);" onclick="handleInstallClick()">
         📱 Install CyberHub App
     </div>
@@ -186,23 +647,27 @@
         <div style="display:flex; gap:10px;">
             <button class="icon-btn" onclick="cycleTheme(); playSnd();">🎨</button>
             <button class="icon-btn" onclick="openProf(); playSnd();" style="color:var(--p); border-color:var(--p); font-size:1.2rem; position:relative;">
-                👤<div id="streak-fire-badge" style="position:absolute; top:-8px; right:-8px; background:linear-gradient(45deg, #ff4d4d, #ffae00); color:#fff; font-size:0.7rem; font-weight:900; padding:2px 5px; border-radius:10px; display:none; align-items:center; border:1px solid #fff;">🔥<span id="streak-fire-cnt"></span></div>
+                👤
+                <div id="streak-fire-badge" style="position:absolute; top:-8px; right:-8px; background:linear-gradient(45deg, #ff4d4d, #ffae00); color:#fff; font-size:0.7rem; font-weight:900; padding:2px 5px; border-radius:10px; display:none; align-items:center; border:1px solid #fff;">
+                    🔥<span id="streak-fire-cnt"></span>
+                </div>
             </button>
             <button class="icon-btn" onclick="tgLang()"><span id="l-ind" style="font-size:1.1rem;">🇬🇧 EN</span></button>
         </div>
     </div>
 
     <div id="maint-banner" style="display:none; padding:20px; text-align:center; font-weight:bold; margin-bottom:20px; border-radius:15px; border:2px dashed var(--w); background:rgba(255,174,0,0.1); color:var(--w);">
-        <div style="font-size:1.5rem;">📢 ANNOUNCEMENT</div><div id="ui-m-m" style="margin-top:5px;"></div>
+        <div style="font-size:1.5rem;">📢 <span id="ui-m-t">ANNOUNCEMENT</span></div>
+        <div id="ui-m-m" style="margin-top:5px;"></div>
     </div>
     
     <div style="text-align:center; margin-bottom:20px;">
-        <img id="main-logo" src="" class="logo" onclick="handleAdminClick()">
+        <img id="main-logo" src="icon-512.png" class="logo" onclick="handleAdminClick()">
         <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
     </div>
 
     <div style="position:relative;">
-        <input type="text" id="itemFinder" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or ID..." oninput="ren()" style="width:100%; margin-bottom:15px; cursor:text; padding-right:50px;">
+        <input type="text" id="itemFinder" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or type ADMINMODEACTIVATE..." oninput="ren()" style="width:100%; margin-bottom:15px; cursor:text; padding-right:50px;">
         <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
     </div>
     
@@ -216,16 +681,77 @@
     </div>
 </div>
 
-<button class="fab-cart" onclick="opnCart(); playSnd();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
+<button class="fab-cart" onclick="opnCart(); playSnd();">
+    🛒
+    <div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div>
+</button>
+
+<button class="admin-fab" id="admin-fab" onclick="openAdminPage()">+</button>
+<div id="admin-page">
+    <button onclick="closeAdminPage()" style="position:fixed; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; z-index:1001; cursor:pointer;">
+        Exit Admin
+    </button>
+    
+    <h1 style="color:#ff00ff; text-align:center; margin-bottom:10px; font-weight:900;">👑 GOD MODE</h1>
+    
+    <div class="glass" style="text-align:center;">
+        <h3 style="color:var(--p); margin-top:0;">🎤 Admin Voice Control</h3>
+        <p style="color:gray; font-size:0.8rem;">Say "Close Store", "Open Store", or "Nuke Cache".</p>
+        <button class="btn" style="background:#8b5cf6; color:#fff;" onclick="stAdminVoice()">START LISTENING</button>
+    </div>
+
+    <div class="glass">
+        <h3 style="color:var(--w); margin-top:0;">⚡ Emergency Controls</h3>
+        <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="nukeAppCache()">💥 NUKE CACHE (Force Refresh All Users)</button>
+    </div>
+
+    <div class="glass">
+        <h3 style="color:#00ff88; margin-top:0;">📦 Create New Item</h3>
+        <form onsubmit="event.preventDefault(); submitNewItem();">
+            <div class="grid">
+                <input type="text" id="a-catEn" placeholder="Category EN (e.g. Gaming)" required>
+                <input type="text" id="a-catFr" placeholder="Category FR (e.g. Jeux)" required>
+            </div>
+            <input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)">
+            
+            <div class="grid" style="margin-top:15px; border-top:1px dashed #444; padding-top:15px;">
+                <input type="text" id="a-nEn" placeholder="Item Name EN" required>
+                <input type="text" id="a-nFr" placeholder="Item Name FR" required>
+            </div>
+            <input type="number" id="a-price" placeholder="Selling Price (DT)" required>
+            <input type="text" id="a-img" placeholder="Image URL (ImgBB Direct Link)">
+            
+            <div style="margin-top:15px; padding-top:15px; border-top:1px dashed #444;">
+                <label style="color:gray; font-size:0.85rem; display:flex; align-items:center; gap:5px;">
+                    <input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?
+                </label>
+                <input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID, Server)">
+                <input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur, Serveur)">
+            </div>
+            <button type="submit" class="btn" id="b-add-item">ADD ITEM DIRECTLY TO DB</button>
+        </form>
+    </div>
+</div>
+
+<div id="srv-mod" class="modal">
+    <div class="m-cnt">
+        <h3 style="color:#ffae00; margin-top:0;">🛠️ Request Custom Service</h3>
+        <p style="color:gray; font-size:0.85rem;">Describe what you need, and our team will quote you a price.</p>
+        <input type="text" id="srv-name" placeholder="Service Name (e.g. Custom Website, Graphic Design)">
+        <textarea id="srv-desc" placeholder="Describe exactly what you need..." style="height:100px;"></textarea>
+        <button class="btn" style="background:#ffae00;" onclick="submitCustomService()">SUBMIT & OPEN CHAT</button>
+        <button onclick="closeModal('srv-mod')" style="background:none; border:none; color:gray; margin-top:15px; width:100%; font-weight:bold; cursor:pointer;">Cancel</button>
+    </div>
+</div>
 
 <div id="ios-install-mod" class="modal">
     <div class="m-cnt" style="text-align:center;">
         <h3 style="color:var(--p); margin-top:0;">📱 Install App</h3>
-        <p style="color:gray;">Install CyberHub on your iPhone!</p>
-        <div style="background:#fff; color:#000; border-radius:15px; padding:15px; text-align:left; font-size:0.9rem;">
-            1. Tap <b>Share</b><br>
-            2. Tap <b>Add to Home Screen</b><br>
-            3. Tap <b>Add</b>
+        <p style="color:gray;">Install CyberHub on your iPhone for the best experience!</p>
+        <div class="ios-guide-box">
+            1. Tap the <span class="ios-icon">📤</span> <b>Share</b> button at the bottom of your screen.<br><br>
+            2. Scroll down and tap <span class="ios-icon">➕</span> <b>Add to Home Screen</b>.<br><br>
+            3. Tap <b>Add</b> in the top right corner.
         </div>
         <button onclick="closeModal('ios-install-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Got it!</button>
     </div>
@@ -246,6 +772,12 @@
     <div class="m-cnt">
         <div id="l-step">
             <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="si">Sign In</span></h3>
+            
+            <button type="button" class="btn" style="background:#1e293b; color:#00ff88; border:1px solid #00ff88; margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:10px;" onclick="loginBiometrics()">
+                <span style="font-size:1.5rem;">👆</span> Login with Biometrics
+            </button>
+            <div style="text-align:center; color:gray; font-size:0.8rem; margin-bottom:15px;">— OR —</div>
+            
             <form onsubmit="event.preventDefault(); exLog();">
                 <input type="text" id="lEml" class="tr-ph" data-k="userP" placeholder="Email or Phone" required>
                 <input type="password" id="lPas" class="tr-ph" data-k="pw" placeholder="Password" required>
@@ -273,10 +805,16 @@
     <div class="m-cnt">
         <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="pro">My Profile</span></h3>
         <p style="color:gray; font-size:0.9rem; margin-bottom:15px;" id="p-uid"></p>
+        
         <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
             <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;"><span class="tr" data-k="walPay">Wallet Balance</span></div>
             <div style="color:#00ff88; font-size:2rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
         </div>
+        
+        <button type="button" class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">
+            🔐 Add New Biometrics (FaceID/Fingerprint)
+        </button>
+        
         <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()"><span class="tr" data-k="lo">Log Out</span></button>
         <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;"><span class="tr" data-k="cls">Close</span></button>
     </div>
@@ -286,8 +824,10 @@
     <div class="m-cnt" style="text-align:center;">
         <h3 style="color:var(--w); margin-top:0;">🏆 <span class="tr" data-k="vip">VIP Rewards</span></h3>
         <div class="glass">
-            <b style="color:#fff;"><span class="tr" data-k="yOrd">Your Orders:</span></b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br>
-            <b style="color:#fff;"><span class="tr" data-k="cDisc">Current Discount:</span></b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span>
+            <b style="color:#fff;"><span class="tr" data-k="yOrd">Your Orders:</span></b> <br>
+            <span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br>
+            <b style="color:#fff;"><span class="tr" data-k="cDisc">Current Discount:</span></b> <br>
+            <span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span>
         </div>
         <button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;"><span class="tr" data-k="cls">Close</span></button>
     </div>
@@ -296,12 +836,33 @@
 <div id="pol-mod" class="modal">
     <div class="m-cnt">
         <button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button>
-        <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="pol">Store Policy</span></h3>
-        <details><summary>🛍️ Loyalty System (Anti-Cheat)</summary><p>Your "Valid Loyalty Orders" count increases only if <b>24 hours</b> have passed since your last order.</p></details>
-        <details><summary>🎟️ Promo Codes & Discounts</summary><p>You may only use <b>ONE</b> discount per order. You cannot combine a Promo, a Loyalty, and a Wheel discount.</p></details>
-        <details><summary>🎡 Wheel Spin Rules</summary><p>1 spin every 24 hours. Abuse results in a permanent ban.</p></details>
-        <details><summary>⚡ Delivery & Returns</summary><p>Items are delivered to your contact method within 48 hours. Due to the nature of digital goods, refunds are not accepted once delivered.</p></details>
-        <button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod')">I UNDERSTAND</button>
+        <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="pol">Store Policy & Terms</span></h3>
+        
+        <details>
+            <summary>🛍️ Fair-Use Loyalty System</summary>
+            <p>To maintain a fair economy, "Valid Loyalty Orders" are strictly time-gated. A new valid order is only counted if <b>24 hours</b> have elapsed since your previous order.</p>
+        </details>
+        <details>
+            <summary>🎟️ Promotion & Stacking Policy</summary>
+            <p>CyberHub operates a strict Single-Discount policy. Users may apply <b>ONE</b> discount per cart. Promo Codes, VIP Loyalty Discounts, Active Streaks, and Wheel Spin rewards cannot be stacked.</p>
+        </details>
+        <details>
+            <summary>🎡 Wheel Spin & Anti-Fraud Rules</summary>
+            <p>The Spin Wheel is limited to 1 execution per device every 24 hours. Usage of VPNs, incognito browsers, or alt-accounts will trigger an automated ban.</p>
+        </details>
+        <details>
+            <summary>⚡ Digital Delivery & Refunds</summary>
+            <p>Due to the immutable nature of digital goods, <b>all sales are final and non-refundable</b> once the license/item is dispatched.</p>
+        </details>
+        
+        <div style="margin-top:15px; padding-top:15px; border-top:1px dashed #333;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:gray; font-size:0.85rem;">
+                <input type="checkbox" id="pol-agree-cb" onchange="savePolicyCookie()" style="width:auto; margin:0;">
+                Do not show this to me again (Save to Cookies)
+            </label>
+        </div>
+
+        <button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod')">I UNDERSTAND & AGREE</button>
     </div>
 </div>
 
@@ -309,13 +870,19 @@
     <div class="m-cnt">
         <h3 style="color:var(--p); margin-top:0;">🛒 <span class="tr" data-k="crt">Cart</span></h3>
         <div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin-bottom:10px; font-size:0.9rem;"></div>
+        
         <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; text-align:left; margin-bottom:15px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal:</span> </span> <b id="m-sub">0 DT</b></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-weight:bold;"><span class="tr" data-k="sub">Subtotal:</span> </span> 
+                <b id="m-sub">0 DT</b>
+            </div>
         </div>
+        
         <div style="display:flex; gap:10px; margin-top:10px;">
             <button class="btn" onclick="opnCO()"><span class="tr" data-k="chk">Checkout</span></button>
             <button class="btn" style="background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 <span class="tr" data-k="shr">Share</span></button>
         </div>
+
         <div style="display:flex; justify-content:space-between; margin-top:15px;">
             <button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;"><span class="tr" data-k="clr">Clear</span></button>
             <button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;"><span class="tr" data-k="cls">Close</span></button>
@@ -329,24 +896,34 @@
             <h3 style="color:var(--p); margin-top:0;"><span class="tr" data-k="sco">Secure Checkout</span></h3>
             
             <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); padding:15px; border-radius:10px; margin-bottom:15px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="color:gray;"><span class="tr" data-k="sub">Subtotal:</span></span> <b id="co-sub">0 DT</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="color:gray;"><span class="tr" data-k="sub">Subtotal:</span></span> 
+                    <b id="co-sub">0 DT</b>
+                </div>
+                
                 <div style="margin:10px 0;">
                     <label style="font-size:0.85rem; color:var(--w); font-weight:bold;">Select Your Discount:</label>
                     <select id="co-disc-selector" onchange="applySingleDiscount()" style="background:#111!important; border-color:var(--w); margin-top:5px;"></select>
                 </div>
+                
                 <div id="promo-input-box" style="display:none; display:flex; gap:5px; margin-top:5px;">
                     <input type="text" id="promo-code-val" placeholder="Enter Code" style="margin:0; text-transform:uppercase;">
                     <button class="btn" style="width:auto; margin:0; padding:10px 15px;" onclick="validatePromoCode()">Apply</button>
                 </div>
+
                 <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;">
                     <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#00ff88; font-weight:bold; font-size:0.9rem;">
                         <input type="checkbox" id="tip-admin-cb" onchange="applySingleDiscount()" style="width:auto; margin:0;">
                         ☕ <span class="tr" data-k="tTip">Buy the Admin a Coffee (+1 DT)</span>
                     </label>
                 </div>
+
                 <div style="display:flex; justify-content:space-between; border-top:1px dashed #444; margin-top:10px; padding-top:10px; font-size:1.3rem; color:var(--p); font-weight:800;">
-                    <span><span class="tr" data-k="tot">Total:</span></span> <b id="co-tot">0 DT</b>
+                    <span><span class="tr" data-k="tot">Total:</span></span> 
+                    <b id="co-tot">0 DT</b>
                 </div>
+                
+                <div style="color:#00ff88; font-size:0.8rem; margin-top:5px; font-weight:bold; text-align:right;">⚡ Estimated Delivery: 15-30 Mins</div>
             </div>
 
             <div style="display:flex; gap:5px; margin-bottom:15px;">
@@ -359,7 +936,7 @@
                 <div id="pay-reveal" style="text-align:center;">
                     <span style="color:gray; font-size:0.85rem;"><span class="tr" data-k="d17Inst">Transfer to:</span></span>
                     <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
-                    <img id="qr-d17" src="" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none;">
+                    <img id="qr-d17" src="https://i.ibb.co/3s6cRkH/qr.png" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none;">
                     <div style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
                         <label style="display:block; font-size:0.85rem; color:gray; margin-bottom:5px; font-weight:bold;">Upload Receipt Screenshot:</label>
                         <input type="file" id="co-proof-file" accept="image/*" onchange="handleProofUpload(event)" style="padding:10px; border:1px dashed gray; cursor:pointer; width:100%; color:#fff;">
@@ -370,6 +947,7 @@
             <input type="text" id="coN" class="tr-ph" data-k="fn" placeholder="Full Name">
             <input type="text" id="coC" class="tr-ph" data-k="em" placeholder="Contact Info (WA/IG)" style="margin:0;">
             <textarea id="coNts" class="tr-ph" data-k="nts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
+            
             <button class="btn" id="b-fin" onclick="finOrd()"><span class="tr" data-k="plc">PLACE ORDER</span></button>
             <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;"><span class="tr" data-k="canc">Cancel</span></button>
         </div>
@@ -385,83 +963,82 @@
     </div>
 </div>
 
-<div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;"><span class="tr" data-k="cls">Close</span></button></div></div>
+<div id="d-mod" class="modal">
+    <div class="m-cnt" style="max-width:800px;">
+        <h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3>
+        <div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div>
+        <button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;"><span class="tr" data-k="cls">Close</span></button>
+    </div>
+</div>
 <script>
-// --- DICTIONARY ---
+// --- 1. MULTILINGUAL DICTIONARY ---
 const T = {
-    en: { ld: "Loading Store... ⏳", srch: "Search Item Name or ID...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help?", si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", vc: "Enter Code", ver: "Verify & Login", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", err: "Error", scs: "Success", rq: "Required", mn: "Manual Order", rqLog: "Please Login!", reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", admErr: "Invalid Admin Password", vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", welcBack: "Welcome back!", flStr: "Flash Sale Started!", thm: "Theme: ", logStr: "Login Streak:", days: "Days", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", ordPlc: "ORDER PLACED", invCop: "Invoice copied to clipboard!", accDen: "ACCESS DENIED", track: "Track Order", walPay: "Wallet", opnDm: "OPEN DM & PASTE", shr: "Share", tTip: "Buy the Admin a Coffee (+1 DT)" },
-    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article ou ID...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ?", si: "Se Connecter", ca: "Créer un Compte", fp: "Mot de passe oublié ?", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", vc: "Entrer le Code", ver: "Vérifier & Se Connecter", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", fill: "Veuillez remplir les champs", bnc: "Compte Banni", ic: "Identifiants Invalides", err: "Erreur Système", scs: "Succès !", rq: "Requis", mn: "Cmd Manuelle", rqLog: "Connectez-vous !", reqSrv: "Demander un Service", sndWa: "Envoyer via WhatsApp", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", vipDesc: "Gagnez des réductions à vie !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", noFunds: "Solde insuffisant !", welcBack: "Bon retour !", flStr: "Vente Flash lancée !", thm: "Thème : ", logStr: "Série de connexions :", days: "Jours", d17Inst: "Transfert D17 au :", mmInst: "Transfert Mandat Minute au :", ordPlc: "COMMANDE VALIDÉE", invCop: "Facture copiée !", accDen: "ACCÈS REFUSÉ", track: "Suivre Cmd", walPay: "Wallet", opnDm: "OUVRIR DM & COLLER", shr: "Partager", tTip: "Offrir un café à l'Admin (+1 DT)" }
+    en: { 
+        ld: "Loading Store... ⏳", srch: "Search Item Name...", add: "ADD TO CART", 
+        oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", 
+        mord: "My Orders", spin: "Spin & Win", god: "God-Mode", hlp: "Need Help?", 
+        si: "Sign In", ca: "Create Account", fp: "Forgot Password?", em: "Email", 
+        ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", 
+        log: "Log In", sndReg: "Register", vc: "Enter Code", ver: "Verify & Login", 
+        canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", 
+        tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", 
+        fn: "Full Name", cm: "Contact Method", nts: "Comments or IDs", plc: "PLACE ORDER", 
+        emp: "Cart Empty", fill: "Fill fields", bnc: "Banned", ic: "Invalid Creds", 
+        err: "Error", scs: "Success", rq: "Required", mn: "Manual Order", rqLog: "Please Login!", 
+        reqSrv: "Request Custom Service", sndWa: "Send via WhatsApp", admErr: "Invalid Admin Password", 
+        vip: "VIP Rewards", vipDesc: "Earn automatic lifetime discounts by ordering more!", 
+        yOrd: "Your Orders:", cDisc: "Current Discount:", noFunds: "Insufficient Wallet Balance!", 
+        welcBack: "Welcome back!", flStr: "Flash Sale Started!", thm: "Theme: ", 
+        logStr: "Login Streak:", days: "Days", d17Inst: "D17 Transfer to:", mmInst: "Mandat Minute Transfer:", 
+        ordPlc: "ORDER PLACED", invCop: "Invoice copied to clipboard!", accDen: "ACCESS DENIED", 
+        track: "Track Order", walPay: "Wallet", opnDm: "OPEN DM & PASTE", shr: "Share", 
+        tTip: "Buy the Admin a Coffee (+1 DT)" 
+    },
+    fr: { 
+        ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", 
+        oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", 
+        mord: "Mes Commandes", spin: "Tourner & Gagner", god: "Mode Admin", hlp: "Besoin d'Aide ?", 
+        si: "Se Connecter", ca: "Créer un Compte", fp: "Mot de passe oublié ?", em: "Email", 
+        ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", 
+        log: "Connexion", sndReg: "S'inscrire", vc: "Entrer le Code", ver: "Vérifier & Se Connecter", 
+        canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", 
+        tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", 
+        fn: "Nom Complet", cm: "Méthode de contact", nts: "Commentaires ou IDs de jeu", 
+        plc: "VALIDER LA COMMANDE", emp: "Panier Vide", fill: "Veuillez remplir les champs", 
+        bnc: "Compte Banni", ic: "Identifiants Invalides", err: "Erreur Système", scs: "Succès !", 
+        rq: "Requis", mn: "Cmd Manuelle", rqLog: "Connectez-vous !", reqSrv: "Demander un Service", 
+        sndWa: "Envoyer via WhatsApp", admErr: "Mot de passe Admin invalide", vip: "Récompenses VIP", 
+        vipDesc: "Gagnez des réductions à vie !", yOrd: "Vos Commandes :", cDisc: "Réduction Actuelle :", 
+        noFunds: "Solde insuffisant !", welcBack: "Bon retour !", flStr: "Vente Flash lancée !", 
+        thm: "Thème : ", logStr: "Série de connexions :", days: "Jours", d17Inst: "Transfert D17 au :", 
+        mmInst: "Transfert Mandat Minute au :", ordPlc: "COMMANDE VALIDÉE", invCop: "Facture copiée !", 
+        accDen: "ACCÈS REFUSÉ", track: "Suivre Cmd", walPay: "Wallet", opnDm: "OUVRIR DM & COLLER", 
+        shr: "Partager", tTip: "Offrir un café à l'Admin (+1 DT)" 
+    }
 };
 
-// --- GLOBAL VARIABLES ---
+// --- 2. GLOBAL VARIABLES ---
 let db = { inv: [], rewards: [], wheel: [], ord: [], bans: [] }; 
 let cart = []; 
 let cView = { t: 'cats', c: null, a: null }; 
+
 let lang = localStorage.getItem('ch_lng') || 'en';
 let user = localStorage.getItem('ch_user'); 
 let role = localStorage.getItem('ch_role');
+
 let uOrders = parseInt(localStorage.getItem('ch_ord') || 0); 
 let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
-let payM = "D17"; let proofB64 = ""; let userIP = "Unknown";
+let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
+
+let payM = "D17"; 
+let proofB64 = ""; 
+let userIP = "Unknown";
 let activeDiscount = { type: "None", pct: 0, str: "" };
-let wSpinning = false; let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
+let wSpinning = false; 
 
-// --- ADMIN GOD MODE TRIGGER ---
-let logoClicks = 0;
-function handleAdminClick() {
-    logoClicks++;
-    if(logoClicks >= 5) {
-        logoClicks = 0;
-        activateAdminMode();
-    }
-    setTimeout(() => { logoClicks = 0; }, 2000);
-}
-
-function activateAdminMode() {
-    let pw = prompt("⚡ SYSTEM OVERRIDE ⚡\nEnter Admin Password:");
-    if(pw === window.CFG.PASS) {
-        role = "Admin";
-        localStorage.setItem('ch_role', 'Admin');
-        document.body.classList.add('terminal-mode');
-        toast("GOD MODE ACTIVATED", "info");
-    } else {
-        toast("ACCESS DENIED", "error");
-    }
-}
-
-// --- PWA INSTALLATION ---
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => { 
-    e.preventDefault(); 
-    deferredPrompt = e; 
-    document.getElementById('install-banner').style.display = 'block'; 
-});
-
-function handleInstallClick() {
-    const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-    if (isIos()) { openModal('ios-install-mod'); } 
-    else if (deferredPrompt) { 
-        deferredPrompt.prompt(); 
-        deferredPrompt.userChoice.then((choice) => { 
-            if(choice.outcome === 'accepted') document.getElementById('install-banner').style.display = 'none'; 
-            deferredPrompt = null; 
-        }); 
-    }
-}
-
+// --- 3. DOM UTILITIES ---
 const el = id => document.getElementById(id);
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
-
-async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); return d.ip; } catch(e) { return "Guest"; } }
-async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); try { return JSON.parse(text); } catch(err) { return null; } } catch(e) { return null; } }
-
-function chkUI() { 
-    let lp = getHighestLoyaltyPct();
-    if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
-    if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
-    if(el('ui-d17-in')) el('ui-d17-in').innerText = window.CFG.D17;
-    if(el('qr-d17')) el('qr-d17').src = window.CFG.D17_QR;
-}
 
 function toast(m, type = 'success') { 
     let t = el('toast'); 
@@ -472,107 +1049,801 @@ function toast(m, type = 'success') {
     setTimeout(() => t.classList.remove('show'), 3000); 
 }
 
-function openModal(i) { let m = el(i); m.style.display = 'flex'; document.body.classList.add('modal-open'); setTimeout(() => m.classList.add('show'), 10); }
-function closeModal(i) { let m = el(i); m.classList.remove('show'); document.body.classList.remove('modal-open'); setTimeout(() => m.style.display = 'none', 300); }
+function openModal(i) { 
+    let m = el(i); 
+    m.style.display = 'flex'; 
+    document.body.classList.add('modal-open'); 
+    setTimeout(() => m.classList.add('show'), 10); 
+}
+
+function closeModal(i) { 
+    let m = el(i); 
+    m.classList.remove('show'); 
+    document.body.classList.remove('modal-open'); 
+    setTimeout(() => m.style.display = 'none', 300); 
+}
+
 function toggleSidebar() { el('sidebar').classList.toggle('open'); }
 function swA(i) { ['l-step', 'r-step'].forEach(x => { if(el(x)) el(x).style.display = 'none'; }); if(el(i)) el(i).style.display = 'block'; }
 function maskEm(str) { if(!str) return ""; if(str.includes('@')) { let p = str.split('@'); return p[0].slice(0,2) + "***@" + p[1]; } return str.slice(0,3) + "***" + str.slice(-2); }
-function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
-function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); user = null; role = null; closeModal('prof-mod'); chkUI(); ren(); }
+function hexToRgba(hex, alpha) { let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return `rgba(${r}, ${g}, ${b}, ${alpha})`; }
 
-function stVoiceSearch() { 
-    if (!('webkitSpeechRecognition' in window)) { return toast("Voice search not supported.", true); } 
-    let rec = new webkitSpeechRecognition(); 
-    rec.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
-    rec.start(); 
-    toast("Listening... 🎤", "info");
-    rec.onresult = function(e) { el('itemFinder').value = e.results[0][0].transcript; ren(); }; 
+// --- 4. NETWORK APIs ---
+async function fetchSafeIP() { 
+    try { 
+        let r = await fetch('https://api.ipify.org?format=json'); 
+        let d = await r.json(); 
+        return d.ip; 
+    } catch(e) { return "Guest"; } 
 }
 
-function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
-function appLang() { 
-    let ind = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; 
-    if(el('l-ind')) el('l-ind').innerHTML = ind; 
-    document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); 
-    document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); 
+async function customFetch(url, options = {}) { 
+    try { 
+        let res = await fetch(url, options); 
+        let text = await res.text(); 
+        try { return JSON.parse(text); } catch(err) { return null; } 
+    } catch(e) { return null; } 
 }
 
-function hMaint(m) { 
-    if(!m) return; 
-    let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'); 
-    if(m.bands) { el('stripe-top').style.display = 'block'; el('stripe-bot').style.display = 'block'; } else { el('stripe-top').style.display = 'none'; el('stripe-bot').style.display = 'none'; } 
-    if(m.closed) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "STORE CLOSED"; if(t) t.innerHTML = m.msg; el('st-cnt').style.display = 'none'; } else if(m.bMsg) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "ANNOUNCEMENT"; if(t) t.innerHTML = m.bMsg; el('st-cnt').style.display = 'block'; } else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
-    if(m.css) { let style = document.createElement('style'); style.innerHTML = m.css; document.head.appendChild(style); } 
-}
-
+// --- 5. INITIALIZATION & SETUP ---
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; 
     el('main-logo').src = window.CFG.LOGO; 
     el('sb-logo').src = window.CFG.LOGO; 
     appLang(); 
     
-    // INITIALIZE PARTICLES (The little dots!)
+    // Check for Shared Cart URL
+    const urlParams = new URLSearchParams(window.location.search); 
+    const sharedCart = urlParams.get('cart'); 
+    if (sharedCart) { 
+        try { 
+            cart = JSON.parse(decodeURIComponent(atob(sharedCart))); 
+            localStorage.setItem('ch_cart', JSON.stringify(cart)); 
+            window.history.replaceState({}, document.title, window.location.pathname); 
+            el('c-count').innerText = cart.length; 
+            setTimeout(() => openModal('cart-mod'), 1000); 
+            toast("Shared Cart Loaded!", "info"); 
+        } catch(e) {} 
+    } else { 
+        try { 
+            let sc = localStorage.getItem('ch_cart'); 
+            if(sc && sc !== "[]") { 
+                cart = JSON.parse(sc); 
+                el('c-count').innerText = cart.length; 
+            } 
+        } catch(e) {} 
+    } 
+    
+    // Fetch Main Data
+    customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
+        if(d && d.status === "success") { 
+            db = d; 
+            hMaint(d.maintObj); 
+            chkUI(); 
+            ren(); 
+        } 
+    }); 
+    
+    fetchSafeIP().then(ip => userIP = ip); 
+    
+    // Initialize Particles JS
     if(typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", {
-            "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } },
+            "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } },
             "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }
         });
     }
 
-    const urlParams = new URLSearchParams(window.location.search); 
-    const sharedCart = urlParams.get('cart'); 
-    if (sharedCart) { 
-        try { cart = JSON.parse(decodeURIComponent(atob(sharedCart))); localStorage.setItem('ch_cart', JSON.stringify(cart)); window.history.replaceState({}, document.title, window.location.pathname); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); toast("Shared Cart Loaded!", "info"); } catch(e) { } 
-    } else { 
-        try { let sc = localStorage.getItem('ch_cart'); if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; } } catch(e) {} 
-    } 
-    customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { if(d && d.status === "success") { db = d; hMaint(d.maintObj); chkUI(); ren(); } }); fetchSafeIP().then(ip => userIP = ip); 
+    if(role === 'Admin') { 
+        el('admin-fab').style.display = 'flex'; 
+        el('gods-eye').style.display = 'block'; 
+    }
 }
 
-function getHighestLoyaltyPct() { let pct = 0; if(db.rewards) { db.rewards.forEach(r => { if(r.type === "Loyalty" && uOrders >= parseInt(r.rule) && r.pct > pct) pct = r.pct; }); } return pct; }
-function getStreakPct() { let pct = 0; if(db.rewards) { db.rewards.forEach(r => { if(r.type === "Streak" && loginStreak >= parseInt(r.rule) && r.pct > pct) pct = r.pct; }); } return pct; }
+function hMaint(m) { 
+    if(!m) return; 
+    let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'); 
+    
+    if(m.bands) { el('stripe-top').style.display = 'block'; el('stripe-bot').style.display = 'block'; } 
+    else { el('stripe-top').style.display = 'none'; el('stripe-bot').style.display = 'none'; } 
+    
+    if(m.closed) { 
+        if(b) b.style.display = 'block'; 
+        if(tit) tit.innerHTML = "STORE CLOSED"; 
+        if(t) t.innerHTML = m.msg; 
+        el('st-cnt').style.display = 'none'; 
+    } else if(m.bMsg) { 
+        if(b) b.style.display = 'block'; 
+        if(tit) tit.innerHTML = "ANNOUNCEMENT"; 
+        if(t) t.innerHTML = m.bMsg; 
+        el('st-cnt').style.display = 'block'; 
+    } else { 
+        if(b) b.style.display = 'none'; 
+        el('st-cnt').style.display = 'block'; 
+    } 
+    
+    if(m.css) { 
+        let style = document.createElement('style'); 
+        style.innerHTML = m.css; 
+        document.head.appendChild(style); 
+    } 
+}
+
+// --- 6. ADMIN / GOD MODE ENGINE ---
+let logoClicks = 0;
+function handleAdminClick() { 
+    logoClicks++; 
+    if(logoClicks >= 5) { 
+        logoClicks = 0; 
+        activateAdminMode(); 
+    } 
+    setTimeout(() => { logoClicks = 0; }, 2000); 
+}
+
+function activateAdminMode() { 
+    let pw = prompt("⚡ ADMIN MODE ⚡\nEnter Password:"); 
+    if(pw === window.CFG.PASS) { 
+        role = "Admin"; 
+        localStorage.setItem('ch_role', 'Admin'); 
+        document.body.classList.add('terminal-mode');
+        el('admin-fab').style.display = 'flex'; 
+        el('gods-eye').style.display = 'block'; 
+        toast("GOD MODE ACTIVATED", "info"); 
+    } else { 
+        toast("ACCESS DENIED", "error"); 
+    } 
+}
+
+function openAdminPage() { el('admin-page').style.display = 'block'; }
+function closeAdminPage() { el('admin-page').style.display = 'none'; }
+
+function stAdminVoice() {
+    if (!('webkitSpeechRecognition' in window)) return toast("Voice not supported on this browser.", true); 
+    let rec = new webkitSpeechRecognition(); 
+    rec.lang = 'en-US'; 
+    rec.start(); 
+    toast("Listening for commands... 🎤", "info");
+    rec.onresult = async function(e) { 
+        let cmd = e.results[0][0].transcript.toLowerCase(); 
+        toast("Heard: " + cmd, "info");
+        
+        if (cmd.includes('close store')) { 
+            await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'maint', adminPass: window.CFG.PASS, closed: true, msg: "Closed via Voice Command" }) }); 
+            toast("Store Closed!", false); 
+        } 
+        else if (cmd.includes('open store')) { 
+            await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'maint', adminPass: window.CFG.PASS, closed: false }) }); 
+            toast("Store Opened!", false); 
+        }
+        else if (cmd.includes('nuke cache')) { 
+            nukeAppCache(); 
+        }
+    };
+}
+
+async function nukeAppCache() {
+    toast("Nuking cache... please wait.", "info");
+    let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'nuke_cache', adminPass: window.CFG.PASS }) });
+    if(d && d.s === 'ok') { 
+        toast("Cache nuked! All users will refresh.", false); 
+        setTimeout(()=>location.reload(true), 2000); 
+    }
+}
+
+async function submitNewItem() {
+    el('b-add-item').innerText = "...";
+    let payload = { 
+        act: "add_item", 
+        adminPass: window.CFG.PASS, 
+        catEn: el('a-catEn').value, 
+        catFr: el('a-catFr').value, 
+        catCol: el('a-catCol').value, 
+        nEn: el('a-nEn').value, 
+        nFr: el('a-nFr').value, 
+        price: el('a-price').value, 
+        img: el('a-img').value, 
+        exReq: el('a-exReq').checked, 
+        exEn: el('a-exEn').value, 
+        exFr: el('a-exFr').value 
+    };
+    
+    let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify(payload) });
+    if(d && d.s === 'ok') { 
+        toast("Item Added to Database!", false); 
+        closeAdminPage(); 
+    }
+    el('b-add-item').innerText = "ADD ITEM DIRECTLY TO DB";
+}
+
+// 👁️ GOD'S EYE FAKE LIVE TRACKER
+setInterval(() => { 
+    if(role === 'Admin') { 
+        el('online-count').innerText = Math.floor(Math.random() * 12) + 35; 
+    } 
+}, 7000);
+
+
+// --- 7. BIOMETRICS ENGINE (WebAuthn) ---
+const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0));
+
+async function addBiometrics() {
+    if(!user) return toast("Login first to register biometrics.", "error");
+    if (!window.PublicKeyCredential) return toast("Biometrics not supported on this browser.", "error");
+    
+    try {
+        const options = { 
+            publicKey: { 
+                challenge: new Uint8Array(32), 
+                rp: { name: "CyberHub", id: window.location.hostname }, 
+                user: { id: new Uint8Array(16), name: user, displayName: user }, 
+                pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }], 
+                authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" }, 
+                timeout: 60000 
+            } 
+        };
+        const cred = await navigator.credentials.create(options);
+        let idStr = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+        localStorage.setItem('ch_passkey_' + user, idStr);
+        toast("Biometrics linked successfully!", "success");
+    } catch(err) { toast("Registration failed or cancelled.", "error"); }
+}
+
+async function loginBiometrics() {
+    let eInp = el('lEml').value.trim();
+    if(!eInp) return toast("Enter your Email or Phone first.", "error");
+    
+    let savedId = localStorage.getItem('ch_passkey_' + eInp);
+    if(!savedId) return toast("No biometrics linked to this account.", "error");
+    
+    try {
+        const options = { 
+            publicKey: { 
+                challenge: new Uint8Array(32), 
+                rpId: window.location.hostname, 
+                allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }], 
+                userVerification: "required", 
+                timeout: 60000 
+            } 
+        };
+        await navigator.credentials.get(options);
+        
+        user = eInp; 
+        localStorage.setItem('ch_user', user); 
+        closeModal('log-mod'); 
+        chkUI(); 
+        toast("Welcome back!", "success");
+    } catch(err) { toast("Biometric verification failed.", "error"); }
+}
+
+
+// --- 8. CUSTOMER UI & ACCOUNT ACTIONS ---
+function openProf() { 
+    if(!user) { swA('l-step'); return openModal('log-mod'); } 
+    el('p-uid').innerText = maskEm(user); 
+    if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); 
+    chkUI(); 
+    openModal('prof-mod'); 
+}
+
+function logOut() { 
+    localStorage.removeItem('ch_user'); 
+    localStorage.removeItem('ch_role'); 
+    user = null; role = null; 
+    closeModal('prof-mod'); 
+    chkUI(); ren(); 
+}
+
+function fUsrOrd() { 
+    if(!user) { swA('l-step'); openModal('log-mod'); return toast(T[lang].rqLog, true); } 
+    customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
+        if(d) { 
+            let uo = d.ord.filter(o => o[12] === user); 
+            let h = `<h3 style="color:var(--w);">📦 ${T[lang].mord}</h3>`; 
+            if(uo.length === 0) h += `<div style="text-align:center;color:gray;">Empty.</div>`; 
+            uo.forEach(o => { 
+                h += `<div class="glass"><b>${o[5]}</b><br><span style="color:var(--p);font-weight:bold;">${o[8]} DT</span> - ${o[9]}</div>` 
+            }); 
+            el('d-box').innerHTML = h; 
+            openModal('d-mod'); 
+        } 
+    }); 
+}
+
+function savePolicyCookie() { 
+    if(el('pol-agree-cb').checked) localStorage.setItem('ch_pol_agreed', 'true'); 
+    else localStorage.removeItem('ch_pol_agreed'); 
+}
+
+function openPolicyModal() { 
+    if(localStorage.getItem('ch_pol_agreed') === 'true') el('pol-agree-cb').checked = true; 
+    openModal('pol-mod'); 
+}
+
+function chkUI() { 
+    let lp = getHighestLoyaltyPct(); 
+    if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
+    if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
+    if(el('ui-d17-in')) el('ui-d17-in').innerText = window.CFG.D17; 
+    if(el('qr-d17')) el('qr-d17').src = window.CFG.D17_QR; 
+}
+
+function tgLang() { 
+    lang = lang === 'en' ? 'fr' : 'en'; 
+    localStorage.setItem('ch_lng', lang); 
+    appLang(); 
+    ren(); 
+}
+
+function appLang() { 
+    if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; 
+    document.querySelectorAll('.tr').forEach(e => { 
+        let k = e.getAttribute('data-k'); 
+        if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; 
+    }); 
+    document.querySelectorAll('.tr-ph').forEach(e => { 
+        let k = e.getAttribute('data-k'); 
+        if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; 
+    }); 
+}
+
+// WhatsApp Live Typing Widget Logic
+setInterval(() => {
+    let t = el('wa-text'); 
+    if(t) {
+        t.innerHTML = `<span class="wa-dot">.</span><span class="wa-dot">.</span><span class="wa-dot">.</span> Agent is typing`;
+        setTimeout(() => t.innerText = "Chat with us", 3500);
+    }
+}, 18000);
+
+async function submitCustomService() {
+    let s = el('srv-name').value; let d = el('srv-desc').value; 
+    if(!s || !d) return toast("Please fill all fields.", true);
+    
+    await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'req_service', c: user||"Guest", srv: s, details: d }) });
+    let inv = `🛠️ *CUSTOM SERVICE REQUEST*\n👤 Client: ${user||"Guest"}\n📌 Service: ${s}\n📝 Details: ${d}`;
+    
+    navigator.clipboard.writeText(inv); 
+    closeModal('srv-mod'); 
+    toast("Copied! Opening WhatsApp...", false);
+    setTimeout(() => window.open(`https://wa.me/${window.CFG.WA}?text=${encodeURIComponent(inv)}`), 1500);
+}
+
+// --- 9. RENDERING ENGINE ---
+function getHighestLoyaltyPct() { 
+    let pct = 0; 
+    if(db.rewards) { 
+        db.rewards.forEach(r => { if(r.type === "Loyalty" && uOrders >= parseInt(r.rule) && r.pct > pct) pct = r.pct; }); 
+    } 
+    return pct; 
+}
+function getStreakPct() { 
+    let pct = 0; 
+    if(db.rewards) { 
+        db.rewards.forEach(r => { if(r.type === "Streak" && loginStreak >= parseInt(r.rule) && r.pct > pct) pct = r.pct; }); 
+    } 
+    return pct; 
+}
+
+// Star Rating Logic
+function getRating(id) { 
+    let h=0; 
+    for(let i=0; i<id.length; i++) h += id.charCodeAt(i); 
+    let r = 4 + (h % 10)/10; 
+    let v = 50 + (h % 200); 
+    return `⭐ ${r.toFixed(1)} (${v} revs)`; 
+}
+
+function stVoiceSearch() { 
+    if (!('webkitSpeechRecognition' in window)) return toast("Voice search not supported.", true); 
+    let rec = new webkitSpeechRecognition(); 
+    rec.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
+    rec.start(); 
+    toast("Listening... 🎤", "info");
+    rec.onresult = function(e) { 
+        el('itemFinder').value = e.results[0][0].transcript; 
+        ren(); 
+    }; 
+}
 
 function ren() { 
-    let hHtml = ""; let a = el('st-cnt'); if(!a) return; let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
+    let hHtml = ""; 
+    let a = el('st-cnt'); 
+    if(!a) return; 
     
-    // TEXT-BASED ADMIN TRIGGER
-    if (q.toUpperCase() === "TERMINAL") { 
+    let q = el('itemFinder').value.trim(); 
+    let c = {}, ap = {}, g = {}, sA = []; 
+    
+    if (q === "ADMINMODEACTIVATE") { 
         el('itemFinder').value = ""; 
-        activateAdminMode();
+        activateAdminMode(); 
         return; 
     } 
     
-    if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
+    if(!db.inv || db.inv.length < 2) { 
+        a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; 
+        return; 
+    } 
     
-    let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; let isFr = lang === 'fr'; 
-    db.inv.slice(1).forEach(r => { if(!r || (!r[13] && !r[14])) return; let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); if(pMaint && pMaint.includes(cat.toLowerCase())) return; let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); if(cat && !c[cat]) c[cat] = { hHex: r[3] || 'var(--p)', i: r[4] }; if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r[7] || c[cat].hHex, i: r[8] }; }); 
-    db.inv.slice(1).forEach(r => { if(!r || (!r[13] && !r[14])) return; let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); if(pMaint && pMaint.includes(cat.toLowerCase())) return; let itmId = r[0] ? String(r[0]).trim() : "IT-000"; let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); let hasFld = (r[9] === true || String(r[9]).toLowerCase() === 'true'); let fldN = isFr ? (r[10] || r[11]) : (r[11] || r[10]); let fldE = r[12] || "📁"; let n = isFr ? (r[13] || r[14]) : (r[14] || r[13]); let p = parseFloat(r[15]) || 0; let oos = (r.length > 18 && String(r[18]).toUpperCase().includes("OOS")); let exReq = (r[19] === true || String(r[19]).toLowerCase() === 'true'); let exNum = parseInt(r[20]) || 1; let exTxt = isFr ? (r[21] || "Details...") : (r[22] || r[21] || "Details..."); let wrn = isFr ? (r[23] || r[24]) : (r[24] || r[23]); let artImg = r[25] || ''; let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } return; } if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } }); 
+    let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; 
+    let isFr = lang === 'fr'; 
     
-    if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = hexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } a.innerHTML = hHtml; appLang(); 
+    db.inv.slice(1).forEach(r => { 
+        if(!r || (!r[13] && !r[14])) return; 
+        let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); 
+        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); 
+        if(cat && !c[cat]) c[cat] = { hHex: r[3] || 'var(--p)', i: r[4] }; 
+        if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r[7] || c[cat].hHex, i: r[8] }; 
+    }); 
+    
+    db.inv.slice(1).forEach(r => { 
+        if(!r || (!r[13] && !r[14])) return; 
+        let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); 
+        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        
+        let itmId = r[0] ? String(r[0]).trim() : "IT-000"; 
+        let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); 
+        let hasFld = (r[9] === true || String(r[9]).toLowerCase() === 'true'); 
+        let fldN = isFr ? (r[10] || r[11]) : (r[11] || r[10]); 
+        let fldE = r[12] || "📁"; 
+        let n = isFr ? (r[13] || r[14]) : (r[14] || r[13]); 
+        let p = parseFloat(r[15]) || 0; 
+        let oos = (r.length > 18 && String(r[18]).toUpperCase().includes("OOS")); 
+        let exReq = (r[19] === true || String(r[19]).toLowerCase() === 'true'); 
+        let exNum = parseInt(r[20]) || 1; 
+        let exTxt = isFr ? (r[21] || "Details...") : (r[22] || r[21] || "Details..."); 
+        let wrn = isFr ? (r[23] || r[24]) : (r[24] || r[23]); 
+        let artImg = r[25] || ''; 
+        let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
+        
+        if(q) { 
+            let lQ = q.toLowerCase(); 
+            if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { 
+                sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); 
+            } 
+            return; 
+        } 
+        
+        if(cView.t === 'cats') {} 
+        else if(cView.t === 'apps' && cView.c === cat) { 
+            if(!sub) { 
+                let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; 
+                if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } 
+            } 
+        } 
+        else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { 
+            let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; 
+            if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } 
+        } 
+    }); 
+    
+    if(q) { 
+        if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; 
+        else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } 
+    } 
+    else if(cView.t === 'cats') { 
+        hHtml += `<div class="grid">`; 
+        for(let k in c) { 
+            let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; 
+            hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; 
+        } 
+        hHtml += `</div>`; 
+    } 
+    else if(cView.t === 'apps') { 
+        hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; 
+        for(let k in ap) { 
+            if(ap[k].cat === cView.c && k) { 
+                let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; 
+                hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; 
+            } 
+        } 
+        hHtml += `</div>`; 
+        
+        if(sA.length > 0 || Object.keys(g).length > 0) { 
+            hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; 
+            for(let fName in g) { 
+                let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; 
+                hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; 
+                g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
+            } 
+            sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
+        } 
+    } 
+    else if(cView.t === 'items') { 
+        hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; 
+        for(let fName in g) { 
+            let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = hexToRgba(catCol, 0.15); 
+            hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; 
+            g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
+        } 
+        sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
+    } 
+    a.innerHTML = hHtml; 
 }
 
-function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
-function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w);'>$1</span>"); }
+function navTo(t, c, a) { 
+    cView.t = t; 
+    cView.c = c ? decodeURIComponent(c) : null; 
+    cView.a = a ? decodeURIComponent(a) : null; 
+    el('itemFinder').value = ""; 
+    ren(); 
+}
 
-function dR(i, q = "") { let eO = sEnc(i.id); let eN = sEnc(`${i.cat} > ${i.sub ? i.sub + ' > ' : ''}${i.n}`); let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : ''; let extHtml = ''; let exCount = i.exNum || 1; if(i.exReq) { let placeholders = i.exTxt.split(','); for(let j=0; j<exCount; j++) { let pl = placeholders[j] ? placeholders[j].trim() : "Details..."; extHtml += `<input type="text" id="ex-${i.id}-${j}" placeholder="${pl}" autocomplete="off" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">`; } } let btnCol = i.col || 'var(--p)'; let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat}</div>`; let imgHtml = i.img ? `<img src="${i.img}" class="img-transparent" style="width:50px; height:50px; margin-right:15px;">` : ''; let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled><span class="tr" data-k="oos">OUT OF STOCK</span></button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);"><span class="tr" data-k="add">ADD</span></button>`; let nDisp = q ? highlightMatch(i.n, q) : i.n; return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span> ${i.oos?'<span style="background:#ff4d4d;color:#fff;font-size:0.7rem;padding:2px 5px;border-radius:5px;margin-left:5px;">OOS</span>':''}<br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span><br><b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; }
+function highlightMatch(text, query) { 
+    if(!query) return text; 
+    let regex = new RegExp(`(${query})`, "gi"); 
+    return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); 
+}
 
-function addC(eO, p, eN, hasEx, exCount) { let id = decodeURIComponent(eO); let n = decodeURIComponent(eN); if(hasEx) { let extVals = []; let missing = false; for(let j=0; j<exCount; j++) { let inp = el(`ex-${id}-${j}`); if(!inp || !inp.value) missing = true; else { extVals.push(inp.value); inp.value = ''; } } if(missing) n += " (⚠️ MISSING INFO)"; else n += " (" + extVals.join(' | ') + ")"; } cart.push({ id: id, n: n, p: parseFloat(p) }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.length; toast(T[lang].scs, false); }
-function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map(i => { let nHtml = i.n; if(nHtml.includes("⚠️ MISSING INFO")) { nHtml = nHtml.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>"); } return `<div style="padding:5px 0;border-bottom:1px solid #333;">• ${nHtml} (${i.p} DT)</div>`; }).join(''); } }
+function dR(i, q = "") { 
+    let eO = sEnc(i.id); 
+    let eN = sEnc(`${i.cat} > ${i.sub ? i.sub + ' > ' : ''}${i.n}`); 
+    let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : ''; 
+    
+    let extHtml = ''; 
+    let exCount = i.exNum || 1; 
+    if(i.exReq) { 
+        let placeholders = i.exTxt.split(','); 
+        for(let j=0; j<exCount; j++) { 
+            let pl = placeholders[j] ? placeholders[j].trim() : "Details..."; 
+            extHtml += `<input type="text" id="ex-${i.id}-${j}" placeholder="${pl}" autocomplete="off" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">`; 
+        } 
+    } 
+    
+    let btnCol = i.col || 'var(--p)'; 
+    let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat}</div>`; 
+    let imgHtml = i.img ? `<img src="${i.img}" class="img-transparent" style="width:50px; height:50px; margin-right:15px;">` : ''; 
+    let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; 
+    let nDisp = q ? highlightMatch(i.n, q) : i.n; 
+    
+    let revHtml = `<div style="font-size:0.75rem; color:#ffae00; margin-top:3px;">${getRating(i.id)}</div>`;
+    
+    return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
+}
+
+// --- 10. CART ENGINE ---
+function addC(eO, p, eN, hasEx, exCount) { 
+    let id = decodeURIComponent(eO); 
+    let n = decodeURIComponent(eN); 
+    if(hasEx) { 
+        let extVals = []; 
+        let missing = false; 
+        for(let j=0; j<exCount; j++) { 
+            let inp = el(`ex-${id}-${j}`); 
+            if(!inp || !inp.value) missing = true; 
+            else { extVals.push(inp.value); inp.value = ''; } 
+        } 
+        if(missing) n += " (⚠️ MISSING INFO)"; else n += " (" + extVals.join(' | ') + ")"; 
+    } 
+    cart.push({ id: id, n: n, p: parseFloat(p) }); 
+    localStorage.setItem('ch_cart', JSON.stringify(cart)); 
+    if(el('c-count')) el('c-count').innerText = cart.length; 
+    toast(T[lang].scs, false); 
+}
+
+function updC() { 
+    let r = cart.reduce((s, i) => s + i.p, 0); 
+    el('m-sub').innerText = r.toFixed(2) + " DT"; 
+    if(el('c-list')) { 
+        el('c-list').innerHTML = cart.map(i => { 
+            let nHtml = i.n; 
+            if(nHtml.includes("⚠️ MISSING INFO")) { nHtml = nHtml.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>"); } 
+            return `<div style="padding:5px 0;border-bottom:1px solid #333;">• ${nHtml} (${i.p} DT)</div>`; 
+        }).join(''); 
+    } 
+}
+
 function opnCart() { updC(); openModal('cart-mod'); }
-function shareCart() { if (cart.length === 0) return toast(T[lang].emp, true); let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); let url = window.location.href.split('?')[0] + "?cart=" + cartB64; navigator.clipboard.writeText(url).then(() => { toast("Cart Link Copied! Send to a friend.", false); }).catch(() => toast("Failed to copy link", true)); }
 
-function opnCO() { if(cart.length === 0) return toast(T[lang].emp, true); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info (Player ID, Server, etc.). Please enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); }
-function applySingleDiscount() { let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); }
-async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: "validate_promo", code: c }) }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired/Max Uses Reached", true); } else { toast("Invalid Code", true); } }
-function sPay(m) { payM = m; ['p-d17','p-mm','p-wal'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); el(m === 'D17' ? 'p-d17' : m === 'Mandat Minute' ? 'p-mm' : 'p-wal').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='inline-block'; } else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; } } else { dbox.style.display = 'none'; } }
-function handleProofUpload(e) { let f = e.target.files[0]; if(!f) return; let r = new FileReader(); r.onload = ev => proofB64 = ev.target.result; r.readAsDataURL(f); }
+function shareCart() { 
+    if (cart.length === 0) return toast(T[lang].emp, true); 
+    let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); 
+    let url = window.location.href.split('?')[0] + "?cart=" + cartB64; 
+    navigator.clipboard.writeText(url).then(() => { toast("Cart Link Copied! Send to a friend.", false); }).catch(() => toast("Failed to copy link", true)); 
+}
 
-async function finOrd() { if(navigator.vibrate) navigator.vibrate(100); let n = el('coN').value; let c = el('coC').value; let cm = el('coNts').value; if(!n || !c) return toast(T[lang].rq, true); let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; cart.forEach(i => i.finalPrice = i.p - (i.p * (activeDiscount.pct / 100))); if(isTip) { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: 1, finalPrice: 1 }); } if(payM === 'Wallet' && userWallet < total) return toast(T[lang].noFunds, true); el('b-fin').innerHTML = `...`; el('b-fin').disabled = true; try { let payload = { act: "place_order", client: n, plat: "N/A", contact: c, items: cart, appliedDiscountStr: activeDiscount.str + " (" + activeDiscount.pct + "%)", payM: payM, comments: cm, c: user || "Guest", proofB64: proofB64, promoCode: activeDiscount.type === "Promo" ? activeDiscount.str : "", usedWheel: activeDiscount.type === "Wheel" }; let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify(payload) }); if(d && d.s === "ok") { if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n`; cart.forEach((i) => { inv += `🔸 ${i.n}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; }); inv += `⏳ Our team will process this ticket\n   and contact you within 48 hours!`; navigator.clipboard.writeText(inv).catch(e=>{}); try { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); } catch(e) {} el('co-form').style.display = 'none'; el('co-succ').style.display = 'block'; el('succ-gid').innerText = d.gId; el('dm-btn').onclick = () => window.open(`https://wa.me/${window.CFG.WA}?text=${encodeURIComponent(inv)}`); cart = []; localStorage.removeItem('ch_cart'); el('c-count').innerText = "0"; if(user) uOrders++; } else if(d && d.s === "fraud_detected") { toast("Duplicate Receipt. Order Blocked.", true); } el('b-fin').innerHTML = T[lang].plc; el('b-fin').disabled = false; } catch(e) { el('b-fin').innerHTML = T[lang].plc; el('b-fin').disabled = false; toast(T[lang].err, true); } }
+// --- 11. CHECKOUT ENGINE ---
+function opnCO() { 
+    if(cart.length === 0) return toast(T[lang].emp, true); 
+    
+    let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); 
+    if (hasMissingInfo) { 
+        toast("Please provide the missing info!", "error"); 
+        let missingFix = prompt("You missed some Extra Info (Player ID, Server, etc.). Please enter it here:"); 
+        if(!missingFix) return toast("Cannot checkout without info.", true); 
+        cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); 
+        updC(); 
+    } 
+    
+    let r = cart.reduce((s, i) => s + i.p, 0); 
+    el('co-sub').innerText = r.toFixed(2) + " DT"; 
+    
+    let sel = el('co-disc-selector'); 
+    sel.innerHTML = `<option value="None|0">No Discount</option>`; 
+    
+    let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; 
+    let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; 
+    let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; 
+    sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; 
+    
+    if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; 
+    applySingleDiscount(); 
+    closeModal('cart-mod'); 
+    openModal('co-mod'); 
+}
 
-function buildWheelUI() { let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; let sliceDeg = 360 / db.wheel.length; db.wheel.forEach((w, i) => { let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = w.c; slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${w.e}</span>`; wc.appendChild(slice); }); }
-async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : T[lang].rqLog, true); wSpinning = true; let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'log_spin', c: user, ip: userIP, prize: "Processing" }) }); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; for(let i=0; i<db.wheel.length; i++) { cumulative += parseFloat(db.wheel[i].winChance || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / db.wheel.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); let wc = el('wheel-container'); wc.style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = db.wheel[selectedIndex]; if(wonObj.n.includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'log_spin', c: user, ip: userIP, prize: wonObj.n }) }); toast(`You got: ${wonObj.n} ${wonObj.e}`, false); }, 4500); }
+function applySingleDiscount() { 
+    let selVal = el('co-disc-selector').value.split('|'); 
+    let type = selVal[0]; 
+    let pct = parseFloat(selVal[1]); 
+    
+    if(type === "Promo") { 
+        el('promo-input-box').style.display = 'flex'; 
+        pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; 
+    } else { 
+        el('promo-input-box').style.display = 'none'; 
+        activeDiscount = { type: type, pct: pct, str: type + " Discount" }; 
+    } 
+    
+    let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; 
+    let tipAmt = isTip ? 1 : 0; 
+    
+    let r = cart.reduce((s, i) => s + i.p, 0); 
+    let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; 
+    
+    el('co-tot').innerText = total.toFixed(2) + " DT"; 
+    if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); 
+}
 
-if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
+async function validatePromoCode() { 
+    let c = el('promo-code-val').value.toUpperCase(); 
+    if(!c) return; 
+    toast("Checking...", "info"); 
+    let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: "validate_promo", code: c }) }); 
+    if(d && d.s === 'ok') { 
+        activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; 
+        toast("Promo Applied!", false); 
+        applySingleDiscount(); 
+    } else if(d && d.s === 'expired') { toast("Code Expired/Max Uses Reached", true); } 
+    else { toast("Invalid Code", true); } 
+}
+
+function sPay(m) { 
+    payM = m; 
+    ['p-d17','p-mm','p-wal'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); 
+    el(m === 'D17' ? 'p-d17' : m === 'Mandat Minute' ? 'p-mm' : 'p-wal').classList.add('act'); 
+    let dbox = el('d-box-pay'); 
+    if(m === 'D17' || m === 'Mandat Minute') { 
+        dbox.style.display = 'block'; 
+        if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='inline-block'; } 
+        else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; } 
+    } else { 
+        dbox.style.display = 'none'; 
+    } 
+}
+
+function handleProofUpload(e) { 
+    let f = e.target.files[0]; 
+    if(!f) return; 
+    let r = new FileReader(); 
+    r.onload = ev => proofB64 = ev.target.result; 
+    r.readAsDataURL(f); 
+}
+
+async function finOrd() { 
+    if(navigator.vibrate) navigator.vibrate(100); 
+    
+    let n = el('coN').value; 
+    let c = el('coC').value; 
+    let cm = el('coNts').value; 
+    if(!n || !c) return toast(T[lang].rq, true); 
+    
+    let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; 
+    let tipAmt = isTip ? 1 : 0; 
+    
+    let r = cart.reduce((s, i) => s + i.p, 0); 
+    let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; 
+    
+    cart.forEach(i => i.finalPrice = i.p - (i.p * (activeDiscount.pct / 100))); 
+    
+    if(isTip) { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: 1, finalPrice: 1 }); } 
+    
+    if(payM === 'Wallet' && userWallet < total) return toast(T[lang].noFunds, true); 
+    
+    el('b-fin').innerHTML = `...`; 
+    el('b-fin').disabled = true; 
+    
+    try { 
+        let payload = { 
+            act: "place_order", client: n, plat: "N/A", contact: c, items: cart, 
+            appliedDiscountStr: activeDiscount.str + " (" + activeDiscount.pct + "%)", 
+            payM: payM, comments: cm, c: user || "Guest", proofB64: proofB64, 
+            promoCode: activeDiscount.type === "Promo" ? activeDiscount.str : "", 
+            usedWheel: activeDiscount.type === "Wheel" 
+        }; 
+        
+        let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify(payload) }); 
+        
+        if(d && d.s === "ok") { 
+            if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } 
+            if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } 
+            if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } 
+            
+            let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n`; 
+            cart.forEach((i) => { inv += `🔸 ${i.n}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; }); 
+            inv += `⏳ Our team will process this ticket\n   and contact you within 15-30 mins!`; 
+            
+            navigator.clipboard.writeText(inv).catch(e=>{}); 
+            try { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); } catch(e) {} 
+            
+            el('co-form').style.display = 'none'; 
+            el('co-succ').style.display = 'block'; 
+            el('succ-gid').innerText = d.gId; 
+            el('dm-btn').onclick = () => window.open(`https://wa.me/${window.CFG.WA}?text=${encodeURIComponent(inv)}`); 
+            
+            cart = []; localStorage.removeItem('ch_cart'); el('c-count').innerText = "0"; 
+            if(user) uOrders++; 
+            
+        } else if(d && d.s === "fraud_detected") { toast("Duplicate Receipt. Order Blocked.", true); } 
+        
+        el('b-fin').innerHTML = T[lang].plc; el('b-fin').disabled = false; 
+    } catch(e) { 
+        el('b-fin').innerHTML = T[lang].plc; el('b-fin').disabled = false; toast(T[lang].err, true); 
+    } 
+}
+
+// --- 12. SPIN WHEEL ENGINE ---
+function buildWheelUI() { 
+    let wc = el('wheel-container'); wc.innerHTML = ''; 
+    if(!db.wheel || db.wheel.length === 0) return; 
+    
+    let sliceDeg = 360 / db.wheel.length; 
+    db.wheel.forEach((w, i) => { 
+        let slice = document.createElement('div'); 
+        slice.className = 'wheel-slice'; 
+        slice.style.background = w.c; 
+        slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; 
+        slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${w.e}</span>`; 
+        wc.appendChild(slice); 
+    }); 
+}
+
+async function spinWheel() { 
+    if(wSpinning || !user) return toast(user ? "Wait..." : T[lang].rqLog, true); 
+    wSpinning = true; 
+    
+    let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'log_spin', c: user, ip: userIP, prize: "Processing" }) }); 
+    if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } 
+    
+    let r = Math.random() * 100; 
+    let selectedIndex = 0; let cumulative = 0; 
+    for(let i=0; i<db.wheel.length; i++) { 
+        cumulative += parseFloat(db.wheel[i].winChance || 25); 
+        if(r <= cumulative) { selectedIndex = i; break; } 
+    } 
+    
+    let sliceDeg = 360 / db.wheel.length; 
+    let extraSpins = 5 * 360; 
+    let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); 
+    
+    let wc = el('wheel-container'); 
+    wc.style.transform = `rotate(${stopDeg}deg)`; 
+    
+    setTimeout(() => { 
+        wSpinning = false; 
+        let wonObj = db.wheel[selectedIndex]; 
+        if(wonObj.n.includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } 
+        customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'log_spin', c: user, ip: userIP, prize: wonObj.n }) }); 
+        toast(`You got: ${wonObj.n} ${wonObj.e}`, false); 
+    }, 4500); 
+}
+
+// --- APP BOOT SEQUENCE ---
+if(document.readyState === 'loading') { 
+    document.addEventListener('DOMContentLoaded', initApp); 
+} else { 
+    initApp(); 
+}
 </script>
 </body>
 </html>
