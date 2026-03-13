@@ -38,9 +38,9 @@
             D17_QR: "https://i.ibb.co/3s6cRkH/qr.png" 
         };
         
+        // Matrix Green removed as requested
         const themes = [
             {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
             {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}
         ];
         
@@ -97,18 +97,6 @@
             height: 100vh; 
             position: fixed; 
             width: 100%; 
-        }
-        
-        /* Hacker Terminal Mode (God Mode) */
-        body.terminal-mode { 
-            font-family: monospace; 
-            background: #000; 
-            color: #0f0; 
-            --p: #0f0; 
-            --bg: #000; 
-            --c: rgba(0,20,0,0.8); 
-            --b: rgba(0,255,0,0.2); 
-            --w: #fff; 
         }
         
         #particles-js { 
@@ -252,21 +240,6 @@
         .btn:active { transform: scale(0.95); } 
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
         
-        .glow-btn { 
-            background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); 
-            background-size: 200% 200%; 
-            animation: glow 3s ease infinite; 
-            color: #fff; 
-            border: none; 
-            font-weight: 900; 
-        }
-        
-        @keyframes glow { 
-            0% { background-position: 0% 50% } 
-            50% { background-position: 100% 50% } 
-            100% { background-position: 0% 50% } 
-        }
-        
         .icon-btn { 
             background: var(--c); 
             border: 1px solid var(--b); 
@@ -386,6 +359,7 @@
             display: flex; 
             flex-direction: column; 
             backdrop-filter: blur(20px); 
+            overflow-y: auto;
         }
         
         #sidebar.open { left: 0; }
@@ -428,14 +402,17 @@
             transition: 0.3s; 
         }
         
+        /* Stripes now go across the whole screen seamlessly and don't block clicks */
         .maint-stripes { 
             position: fixed; 
             left: 0; 
             right: 0; 
+            width: 100%;
             height: 16px; 
-            z-index: 99999; 
+            z-index: 999999; 
             background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); 
             display: none; 
+            pointer-events: none;
         }
         
         #stripe-top { top: 0; border-bottom: 2px solid #000; } 
@@ -462,12 +439,6 @@
         
         #wa-widget:hover { transform: scale(1.05); }
         
-        .wa-dot { animation: waBlink 1.4s infinite both; }
-        .wa-dot:nth-child(2) { animation-delay: 0.2s; } 
-        .wa-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes waBlink { 0% { opacity: 0.2; } 20% { opacity: 1; } 100% { opacity: 0.2; } }
-
         #admin-page { 
             display: none; 
             position: fixed; 
@@ -477,6 +448,20 @@
             overflow-y: auto; 
             padding: 20px; 
             padding-bottom: 100px; 
+        }
+        
+        /* Admin Menu Popup */
+        #admin-menu-popup { 
+            display: none; 
+            position: fixed; 
+            bottom: 100px; 
+            left: 25px; 
+            flex-direction: column; 
+            gap: 10px; 
+            z-index: 1001; 
+            width: 200px; 
+            padding: 15px; 
+            border-radius: 15px; 
         }
         
         .admin-fab { 
@@ -501,7 +486,7 @@
         #gods-eye { 
             display: none; 
             position: fixed; 
-            top: 15px; 
+            top: 25px; 
             left: 50%; 
             transform: translateX(-50%); 
             background: rgba(0,0,0,0.8); 
@@ -514,6 +499,11 @@
             z-index: 10000; 
             box-shadow: 0 0 15px rgba(0,255,136,0.3); 
         }
+
+        /* Admin Manage Reorder Drag & Drop */
+        .reorder-item { background: rgba(0,0,0,0.5); border: 1px solid var(--b); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: grab; display: flex; align-items: center; gap: 10px; color: #fff; font-weight: bold; }
+        .reorder-item:active { cursor: grabbing; }
+        .reorder-item.dragging { opacity: 0.5; border-color: #ffae00; }
 
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
@@ -529,6 +519,7 @@
     </style>
 </head>
 <body>
+    <!-- Stripes now span across the entire screen perfectly -->
     <div id="stripe-top" class="maint-stripes"></div>
     <div id="stripe-bot" class="maint-stripes"></div>
     <div id="particles-js"></div>
@@ -552,6 +543,15 @@
         <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
         <div class="m-item" onclick="openPolicyModal(); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
         <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">📦 <span class="tr" data-k="mord">My Orders</span></div>
+        
+        <!-- Universal Order Tracking & Cancellation -->
+        <div style="padding: 15px; border: 1px solid var(--b); background: rgba(0,0,0,0.3); border-radius: 12px; margin: 15px 0;">
+            <b style="color:var(--w);" class="tr" data-k="track">🔍 Track Order</b>
+            <input type="text" id="track-inp" placeholder="Order ID (e.g. CH-1234)" style="margin:8px 0; padding:10px; font-size:0.85rem; text-transform:uppercase;">
+            <button class="btn" onclick="trackOrdBtn()" style="padding:10px; margin-top:0;">Track</button>
+            <div id="track-res" style="margin-top:10px; font-size:0.85rem; word-wrap: break-word;"></div>
+        </div>
+
         <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
         <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">🎡 <span class="tr" data-k="spin">Spin & Win</span></div>
         <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ Request Custom Service</div>
@@ -562,6 +562,7 @@
             <button class="icon-btn" onclick="toggleSidebar(); playSnd();">☰ MENU</button>
             <div style="display:flex; gap:10px;">
                 <button class="icon-btn" onclick="cycleTheme(); playSnd();">🎨</button>
+                <span id="admin-crown" style="display:none; font-size:24px; cursor:pointer; margin-top:4px;" onclick="toggleAdminMenu()">👑</span>
                 <button class="icon-btn" onclick="openProf(); playSnd();" style="color:var(--p); border-color:var(--p);">👤</button>
                 <button class="icon-btn" onclick="tgLang()"><span id="l-ind">🇬🇧 EN</span></button>
             </div>
@@ -592,52 +593,67 @@
 
     <button class="fab-cart" onclick="opnCart(); playSnd();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
-    <button class="admin-fab" id="admin-fab" onclick="openAdminPage()">+</button>
-    <div id="admin-page">
-        <button onclick="closeAdminPage()" style="position:fixed; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; z-index:1001; cursor:pointer;">Exit Admin</button>
-        
-        <h1 style="color:#ff00ff; text-align:center; margin-bottom:10px; font-weight:900;">👑 GOD MODE</h1>
-        
-        <div class="glass" style="text-align:center;">
-            <h3 style="color:var(--p); margin-top:0;">🎤 Admin Voice Control</h3>
-            <p style="color:gray; font-size:0.8rem;">Say "Close Store", "Open Store", or "Nuke Cache".</p>
-            <button class="btn" style="background:#8b5cf6; color:#fff;" onclick="stAdminVoice()">START LISTENING</button>
-        </div>
+    <!-- ADMIN UI: Plus Menu & Dashboard -->
+    <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
+    <div id="admin-menu-popup" class="glass">
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminPage('Category')">Add Category</button>
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminPage('Subcategory')">Add Subcategory</button>
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminPage('Folder')">Add Folder</button>
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminPage('Item')">Add Item</button>
+        <hr style="border-color:var(--b); width:100%; margin:5px 0;">
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
+    </div>
 
-        <div class="glass">
-            <h3 style="color:var(--w); margin-top:0;">⚡ Emergency Controls</h3>
-            <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="nukeAppCache()">💥 NUKE CACHE (Force Refresh All Users)</button>
-        </div>
+    <div id="admin-page" class="modal" style="background:var(--bg); align-items:flex-start;">
+        <div style="width:100%; max-width:600px; padding:20px; padding-bottom:100px;">
+            <button onclick="el('admin-page').classList.remove('show'); setTimeout(()=>el('admin-page').style.display='none',300);" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer;">Exit</button>
+            <h1 style="color:#ff00ff; text-align:center; margin-bottom:10px; font-weight:900;">👑 GOD MODE</h1>
+            
+            <div class="glass" style="text-align:center;">
+                <h3 style="color:var(--p); margin-top:0;">🎤 Admin Voice Control</h3>
+                <button class="btn" style="background:#8b5cf6; color:#fff;" onclick="stAdminVoice()">START LISTENING</button>
+            </div>
 
-        <div class="glass">
-            <h3 style="color:#00ff88; margin-top:0;">📦 Create New Item</h3>
-            <form onsubmit="event.preventDefault(); submitNewItem();">
-                <div class="grid">
+            <div class="glass">
+                <h3 style="color:var(--w); margin-top:0;">⚡ Emergency Controls</h3>
+                <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="nukeAppCache()">💥 NUKE CACHE</button>
+            </div>
+
+            <div class="glass">
+                <h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create New Item</h3>
+                <form onsubmit="event.preventDefault(); submitNewItem();">
                     <input type="text" id="a-catEn" placeholder="Category EN" required>
-                    <input type="text" id="a-catFr" placeholder="Category FR" required>
-                </div>
-                <input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)">
-                
-                <div class="grid" style="margin-top:15px; border-top:1px dashed #444; padding-top:15px;">
-                    <input type="text" id="a-nEn" placeholder="Item Name EN" required>
-                    <input type="text" id="a-nFr" placeholder="Item Name FR" required>
-                </div>
-                <input type="number" id="a-price" placeholder="Selling Price (DT)" required>
-                <input type="text" id="a-img" placeholder="Image URL (ImgBB Direct Link)">
-                
-                <div style="margin-top:15px; padding-top:15px; border-top:1px dashed #444;">
-                    <label style="color:gray; font-size:0.85rem; display:flex; align-items:center; gap:5px;">
-                        <input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?
-                    </label>
-                    <input type="text" id="a-exEn" placeholder="Extra Text EN">
-                    <input type="text" id="a-exFr" placeholder="Extra Text FR">
-                </div>
-                <button type="submit" class="btn" id="b-add-item">ADD ITEM DIRECTLY TO DB</button>
-            </form>
+                    <input type="text" id="a-nEn" placeholder="Item/Name EN" required>
+                    <input type="number" id="a-price" placeholder="Selling Price (DT)" required>
+                    <button type="submit" class="btn" id="b-add-item">ADD TO DATABASE</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Admin Drag & Drop Inventory Management Modal -->
+    <div id="reorder-mod" class="modal">
+        <div class="m-cnt">
+            <h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3>
+            <p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Drag and drop rows to reorder them in the Google Sheet.</p>
+            <div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div>
+            <button class="btn" style="background:var(--w);" onclick="saveReorder()">SAVE NEW ORDER</button>
+            <button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Security & Modals -->
+    <div id="admin-auth-modal" class="modal">
+        <div class="m-cnt" style="text-align:center;">
+            <h2 class="tr" data-k="adminVerify" style="color:#ff00ff;">Admin Verification</h2>
+            <input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;">
+            <button class="btn" onclick="verifyAdminManual()">Authorize via Password</button>
+            <button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button>
+            <button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button>
+            <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button>
+        </div>
+    </div>
+
     <div id="srv-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:#ffae00; margin-top:0;">🛠️ Request Custom Service</h3>
@@ -832,8 +848,8 @@
 <script>
 // --- 1. MULTILINGUAL DICTIONARY ---
 const T = {
-    en: { ld: "Loading Store... ⏳", srch: "Search Item Name...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet" },
-    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet" }
+    en: { ld: "Loading Store... ⏳", srch: "Search Item Name...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification" },
+    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet", track: "🔍 Suivre Commande", adminVerify: "Vérification Admin" }
 };
 
 // --- 2. GLOBAL VARIABLES ---
@@ -877,6 +893,7 @@ function hexToRgba(hex, alpha) { let r = parseInt(hex.slice(1, 3), 16), g = pars
 // --- 4. NETWORK APIs ---
 async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); return d.ip; } catch(e) { return "Guest"; } }
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
+async function api(action, payload = {}) { try { let res = await fetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ action, payload }) }); return await res.json(); } catch(e) { return null; } }
 
 // --- 5. INITIALIZATION & SETUP ---
 function initApp() { 
@@ -899,11 +916,8 @@ function initApp() {
         if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; } 
     } 
     
-    // Fetch Main Data
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
-        if(d && d.status === "success") { 
-            db = d; hMaint(d.maintObj); chkUI(); ren(); 
-        } 
+        if(d && d.status === "success") { db = d; hMaint(d.maintObj); chkUI(); ren(); } 
     }); 
     
     fetchSafeIP().then(ip => userIP = ip); 
@@ -912,7 +926,7 @@ function initApp() {
         particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } });
     }
 
-    if(role === 'Admin') { el('admin-fab').style.display = 'flex'; el('gods-eye').style.display = 'block'; }
+    if(role === 'Admin') { el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; el('gods-eye').style.display = 'block'; }
 }
 
 function hMaint(m) { 
@@ -924,7 +938,7 @@ function hMaint(m) {
     else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
 }
 
-// --- 6. AUTHENTICATION ENGINE (Login/Signup mappings to new Code.gs) ---
+// --- 6. AUTHENTICATION ENGINE ---
 async function exLog() {
     let c = el('lEml').value.trim(); let p = el('lPas').value.trim();
     if(!c || !p) return toast("Fill all fields", "error");
@@ -933,7 +947,7 @@ async function exLog() {
         user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0;
         localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet);
         closeModal('log-mod'); chkUI(); toast("Welcome back!", "success");
-        if(role === 'Admin') { el('admin-fab').style.display='flex'; el('gods-eye').style.display='block'; }
+        if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; el('gods-eye').style.display='block'; }
     } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } 
     else { toast("Invalid Credentials", "error"); }
 }
@@ -961,28 +975,53 @@ function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem(
 
 // --- 7. ADMIN / GOD MODE ENGINE ---
 let logoClicks = 0;
-function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; activateAdminMode(); } setTimeout(() => { logoClicks = 0; }, 2000); }
-function activateAdminMode() { 
-    let pw = prompt("⚡ ADMIN MODE ⚡\nEnter Password:"); 
+function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
+
+el('itemFinder').oninput = (e) => { 
+    if(e.target.value === "ADMINMODEACTIVATE") { e.target.value = ""; openModal('admin-auth-modal'); }
+    ren();
+};
+
+function verifyAdminManual() {
+    let pw = el('admin-pass-input').value;
     if(pw === window.CFG.PASS) { 
         role = "Admin"; localStorage.setItem('ch_role', 'Admin'); 
-        document.body.classList.add('terminal-mode'); el('admin-fab').style.display = 'flex'; el('gods-eye').style.display = 'block'; 
-        toast("GOD MODE ACTIVATED", "info"); 
-    } else { toast("ACCESS DENIED", "error"); } 
+        el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; el('gods-eye').style.display = 'block';
+        closeModal('admin-auth-modal'); toast("GOD MODE ACTIVATED", "info"); 
+    } else { toast("ACCESS DENIED", "error"); }
 }
 
-function openAdminPage() { el('admin-page').style.display = 'block'; }
-function closeAdminPage() { el('admin-page').style.display = 'none'; }
+function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
+function openAdminPage(type) { toggleAdminMenu(); el('admin-page').style.display = 'flex'; setTimeout(()=>el('admin-page').classList.add('show'),10); el('admin-creation-title').innerText = "📦 Create " + type; }
+
+function openAdminReorder() {
+    toggleAdminMenu(); let list = el('reorder-list'); list.innerHTML = '';
+    db.inv.slice(1).forEach(r => {
+        if(!r || (!r[13] && !r[14])) return;
+        let id = r[0]; let name = r[14] || r[13];
+        let div = document.createElement('div'); div.className = 'reorder-item'; div.draggable = true; div.dataset.id = id;
+        div.innerHTML = `☰ ${name} (${id})`;
+        div.addEventListener('dragstart', () => div.classList.add('dragging')); div.addEventListener('dragend', () => div.classList.remove('dragging'));
+        list.appendChild(div);
+    });
+    list.addEventListener('dragover', e => { e.preventDefault(); const afterElement = getDragAfterElement(list, e.clientY); const draggable = document.querySelector('.dragging'); if (afterElement == null) { list.appendChild(draggable); } else { list.insertBefore(draggable, afterElement); } });
+    openModal('reorder-mod');
+}
+
+function getDragAfterElement(container, y) {
+    const elements = [...container.querySelectorAll('.reorder-item:not(.dragging)')];
+    return elements.reduce((closest, child) => { const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2; if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; } else { return closest; } }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+async function saveReorder() {
+    let newIds = [...document.querySelectorAll('.reorder-item')].map(el => el.dataset.id); toast("Saving inventory order...", "info");
+    let res = await api('reorder_inventory', {newIds});
+    if(res && res.success) { toast("Inventory Reordered!", "success"); closeModal('reorder-mod'); initApp(); } else { toast("Failed to reorder", "error"); }
+}
 
 async function submitNewItem() {
     el('b-add-item').innerText = "...";
-    let payload = { 
-        act: "add_item", adminPass: window.CFG.PASS, 
-        catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, catImg: "",
-        subFr: "", subEn: "", subCol: "", subImg: "", inFld: "No", fldFr: "", fldEn: "", fldEmo: "",
-        nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, 
-        exReq: el('a-exReq').checked, exNum: 1, exEn: el('a-exEn').value, exFr: el('a-exFr').value 
-    };
+    let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, catImg: "", subFr: "", subEn: "", subCol: "", subImg: "", inFld: "No", fldFr: "", fldEn: "", fldEmo: "", nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exNum: 1, exEn: el('a-exEn').value, exFr: el('a-exFr').value };
     let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify(payload) });
     if(d && d.s === 'ok') { toast("Item Added to Database!", false); closeAdminPage(); }
     el('b-add-item').innerText = "ADD ITEM DIRECTLY TO DB";
@@ -999,51 +1038,78 @@ function stAdminVoice() {
     };
 }
 
-async function nukeAppCache() {
-    toast("Nuking cache... please wait.", "info");
-    let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'nuke_cache', adminPass: window.CFG.PASS }) });
-    if(d && d.s === 'ok') { toast("Cache nuked! All users will refresh.", false); setTimeout(()=>location.reload(true), 2000); }
-}
+async function nukeAppCache() { toast("Nuking cache... please wait.", "info"); let d = await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'nuke_cache', adminPass: window.CFG.PASS }) }); if(d && d.s === 'ok') { toast("Cache nuked! All users will refresh.", false); setTimeout(()=>location.reload(true), 2000); } }
 
 // 👁️ GOD'S EYE FAKE LIVE TRACKER
-setInterval(() => { if(role === 'Admin') { el('online-count').innerText = Math.floor(Math.random() * 12) + 35; } }, 7000);
+setInterval(async () => {
+    let res = await api('ping', { ip: userIP || 'Guest-' + Math.floor(Math.random()*1000) });
+    if(role === 'Admin' && res) { el('gods-eye').style.display = 'block'; el('online-count').innerText = res.count; }
+    else { el('gods-eye').style.display = 'none'; }
+}, 60000);
+
+// --- 7. BIOMETRICS ENGINE (WebAuthn) ---
+const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0));
+async function addBiometrics() {
+    let pw = el('admin-pass-input').value;
+    if(pw !== window.CFG.PASS) return toast("Enter Master Password in the input to bind device", "error");
+    if (!window.PublicKeyCredential) return toast("Biometrics not supported on this browser.", "error");
+    try {
+        const options = { publicKey: { challenge: new Uint8Array(32), rp: { name: "CyberHub", id: window.location.hostname }, user: { id: new Uint8Array(16), name: "Admin", displayName: "Admin" }, pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" }, timeout: 60000 } };
+        const cred = await navigator.credentials.create(options); let idStr = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+        localStorage.setItem('ch_passkey_Admin', idStr); toast("Biometrics linked successfully!", "success");
+    } catch(err) { toast("Registration failed or cancelled.", "error"); }
+}
+
+async function loginBiometrics() {
+    let savedId = localStorage.getItem('ch_passkey_Admin');
+    if(!savedId) return toast("No biometrics linked. Bind device first.", "error");
+    try {
+        const options = { publicKey: { challenge: new Uint8Array(32), rpId: window.location.hostname, allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }], userVerification: "required", timeout: 60000 } };
+        await navigator.credentials.get(options);
+        el('admin-pass-input').value = window.CFG.PASS; verifyAdminManual(); 
+    } catch(err) { toast("Biometric verification failed.", "error"); }
+}
 
 
 // --- 8. CUSTOMER UI & RENDER ENGINE ---
+async function trackOrdBtn() {
+    let id = el('track-inp').value.trim().toUpperCase(); if(!id) return toast("Enter Order ID", "error");
+    el('track-res').innerHTML = "Fetching secure data... ⏳";
+    let res = await api('track_order', {orderId: id});
+    if(res && res.success) {
+        let h = `Status: <b style="color:var(--w);">${res.status}</b><br>Total: ${res.total} DT`;
+        if(res.status === "Pending") { h += `<br><button class="btn" style="background:#ff4d4d; color:white; padding:8px; margin-top:8px; width:100%;" onclick="cancelOrd('${id}')">Cancel Order</button>`; }
+        el('track-res').innerHTML = h;
+    } else { el('track-res').innerHTML = "<span style='color:#ff4d4d;'>Order not found or incorrect ID.</span>"; }
+}
+
+async function cancelOrd(id) {
+    if(!confirm("Abort this order?")) return;
+    toast("Transmitting abort code...", "info");
+    let res = await api('cancel_order', {orderId: id});
+    if(res && res.success) { toast("Order Cancelled", "success"); trackOrdBtn(); } else { toast("Failed to cancel", "error"); }
+}
+
 function fUsrOrd() { 
     if(!user) { swA('l-step'); openModal('log-mod'); return toast(T[lang].rqLog, true); } 
     if(db.ord) { 
-        let uo = db.ord.filter(o => o[12] === user); 
-        let h = `<h3 style="color:var(--w);">📦 ${T[lang].mord}</h3>`; 
+        let uo = db.ord.filter(o => o[12] === user); let h = `<h3 style="color:var(--w);">📦 ${T[lang].mord}</h3>`; 
         if(uo.length === 0) h += `<div style="text-align:center;color:gray;">Empty.</div>`; 
         uo.forEach(o => { h += `<div class="glass"><b>${o[5]}</b><br><span style="color:var(--p);font-weight:bold;">${o[8]} DT</span> - ${o[9]}</div>` }); 
         el('d-box').innerHTML = h; openModal('d-mod'); 
     } 
 }
 
-function chkUI() { 
-    let lp = getHighestLoyaltyPct(); 
-    if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; 
-    if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; 
-    if(el('ui-d17-in')) el('ui-d17-in').innerText = window.CFG.D17; 
-}
-
+function chkUI() { let lp = getHighestLoyaltyPct(); if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; if(el('ui-d17-in')) el('ui-d17-in').innerText = window.CFG.D17; }
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
-function appLang() { 
-    if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; 
-    document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); 
-    document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); 
-}
-
+function appLang() { if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); }
 setInterval(() => { let t = el('wa-text'); if(t) { t.innerHTML = `<span class="wa-dot">.</span><span class="wa-dot">.</span><span class="wa-dot">.</span> Agent is typing`; setTimeout(() => t.innerText = "Chat with us", 3500); } }, 18000);
 
 async function submitCustomService() {
-    let s = el('srv-name').value; let d = el('srv-desc').value; 
-    if(!s || !d) return toast("Please fill all fields.", true);
+    let s = el('srv-name').value; let d = el('srv-desc').value; if(!s || !d) return toast("Please fill all fields.", true);
     await customFetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ act: 'req_service', c: user||"Guest", srv: s, details: d }) });
     let inv = `🛠️ *CUSTOM SERVICE REQUEST*\n👤 Client: ${user||"Guest"}\n📌 Service: ${s}\n📝 Details: ${d}`;
-    navigator.clipboard.writeText(inv); closeModal('srv-mod'); toast("Copied! Opening WhatsApp...", false);
-    setTimeout(() => window.open(`https://wa.me/${window.CFG.WA}?text=${encodeURIComponent(inv)}`), 1500);
+    navigator.clipboard.writeText(inv); closeModal('srv-mod'); toast("Copied! Opening WhatsApp...", false); setTimeout(() => window.open(`https://wa.me/${window.CFG.WA}?text=${encodeURIComponent(inv)}`), 1500);
 }
 
 function getHighestLoyaltyPct() { let pct = 0; if(db.rewards) { db.rewards.forEach(r => { if(r.type === "Loyalty" && uOrders >= parseInt(r.rule) && r.pct > pct) pct = r.pct; }); } return pct; }
@@ -1060,7 +1126,7 @@ function ren() {
     let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
     let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
     
-    if (q === "ADMINMODEACTIVATE") { el('itemFinder').value = ""; activateAdminMode(); return; } 
+    if (q === "ADMINMODEACTIVATE") { el('itemFinder').value = ""; openModal('admin-auth-modal'); return; } 
     if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
     
     let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; 
@@ -1079,7 +1145,6 @@ function ren() {
         if(!r || (!r[13] && !r[14])) return; 
         let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); 
         if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
-        
         let itmId = r[0] ? String(r[0]).trim() : "IT-000"; 
         let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); 
         let hasFld = (r[9] === true || String(r[9]).toLowerCase() === 'true'); 
@@ -1095,47 +1160,16 @@ function ren() {
         let artImg = r[25] || ''; 
         let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
         
-        if(q) { 
-            let lQ = q.toLowerCase(); 
-            if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } 
-            return; 
-        } 
-        
+        if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } return; } 
         if(cView.t === 'cats') {} 
-        else if(cView.t === 'apps' && cView.c === cat) { 
-            if(!sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
-        } 
-        else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { 
-            let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; 
-            if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } 
-        } 
+        else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } 
+        else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
     }); 
     
-    if(q) { 
-        if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; 
-        else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } 
-    } 
-    else if(cView.t === 'cats') { 
-        hHtml += `<div class="grid">`; 
-        for(let k in c) { let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } 
-        hHtml += `</div>`; 
-    } 
-    else if(cView.t === 'apps') { 
-        hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; 
-        for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } 
-        hHtml += `</div>`; 
-        
-        if(sA.length > 0 || Object.keys(g).length > 0) { 
-            hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; 
-            for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
-            sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
-        } 
-    } 
-    else if(cView.t === 'items') { 
-        hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; 
-        for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = hexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
-        sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; 
-    } 
+    if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
+    else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
+    else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
+    else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = hexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
     a.innerHTML = hHtml; 
 }
 
@@ -1153,7 +1187,6 @@ function dR(i, q = "") {
     let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; 
     let nDisp = q ? highlightMatch(i.n, q) : i.n; 
     let revHtml = `<div style="font-size:0.75rem; color:#ffae00; margin-top:3px;">${getRating(i.id)}</div>`;
-    
     return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
 }
 
