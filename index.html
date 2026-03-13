@@ -927,6 +927,14 @@ function initApp() {
     }
 
     if(role === 'Admin') { el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; el('gods-eye').style.display = 'block'; }
+    
+    // --- AUTO-SHOW POLICY FOR FIRST-TIME VISITORS ---
+    if (!localStorage.getItem('ch_visited')) {
+        setTimeout(() => {
+            openModal('pol-mod');
+            localStorage.setItem('ch_visited', 'true');
+        }, 1000);
+    }
 }
 
 function hMaint(m) { 
@@ -1101,6 +1109,22 @@ function fUsrOrd() {
 }
 
 function chkUI() { let lp = getHighestLoyaltyPct(); if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders; if(el('vip-disc-pct')) el('vip-disc-pct').innerText = lp + "%"; if(el('ui-d17-in')) el('ui-d17-in').innerText = window.CFG.D17; }
+
+// --- THEME SWITCHER ENGINE ---
+function cycleTheme() {
+    let ct = parseInt(localStorage.getItem('ch_theme') || 0);
+    ct = (ct + 1) % themes.length; // cycles through the themes array defined in the <head>
+    localStorage.setItem('ch_theme', ct);
+    
+    document.documentElement.style.setProperty('--p', themes[ct].p); 
+    document.documentElement.style.setProperty('--w', themes[ct].w); 
+    document.documentElement.style.setProperty('--bg', themes[ct].bg); 
+    document.documentElement.style.setProperty('--b', themes[ct].b); 
+    document.documentElement.style.setProperty('--c', themes[ct].c); 
+    
+    toast("Theme updated to: " + themes[ct].n, "info");
+}
+
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
 function appLang() { if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); }
 setInterval(() => { let t = el('wa-text'); if(t) { t.innerHTML = `<span class="wa-dot">.</span><span class="wa-dot">.</span><span class="wa-dot">.</span> Agent is typing`; setTimeout(() => t.innerText = "Chat with us", 3500); } }, 18000);
