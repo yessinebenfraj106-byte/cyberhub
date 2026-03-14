@@ -1,4 +1,4 @@
-v<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,6 @@ v<!DOCTYPE html>
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" id="fav-icon" href="icon-192.png">
     <meta name="theme-color" content="#050b14">
-    
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -14,74 +13,50 @@ v<!DOCTYPE html>
 
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
-
-        window.CFG = {
-            SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
-            NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058",
-            D17_QR: "https://i.ibb.co/3s6cRkH/qr.png" 
-        };
-        
-        const themes = [
-            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
-            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'},
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
-            {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}
-        ];
-        
+        window.CFG = { SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec", NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058" };
+        const themes = [{n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}, {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}];
         try { let ct = parseInt(localStorage.getItem('ch_theme') || 0); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); } catch(e) {}
-        
         const playSnd = () => { if(navigator.vibrate) navigator.vibrate(50); };
     </script>
 
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
-        body { font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', 'Apple Color Emoji', 'Twemoji Mozilla', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: background 0.5s; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: background 0.5s; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--p); display: block; margin: 0 auto; cursor: pointer; box-shadow: 0 0 25px var(--b); background: #111; object-fit: cover; }
-        
         @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
         .skeleton { animation: shimmer 2s infinite linear; background: linear-gradient(to right, rgba(255,255,255,0.03) 4%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.03) 36%); background-size: 1000px 100%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .skel-card { height: 140px; width: 100%; }
-        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
         .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
         .img-transparent { width: 65px; height: 65px; margin: 0 auto 10px auto; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
         .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; }
         .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; }
-
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
-        
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; }
         input, select, textarea { font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
-        
         .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
         .m-cnt { background: var(--bg); border: 1px solid var(--p); padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px var(--b); transform: scale(0.9); transition: transform 0.3s; }
         .modal.show .m-cnt { transform: scale(1); }
-        
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 800; transition: all 0.5s; z-index: 20000; }
         .toast.show { bottom: 40px; }
-        
         .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; flex: 1; font-weight: bold; font-size: 0.85rem; }
         .c-btn.act { background: var(--b); border-color: var(--p); color: var(--p); }
-        
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: var(--c); z-index: 9999; transition: 0.4s ease; padding: 20px; border-right: 1px solid var(--p); display: flex; flex-direction: column; backdrop-filter: blur(20px); overflow-y: auto; }
         #sidebar.open { left: 0; }
         .m-item { padding: 18px; color: #fff; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--b); cursor: pointer; display: flex; align-items: center; gap: 15px; }
         .m-item:hover { background: var(--b); padding-left: 25px; }
-        
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* Master Maintenance Stripes - Diagonal Over Website */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         #stripe-top { top: 10%; left: -20%; width: 140%; transform: rotate(-15deg); }
         #stripe-bot { bottom: 10%; right: -20%; width: 140%; transform: rotate(-15deg); }
@@ -89,7 +64,7 @@ v<!DOCTYPE html>
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
         #wa-widget:hover { transform: scale(1.05); }
 
-        /* ADMIN DASHBOARD UI */
+        /* ADMIN DASHBOARD */
         #admin-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100000; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -103,11 +78,9 @@ v<!DOCTYPE html>
         #admin-menu-popup { display: none; position: fixed; bottom: 100px; left: 25px; flex-direction: column; gap: 10px; z-index: 1001; width: 200px; padding: 15px; border-radius: 15px; }
         .admin-fab { display: none; position: fixed; bottom: 25px; left: 25px; background: #ff00ff; color: #fff; width: 65px; height: 65px; border-radius: 50%; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 5px 20px rgba(255,0,255,0.4); cursor: pointer; z-index: 1000; border: none; }
         
-        /* God's Eye Tracker */
         #gods-eye { display: flex; align-items: center; justify-content: center; gap: 5px; position: fixed; top: 75px; right: 15px; background: rgba(10,15,30,0.95); backdrop-filter: blur(10px); border: 1px solid #00ff88; color: #00ff88; padding: 5px 15px; border-radius: 30px; font-size: 0.8rem; font-weight: bold; z-index: 50; box-shadow: 0 0 15px rgba(0,255,136,0.3); transition: all 0.3s; white-space: nowrap; }
         .admin-eye { border-color: #ff00ff !important; color: #ff00ff !important; box-shadow: 0 0 15px rgba(255,0,255,0.3) !important; }
 
-        .reorder-item { background: rgba(0,0,0,0.5); border: 1px solid var(--b); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: grab; display: flex; align-items: center; gap: 10px; font-weight: bold; }
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
@@ -119,9 +92,6 @@ v<!DOCTYPE html>
         #drop-zone { border: 2px dashed var(--p); padding: 30px; text-align: center; border-radius: 12px; background: rgba(0, 240, 255, 0.05); margin: 15px 0; cursor: pointer;}
         #drop-zone.active { background: rgba(0, 240, 255, 0.2); border-color: #ffae00; }
         #drop-zone.flagged { border-color: #ff4d4d !important; background: rgba(255, 77, 77, 0.1) !important; color: #ff4d4d; }
-        
-        /* Honeypot classes for autocomplete destruction */
-        .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
     </style>
 </head>
 <body>
@@ -133,7 +103,7 @@ v<!DOCTYPE html>
     <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat with us</span></div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
-    <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; letter-spacing:1px; z-index:100;">
+    <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; z-index:100;">
         🔥 EXTREME TRAFFIC DETECTED - SURGE PRICING ACTIVE 🔥
     </div>
 
@@ -147,14 +117,13 @@ v<!DOCTYPE html>
         
         <div style="padding: 15px; border: 1px solid var(--b); background: rgba(0,0,0,0.3); border-radius: 12px; margin: 15px 0;">
             <b style="color:var(--w);" class="tr" data-k="track">🔍 Track Order</b>
-            <input type="text" id="track-inp" placeholder="Order ID (e.g. CH-1234)" style="margin:8px 0; padding:10px; font-size:0.85rem; text-transform:uppercase;" autocomplete="off" spellcheck="false" role="presentation">
+            <input type="text" id="track-inp" placeholder="Order ID (e.g. CH-1234)" style="margin:8px 0; padding:10px; font-size:0.85rem; text-transform:uppercase;">
             <button class="btn" onclick="trackOrdBtn()" style="padding:10px; margin-top:0;">Track</button>
             <div id="track-res" style="margin-top:10px; font-size:0.85rem; word-wrap: break-word;"></div>
         </div>
 
         <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
         <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">🎡 <span class="tr" data-k="spin">Spin & Win</span></div>
-        <div class="m-item" onclick="openModal('import-mod'); toggleSidebar();" style="color:#00f0ff; border-color:#00f0ff;">🌍 <span class="tr" data-k="imp">Global Importer</span></div>
         <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ Request Custom Service</div>
     </div>
 
@@ -184,20 +153,10 @@ v<!DOCTYPE html>
         <div class="glass" style="padding:15px; text-align:center; border-color:#ffae00; cursor:pointer; margin-bottom:20px;" onclick="openModal('srv-mod')">
             <span style="color:#ffae00; font-weight:bold;">🚀 Request Custom Service</span>
         </div>
-        
-        <div class="glass" style="padding:15px; text-align:center; border-color:#00f0ff; cursor:pointer; margin-bottom:20px; background:rgba(0,240,255,0.05);" onclick="openModal('import-mod')">
-            <span style="color:#00f0ff; font-weight:bold; letter-spacing:1px;">🌍 Import from Shein, Amazon & More</span>
-        </div>
 
         <div style="position:relative;">
-            <!-- THE ULTIMATE EMAIL AUTOCOMPLETE FIX: Form Wrapper + Honeypots + Attributes -->
-            <form autocomplete="off" onsubmit="event.preventDefault();">
-                <input type="text" class="hp-hider" tabindex="-1" autocomplete="username">
-                <input type="email" class="hp-hider" tabindex="-1" autocomplete="email">
-                <input type="password" class="hp-hider" tabindex="-1" autocomplete="current-password">
-                
-                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" name="cyber_search_random_string_x" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
-            </form>
+            <!-- PERFECT AUTOCOMPLETE FIX -->
+            <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
         
@@ -210,11 +169,9 @@ v<!DOCTYPE html>
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Category')">Add Category</button>
-        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Subcategory')">Add Subcategory</button>
-        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Folder')">Add Folder</button>
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Item')">Add Item</button>
         <hr style="border-color:var(--b); width:100%; margin:5px 0;">
-        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="toast('Sorting in development','info')">Manage Inventory</button>
     </div>
 
     <div id="admin-page" class="modal">
@@ -235,14 +192,10 @@ v<!DOCTYPE html>
                     <input type="text" id="adm-m-msg" placeholder="Maintenance Message...">
                     <div style="display:flex; gap:10px; margin-bottom:10px;">
                         <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Specific Re-open Date & Time:</label><input type="datetime-local" id="adm-m-date"></div>
-                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Or Duration (in Hours):</label><input type="number" id="adm-m-hrs" placeholder="e.g., 2.5 hours"></div>
+                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Or Duration (in Hours):</label><input type="number" id="adm-m-hrs" placeholder="e.g., 2.5"></div>
                     </div>
                     <button class="btn" style="background:#ffae00;" onclick="sendStoreMaint(true)">CLOSE STORE</button>
                     <button class="btn" style="background:#00ff88; color:#000;" onclick="sendStoreMaint(false)">OPEN STORE</button>
-                </div>
-                <div class="glass">
-                    <h3 style="color:var(--p); margin-top:0;">🎤 Voice Control</h3>
-                    <button class="btn" style="background:#8b5cf6; color:#fff;" onclick="stAdminVoice()">START LISTENING</button>
                 </div>
                 <div class="glass">
                     <h3 style="color:#ff4d4d; margin-top:0;">💥 Nuke Cache</h3>
@@ -288,105 +241,13 @@ v<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- Create Item Modal -->
-    <div id="create-mod" class="modal">
-        <div class="m-cnt">
-            <h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3>
-            <form onsubmit="event.preventDefault(); submitNewItem();">
-                <input type="text" id="a-catEn" placeholder="Category EN" required>
-                <input type="text" id="a-catFr" placeholder="Category FR" required>
-                <input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)">
-                <input type="text" id="a-nEn" placeholder="Item Name EN" required>
-                <input type="text" id="a-nFr" placeholder="Item Name FR" required>
-                <input type="number" id="a-price" placeholder="Selling Price (DT)" required>
-                <input type="text" id="a-img" placeholder="Image URL (ImgBB)">
-                <label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label>
-                <input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)">
-                <input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)">
-                <button type="submit" class="btn" id="b-add-item">ADD TO DB</button>
-                <button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button>
-            </form>
-        </div>
-    </div>
+    <!-- MODALS -->
+    <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
+    <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
+    <div id="log-mod" class="modal"><div class="m-cnt"><div id="l-step"><h3 style="color:var(--p); margin-top:0;">Sign In</h3><form onsubmit="event.preventDefault(); exLog();"><input type="email" id="lEml" placeholder="Email" required><input type="password" id="lPas" placeholder="Password" required><button type="submit" class="btn">Log In</button></form><div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;"><span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span></div></div><div id="r-step" style="display:none;"><h3 style="color:var(--p); margin-top:0;">Create Account</h3><form onsubmit="event.preventDefault(); initiateSignup();"><input type="text" id="rN" placeholder="Full Name (Mandatory)" required><input type="email" id="rCnt" placeholder="Email (Primary)" required><input type="tel" id="rPh" placeholder="Phone Number (Secondary)"><input type="text" id="rWa" placeholder="WhatsApp Number"><input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)"><input type="password" id="rPas" placeholder="Create Password" required><button type="submit" class="btn">Send Verification Code</button></form><div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div></div><div id="otp-step" style="display:none; text-align:center;"><h3 style="color:#00ff88; margin-top:0;">Verify Email</h3><p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p><input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6"><button class="btn" onclick="finalizeSignup()">Verify & Register</button></div><button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
+    <div id="prof-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3><p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p><div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;"><button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password</button><div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div></div><div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;"><div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div><div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div></div><button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button><button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button><button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
+    <div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3><div id="pol-content" style="margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button></div></div>
 
-    <div id="reorder-mod" class="modal">
-        <div class="m-cnt">
-            <h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3>
-            <div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div>
-            <button class="btn" style="background:var(--w);" onclick="saveReorder()">SAVE NEW ORDER</button>
-            <button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button>
-        </div>
-    </div>
-
-    <!-- Security & Auth Modals -->
-    <div id="admin-auth-modal" class="modal">
-        <div class="m-cnt" style="text-align:center;">
-            <h2 style="color:#ff00ff;">Admin Verification</h2>
-            <input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;">
-            <button class="btn" onclick="verifyAdminManual()">Authorize via Password</button>
-            <button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button>
-            <button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button>
-            <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="log-mod" class="modal">
-        <div class="m-cnt">
-            <div id="l-step">
-                <h3 style="color:var(--p); margin-top:0;">Sign In</h3>
-                <form onsubmit="event.preventDefault(); exLog();">
-                    <input type="email" id="lEml" placeholder="Email" required>
-                    <input type="password" id="lPas" placeholder="Password" required>
-                    <button type="submit" class="btn">Log In</button>
-                </form>
-                <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;">
-                    <span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span>
-                </div>
-            </div>
-            
-            <div id="r-step" style="display:none;">
-                <h3 style="color:var(--p); margin-top:0;">Create Account</h3>
-                <form onsubmit="event.preventDefault(); initiateSignup();">
-                    <input type="text" id="rN" placeholder="Full Name (Mandatory)" required>
-                    <input type="email" id="rCnt" placeholder="Email (Primary)" required>
-                    <input type="tel" id="rPh" placeholder="Phone Number (Secondary)">
-                    <input type="text" id="rWa" placeholder="WhatsApp Number">
-                    <input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)">
-                    <input type="password" id="rPas" placeholder="Create Password" required>
-                    <button type="submit" class="btn">Send Verification Code</button>
-                </form>
-                <div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div>
-            </div>
-
-            <div id="otp-step" style="display:none; text-align:center;">
-                <h3 style="color:#00ff88; margin-top:0;">Verify Email</h3>
-                <p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p>
-                <input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6">
-                <button class="btn" onclick="finalizeSignup()">Verify & Register</button>
-            </div>
-            <button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="prof-mod" class="modal">
-        <div class="m-cnt" style="text-align:center;">
-            <h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3>
-            <p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p>
-            <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;">
-                <button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password via Biometrics</button>
-                <div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div>
-            </div>
-            <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;">
-                <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div>
-                <div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
-            </div>
-            <button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button>
-            <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button>
-            <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button>
-        </div>
-    </div>
-
-    <!-- ADDED MISSING CUSTOM SERVICE MODAL HERE -->
     <div id="srv-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:#ffae00; margin-top:0;">🛠️ Request Custom Service</h3>
@@ -398,21 +259,11 @@ v<!DOCTYPE html>
         </div>
     </div>
 
-    <div id="pol-mod" class="modal">
-        <div class="m-cnt">
-            <button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button>
-            <h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3>
-            <div id="pol-content" style="margin-top:15px;"></div>
-            <button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button>
-        </div>
-    </div>
-
-    <!-- 🌍 GLOBAL IMPORTER MODAL -->
+    <!-- 🌍 GLOBAL IMPORTER MODAL (Triggered automatically by Shein/Import items) -->
     <div id="import-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:var(--p); margin-top:0;">🌍 Global Importer</h3>
             <p style="color:gray; font-size:0.85rem;">Import exclusively from France (FR) regions. Exchange Rate: <b style="color:#00ff88">1 € = 4.35 DT</b></p>
-            
             <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid var(--b); margin-top:15px;">
                 <label style="color:var(--w); font-weight:bold; font-size:0.85rem;">1. Select Platform:</label>
                 <select id="imp-store" style="background:#000!important; margin-bottom:15px;" onchange="validateImportLink()">
@@ -421,62 +272,33 @@ v<!DOCTYPE html>
                     <option value="AliExpress">🛒 AliExpress (FR)</option>
                     <option value="Zara">👗 Zara (FR)</option>
                 </select>
-
                 <label style="color:var(--w); font-weight:bold; font-size:0.85rem;">2. Paste Product/Cart Link:</label>
                 <input type="url" id="imp-link" placeholder="https://www.amazon.fr/..." oninput="validateImportLink()" style="margin-bottom:15px; font-size:0.85rem;">
-
                 <label style="color:var(--w); font-weight:bold; font-size:0.85rem;">3. Cart Total in Euros (€):</label>
                 <input type="number" id="imp-amt" placeholder="e.g. 50.00" oninput="calcImportPrice()" style="font-size:1.2rem; font-weight:bold; color:#00ff88!important;">
             </div>
-
             <div style="margin:15px 0; padding:15px; border-top:1px dashed #444; border-bottom:1px dashed #444;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;">
-                    <span>Supplier Cost (Estimated):</span> <span id="imp-cost-disp">0.00 DT</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;">
-                    <span>Shipping & Margin:</span> <span id="imp-margin-disp">0.00 DT</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--p); font-weight:900; font-size:1.3rem;">
-                    <span>FINAL PRICE:</span> <span id="imp-final-disp">0.00 DT</span>
-                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Supplier Cost:</span> <span id="imp-cost-disp">0.00 DT</span></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Shipping & Margin:</span> <span id="imp-margin-disp">0.00 DT</span></div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--p); font-weight:900; font-size:1.3rem;"><span>FINAL PRICE:</span> <span id="imp-final-disp">0.00 DT</span></div>
             </div>
-
             <button class="btn" style="background:var(--p);" onclick="addImportToCart()">ADD TO CYBERHUB CART</button>
             <button onclick="closeModal('import-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button>
         </div>
     </div>
 
     <!-- CART & CHECKOUT -->
-    <div id="cart-mod" class="modal">
-        <div class="m-cnt">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3>
-                <button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button>
-            </div>
-            <div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div>
-            <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b>
-                </div>
-            </div>
-            <button class="btn" onclick="opnCO()">Checkout</button>
-            <div style="display:flex; justify-content:space-between; margin-top:15px;">
-                <button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button>
-                <button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button>
-            </div>
-        </div>
-    </div>
+    <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button></div></div></div>
 
     <div id="co-mod" class="modal">
         <div class="m-cnt">
             <div id="co-form">
                 <h3 style="color:var(--p); margin-top:0;">Secure Checkout</h3>
-                
                 <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); padding:15px; border-radius:10px; margin-bottom:15px;">
                     <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="color:gray;">Subtotal:</span> <b id="co-sub">0 DT</b></div>
-                    <div style="margin:10px 0;"><label style="font-size:0.85rem; color:var(--w); font-weight:bold;">Select Your Discount:</label><select id="co-disc-selector" onchange="applySingleDiscount()" style="background:#111!important; border-color:var(--w); margin-top:5px;"></select></div>
+                    <div style="margin:10px 0;"><label style="font-size:0.85rem; color:var(--w); font-weight:bold;">Select Discount:</label><select id="co-disc-selector" onchange="applySingleDiscount()" style="background:#111!important; border-color:var(--w); margin-top:5px;"></select></div>
                     <div id="promo-input-box" style="display:none; display:flex; gap:5px; margin-top:5px;"><input type="text" id="promo-code-val" placeholder="Enter Code" style="margin:0; text-transform:uppercase;"><button class="btn" style="width:auto; margin:0; padding:10px 15px;" onclick="validatePromoCode()">Apply</button></div>
-                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;"><label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#00ff88; font-weight:bold; font-size:0.9rem;"><input type="checkbox" id="tip-admin-cb" onchange="applySingleDiscount()" style="width:auto; margin:0;">☕ Buy the Admin a Coffee (+1 DT)</label></div>
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;"><label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#00ff88; font-weight:bold; font-size:0.9rem;"><input type="checkbox" id="tip-admin-cb" onchange="applySingleDiscount()" style="width:auto; margin:0;">☕ Buy Admin a Coffee (+1 DT)</label></div>
                     <div style="display:flex; justify-content:space-between; border-top:1px dashed #444; margin-top:10px; padding-top:10px; font-size:1.3rem; color:var(--p); font-weight:800;"><span>Total:</span> <b id="co-tot">0 DT</b></div>
                 </div>
 
@@ -493,11 +315,9 @@ v<!DOCTYPE html>
                         <span style="color:gray; font-size:0.85rem;" id="ui-pay-inst">Transfer to:</span>
                         <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
                         <img id="qr-d17" src="https://i.ibb.co/3s6cRkH/qr.png" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
-                        
                         <div style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
                             <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
-                            
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">2. OR Upload Receipt Photo:</label>
                             <div id="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)" onclick="document.getElementById('co-proof-file').click()">
                                 <span id="drop-text">Drag & Drop Receipt Image Here (Or Click)</span>
@@ -510,7 +330,6 @@ v<!DOCTYPE html>
                 <input type="text" id="coN" placeholder="Full Name">
                 <input type="text" id="coC" placeholder="Contact Info (WA/IG)" style="margin:0;">
                 <textarea id="coNts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
-                
                 <button class="btn" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
                 <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;">Cancel</button>
             </div>
@@ -531,19 +350,14 @@ v<!DOCTYPE html>
     <div id="wheel-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🎡 Spin & Win</h3><div id="wheel-pointer">👇</div><div id="wheel-container"></div><button class="btn glow-btn" id="spin-btn" onclick="spinWheel()">SPIN NOW!</button><button onclick="closeModal('wheel-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
 
 <script>
-// --- 1. MULTILINGUAL DICTIONARY ---
 const T = {
     en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
     fr: { ld: "Chargement... ⏳", srch: "Rechercher un actif...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet", track: "🔍 Suivre Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
 };
 
-// --- 2. GLOBAL VARIABLES ---
 let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {} }; 
 let cart = []; let cView = { t: 'cats', c: null, a: null }; 
-
-// STRICT WIPE: Roles only live in RAM during the session, never in cache.
 let role = 'User'; 
-
 let lang = localStorage.getItem('ch_lng') || 'en'; 
 let user = localStorage.getItem('ch_user'); 
 let uOrders = parseInt(localStorage.getItem('ch_ord') || 0); 
@@ -551,17 +365,18 @@ let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
 let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" }; let wSpinning = false; 
 
-// --- GLOBAL IMPORTER LOGIC ---
 let tempImportCost = 0; let tempImportFinal = 0;
-
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 const sV = (arr, idx) => (arr && arr.length > idx) ? arr[idx] : "";
 
-// Converts raw 2D array to object array using the first row (headers) as keys. Zero-crash tolerance.
+// --- SELF HEALING DATABASE MAPPER ---
 function mapSheetToObjects(sheetData) {
-    if(!sheetData || sheetData.length < 2) return [];
-    let headers = sheetData[0];
+    if(!sheetData || !Array.isArray(sheetData) || sheetData.length === 0) return [];
+    // Heal: If backend sent parsed JSON objects (didn't redeploy code.gs)
+    if (!Array.isArray(sheetData[0]) && typeof sheetData[0] === 'object') return sheetData; 
+    if (sheetData.length < 2) return [];
+    let headers = sheetData[0].map(h => String(h).trim());
     return sheetData.slice(1).map(row => {
         let obj = {};
         headers.forEach((h, i) => { obj[h] = row[i]; });
@@ -580,84 +395,55 @@ function cycleTheme() { let ct = parseInt(localStorage.getItem('ch_theme') || 0)
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
 function appLang() { if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); }
 
-// --- MISSING CRITICAL UI FUNCTIONS INJECTED TO PREVENT CRASHES ---
 function chkUI() {
     if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2);
     if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2);
     if(el('vip-ord-cnt')) el('vip-ord-cnt').innerText = uOrders;
-    let streakPct = getStreakPct();
-    let loyPct = getHighestLoyaltyPct();
+    let streakPct = getStreakPct(); let loyPct = getHighestLoyaltyPct();
     if(el('vip-disc-pct')) el('vip-disc-pct').innerText = Math.max(streakPct, loyPct) + "%";
 }
 
 function getRating(id) {
     if(!id) return "⭐⭐⭐⭐⭐ (42)";
     let num = 0; for(let i=0; i<id.length; i++) num += id.charCodeAt(i);
-    let stars = (num % 2 === 0) ? "⭐⭐⭐⭐⭐" : "⭐⭐⭐⭐";
-    let count = (num % 100) + 20;
+    let stars = (num % 2 === 0) ? "⭐⭐⭐⭐⭐" : "⭐⭐⭐⭐"; let count = (num % 100) + 20;
     return `${stars} (${count})`;
 }
 
 function getStreakPct() {
-    if(!db.rewards) return 0;
-    let pct = 0; let objs = mapSheetToObjects(db.rewards);
+    if(!db.rewards) return 0; let pct = 0; let objs = mapSheetToObjects(db.rewards);
     objs.forEach(r => { if(r['--- STREAK ---'] && r['Active?']) { if(loginStreak >= (parseInt(r['Days Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } });
     return pct;
 }
 
 function getHighestLoyaltyPct() {
-    if(!db.rewards) return 0;
-    let pct = 0; let objs = mapSheetToObjects(db.rewards);
+    if(!db.rewards) return 0; let pct = 0; let objs = mapSheetToObjects(db.rewards);
     objs.forEach(r => { if(r['--- LOYALTY ---'] && r['Active?']) { if(uOrders >= (parseInt(r['Orders Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } });
     return pct;
 }
 
 function fUsrOrd() {
     if(!user) return toast(T[lang].si || "Please login first", "error");
-    let h = `<div style="margin-bottom:15px;color:var(--w);"><b>Order History:</b></div>`;
-    let found = false; let ordObjs = mapSheetToObjects(db.ord);
+    let h = `<div style="margin-bottom:15px;color:var(--w);"><b>Order History:</b></div>`; let found = false; let ordObjs = mapSheetToObjects(db.ord);
     ordObjs.reverse().forEach(o => {
-        if(o['User Email'] === user) {
-            h += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border-left:3px solid var(--p); margin-bottom:10px;"><b>ID:</b> ${o['Order ID']}<br><b>Total:</b> ${o['Total (DT)']} DT<br><b>Status:</b> <span style="color:${o.Status==='Pending'?'#ffae00':'#00ff88'}">${o.Status}</span></div>`;
-            found = true;
-        }
+        if(o['User Email'] === user) { h += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border-left:3px solid var(--p); margin-bottom:10px;"><b>ID:</b> ${o['Order ID']}<br><b>Total:</b> ${o['Total (DT)']} DT<br><b>Status:</b> <span style="color:${o.Status==='Pending'?'#ffae00':'#00ff88'}">${o.Status}</span></div>`; found = true; }
     });
     if(!found) h += "No orders found.";
-    el('d-box').innerHTML = h; el('d-tit').innerText = T[lang].mord || "My Orders";
-    openModal('d-mod');
+    el('d-box').innerHTML = h; el('d-tit').innerText = T[lang].mord || "My Orders"; openModal('d-mod');
 }
 
 function stVoiceSearch() {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return toast("Voice search not supported.", "error");
     let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let rec = new SpeechRecognition();
-    rec.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
-    rec.onresult = function(e) { el('itemFinder').value = e.results[0][0].transcript; ren(); };
-    rec.start();
-    toast("Listening... 🎤", "info");
+    let rec = new SpeechRecognition(); rec.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
+    rec.onresult = function(e) { el('itemFinder').value = e.results[0][0].transcript; ren(); }; rec.start(); toast("Listening... 🎤", "info");
 }
 
 async function submitCustomService() {
-    let n = el('srv-name') ? el('srv-name').value : "Custom Service";
-    let d = el('srv-desc') ? el('srv-desc').value : "";
-    if(!n || !d) return toast("Please fill all fields", "error");
-    toast("Sending request...", "info");
+    let n = el('srv-name') ? el('srv-name').value : "Custom Service"; let d = el('srv-desc') ? el('srv-desc').value : "";
+    if(!n || !d) return toast("Please fill all fields", "error"); toast("Sending request...", "info");
     let res = await api('req_service', { email: user || "Guest", srv: n, details: d });
-    if(res && res.s === 'ok') {
-        toast("Request Sent!", "success"); closeModal('srv-mod');
-        window.open(`https://wa.me/${window.CFG.WA}?text=Hello CyberHub! I want a custom service:%0A*Service:* ${n}%0A*Details:* ${d}`);
-    } else { toast("Failed to send.", "error"); }
-}
-
-function openAdminReorder() {
-    toggleAdminMenu();
-    let rl = el('reorder-list'); rl.innerHTML = "Drag to reorder functionality in development.<br>";
-    openModal('reorder-mod');
-}
-
-async function saveReorder() {
-    toast("Inventory order saved", "success");
-    closeModal('reorder-mod');
+    if(res && res.s === 'ok') { toast("Request Sent!", "success"); closeModal('srv-mod'); window.open(`https://wa.me/${window.CFG.WA}?text=Hello CyberHub! I want a custom service:%0A*Service:* ${n}%0A*Details:* ${d}`); } else { toast("Failed to send.", "error"); }
 }
 
 async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); return d.ip; } catch(e) { return "Guest"; } }
@@ -669,16 +455,8 @@ let maintTimerInterval;
 
 function updateGodsEye(count) {
     el('gods-eye').style.display = 'flex';
-    if(role === 'Admin') {
-        el('gods-eye').classList.add('admin-eye');
-        el('online-count').innerText = Math.max(0, count - 1); 
-    } else {
-        el('gods-eye').classList.remove('admin-eye');
-        let isClosed = db.maintObj && db.maintObj.closed;
-        let min = isClosed ? 2 : 30;
-        let max = isClosed ? 5 : 150;
-        el('online-count').innerText = Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    if(role === 'Admin') { el('gods-eye').classList.add('admin-eye'); el('online-count').innerText = Math.max(0, count - 1); } 
+    else { el('gods-eye').classList.remove('admin-eye'); let isClosed = db.maintObj && db.maintObj.closed; let min = isClosed ? 2 : 30; let max = isClosed ? 5 : 150; el('online-count').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
 }
 
 function initApp() { 
@@ -691,18 +469,19 @@ function initApp() {
     
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
         if(d && d.status === "success") { 
-            db = d; hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); 
+            db = d; 
+            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { console.error(e); el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;">Data sync error. Contact admin.</div>`; }
             if(db.isSurge) el('surge-banner').style.display = 'block';
-        } 
+        } else {
+            el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline:</b> Please redeploy Google Apps Script as a NEW version.</div>`;
+        }
+    }).catch(e => {
+        el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Network Error:</b> Cannot connect to database.</div>`;
     }); 
     
     fetchSafeIP().then(ip => {
         userIP = ip;
-        setInterval(() => {
-            api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest-' + Math.floor(Math.random()*1000)) }).then(res => {
-                if(res && res.success) updateGodsEye(res.count);
-            });
-        }, 15000); 
+        setInterval(() => { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest-' + Math.floor(Math.random()*1000)) }).then(res => { if(res && res.success) updateGodsEye(res.count); }); }, 15000); 
     }); 
     
     if(typeof particlesJS !== 'undefined') { particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } }); }
@@ -711,44 +490,25 @@ function initApp() {
 function hMaint(m) { 
     if(!m) return; let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'); 
     if(m.bands) { el('stripe-top').style.display = 'block'; el('stripe-bot').style.display = 'block'; } else { el('stripe-top').style.display = 'none'; el('stripe-bot').style.display = 'none'; } 
-    
     if(m.closed) { 
         if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "STORE CLOSED"; if(t) t.innerHTML = m.msg; el('st-cnt').style.display = 'none'; 
-        
-        if(m.timer && !isNaN(parseInt(m.timer))) {
-            let endTime = parseInt(m.timer);
-            el('maint-timer').style.display = 'block';
-            clearInterval(maintTimerInterval);
-            maintTimerInterval = setInterval(() => {
-                let diff = endTime - Date.now();
-                if(diff <= 0) { el('maint-timer').innerText = "00:00:00"; clearInterval(maintTimerInterval); }
-                else {
-                    let h = Math.floor(diff / (1000 * 60 * 60)); let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((diff % (1000 * 60)) / 1000);
-                    el('maint-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-                }
-            }, 1000);
-        } else { el('maint-timer').style.display = 'none'; }
-    } 
-    else if(m.bMsg) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "ANNOUNCEMENT"; if(t) t.innerHTML = m.bMsg; el('st-cnt').style.display = 'block'; el('maint-timer').style.display = 'none'; } 
-    else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
+        if(m.timer && !isNaN(parseInt(m.timer))) { let endTime = parseInt(m.timer); el('maint-timer').style.display = 'block'; clearInterval(maintTimerInterval); maintTimerInterval = setInterval(() => { let diff = endTime - Date.now(); if(diff <= 0) { el('maint-timer').innerText = "00:00:00"; clearInterval(maintTimerInterval); } else { let h = Math.floor(diff / (1000 * 60 * 60)); let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((diff % (1000 * 60)) / 1000); el('maint-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`; } }, 1000); } else { el('maint-timer').style.display = 'none'; }
+    } else if(m.bMsg) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "ANNOUNCEMENT"; if(t) t.innerHTML = m.bMsg; el('st-cnt').style.display = 'block'; el('maint-timer').style.display = 'none'; } else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
 }
 
 function renderPolicy() { 
     let h = ""; 
-    if(db.policy) { 
-        let polObjs = mapSheetToObjects(db.policy);
-        polObjs.forEach(p => { 
-            if(p['Title EN']) h += `<details><summary>${lang==='en'?p['Title EN']:p['Title FR']}</summary><p>${lang==='en'?p['Content EN']:p['Content FR']}</p></details>`; 
-        }); 
-    } 
+    if(db.policy) { let polObjs = mapSheetToObjects(db.policy); polObjs.forEach(p => { if(p['Title EN']) h += `<details><summary>${lang==='en'?p['Title EN']:p['Title FR']}</summary><p>${lang==='en'?p['Content EN']:p['Content FR']}</p></details>`; }); } 
     el('pol-content').innerHTML = h; 
 }
 
 // --- ADMIN FULL DASHBOARD ENGINE ---
 let adminDataCache = {};
-
 function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
 function openAdminCreate(type) { toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; }
+function openAdminReorder() { toggleAdminMenu(); let rl = el('reorder-list'); rl.innerHTML = "Drag to reorder functionality in development.<br>"; openModal('reorder-mod'); }
+async function saveReorder() { toast("Inventory order saved", "success"); closeModal('reorder-mod'); }
+
 async function openAdminDashboard() { 
     toast("Fetching secured databases...", "info");
     let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS});
@@ -766,19 +526,12 @@ function renderAdminUsers() {
     let usersObj = mapSheetToObjects(adminDataCache.users);
     usersObj.forEach(u => {
         if(!u.Email) return; 
-        tbody.innerHTML += `<tr>
-            <td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td>
-            <td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td>
-            <td>${u['Wallet Balance (DT)']}</td>
-            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td>
-        </tr>`;
+        tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`;
     });
 }
 async function admUserAction(email, action, val="") {
-    if(action === 'topup') val = prompt("Amount to add (DT):", "10");
-    if(!val) return;
-    toast("Updating...", "info");
-    let res = await api('admin_update_user', {adminPass: window.CFG.PASS, email, action, val});
+    if(action === 'topup') val = prompt("Amount to add (DT):", "10"); if(!val) return;
+    toast("Updating...", "info"); let res = await api('admin_update_user', {adminPass: window.CFG.PASS, email, action, val});
     if(res && res.s === 'ok') { toast("Updated!", "success"); openAdminDashboard(); }
 }
 
@@ -787,13 +540,7 @@ function renderAdminOrders() {
     let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse();
     ordersObj.forEach(o => {
         if(!o['Order ID']) return;
-        tbody.innerHTML += `<tr>
-            <td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td>
-            <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${o.Items}">${o.Items}</td>
-            <td>${o['Total (DT)']}</td>
-            <td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td>
-            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM Client</button></td>
-        </tr>`;
+        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${o.Items}">${o.Items}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM Client</button></td></tr>`;
     });
 }
 async function admOrderAction(id, status) {
@@ -817,12 +564,8 @@ async function savePromoCode() {
 }
 
 async function sendStoreMaint(closed) {
-    let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value;
-    let timerVal = "";
-    if(closed) {
-        if(dt) { timerVal = new Date(dt).getTime(); }
-        else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); }
-    }
+    let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value; let timerVal = "";
+    if(closed) { if(dt) { timerVal = new Date(dt).getTime(); } else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); } }
     let res = await api('maint', {adminPass: window.CFG.PASS, closed, msg, timer: timerVal});
     if(res && res.s==='ok') { toast("Store status updated", "success"); setTimeout(()=>location.reload(true), 1500); }
 }
@@ -835,8 +578,7 @@ let tempReg = {};
 async function initiateSignup() {
     tempReg = { n: el('rN').value.trim(), c: el('rCnt').value.trim(), ph: el('rPh').value.trim(), wa: el('rWa').value.trim(), ig: el('rIg').value.trim(), p: el('rPas').value.trim() };
     if(!tempReg.n || !tempReg.c || !tempReg.p) return toast("Name, Email, and Password required.", "error");
-    toast("Sending verification code...", "info");
-    let res = await api('send_otp', {email: tempReg.c});
+    toast("Sending verification code...", "info"); let res = await api('send_otp', {email: tempReg.c});
     if(res && res.s === 'ok') { swA('otp-step'); toast("Code Sent!", "success"); } else { toast("Failed to send OTP.", "error"); }
 }
 async function finalizeSignup() {
@@ -885,7 +627,7 @@ async function revealPassword() {
     try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); }
 }
 
-// --- RENDER & DISPLAY (ZERO-CRASH OBJECT MAPPING) ---
+// --- RENDER & DISPLAY (SMART IMPORT BUTTON + ZERO CRASH MAPPING) ---
 function ren() { 
     let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
     let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
@@ -899,7 +641,7 @@ function ren() {
         if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
         let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
         if(!cat) return;
-        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
         let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
         if(cat && !c[cat]) c[cat] = { hHex: r['Category Color'] || 'var(--p)', i: r['Category Image'] }; 
         if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r['Subcategory Color'] || c[cat].hHex, i: r['Subcategory Image'] }; 
@@ -909,7 +651,7 @@ function ren() {
         if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
         let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
         if(!cat) return;
-        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
         
         let itmId = r['ID'] ? String(r['ID']).trim() : "IT-000"; 
         let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
@@ -938,7 +680,24 @@ function ren() {
 }
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
-function dR(i, q = "") { let eO = sEnc(i.id); let eN = sEnc(`${i.cat} > ${i.sub ? i.sub + ' > ' : ''}${i.n}`); let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : ''; let extHtml = ''; let exCount = i.exNum || 1; if(i.exReq) { let placeholders = i.exTxt.split(','); for(let j=0; j<exCount; j++) { let pl = placeholders[j] ? placeholders[j].trim() : "Details..."; extHtml += `<input type="text" id="ex-${i.id}-${j}" placeholder="${pl}" autocomplete="off" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">`; } } let btnCol = i.col || 'var(--p)'; let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat}</div>`; let imgHtml = i.img ? `<img src="${i.img}" class="img-transparent" style="width:50px; height:50px; margin-right:15px;">` : ''; let b = i.oos ? `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>` : `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; let nDisp = q ? highlightMatch(i.n, q) : i.n; let revHtml = `<div style="font-size:0.75rem; color:#ffae00; margin-top:3px;">${getRating(i.id)}</div>`; return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; }
+
+function dR(i, q = "") { 
+    let eO = sEnc(i.id); let eN = sEnc(`${i.cat} > ${i.sub ? i.sub + ' > ' : ''}${i.n}`); let wrnHtml = i.wrn ? `<div style="color:var(--w);font-size:0.75rem;margin-top:5px;font-weight:bold;">⚠️ ${i.wrn}</div>` : ''; let extHtml = ''; let exCount = i.exNum || 1; 
+    if(i.exReq) { let placeholders = i.exTxt.split(','); for(let j=0; j<exCount; j++) { let pl = placeholders[j] ? placeholders[j].trim() : "Details..."; extHtml += `<input type="text" id="ex-${i.id}-${j}" placeholder="${pl}" autocomplete="off" style="margin-bottom:5px;padding:8px;font-size:0.85rem;width:100%;">`; } } 
+    let btnCol = i.col || 'var(--p)'; let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat}</div>`; let imgHtml = i.img ? `<img src="${i.img}" class="img-transparent" style="width:50px; height:50px; margin-right:15px;">` : ''; 
+    let nDisp = q ? highlightMatch(i.n, q) : i.n; let revHtml = `<div style="font-size:0.75rem; color:#ffae00; margin-top:3px;">${getRating(i.id)}</div>`; 
+
+    // SMART IMPORT BUTTON LOGIC
+    let nStr = String(i.n).toLowerCase(); let catStr = String(i.cat).toLowerCase();
+    let isImport = nStr.includes("import") || nStr.includes("shein") || nStr.includes("amazon") || nStr.includes("aliexpress") || catStr.includes("import") || catStr.includes("shein");
+    
+    let b = '';
+    if(i.oos) { b = `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>`; } 
+    else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); if(navigator.vibrate) navigator.vibrate(50);">CALCULATE & ADD</button>`; } 
+    else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; }
+
+    return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
+}
 
 // --- GLOBAL IMPORTER ---
 let tempImportCost = 0; let tempImportFinal = 0;
