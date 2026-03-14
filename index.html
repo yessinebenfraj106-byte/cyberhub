@@ -81,8 +81,10 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        .maint-stripes { position: fixed; left: 0; right: 0; width: 100vw; height: 16px; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; }
-        #stripe-top { top: 0; border-bottom: 2px solid #000; } #stripe-bot { bottom: 0; border-top: 2px solid #000; }
+        /* Master Maintenance Stripes - Diagonal Over Website */
+        .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        #stripe-top { top: 10%; left: -20%; width: 140%; transform: rotate(-15deg); }
+        #stripe-bot { bottom: 10%; right: -20%; width: 140%; transform: rotate(-15deg); }
         
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
         #wa-widget:hover { transform: scale(1.05); }
@@ -101,6 +103,7 @@
         #admin-menu-popup { display: none; position: fixed; bottom: 100px; left: 25px; flex-direction: column; gap: 10px; z-index: 1001; width: 200px; padding: 15px; border-radius: 15px; }
         .admin-fab { display: none; position: fixed; bottom: 25px; left: 25px; background: #ff00ff; color: #fff; width: 65px; height: 65px; border-radius: 50%; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 5px 20px rgba(255,0,255,0.4); cursor: pointer; z-index: 1000; border: none; }
         
+        /* God's Eye Tracker */
         #gods-eye { display: flex; align-items: center; justify-content: center; gap: 5px; position: fixed; top: 75px; right: 15px; background: rgba(10,15,30,0.95); backdrop-filter: blur(10px); border: 1px solid #00ff88; color: #00ff88; padding: 5px 15px; border-radius: 30px; font-size: 0.8rem; font-weight: bold; z-index: 50; box-shadow: 0 0 15px rgba(0,255,136,0.3); transition: all 0.3s; white-space: nowrap; }
         .admin-eye { border-color: #ff00ff !important; color: #ff00ff !important; box-shadow: 0 0 15px rgba(255,0,255,0.3) !important; }
 
@@ -116,6 +119,9 @@
         #drop-zone { border: 2px dashed var(--p); padding: 30px; text-align: center; border-radius: 12px; background: rgba(0, 240, 255, 0.05); margin: 15px 0; cursor: pointer;}
         #drop-zone.active { background: rgba(0, 240, 255, 0.2); border-color: #ffae00; }
         #drop-zone.flagged { border-color: #ff4d4d !important; background: rgba(255, 77, 77, 0.1) !important; color: #ff4d4d; }
+        
+        /* Honeypot classes for autocomplete destruction */
+        .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
     </style>
 </head>
 <body>
@@ -174,6 +180,7 @@
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
+        <!-- Glowing Custom Service Banner -->
         <div class="glass" style="padding:15px; text-align:center; border-color:#ffae00; cursor:pointer; margin-bottom:20px;" onclick="openModal('srv-mod')">
             <span style="color:#ffae00; font-weight:bold;">🚀 Request Custom Service</span>
         </div>
@@ -183,10 +190,14 @@
         </div>
 
         <div style="position:relative;">
-            <!-- THE ULTIMATE EMAIL AUTOCOMPLETE FIX: Invisible honeypots and strict rules -->
-            <input type="text" style="display:none">
-            <input type="password" style="display:none">
-            <input type="text" id="itemFinder" autocomplete="off" spellcheck="false" role="presentation" name="cyber_search_x_disable" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+            <!-- THE ULTIMATE EMAIL AUTOCOMPLETE FIX: Form Wrapper + Honeypots + Attributes -->
+            <form autocomplete="off" onsubmit="event.preventDefault();">
+                <input type="text" class="hp-hider" tabindex="-1" autocomplete="username">
+                <input type="email" class="hp-hider" tabindex="-1" autocomplete="email">
+                <input type="password" class="hp-hider" tabindex="-1" autocomplete="current-password">
+                
+                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" name="cyber_search_random_string_x" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+            </form>
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
         
@@ -206,9 +217,9 @@
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
     </div>
 
-    <div id="admin-page">
-        <div style="max-width:1000px; margin:auto;">
-            <button onclick="el('admin-page').style.display='none'" style="position:fixed; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
+    <div id="admin-page" class="modal">
+        <div class="m-cnt" style="max-width:1000px;">
+            <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
             <h1 style="color:#ff00ff; margin-bottom:20px; font-weight:900;">👑 GOD MODE DASHBOARD</h1>
             
             <div class="admin-nav">
@@ -223,8 +234,8 @@
                     <h3 style="color:var(--w); margin-top:0;">⚡ Store Toggles</h3>
                     <input type="text" id="adm-m-msg" placeholder="Maintenance Message...">
                     <div style="display:flex; gap:10px; margin-bottom:10px;">
-                        <input type="datetime-local" id="adm-m-date" style="flex:1;">
-                        <input type="number" id="adm-m-hrs" placeholder="Or duration (hours)" style="flex:1;">
+                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Specific Re-open Date & Time:</label><input type="datetime-local" id="adm-m-date"></div>
+                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Or Duration (in Hours):</label><input type="number" id="adm-m-hrs" placeholder="e.g., 2.5 hours"></div>
                     </div>
                     <button class="btn" style="background:#ffae00;" onclick="sendStoreMaint(true)">CLOSE STORE</button>
                     <button class="btn" style="background:#00ff88; color:#000;" onclick="sendStoreMaint(false)">OPEN STORE</button>
@@ -259,16 +270,19 @@
 
             <div id="adm-promo" class="admin-section">
                 <div class="glass">
-                    <h3 style="color:var(--p); margin-top:0;">Add Custom Promotion</h3>
+                    <h3 style="color:var(--p); margin-top:0;">Manage Promotions</h3>
                     <select id="p-type" onchange="togglePromoFields()" style="background:#000!important; border-color:var(--p);">
-                        <option value="Promo Code">🎟️ Promo Code</option>
-                        <option value="Streak">🔥 Streak Level</option>
-                        <option value="Loyalty">🛡️ Loyalty Tier</option>
+                        <option value="" disabled selected>-- Select Type to Add/Edit --</option>
+                        <option value="Promo Code">🎟️ Add/Edit Promo Code</option>
+                        <option value="Streak">🔥 Edit Streak Reward</option>
+                        <option value="Loyalty">🛡️ Edit Loyalty Reward</option>
                     </select>
-                    <input type="text" id="p-code" placeholder="Code (e.g. SUMMER20) / Days / Orders" style="text-transform:uppercase;">
-                    <input type="number" id="p-pct" placeholder="Discount % (e.g. 10)">
-                    <input type="number" id="p-max" placeholder="Max Uses (0 = unlimited)">
-                    <button class="btn" onclick="savePromoCode()">Save Promotion</button>
+                    <div id="p-fields-wrap" style="display:none; margin-top:10px;">
+                        <input type="text" id="p-code" placeholder="" style="text-transform:uppercase;">
+                        <input type="number" id="p-pct" placeholder="Discount % (e.g. 10)">
+                        <input type="number" id="p-max" placeholder="Max Uses (0 = unlimited)">
+                        <button class="btn" onclick="savePromoCode()">Save to Database</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -459,6 +473,7 @@
                     <div class="c-btn" id="p-mm" onclick="sPay('Mandat Minute')">🏦 Mandat</div>
                     <div class="c-btn" id="p-wal" onclick="sPay('Wallet')">💳 Wallet</div>
                     <div class="c-btn" id="p-later" onclick="sPay('Pay Later')">⏳ Pay Later</div>
+                    <div class="c-btn" id="p-cash" onclick="sPay('Cash')">💵 Cash</div>
                 </div>
                 
                 <div id="d-box-pay" style="display:none; background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin-bottom:15px; border:1px solid var(--b);">
@@ -506,8 +521,8 @@
 <script>
 // --- 1. MULTILINGUAL DICTIONARY ---
 const T = {
-    en: { ld: "Loading Store... ⏳", srch: "Search Item Name...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
-    fr: { ld: "Chargement... ⏳", srch: "Rechercher un article...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet", track: "🔍 Suivre Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
+    en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
+    fr: { ld: "Chargement... ⏳", srch: "Rechercher un actif...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet", track: "🔍 Suivre Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
 };
 
 // --- 2. GLOBAL VARIABLES ---
@@ -525,12 +540,22 @@ let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" }; let wSpinning = false; 
 
 // --- GLOBAL IMPORTER LOGIC ---
-let tempImportCost = 0;
-let tempImportFinal = 0;
+let tempImportCost = 0; let tempImportFinal = 0;
 
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 const sV = (arr, idx) => (arr && arr.length > idx) ? arr[idx] : "";
+
+// Converts raw 2D array to object array using the first row (headers) as keys. Zero-crash tolerance.
+function mapSheetToObjects(sheetData) {
+    if(!sheetData || sheetData.length < 2) return [];
+    let headers = sheetData[0];
+    return sheetData.slice(1).map(row => {
+        let obj = {};
+        headers.forEach((h, i) => { obj[h] = row[i]; });
+        return obj;
+    });
+}
 
 function toast(m, type = 'success') { let t = el('toast'); let c = type === 'error' ? '#ff4d4d' : (type === 'info' ? '#00f0ff' : '#00ff88'); el('t-msg').innerHTML = `<span style="color:${c}">${m}</span>`; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 function openModal(i) { let m = el(i); m.style.display = 'flex'; document.body.classList.add('modal-open'); setTimeout(() => m.classList.add('show'), 10); }
@@ -616,7 +641,16 @@ function hMaint(m) {
     else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
 }
 
-function renderPolicy() { let h = ""; if(db.policy) { db.policy.slice(1).forEach(p => { if(sV(p,0)) h += `<details><summary>${lang==='en'?sV(p,0):sV(p,1)}</summary><p>${lang==='en'?sV(p,2):sV(p,3)}</p></details>`; }); } el('pol-content').innerHTML = h; }
+function renderPolicy() { 
+    let h = ""; 
+    if(db.policy) { 
+        let polObjs = mapSheetToObjects(db.policy);
+        polObjs.forEach(p => { 
+            if(p['Title EN']) h += `<details><summary>${lang==='en'?p['Title EN']:p['Title FR']}</summary><p>${lang==='en'?p['Content EN']:p['Content FR']}</p></details>`; 
+        }); 
+    } 
+    el('pol-content').innerHTML = h; 
+}
 
 // --- ADMIN FULL DASHBOARD ENGINE ---
 let adminDataCache = {};
@@ -637,13 +671,14 @@ function switchAdminTab(tabId) {
 
 function renderAdminUsers() {
     let tbody = el('a-t-users'); tbody.innerHTML = '';
-    adminDataCache.users.slice(1).forEach(u => {
-        if(!sV(u,1)) return; // Email
+    let usersObj = mapSheetToObjects(adminDataCache.users);
+    usersObj.forEach(u => {
+        if(!u.Email) return; 
         tbody.innerHTML += `<tr>
-            <td>${sV(u,1)}</td><td>${sV(u,0)}</td><td>${sV(u,3)}</td>
-            <td><select onchange="admUserAction('${sV(u,1)}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${sV(u,4)}" selected hidden>${sV(u,4)}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td>
-            <td>${sV(u,7)}</td>
-            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${sV(u,1)}', 'topup')">Top-Up</button></td>
+            <td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td>
+            <td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td>
+            <td>${u['Wallet Balance (DT)']}</td>
+            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td>
         </tr>`;
     });
 }
@@ -657,14 +692,15 @@ async function admUserAction(email, action, val="") {
 
 function renderAdminOrders() {
     let tbody = el('a-t-orders'); tbody.innerHTML = '';
-    adminDataCache.orders.slice(1).reverse().forEach(o => {
-        if(!sV(o,1)) return; // Order ID
+    let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse();
+    ordersObj.forEach(o => {
+        if(!o['Order ID']) return;
         tbody.innerHTML += `<tr>
-            <td>${sV(o,1)}</td><td>${sV(o,2)}<br><span style="color:gray;font-size:0.7rem">${sV(o,4)}</span></td>
-            <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${sV(o,5)}">${sV(o,5)}</td>
-            <td>${sV(o,8)}</td>
-            <td><select onchange="admOrderAction('${sV(o,1)}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${sV(o,9)==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${sV(o,9)}" selected hidden>${sV(o,9)}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td>
-            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(sV(o,4)).replace(/\D/g,'')}')">DM Client</button></td>
+            <td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td>
+            <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${o.Items}">${o.Items}</td>
+            <td>${o['Total (DT)']}</td>
+            <td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td>
+            <td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM Client</button></td>
         </tr>`;
     });
 }
@@ -675,9 +711,10 @@ async function admOrderAction(id, status) {
 
 function togglePromoFields() {
     let t = el('p-type').value;
-    if(t === 'Promo Code') { el('p-code').placeholder = "Code (e.g. SUMMER20)"; el('p-max').style.display = 'block'; }
-    else if(t === 'Streak') { el('p-code').placeholder = "Days Needed (e.g. 7)"; el('p-max').style.display = 'none'; }
-    else if(t === 'Loyalty') { el('p-code').placeholder = "Orders Needed (e.g. 5)"; el('p-max').style.display = 'none'; }
+    if(t === 'Promo Code') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Code (e.g. SUMMER20)"; el('p-max').style.display = 'block'; }
+    else if(t === 'Streak') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Days Needed (e.g. 7)"; el('p-max').style.display = 'none'; }
+    else if(t === 'Loyalty') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Orders Needed (e.g. 5)"; el('p-max').style.display = 'none'; }
+    else { el('p-fields-wrap').style.display='none'; }
 }
 
 async function savePromoCode() {
@@ -715,7 +752,7 @@ async function finalizeSignup() {
     let vRes = await api('verify_otp', {email: tempReg.c, code: code});
     if(vRes && vRes.s === 'ok') {
         let res = await api('signup', { n: tempReg.n, c: tempReg.c, pwd: tempReg.p, ip: userIP, wa: tempReg.wa, ig: tempReg.ig });
-        if(res && res.s === 'ok') { user = tempReg.c; localStorage.setItem('ch_user', user); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
+        if(res && res.s === 'ok') { user = tempReg.c; role = 'User'; localStorage.setItem('ch_user', user); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
     } else { toast("Invalid OTP Code", "error"); }
 }
 async function exLog() {
@@ -725,13 +762,13 @@ async function exLog() {
         user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; 
         localStorage.setItem('ch_user', user); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); 
         closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); 
-        if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; updateGodsEye(); } 
+        if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; updateGodsEye(0); } 
     } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
 }
 function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
-function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
+function logOut() { localStorage.removeItem('ch_user'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
 
-// --- ADMIN / GOD MODE (Memory Wiper) ---
+// --- ADMIN / GOD MODE ---
 let logoClicks = 0;
 function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
 function verifyAdminManual() {
@@ -756,7 +793,7 @@ async function revealPassword() {
     try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); }
 }
 
-// --- RENDER & DISPLAY (Raw Array Parsing) ---
+// --- RENDER & DISPLAY (ZERO-CRASH OBJECT MAPPING) ---
 function ren() { 
     let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
     let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
@@ -764,35 +801,37 @@ function ren() {
     if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
     let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; let isFr = lang === 'fr'; 
     
-    db.inv.slice(1).forEach(r => { 
-        if(!r || (!sV(r,13) && !sV(r,14))) return; 
-        let cat = isFr ? (sV(r,1) || sV(r,2)) : (sV(r,2) || sV(r,1)); 
+    let invObjs = mapSheetToObjects(db.inv);
+    
+    invObjs.forEach(r => { 
+        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
+        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
         if(!cat) return;
         if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
-        let sub = isFr ? (sV(r,5) || sV(r,6)) : (sV(r,6) || sV(r,5)); 
-        if(cat && !c[cat]) c[cat] = { hHex: sV(r,3) || 'var(--p)', i: sV(r,4) }; 
-        if(sub && !ap[sub]) ap[sub] = { cat: cat, col: sV(r,7) || c[cat].hHex, i: sV(r,8) }; 
+        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+        if(cat && !c[cat]) c[cat] = { hHex: r['Category Color'] || 'var(--p)', i: r['Category Image'] }; 
+        if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r['Subcategory Color'] || c[cat].hHex, i: r['Subcategory Image'] }; 
     }); 
     
-    db.inv.slice(1).forEach(r => { 
-        if(!r || (!sV(r,13) && !sV(r,14))) return; 
-        let cat = isFr ? (sV(r,1) || sV(r,2)) : (sV(r,2) || sV(r,1)); 
+    invObjs.forEach(r => { 
+        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
+        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
         if(!cat) return;
         if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
         
-        let itmId = sV(r,0) ? String(sV(r,0)).trim() : "IT-000"; 
-        let sub = isFr ? (sV(r,5) || sV(r,6)) : (sV(r,6) || sV(r,5)); 
-        let hasFld = (sV(r,9) === true || String(sV(r,9)).toLowerCase() === 'true' || String(sV(r,9)).toLowerCase() === 'yes'); 
-        let fldN = isFr ? (sV(r,10) || sV(r,11)) : (sV(r,11) || sV(r,10)); 
-        let fldE = sV(r,12) || "📁"; 
-        let n = isFr ? (sV(r,13) || sV(r,14)) : (sV(r,14) || sV(r,13)); 
-        let p = parseFloat(sV(r,15)) || 0; 
-        let oos = String(sV(r,18)).toUpperCase().includes("OOS"); 
-        let exReq = (sV(r,19) === true || String(sV(r,19)).toLowerCase() === 'true'); 
-        let exNum = parseInt(sV(r,20)) || 1; 
-        let exTxt = isFr ? (sV(r,21) || "Details...") : (sV(r,22) || sV(r,21) || "Details..."); 
-        let wrn = isFr ? (sV(r,23) || sV(r,24)) : (sV(r,24) || sV(r,23)); 
-        let artImg = sV(r,25) || ''; 
+        let itmId = r['ID'] ? String(r['ID']).trim() : "IT-000"; 
+        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+        let hasFld = (r['In Folder?'] === true || String(r['In Folder?']).toLowerCase() === 'true' || String(r['In Folder?']).toLowerCase() === 'yes'); 
+        let fldN = isFr ? (r['Folder Name FR'] || r['Folder Name EN']) : (r['Folder Name EN'] || r['Folder Name FR']); 
+        let fldE = r['Folder Emoji'] || "📁"; 
+        let n = isFr ? (r['Article Name FR'] || r['Article Name EN']) : (r['Article Name EN'] || r['Article Name FR']); 
+        let p = parseFloat(r['Selling Price']) || 0; 
+        let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
+        let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); 
+        let exNum = parseInt(r['How Many?']) || 1; 
+        let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
+        let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); 
+        let artImg = r['Article Image'] || ''; 
         let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
         
         if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } return; } 
@@ -846,7 +885,7 @@ function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"
 function opnCO() { if(cart.length === 0) return toast("Cart Empty", "error"); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info. Enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');}
 function applySingleDiscount() { let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); }
 async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await api("validate_promo", { code: c }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired", true); } else { toast("Invalid Code", true); } }
-function sPay(m) { payM = m; ['p-d17','p-mm','p-wal','p-later'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); if(m === 'D17') el('p-d17').classList.add('act'); else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); else if(m === 'Wallet') el('p-wal').classList.add('act'); else if(m === 'Pay Later') el('p-later').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='block'; el('ui-pay-inst').innerText = "Transfer to D17:"; } else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; } } else { dbox.style.display = 'none'; } }
+function sPay(m) { payM = m; ['p-d17','p-mm','p-wal','p-later', 'p-cash'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); if(m === 'D17') el('p-d17').classList.add('act'); else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); else if(m === 'Wallet') el('p-wal').classList.add('act'); else if(m === 'Pay Later') el('p-later').classList.add('act'); else if(m === 'Cash') el('p-cash').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='block'; el('ui-pay-inst').innerText = "Transfer to D17:"; } else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; } } else { dbox.style.display = 'none'; } }
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
 function dzLeave() { el('drop-zone').classList.remove('active'); }
 function dzDrop(e) { e.preventDefault(); dzLeave(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); }
@@ -900,8 +939,8 @@ async function trackOrdBtn() {
 }
 async function cancelOrd(id) { if(!confirm("Abort this order?")) return toast("Transmitting abort code...", "info"); let res = await api('cancel_order', {orderId: id, userEmail: user}); if(res && res.success) { toast("Order Cancelled", "success"); trackOrdBtn(); } else { toast("Unauthorized to cancel.", "error"); } }
 
-function buildWheelUI() { let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; let sliceDeg = 360 / db.wheel.length; db.wheel.forEach((w, i) => { if(!sV(w,0))return; let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = sV(w,2); slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${sV(w,1)}</span>`; wc.appendChild(slice); }); }
-async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; for(let i=0; i<db.wheel.length; i++) { if(!sV(db.wheel[i],0))continue; cumulative += parseFloat(sV(db.wheel[i],3) || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / db.wheel.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = db.wheel[selectedIndex]; if(sV(wonObj,0).includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: sV(wonObj,0)}); toast(`You got: ${sV(wonObj,0)} ${sV(wonObj,1)}`, false); }, 4500); }
+function buildWheelUI() { let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; let wheelObjs = mapSheetToObjects(db.wheel); let sliceDeg = 360 / wheelObjs.length; wheelObjs.forEach((w, i) => { if(!w['Prize Name'])return; let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = w['Color Hex']; slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${w['Emoji']}</span>`; wc.appendChild(slice); }); }
+async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
 
 if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 </script>
