@@ -6,6 +6,7 @@
     <title>CyberHub | Premium Digital</title>
     <link rel="icon" type="image/png" id="fav-icon" href="icon-192.png">
     <meta name="theme-color" content="#050b14">
+    
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -13,9 +14,22 @@
 
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
-        window.CFG = { SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec", NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058" };
-        const themes = [{n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'}, {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}];
+
+        window.CFG = {
+            SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
+            NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058",
+            D17_QR: "https://i.ibb.co/3s6cRkH/qr.png" 
+        };
+        
+        const themes = [
+            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
+            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'},
+            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
+            {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}
+        ];
+        
         try { let ct = parseInt(localStorage.getItem('ch_theme') || 0); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); } catch(e) {}
+        
         const playSnd = () => { if(navigator.vibrate) navigator.vibrate(50); };
     </script>
 
@@ -23,40 +37,53 @@
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: background 0.5s; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
-        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        
+        /* Updated Particles CSS for guaranteed render */
+        #particles-js { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--p); display: block; margin: 0 auto; cursor: pointer; box-shadow: 0 0 25px var(--b); background: #111; object-fit: cover; }
+        
         @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
         .skeleton { animation: shimmer 2s infinite linear; background: linear-gradient(to right, rgba(255,255,255,0.03) 4%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.03) 36%); background-size: 1000px 100%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .skel-card { height: 140px; width: 100%; }
+        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
         .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
         .img-transparent { width: 65px; height: 65px; margin: 0 auto 10px auto; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
         .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; }
         .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; }
+
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
         .glow-btn { background: linear-gradient(90deg, #ff00ff, #8b5cf6, var(--p)); background-size: 200% 200%; animation: glow 3s ease infinite; color: #fff; border: none; font-weight: 900; }
         @keyframes glow { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+        
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; }
         input, select, textarea { font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
+        
         .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
         .m-cnt { background: var(--bg); border: 1px solid var(--p); padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px var(--b); transform: scale(0.9); transition: transform 0.3s; }
         .modal.show .m-cnt { transform: scale(1); }
+        
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 800; transition: all 0.5s; z-index: 20000; }
         .toast.show { bottom: 40px; }
+        
         .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; flex: 1; font-weight: bold; font-size: 0.85rem; }
         .c-btn.act { background: var(--b); border-color: var(--p); color: var(--p); }
+        
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: var(--c); z-index: 9999; transition: 0.4s ease; padding: 20px; border-right: 1px solid var(--p); display: flex; flex-direction: column; backdrop-filter: blur(20px); overflow-y: auto; }
         #sidebar.open { left: 0; }
         .m-item { padding: 18px; color: #fff; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--b); cursor: pointer; display: flex; align-items: center; gap: 15px; }
         .m-item:hover { background: var(--b); padding-left: 25px; }
+        
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
+        /* Master Maintenance Stripes */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         #stripe-top { top: 10%; left: -20%; width: 140%; transform: rotate(-15deg); }
         #stripe-bot { bottom: 10%; right: -20%; width: 140%; transform: rotate(-15deg); }
@@ -64,7 +91,7 @@
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
         #wa-widget:hover { transform: scale(1.05); }
 
-        /* ADMIN DASHBOARD */
+        /* ADMIN DASHBOARD UI */
         #admin-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100000; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -92,11 +119,16 @@
         #drop-zone { border: 2px dashed var(--p); padding: 30px; text-align: center; border-radius: 12px; background: rgba(0, 240, 255, 0.05); margin: 15px 0; cursor: pointer;}
         #drop-zone.active { background: rgba(0, 240, 255, 0.2); border-color: #ffae00; }
         #drop-zone.flagged { border-color: #ff4d4d !important; background: rgba(255, 77, 77, 0.1) !important; color: #ff4d4d; }
+        
+        /* Honeypots for Autocomplete Fix */
+        .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
     </style>
 </head>
 <body>
     <div id="stripe-top" class="maint-stripes"></div>
     <div id="stripe-bot" class="maint-stripes"></div>
+    
+    <!-- Particles Div Base Layer -->
     <div id="particles-js"></div>
 
     <div id="gods-eye">👁️ <span id="online-count">0</span> Users Online</div>
@@ -117,7 +149,7 @@
         
         <div style="padding: 15px; border: 1px solid var(--b); background: rgba(0,0,0,0.3); border-radius: 12px; margin: 15px 0;">
             <b style="color:var(--w);" class="tr" data-k="track">🔍 Track Order</b>
-            <input type="text" id="track-inp" placeholder="Order ID (e.g. CH-1234)" style="margin:8px 0; padding:10px; font-size:0.85rem; text-transform:uppercase;">
+            <input type="text" id="track-inp" placeholder="Order ID (e.g. CH-1234)" style="margin:8px 0; padding:10px; font-size:0.85rem; text-transform:uppercase;" autocomplete="off" spellcheck="false" role="presentation">
             <button class="btn" onclick="trackOrdBtn()" style="padding:10px; margin-top:0;">Track</button>
             <div id="track-res" style="margin-top:10px; font-size:0.85rem; word-wrap: break-word;"></div>
         </div>
@@ -149,14 +181,17 @@
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
-        <!-- Glowing Custom Service Banner -->
         <div class="glass" style="padding:15px; text-align:center; border-color:#ffae00; cursor:pointer; margin-bottom:20px;" onclick="openModal('srv-mod')">
             <span style="color:#ffae00; font-weight:bold;">🚀 Request Custom Service</span>
         </div>
 
         <div style="position:relative;">
-            <!-- PERFECT AUTOCOMPLETE FIX -->
-            <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+            <form autocomplete="off" onsubmit="event.preventDefault();">
+                <input type="text" class="hp-hider" tabindex="-1" autocomplete="username">
+                <input type="email" class="hp-hider" tabindex="-1" autocomplete="email">
+                <input type="password" class="hp-hider" tabindex="-1" autocomplete="current-password">
+                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" name="cyber_search_random_string_x" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+            </form>
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
         
@@ -243,9 +278,13 @@
 
     <!-- MODALS -->
     <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
-    <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
+    
+    <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button></div></div>
+    
     <div id="log-mod" class="modal"><div class="m-cnt"><div id="l-step"><h3 style="color:var(--p); margin-top:0;">Sign In</h3><form onsubmit="event.preventDefault(); exLog();"><input type="email" id="lEml" placeholder="Email" required><input type="password" id="lPas" placeholder="Password" required><button type="submit" class="btn">Log In</button></form><div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;"><span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span></div></div><div id="r-step" style="display:none;"><h3 style="color:var(--p); margin-top:0;">Create Account</h3><form onsubmit="event.preventDefault(); initiateSignup();"><input type="text" id="rN" placeholder="Full Name (Mandatory)" required><input type="email" id="rCnt" placeholder="Email (Primary)" required><input type="tel" id="rPh" placeholder="Phone Number (Secondary)"><input type="text" id="rWa" placeholder="WhatsApp Number"><input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)"><input type="password" id="rPas" placeholder="Create Password" required><button type="submit" class="btn">Send Verification Code</button></form><div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div></div><div id="otp-step" style="display:none; text-align:center;"><h3 style="color:#00ff88; margin-top:0;">Verify Email</h3><p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p><input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6"><button class="btn" onclick="finalizeSignup()">Verify & Register</button></div><button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
+    
     <div id="prof-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3><p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p><div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;"><button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password</button><div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div></div><div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;"><div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div><div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div></div><button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button><button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button><button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
+    
     <div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3><div id="pol-content" style="margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button></div></div>
 
     <div id="srv-mod" class="modal">
@@ -259,7 +298,7 @@
         </div>
     </div>
 
-    <!-- 🌍 GLOBAL IMPORTER MODAL (Triggered automatically by Shein/Import items) -->
+    <!-- 🌍 GLOBAL IMPORTER MODAL (Triggered dynamically by Shein/Import items) -->
     <div id="import-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:var(--p); margin-top:0;">🌍 Global Importer</h3>
@@ -307,7 +346,7 @@
                     <div class="c-btn" id="p-mm" onclick="sPay('Mandat Minute')">🏦 Mandat</div>
                     <div class="c-btn" id="p-wal" onclick="sPay('Wallet')">💳 Wallet</div>
                     <div class="c-btn" id="p-later" onclick="sPay('Pay Later')">⏳ Pay Later</div>
-                    <div class="c-btn" id="p-cash" onclick="sPay('Cash')">💵 Cash</div>
+                    <div class="c-btn" id="p-cash-hl" onclick="sPay('Cash Hammam-Lif')">📍 Cash (H-Lif)</div>
                 </div>
                 
                 <div id="d-box-pay" style="display:none; background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin-bottom:15px; border:1px solid var(--b);">
@@ -315,7 +354,7 @@
                         <span style="color:gray; font-size:0.85rem;" id="ui-pay-inst">Transfer to:</span>
                         <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
                         <img id="qr-d17" src="https://i.ibb.co/3s6cRkH/qr.png" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
-                        <div style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
+                        <div id="upload-section-wrap" style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
                             <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">2. OR Upload Receipt Photo:</label>
@@ -368,18 +407,18 @@ let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount 
 let tempImportCost = 0; let tempImportFinal = 0;
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
-const sV = (arr, idx) => (arr && arr.length > idx) ? arr[idx] : "";
 
-// --- SELF HEALING DATABASE MAPPER ---
+// --- BULLETPROOF DATABASE MAPPER ---
 function mapSheetToObjects(sheetData) {
     if(!sheetData || !Array.isArray(sheetData) || sheetData.length === 0) return [];
-    // Heal: If backend sent parsed JSON objects (didn't redeploy code.gs)
     if (!Array.isArray(sheetData[0]) && typeof sheetData[0] === 'object') return sheetData; 
     if (sheetData.length < 2) return [];
-    let headers = sheetData[0].map(h => String(h).trim());
+    let headers = sheetData[0].map(h => String(h||"").trim());
     return sheetData.slice(1).map(row => {
         let obj = {};
-        headers.forEach((h, i) => { obj[h] = row[i]; });
+        headers.forEach((h, i) => { 
+            obj[h] = (row && Array.isArray(row) && i < row.length) ? row[i] : ""; 
+        });
         return obj;
     });
 }
@@ -390,7 +429,17 @@ function closeModal(i) { let m = el(i); m.classList.remove('show'); document.bod
 function toggleSidebar() { el('sidebar').classList.toggle('open'); }
 function swA(i) { ['l-step', 'r-step', 'otp-step'].forEach(x => { if(el(x)) el(x).style.display = 'none'; }); if(el(i)) el(i).style.display = 'block'; }
 function maskEm(str) { return (str && str.includes('@')) ? str.split('@')[0].slice(0,2) + "***@" + str.split('@')[1] : "Guest"; }
-function hexToRgba(hex, alpha) { let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return `rgba(${r}, ${g}, ${b}, ${alpha})`; }
+
+function hexToRgba(hex, alpha) { 
+    let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); 
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`; 
+}
+function safeHexToRgba(hex, alpha) {
+    let str = String(hex||"").trim();
+    if(str.length === 7 && str.startsWith('#')) return hexToRgba(str, alpha);
+    return str || 'var(--p)';
+}
+
 function cycleTheme() { let ct = parseInt(localStorage.getItem('ch_theme') || 0); ct = (ct + 1) % themes.length; localStorage.setItem('ch_theme', ct); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); toast("Theme updated", "info"); }
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
 function appLang() { if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); }
@@ -405,7 +454,9 @@ function chkUI() {
 
 function getRating(id) {
     if(!id) return "⭐⭐⭐⭐⭐ (42)";
-    let num = 0; for(let i=0; i<id.length; i++) num += id.charCodeAt(i);
+    let num = 0; 
+    let strId = String(id);
+    for(let i=0; i<strId.length; i++) num += strId.charCodeAt(i);
     let stars = (num % 2 === 0) ? "⭐⭐⭐⭐⭐" : "⭐⭐⭐⭐"; let count = (num % 100) + 20;
     return `${stars} (${count})`;
 }
@@ -459,6 +510,15 @@ function updateGodsEye(count) {
     else { el('gods-eye').classList.remove('admin-eye'); let isClosed = db.maintObj && db.maintObj.closed; let min = isClosed ? 2 : 30; let max = isClosed ? 5 : 150; el('online-count').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
 }
 
+function initParticles() {
+    if(typeof particlesJS !== 'undefined' && el('particles-js')) {
+        particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } });
+    } else {
+        setTimeout(initParticles, 500); // Wait for external script to load
+    }
+}
+window.addEventListener('load', initParticles);
+
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; 
     appLang();
@@ -470,7 +530,7 @@ function initApp() {
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
         if(d && d.status === "success") { 
             db = d; 
-            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { console.error(e); el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;">Data sync error. Contact admin.</div>`; }
+            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { console.error(e); el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b> Please check Google Sheet formatting.</div>`; }
             if(db.isSurge) el('surge-banner').style.display = 'block';
         } else {
             el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline:</b> Please redeploy Google Apps Script as a NEW version.</div>`;
@@ -483,8 +543,6 @@ function initApp() {
         userIP = ip;
         setInterval(() => { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest-' + Math.floor(Math.random()*1000)) }).then(res => { if(res && res.success) updateGodsEye(res.count); }); }, 15000); 
     }); 
-    
-    if(typeof particlesJS !== 'undefined') { particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } }); }
 }
 
 function hMaint(m) { 
@@ -627,56 +685,65 @@ async function revealPassword() {
     try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); }
 }
 
-// --- RENDER & DISPLAY (SMART IMPORT BUTTON + ZERO CRASH MAPPING) ---
+// --- RENDER & DISPLAY (100% CRASH PROOF) ---
 function ren() { 
-    let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
-    let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
-    
-    if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
-    let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; let isFr = lang === 'fr'; 
-    
-    let invObjs = mapSheetToObjects(db.inv);
-    
-    invObjs.forEach(r => { 
-        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
-        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
-        if(!cat) return;
-        if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
-        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
-        if(cat && !c[cat]) c[cat] = { hHex: r['Category Color'] || 'var(--p)', i: r['Category Image'] }; 
-        if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r['Subcategory Color'] || c[cat].hHex, i: r['Subcategory Image'] }; 
-    }); 
-    
-    invObjs.forEach(r => { 
-        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
-        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
-        if(!cat) return;
-        if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
+    try {
+        let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
+        let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
         
-        let itmId = r['ID'] ? String(r['ID']).trim() : "IT-000"; 
-        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
-        let hasFld = (r['In Folder?'] === true || String(r['In Folder?']).toLowerCase() === 'true' || String(r['In Folder?']).toLowerCase() === 'yes'); 
-        let fldN = isFr ? (r['Folder Name FR'] || r['Folder Name EN']) : (r['Folder Name EN'] || r['Folder Name FR']); 
-        let fldE = r['Folder Emoji'] || "📁"; 
-        let n = isFr ? (r['Article Name FR'] || r['Article Name EN']) : (r['Article Name EN'] || r['Article Name FR']); 
-        let p = parseFloat(r['Selling Price']) || 0; 
-        let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
-        let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); 
-        let exNum = parseInt(r['How Many?']) || 1; 
-        let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
-        let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); 
-        let artImg = r['Article Image'] || ''; 
-        let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
+        if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
+        let pMaint = db.maintObj && db.maintObj.partial ? String(db.maintObj.partial).toLowerCase() : ""; let isFr = lang === 'fr'; 
         
-        if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } return; } 
-        if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
-    }); 
-    
-    if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
-    else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
-    else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
-    else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = hexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
-    a.innerHTML = hHtml; 
+        let invObjs = mapSheetToObjects(db.inv);
+        
+        invObjs.forEach(r => { 
+            let nameEn = r['Article Name EN'] || r['Name EN']; let nameFr = r['Article Name FR'] || r['Name FR'];
+            if(!r || (!nameEn && !nameFr)) return; 
+            let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
+            if(!cat) return;
+            if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
+            let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+            if(cat && !c[cat]) c[cat] = { hHex: r['Category Color'] || 'var(--p)', i: r['Category Image'] }; 
+            if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r['Subcategory Color'] || c[cat].hHex, i: r['Subcategory Image'] }; 
+        }); 
+        
+        invObjs.forEach(r => { 
+            let nameEn = r['Article Name EN'] || r['Name EN']; let nameFr = r['Article Name FR'] || r['Name FR'];
+            if(!r || (!nameEn && !nameFr)) return; 
+            let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
+            if(!cat) return;
+            if(pMaint && pMaint.includes(String(cat).toLowerCase())) return; 
+            
+            let itmId = r['ID'] ? String(r['ID']).trim() : "IT-000"; 
+            let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+            let hasFld = (r['In Folder?'] === true || String(r['In Folder?']).toLowerCase() === 'true' || String(r['In Folder?']).toLowerCase() === 'yes'); 
+            let fldN = isFr ? (r['Folder Name FR'] || r['Folder Name EN']) : (r['Folder Name EN'] || r['Folder Name FR']); 
+            let fldE = r['Folder Emoji'] || "📁"; 
+            let n = isFr ? (nameFr || nameEn) : (nameEn || nameFr); 
+            let p = parseFloat(r['Selling Price'] || r['Price'] || r['Prix']) || 0; 
+            let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
+            let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); 
+            let exNum = parseInt(r['How Many?']) || 1; 
+            let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
+            let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); 
+            let artImg = r['Article Image'] || ''; 
+            let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
+            
+            let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg };
+            
+            if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push(itemData); } return; } 
+            if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
+        }); 
+        
+        if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
+        else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = safeHexToRgba(c[k].hHex, 0.15); hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
+        else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
+        else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
+        a.innerHTML = hHtml; 
+    } catch(err) {
+        console.error(err);
+        el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet headers.<br><small>${err.message}</small></div>`;
+    }
 }
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
@@ -736,7 +803,38 @@ function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"
 function opnCO() { if(cart.length === 0) return toast("Cart Empty", "error"); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info. Enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');}
 function applySingleDiscount() { let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); }
 async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await api("validate_promo", { code: c }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired", true); } else { toast("Invalid Code", true); } }
-function sPay(m) { payM = m; ['p-d17','p-mm','p-wal','p-later', 'p-cash'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); if(m === 'D17') el('p-d17').classList.add('act'); else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); else if(m === 'Wallet') el('p-wal').classList.add('act'); else if(m === 'Pay Later') el('p-later').classList.add('act'); else if(m === 'Cash') el('p-cash').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='block'; el('ui-pay-inst').innerText = "Transfer to D17:"; } else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; } } else { dbox.style.display = 'none'; } }
+function sPay(m) { 
+    payM = m; 
+    ['p-d17','p-mm','p-wal','p-later', 'p-cash-hl'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); 
+    if(m === 'D17') el('p-d17').classList.add('act'); 
+    else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); 
+    else if(m === 'Wallet') el('p-wal').classList.add('act'); 
+    else if(m === 'Pay Later') el('p-later').classList.add('act'); 
+    else if(m === 'Cash Hammam-Lif') el('p-cash-hl').classList.add('act'); 
+    
+    let dbox = el('d-box-pay'); 
+    if(m === 'D17' || m === 'Mandat Minute' || m === 'Cash Hammam-Lif') { 
+        dbox.style.display = 'block'; 
+        if(m === 'D17') { 
+            el('ui-d17-in').innerText = window.CFG.D17; 
+            el('qr-d17').style.display='block'; 
+            el('ui-pay-inst').innerText = "Transfer to D17:"; 
+            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block';
+        } else if(m === 'Mandat Minute') { 
+            el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; 
+            el('qr-d17').style.display='none'; 
+            el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; 
+            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block';
+        } else if(m === 'Cash Hammam-Lif') {
+            el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; 
+            el('qr-d17').style.display='none'; 
+            el('ui-pay-inst').innerText = "Hand Delivery Location:"; 
+            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none';
+        }
+    } else { 
+        dbox.style.display = 'none'; 
+    } 
+}
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
 function dzLeave() { el('drop-zone').classList.remove('active'); }
 function dzDrop(e) { e.preventDefault(); dzLeave(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); }
@@ -793,7 +891,6 @@ async function cancelOrd(id) { if(!confirm("Abort this order?")) return toast("T
 function buildWheelUI() { let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; let wheelObjs = mapSheetToObjects(db.wheel); let sliceDeg = 360 / wheelObjs.length; wheelObjs.forEach((w, i) => { if(!w['Prize Name'])return; let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = w['Color Hex']; slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${w['Emoji']}</span>`; wc.appendChild(slice); }); }
 async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
 
-if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 </script>
 </body>
 </html>
