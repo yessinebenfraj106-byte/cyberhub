@@ -1,12 +1,24 @@
 {
-  "name": "CyberHub Digital",
+  "name": "CyberHub | Premium Digital",
   "short_name": "CyberHub",
-  "start_url": "/index.html",
+  "description": "Premium Digital Storefront and Services",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#050b14",
-  "theme_color": "#00f0ff",
+  "theme_color": "#050b14",
+  "orientation": "portrait-primary",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
