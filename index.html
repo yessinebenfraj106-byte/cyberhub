@@ -94,16 +94,17 @@
 
         #admin-menu-popup { display: none; position: fixed; bottom: 100px; left: 25px; flex-direction: column; gap: 10px; z-index: 1001; width: 200px; padding: 15px; border-radius: 15px; }
         .admin-fab { display: none; position: fixed; bottom: 25px; left: 25px; background: #ff00ff; color: #fff; width: 65px; height: 65px; border-radius: 50%; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 5px 20px rgba(255,0,255,0.4); cursor: pointer; z-index: 1000; border: none; }
-        #gods-eye { display: none; position: fixed; top: 25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); border: 1px solid #00ff88; color: #00ff88; padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: bold; z-index: 10000; box-shadow: 0 0 15px rgba(0,255,136,0.3); }
+        
+        /* Updated God's Eye Location & Style */
+        #gods-eye { display: flex; align-items: center; justify-content: center; gap: 5px; position: fixed; top: 75px; right: 15px; background: rgba(10,15,30,0.85); backdrop-filter: blur(10px); border: 1px solid #00ff88; color: #00ff88; padding: 5px 15px; border-radius: 30px; font-size: 0.8rem; font-weight: bold; z-index: 50; box-shadow: 0 0 15px rgba(0,255,136,0.3); transition: all 0.3s; white-space: nowrap; }
+        .admin-eye { border-color: #ff00ff !important; color: #ff00ff !important; box-shadow: 0 0 15px rgba(255,0,255,0.3) !important; }
 
         .reorder-item { background: rgba(0,0,0,0.5); border: 1px solid var(--b); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: grab; display: flex; align-items: center; gap: 10px; font-weight: bold; }
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
 
-        /* Timer UI */
         #maint-timer { font-family: monospace; font-size: 2.5rem; font-weight: 900; color: #ff00ff; letter-spacing: 2px; text-shadow: 0 0 10px #ff00ff; margin-top: 10px; }
-
         #wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; overflow: hidden; border: 4px solid var(--p); box-shadow: 0 0 30px var(--b); transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); }
         .wheel-slice { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 1.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); box-sizing: border-box; padding-top: 40px; padding-right: 40px; }
         #wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 3rem; z-index: 10; color: #fff; text-shadow: 0 0 10px #000; }
@@ -172,7 +173,8 @@
         </div>
 
         <div style="position:relative;">
-            <input type="text" id="itemFinder" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or type ADMINMODEACTIVATE..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+            <!-- Autocomplete bypassed here securely -->
+            <input type="text" id="itemFinder" autocomplete="off" spellcheck="false" role="presentation" name="cyberhub_search_override" class="glass tr-ph" data-k="srch" placeholder="Search Item Name or type ADMINMODEACTIVATE..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
         
@@ -204,7 +206,6 @@
                 <div class="admin-tab" onclick="switchAdminTab('promo')">🎟️ Promos</div>
             </div>
 
-            <!-- CONTROLS TAB -->
             <div id="adm-ctrl" class="admin-section active">
                 <div class="glass">
                     <h3 style="color:var(--w); margin-top:0;">⚡ Store Toggles</h3>
@@ -223,7 +224,6 @@
                 </div>
             </div>
 
-            <!-- USERS TAB -->
             <div id="adm-users" class="admin-section">
                 <div class="glass" style="overflow-x:auto;">
                     <table class="admin-table">
@@ -233,7 +233,6 @@
                 </div>
             </div>
 
-            <!-- ORDERS TAB -->
             <div id="adm-orders" class="admin-section">
                 <div class="glass" style="overflow-x:auto;">
                     <table class="admin-table">
@@ -243,7 +242,6 @@
                 </div>
             </div>
 
-            <!-- PROMO TAB -->
             <div id="adm-promo" class="admin-section">
                 <div class="glass">
                     <h3 style="color:var(--p); margin-top:0;">Add Promo Code</h3>
@@ -253,7 +251,6 @@
                     <button class="btn" onclick="savePromoCode()">Save Promo</button>
                 </div>
             </div>
-            
         </div>
     </div>
 
@@ -299,8 +296,6 @@
         </div>
     </div>
 
-    <!-- Other Modals (Login, Profile, Cart, Checkout, Policies) same as previous -->
-    <!-- Due to size constraints, inserting identical Login/Profile HTML... -->
     <div id="log-mod" class="modal">
         <div class="m-cnt">
             <div id="l-step">
@@ -366,8 +361,26 @@
         </div>
     </div>
 
-    <!-- CART & CO & WHEEL ... (Kept fully intact based on previous versions to ensure no breakages) -->
-    <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button></div></div></div>
+    <!-- CART & CHECKOUT -->
+    <div id="cart-mod" class="modal">
+        <div class="m-cnt">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3>
+                <button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button>
+            </div>
+            <div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div>
+            <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b>
+                </div>
+            </div>
+            <button class="btn" onclick="opnCO()">Checkout</button>
+            <div style="display:flex; justify-content:space-between; margin-top:15px;">
+                <button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button>
+                <button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button>
+            </div>
+        </div>
+    </div>
 
     <div id="co-mod" class="modal">
         <div class="m-cnt">
@@ -380,12 +393,49 @@
                     <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;"><label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#00ff88; font-weight:bold; font-size:0.9rem;"><input type="checkbox" id="tip-admin-cb" onchange="applySingleDiscount()" style="width:auto; margin:0;">☕ Buy the Admin a Coffee (+1 DT)</label></div>
                     <div style="display:flex; justify-content:space-between; border-top:1px dashed #444; margin-top:10px; padding-top:10px; font-size:1.3rem; color:var(--p); font-weight:800;"><span>Total:</span> <b id="co-tot">0 DT</b></div>
                 </div>
-                <div style="display:flex; gap:5px; margin-bottom:15px;"><div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div><div class="c-btn" id="p-mm" onclick="sPay('Mandat Minute')">🏦 Mandat</div><div class="c-btn" id="p-wal" onclick="sPay('Wallet')" style="width:100%; margin-top:5px;">💳 Wallet (<span id="co-wal-bal">0</span> DT)</div></div>
-                <div id="d-box-pay" style="display:none; background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin-bottom:15px; border:1px solid var(--b);"><div id="pay-reveal" style="text-align:center;"><span style="color:gray; font-size:0.85rem;">Transfer to:</span><b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b><div id="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)" onclick="document.getElementById('co-proof-file').click()"><span id="drop-text">Drag & Drop D17 Receipt Image Here</span><input type="file" id="co-proof-file" accept="image/*" onchange="handleProofUpload(event)" style="display:none;"></div></div></div>
-                <input type="text" id="coN" placeholder="Full Name"><input type="text" id="coC" placeholder="Contact Info (WA/IG)" style="margin:0;"><textarea id="coNts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
-                <button class="btn" id="b-fin" onclick="finOrd()">PLACE ORDER</button><button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;">Cancel</button>
+
+                <div style="display:flex; gap:5px; margin-bottom:15px; flex-wrap:wrap;">
+                    <div class="c-btn act" id="p-d17" onclick="sPay('D17')">📱 D17</div>
+                    <div class="c-btn" id="p-mm" onclick="sPay('Mandat Minute')">🏦 Mandat</div>
+                    <div class="c-btn" id="p-wal" onclick="sPay('Wallet')">💳 Wallet</div>
+                    <div class="c-btn" id="p-later" onclick="sPay('Pay Later')">⏳ Pay Later</div>
+                </div>
+                
+                <div id="d-box-pay" style="display:none; background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin-bottom:15px; border:1px solid var(--b);">
+                    <div id="pay-reveal" style="text-align:center;">
+                        <span style="color:gray; font-size:0.85rem;" id="ui-pay-inst">Transfer to:</span>
+                        <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
+                        <img id="qr-d17" src="https://i.ibb.co/3s6cRkH/qr.png" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
+                        
+                        <div style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
+                            <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
+                            <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
+                            
+                            <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">2. OR Upload Receipt Photo:</label>
+                            <div id="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)" onclick="document.getElementById('co-proof-file').click()">
+                                <span id="drop-text">Drag & Drop Receipt Image Here (Or Click)</span>
+                                <input type="file" id="co-proof-file" accept="image/*" onchange="handleProofUpload(event)" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="text" id="coN" placeholder="Full Name">
+                <input type="text" id="coC" placeholder="Contact Info (WA/IG)" style="margin:0;">
+                <textarea id="coNts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
+                
+                <button class="btn" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
+                <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;">Cancel</button>
             </div>
-            <div id="co-succ" style="display:none; text-align:center;"><div style="font-size:3.5rem; margin-bottom:10px;">📋</div><h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2><div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div><p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Your invoice has been copied! Open your DM and paste it.</p><button class="btn" id="dm-btn" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:15px;">💬 OPEN DM & PASTE</button><button onclick="location.reload()" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button></div>
+            
+            <div id="co-succ" style="display:none; text-align:center;">
+                <div style="font-size:3.5rem; margin-bottom:10px;">📋</div>
+                <h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2>
+                <div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div>
+                <p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Your invoice has been copied! Open your DM and paste it.</p>
+                <button class="btn" id="dm-btn" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:15px;">💬 OPEN DM & PASTE</button>
+                <button onclick="location.reload()" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button>
+            </div>
         </div>
     </div>
     
@@ -417,6 +467,21 @@ async function api(action, payload = {}) { try { let res = await fetch(window.CF
 // --- BOOT & TIMERS ---
 let maintTimerInterval;
 
+function updateGodsEye() {
+    el('gods-eye').style.display = 'flex';
+    if(role === 'Admin') {
+        el('gods-eye').classList.add('admin-eye');
+        api('ping', { ip: userIP || 'Admin' }).then(res => {
+            if(res && res.count) el('online-count').innerText = res.count;
+        });
+    } else {
+        el('gods-eye').classList.remove('admin-eye');
+        let fakeCount = Math.floor(Math.random() * (150 - 30 + 1)) + 30; // Random between 30 and 150
+        el('online-count').innerText = fakeCount;
+        api('ping', { ip: userIP || 'Guest-' + Math.floor(Math.random()*1000) }); // Still ping server silently
+    }
+}
+
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; 
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); }, 1000); }
@@ -431,9 +496,14 @@ function initApp() {
         } 
     }); 
     
-    fetchSafeIP().then(ip => userIP = ip); 
+    fetchSafeIP().then(ip => {
+        userIP = ip;
+        updateGodsEye(); // Initial call
+        setInterval(updateGodsEye, 15000); // 15 seconds loop
+    }); 
+    
     if(typeof particlesJS !== 'undefined') { particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } }); }
-    if(role === 'Admin') { el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; el('gods-eye').style.display = 'block'; }
+    if(role === 'Admin') { el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; }
 }
 
 function hMaint(m) { 
@@ -443,7 +513,6 @@ function hMaint(m) {
     if(m.closed) { 
         if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "STORE CLOSED"; if(t) t.innerHTML = m.msg; el('st-cnt').style.display = 'none'; 
         
-        // Timer Logic
         if(m.timer && !isNaN(parseInt(m.timer))) {
             let endTime = parseInt(m.timer);
             el('maint-timer').style.display = 'block';
@@ -481,7 +550,6 @@ function switchAdminTab(tabId) {
     event.target.classList.add('active'); el('adm-' + tabId).classList.add('active');
 }
 
-// Render Users
 function renderAdminUsers() {
     let tbody = el('a-t-users'); tbody.innerHTML = '';
     adminDataCache.users.slice(1).forEach(u => {
@@ -502,7 +570,6 @@ async function admUserAction(email, action, val="") {
     if(res && res.s === 'ok') { toast("Updated!", "success"); openAdminDashboard(); }
 }
 
-// Render Orders
 function renderAdminOrders() {
     let tbody = el('a-t-orders'); tbody.innerHTML = '';
     adminDataCache.orders.slice(1).reverse().forEach(o => {
@@ -521,7 +588,6 @@ async function admOrderAction(id, status) {
     if(res && res.s === 'ok') toast("Order updated", "success"); else toast("Failed", "error");
 }
 
-// Promo Creator
 async function savePromoCode() {
     let code = el('p-code').value; let pct = el('p-pct').value; let max = el('p-max').value;
     if(!code || !pct) return toast("Need code and %", "error");
@@ -560,7 +626,7 @@ async function finalizeSignup() {
 async function exLog() {
     let c = el('lEml').value.trim(); let p = el('lPas').value.trim(); if(!c || !p) return toast("Fill all fields", "error");
     let res = await api('login', { c: c, p: p, ip: userIP });
-    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; el('gods-eye').style.display='block'; } } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
+    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; updateGodsEye(); } } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
 }
 function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
 function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); user = null; role = null; closeModal('prof-mod'); location.reload(); }
@@ -586,14 +652,46 @@ async function revealPassword() {
 function ren() { 
     let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
     let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
-    if (q === "ADMINMODEACTIVATE") { el('itemFinder').value = ""; openModal('admin-auth-modal'); return; } 
-    if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
+    
+    if(!db.inv || db.inv.length === 0) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
     let pMaint = db.maintObj && db.maintObj.partial ? db.maintObj.partial.toLowerCase() : ""; let isFr = lang === 'fr'; 
-    db.inv.slice(1).forEach(r => { if(!r || (!r[13] && !r[14])) return; let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); if(pMaint && pMaint.includes(cat.toLowerCase())) return; let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); if(cat && !c[cat]) c[cat] = { hHex: r[3] || 'var(--p)', i: r[4] }; if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r[7] || c[cat].hHex, i: r[8] }; }); 
-    db.inv.slice(1).forEach(r => { if(!r || (!r[13] && !r[14])) return; let cat = isFr ? (r[1] || r[2]) : (r[2] || r[1]); if(pMaint && pMaint.includes(cat.toLowerCase())) return; let itmId = r[0] ? String(r[0]).trim() : "IT-000"; let sub = isFr ? (r[5] || r[6]) : (r[6] || r[5]); let hasFld = (r[9] === true || String(r[9]).toLowerCase() === 'true'); let fldN = isFr ? (r[10] || r[11]) : (r[11] || r[10]); let fldE = r[12] || "📁"; let n = isFr ? (r[13] || r[14]) : (r[14] || r[13]); let p = parseFloat(r[15]) || 0; let oos = (r.length > 18 && String(r[18]).toUpperCase().includes("OOS")); let exReq = (r[19] === true || String(r[19]).toLowerCase() === 'true'); let exNum = parseInt(r[20]) || 1; let exTxt = isFr ? (r[21] || "Details...") : (r[22] || r[21] || "Details..."); let wrn = isFr ? (r[23] || r[24]) : (r[24] || r[23]); let artImg = r[25] || ''; let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
+    
+    // Parse using Object Keys exactly matching Google Sheet headers
+    db.inv.forEach(r => { 
+        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
+        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
+        if(!cat) return;
+        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+        if(cat && !c[cat]) c[cat] = { hHex: r['Category Color'] || 'var(--p)', i: r['Category Image'] }; 
+        if(sub && !ap[sub]) ap[sub] = { cat: cat, col: r['Subcategory Color'] || c[cat].hHex, i: r['Subcategory Image'] }; 
+    }); 
+    
+    db.inv.forEach(r => { 
+        if(!r || (!r['Article Name EN'] && !r['Article Name FR'])) return; 
+        let cat = isFr ? (r['Category FR'] || r['Category EN']) : (r['Category EN'] || r['Category FR']); 
+        if(!cat) return;
+        if(pMaint && pMaint.includes(cat.toLowerCase())) return; 
+        
+        let itmId = r['ID'] ? String(r['ID']).trim() : "IT-000"; 
+        let sub = isFr ? (r['Subcategory FR'] || r['Subcategory EN']) : (r['Subcategory EN'] || r['Subcategory FR']); 
+        let hasFld = (r['In Folder?'] === true || String(r['In Folder?']).toLowerCase() === 'true' || String(r['In Folder?']).toLowerCase() === 'yes'); 
+        let fldN = isFr ? (r['Folder Name FR'] || r['Folder Name EN']) : (r['Folder Name EN'] || r['Folder Name FR']); 
+        let fldE = r['Folder Emoji'] || "📁"; 
+        let n = isFr ? (r['Article Name FR'] || r['Article Name EN']) : (r['Article Name EN'] || r['Article Name FR']); 
+        let p = parseFloat(r['Selling Price']) || 0; 
+        let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
+        let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); 
+        let exNum = parseInt(r['How Many?']) || 1; 
+        let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
+        let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); 
+        let artImg = r['Article Image'] || ''; 
+        let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
+        
         if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push({ id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }); } return; } 
         if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: '', img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { let itemData = { id: itmId, n: n, p: p, oos: oos, exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg }; if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
     }); 
+    
     if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
     else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = c[k].hHex.length === 7 ? hexToRgba(c[k].hHex, 0.15) : c[k].hHex; hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
     else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = ap[k].col.length === 7 ? hexToRgba(ap[k].col, 0.15) : ap[k].col; hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = catCol.length === 7 ? hexToRgba(catCol, 0.15) : catCol; hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
@@ -609,10 +707,33 @@ function addC(eO, p, eN, hasEx, exCount) { let id = decodeURIComponent(eO); let 
 function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { let nHtml = i.n.includes("⚠️ MISSING INFO") ? i.n.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>") : i.n; return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${nHtml}</span> <span>${i.p} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
 function opnCart() { updC(); openModal('cart-mod'); }
 function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"); let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); navigator.clipboard.writeText(window.location.href.split('?')[0] + "?cart=" + cartB64).then(() => { toast("Cart Link Copied!", false); }).catch(() => toast("Failed to copy", true)); }
-function opnCO() { if(cart.length === 0) return toast("Cart Empty", "error"); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info. Enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); }
+function opnCO() { if(cart.length === 0) return toast("Cart Empty", "error"); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info. Enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');}
 function applySingleDiscount() { let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); }
 async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await api("validate_promo", { code: c }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired", true); } else { toast("Invalid Code", true); } }
-function sPay(m) { payM = m; ['p-d17','p-mm','p-wal'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); el(m === 'D17' ? 'p-d17' : m === 'Mandat Minute' ? 'p-mm' : 'p-wal').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='inline-block'; } else { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; } } else { dbox.style.display = 'none'; } }
+function sPay(m) { 
+    payM = m; 
+    ['p-d17','p-mm','p-wal','p-later'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); 
+    if(m === 'D17') el('p-d17').classList.add('act');
+    else if(m === 'Mandat Minute') el('p-mm').classList.add('act');
+    else if(m === 'Wallet') el('p-wal').classList.add('act');
+    else if(m === 'Pay Later') el('p-later').classList.add('act');
+    
+    let dbox = el('d-box-pay'); 
+    if(m === 'D17' || m === 'Mandat Minute') { 
+        dbox.style.display = 'block'; 
+        if(m === 'D17') { 
+            el('ui-d17-in').innerText = window.CFG.D17; 
+            el('qr-d17').style.display='block'; 
+            el('ui-pay-inst').innerText = "Transfer to D17:";
+        } else { 
+            el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; 
+            el('qr-d17').style.display='none'; 
+            el('ui-pay-inst').innerText = "Transfer to Mandat Minute:";
+        } 
+    } else { 
+        dbox.style.display = 'none'; 
+    } 
+}
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
 function dzLeave() { el('drop-zone').classList.remove('active'); }
 function dzDrop(e) { e.preventDefault(); dzLeave(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); }
@@ -623,6 +744,12 @@ async function finOrd() {
     if(navigator.vibrate) navigator.vibrate(100); 
     let n = el('coN').value; let c = el('coC').value; let cm = el('coNts').value; 
     if(!n || !c) return toast("Full Name & Contact required", "error"); 
+    
+    let txid = el('co-txid') ? el('co-txid').value.trim() : "";
+    if((payM === 'D17' || payM === 'Mandat Minute') && !proofB64 && !txid) {
+        return toast("Provide a Transaction ID or Upload Receipt", "error");
+    }
+
     let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; 
     let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; 
     cart.forEach(i => i.finalPrice = i.p - (i.p * (activeDiscount.pct / 100))); 
@@ -631,7 +758,7 @@ async function finOrd() {
     el('b-fin').innerHTML = `...`; el('b-fin').disabled = true; 
     
     try { 
-        let payload = { act: "place_order", name: n, contact: c, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", payMethod: payM, comments: cm, email: user || "Guest", txId: "", proofB64: proofB64, total: total.toFixed(2) }; 
+        let payload = { act: "place_order", name: n, contact: c, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", payMethod: payM, comments: cm, email: user || "Guest", txId: txid, proofB64: proofB64, total: total.toFixed(2) }; 
         let d = await api("place_order", payload); 
         if(d && d.s === "ok") { 
             if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } 
