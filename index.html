@@ -14,37 +14,24 @@
 
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
-
-        window.CFG = {
-            SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
-            NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058"
-        };
-        
+        window.CFG = { SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec", NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058" };
         const themes = [
             {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
             {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
             {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}
         ];
-        
         try { let ct = parseInt(localStorage.getItem('ch_theme') || 0); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); } catch(e) {}
-        
         const playSnd = () => { if(navigator.vibrate) navigator.vibrate(50); };
     </script>
 
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         
-        /* ADVANCED EMOJI FONT OVERRIDE FOR PC & MAC */
-        @font-face {
-            font-family: 'EmojiFallback';
-            src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji');
-            unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF;
-        }
-
-        body { font-family: 'Plus Jakarta Sans', 'EmojiFallback', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
+        /* THE ULTIMATE NATIVE OS EMOJI FIX FOR ALL PLATFORMS */
+        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         
-        input, select, textarea, button, .btn { font-family: 'Plus Jakarta Sans', 'EmojiFallback', sans-serif; }
+        input, select, textarea, button, .btn { font-family: inherit; }
         
         #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
@@ -66,8 +53,13 @@
         .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
         .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
         .img-transparent { width: 65px; height: 65px; margin: 0 auto 10px auto; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
-        .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; position: relative;}
-        .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; }
+        
+        /* Drag and drop styling */
+        .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; position: relative; transition: all 0.2s;}
+        .i-row.dragging { opacity: 0.5; transform: scale(0.95); border-color: var(--w); }
+        
+        .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; transition: all 0.2s; }
+        .f-head.drag-over { background: rgba(0,240,255,0.2); border-color: var(--p); transform: scale(1.02); }
 
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
@@ -92,9 +84,10 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); width: 200vw; left: -50vw; top: 50vh; }
-        #stripe-1 { transform: rotate(45deg); }
-        #stripe-2 { transform: rotate(-45deg); }
+        /* FIXED DIAGONAL X BANDS (Perfectly Corner to Corner) */
+        .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 60px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; }
+        #stripe-1 { transform: translate(-50%, -50%) rotate(45deg); }
+        #stripe-2 { transform: translate(-50%, -50%) rotate(-45deg); }
         
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
 
@@ -118,19 +111,11 @@
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
-
         #maint-timer { font-family: monospace; font-size: 2.5rem; font-weight: 900; color: #ff00ff; letter-spacing: 2px; text-shadow: 0 0 10px #ff00ff; margin-top: 10px; }
         
         .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
         .edit-badge { position: absolute; top: 10px; right: 10px; background: #ff00ff; color: #fff; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; z-index: 5;}
-        
-        #wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; overflow: hidden; border: 4px solid var(--p); box-shadow: 0 0 30px var(--b); transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); }
-        .wheel-slice { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 1.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.8); box-sizing: border-box; }
-        #wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 3rem; z-index: 10; color: #fff; text-shadow: 0 0 10px #000; }
-        #drop-zone { border: 2px dashed var(--p); padding: 30px; text-align: center; border-radius: 12px; background: rgba(0, 240, 255, 0.05); margin: 15px 0; cursor: pointer;}
-        #drop-zone.active { background: rgba(0, 240, 255, 0.2); border-color: #ffae00; }
-        #drop-zone.flagged { border-color: #ff4d4d !important; background: rgba(255, 77, 77, 0.1) !important; color: #ff4d4d; }
     </style>
 </head>
 <body>
@@ -164,7 +149,6 @@
         </div>
 
         <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
-        <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">🎡 <span class="tr" data-k="spin">Spin & Win</span></div>
         <div class="m-item" onclick="openModal('import-mod'); toggleSidebar();" style="color:#00f0ff; border-color:#00f0ff;">🌍 <span class="tr" data-k="imp">Global Importer</span></div>
         <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ Custom Service</div>
     </div>
@@ -174,7 +158,7 @@
             <button class="icon-btn" onclick="toggleSidebar(); playSnd();">☰ MENU</button>
             <div style="display:flex; gap:10px;">
                 <button class="icon-btn" onclick="cycleTheme(); playSnd();">🎨</button>
-                <span id="admin-crown" style="display:none; font-size:24px; cursor:pointer; margin-top:4px;" onclick="openAdminDashboard()">👑</span>
+                <span id="admin-crown" style="display:none; font-size:24px; cursor:pointer; margin-top:4px;" onclick="openModal('admin-page')">👑</span>
                 <button class="icon-btn" onclick="openProf(); playSnd();" style="color:var(--p); border-color:var(--p);">👤</button>
                 <button class="icon-btn" onclick="tgLang()"><span id="l-ind">🇬🇧 EN</span></button>
             </div>
@@ -187,7 +171,8 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="main-logo" src="icon-512.png" onerror="this.style.display='none'" class="logo" onclick="handleAdminClick()">
+            <!-- Click once to go home, multiple times activates hidden admin menu feature -->
+            <img id="main-logo" src="icon-512.png" onerror="this.style.display='none'" class="logo" onclick="navTo('cats'); handleAdminClick();">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
@@ -219,12 +204,13 @@
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Category')">Add Category</button>
+        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:#00ff88;" onclick="openAdminCreate('Subcategory')">Add Subcategory</button>
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Item')">Add Item</button>
         <hr style="border-color:var(--b); width:100%; margin:5px 0;">
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
     </div>
 
-    <!-- FIXED ADMIN DASHBOARD MODAL -->
+    <!-- FIXED ADMIN DASHBOARD MODAL (Now uses openModal for transitions) -->
     <div id="admin-page" class="modal">
         <div class="m-cnt" style="max-width:1000px;">
             <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
@@ -268,10 +254,10 @@
     </div>
 
     <!-- MODALS -->
-    <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
+    <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-subEn" placeholder="Subcategory EN (Optional)"><input type="text" id="a-subFr" placeholder="Subcategory FR (Optional)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
     
-    <!-- Inline Edit Modal -->
-    <div id="edit-item-mod" class="modal"><div class="m-cnt"><h3 style="color:#ff00ff; margin-top:0;">✏️ Edit Item</h3><form onsubmit="event.preventDefault(); saveEditItem();"><input type="hidden" id="edit-i-id"><input type="text" id="edit-i-nEn" placeholder="Name EN"><input type="text" id="edit-i-nFr" placeholder="Name FR"><input type="number" id="edit-i-price" placeholder="Price (DT)" step="0.01"><select id="edit-i-status" style="margin-bottom:15px;"><option value="In Stock">In Stock</option><option value="OOS">OOS (Out of Stock)</option></select><button type="submit" class="btn" style="background:#ff00ff; color:#fff;" id="b-edit-item">SAVE CHANGES</button><button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
+    <!-- Advanced Inline Edit Modal for Admin -->
+    <div id="edit-item-mod" class="modal"><div class="m-cnt"><h3 style="color:#ff00ff; margin-top:0;">✏️ Edit Item</h3><form onsubmit="event.preventDefault(); saveEditItem();"><input type="hidden" id="edit-i-id"><input type="text" id="edit-i-nEn" placeholder="Name EN"><input type="text" id="edit-i-nFr" placeholder="Name FR"><input type="number" id="edit-i-price" placeholder="Price (DT)" step="0.01"><input type="text" id="edit-i-folder" placeholder="Folder Name (e.g. Games)"><select id="edit-i-status" style="margin-bottom:15px;"><option value="In Stock">In Stock</option><option value="OOS">OOS (Out of Stock)</option></select><button type="submit" class="btn" style="background:#ff00ff; color:#fff;" id="b-edit-item">SAVE CHANGES</button><button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
     
     <div id="reorder-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3><p style="font-size:0.8rem; color:gray;">Drag items up/down then save.</p><div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div><button class="btn" style="background:var(--w);" id="b-reorder" onclick="saveReorder()">SAVE NEW ORDER</button><button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button></div></div>
     <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button></div></div>
@@ -419,10 +405,6 @@
         </div>
     </div>
     
-    <div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
-    <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 VIP Rewards</h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
-    <div id="wheel-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🎡 Spin & Win</h3><div id="wheel-pointer">👇</div><div id="wheel-container"></div><button class="btn glow-btn" id="spin-btn" onclick="spinWheel()">SPIN NOW!</button><button onclick="closeModal('wheel-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
-
 <script>
 const T = {
     en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
@@ -492,7 +474,7 @@ function fUsrOrd() {
     if(!user) return toast(T[lang].si || "Please login first", "error");
     let h = `<div style="margin-bottom:15px;color:var(--w);"><b>Order History:</b></div>`; let found = false; let ordObjs = mapSheetToObjects(db.ord);
     ordObjs.reverse().forEach(o => {
-        if(o['User Email'] === user) { h += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border-left:3px solid var(--p); margin-bottom:10px;"><b>ID:</b> ${o['Order ID']}<br><b>Total:</b> ${o['Total (DT)']} DT<br><b>Status:</b> <span style="color:${o.Status==='Pending'?'#ffae00':'#00ff88'}">${o.Status}</span></div>`; found = true; }
+        if(o['User Email'] === user) { h += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border-left:3px solid var(--p); margin-bottom:10px;"><b>ID:</b> ${o['Order ID']}<br><b>Total:</b> ${o['Total (DT)']} DT<br><b>Status:</b> <span style="color:${o.Status==='Pending'?'#ffae00':(o.Status==='Processing'?'#00f0ff':'#00ff88')}">${o.Status}</span></div>`; found = true; }
     });
     if(!found) h += "No orders found."; el('d-box').innerHTML = h; el('d-tit').innerText = T[lang].mord || "My Orders"; openModal('d-mod');
 }
@@ -523,7 +505,6 @@ async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
 async function api(action, payload = {}) { try { let res = await fetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ action, payload }) }); return await res.json(); } catch(e) { return null; } }
 
-// 🎯 SMOOTH ROLLING GOD'S EYE COUNTER
 function animateValue(obj, start, end, duration) {
   let startTimestamp = null;
   const step = (timestamp) => {
@@ -555,7 +536,6 @@ function updateGodsEye(count) {
     }
 }
 
-// 📱 DEVICE SIMULATOR
 function simDevice(type) {
     let b = document.body;
     if(type === 'ios') { b.className = 'sim-ios'; toast("iOS View Activated", "info"); }
@@ -576,7 +556,7 @@ function initApp() {
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
         if(d && d.status === "success") { 
             db = d; 
-            isDataLoaded = true; // 🎯 FIX FOR "STORE EMPTY" FLASH
+            isDataLoaded = true; 
             try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; } else { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; }
     }); 
     fetchSafeIP().then(ip => { userIP = ip; setInterval(() => { if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest') }).then(res => { if(res && res.success) updateGodsEye(res.count); }); } }, 15000); }); 
@@ -602,10 +582,15 @@ function renderPolicy() {
     el('pol-content').innerHTML = h; 
 }
 
-// --- ADMIN DASHBOARD & EDITS ---
 let adminDataCache = {};
 function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
-function openAdminCreate(type) { toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; }
+function openAdminCreate(type) { 
+    toggleAdminMenu(); 
+    openModal('create-mod'); 
+    el('admin-creation-title').innerText = "📦 Create " + type; 
+    if (type === 'Subcategory') { el('a-subEn').required = true; el('a-subFr').required = true; } else { el('a-subEn').required = false; el('a-subFr').required = false; }
+}
+
 function openAdminReorder() { 
     toggleAdminMenu(); let rl = el('reorder-list'); rl.innerHTML = ""; let items = mapSheetToObjects(db.inv);
     items.forEach(i => { if(i.ID) rl.innerHTML += `<div class="reorder-item" draggable="true" data-id="${i.ID}" ondragstart="this.style.opacity='0.4'" ondragend="this.style.opacity='1'"><span style="cursor:ns-resize; color:gray;">↕️</span> ${i['Article Name EN']||i['Article Name FR']}</div>`; });
@@ -615,7 +600,6 @@ async function saveReorder() { toast("Saving order to DB...", "info"); let nodes
 
 async function openAdminDashboard() { 
     toast("Fetching secured databases...", "info"); let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS});
-    // 🎯 FIX FOR INVISIBLE DASHBOARD: Uses openModal to apply CSS transitions!
     if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); } else { toast("Failed to fetch admin data", "error"); }
 }
 function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); event.target.classList.add('active'); el('adm-' + tabId).classList.add('active'); }
@@ -630,7 +614,7 @@ function renderAdminOrders() {
     let tbody = el('a-t-orders'); tbody.innerHTML = ''; let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse();
     ordersObj.forEach(o => {
         if(!o['Order ID']) return; let readableItems = o.Items; try { let itemArr = JSON.parse(o.Items); readableItems = itemArr.map(i => i.n).join(', '); } catch(e) {}
-        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${readableItems}">${readableItems}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM</button></td></tr>`;
+        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${readableItems}">${readableItems}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':(o.Status==='Processing'?'#00f0ff':'#00ff88')}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Processing">Processing</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM</button></td></tr>`;
     });
 }
 async function admOrderAction(id, status) { let res = await api('admin_update_order', {adminPass: window.CFG.PASS, orderId: id, status}); if(res && res.s === 'ok') toast("Order updated", "success"); else toast("Failed", "error"); }
@@ -640,10 +624,10 @@ async function savePromoCode() { let t = el('p-type').value; let code = el('p-co
 
 async function sendStoreMaint(closed) { let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value; let bands = el('adm-m-bands').checked; let timerVal = ""; if(closed) { if(dt) { timerVal = new Date(dt).getTime(); } else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); } } let res = await api('maint', {adminPass: window.CFG.PASS, closed, msg, timer: timerVal, bands}); if(res && res.s==='ok') { toast("Store status updated", "success"); setTimeout(()=>location.reload(true), 1500); } }
 async function nukeAppCache() { toast("Nuking cache...", "info"); let d = await api('nuke_cache', {adminPass: window.CFG.PASS}); if(d && d.s === 'ok') { toast("Cache nuked!", false); setTimeout(()=>location.reload(true), 2000); } }
-async function submitNewItem() { el('b-add-item').innerText = "..."; let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exEn: el('a-exEn').value, exFr: el('a-exFr').value }; let d = await api('add_item', payload); if(d && d.s === 'ok') { toast("Item Added!", false); closeModal('create-mod'); } el('b-add-item').innerText = "ADD TO DB"; }
+async function submitNewItem() { el('b-add-item').innerText = "..."; let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, subEn: el('a-subEn').value, subFr: el('a-subFr').value, nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exEn: el('a-exEn').value, exFr: el('a-exFr').value }; let d = await api('add_item', payload); if(d && d.s === 'ok') { toast("Item Added!", false); closeModal('create-mod'); } el('b-add-item').innerText = "ADD TO DB"; }
 
 function admEditItem(id, nEn, nFr, p, status) { el('edit-i-id').value = id; el('edit-i-nEn').value = nEn; el('edit-i-nFr').value = nFr; el('edit-i-price').value = p; el('edit-i-status').value = status; openModal('edit-item-mod'); }
-async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
+async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value, folder: el('edit-i-folder').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
 
 // --- OTP & REGISTRATION ---
 let tempReg = {};
@@ -664,20 +648,20 @@ async function finalizeOTPAuth() {
     if (otpFlowType === 'signup') {
         let vRes = await api('verify_otp', {email: tempReg.c, code: code});
         if(vRes && vRes.s === 'ok') { let res = await api('signup', { n: tempReg.n, c: tempReg.c, pwd: tempReg.p, ip: userIP, wa: tempReg.wa, ig: tempReg.ig });
-            if(res && res.s === 'ok') { user = tempReg.c; role = 'User'; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
+            if(res && res.s === 'ok') { user = tempReg.c; role = 'User'; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); loginStreak=1; localStorage.setItem('ch_streak', 1); if(res.contact) localStorage.setItem('ch_contact', res.contact); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
         } else { toast("Invalid OTP Code", "error"); }
     } else if (otpFlowType === 'login') {
         let vRes = await api('login_with_code', {email: tempReg.c, code: code, ip: userIP});
-        if(vRes && vRes.s === 'ok') { user = tempReg.c; role = vRes.r; uOrders = vRes.tOrd || 0; userWallet = vRes.w || 0; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); closeModal('log-mod'); chkUI(); toast("Secure Login Successful!", "success"); } else if(vRes && vRes.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid OTP Code", "error"); }
+        if(vRes && vRes.s === 'ok') { user = tempReg.c; role = vRes.r; uOrders = vRes.tOrd || 0; userWallet = vRes.w || 0; loginStreak = vRes.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(vRes.contact) localStorage.setItem('ch_contact', vRes.contact); closeModal('log-mod'); chkUI(); toast("Secure Login Successful!", "success"); } else if(vRes && vRes.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid OTP Code", "error"); }
     }
 }
 async function exLog() {
     let c = el('lEml').value.trim(); let p = el('lPas').value.trim(); if(!c || !p) return toast("Fill all fields", "error");
     let res = await api('login', { c: c, p: p, ip: userIP });
-    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
+    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; loginStreak = res.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(res.contact) localStorage.setItem('ch_contact', res.contact); closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
 }
 function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
-function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
+function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); localStorage.removeItem('ch_contact'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
 
 let logoClicks = 0;
 function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
@@ -688,11 +672,23 @@ async function addBiometrics() { let pw = el('admin-pass-input') ? el('admin-pas
 async function loginBiometrics() { let savedId = localStorage.getItem('ch_passkey_Admin'); if(!savedId) return toast("No biometrics linked.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); el('admin-pass-input').value = window.CFG.PASS; verifyAdminManual(); } catch(err) { toast("Biometric failed.", "error"); } }
 async function revealPassword() { let savedId = localStorage.getItem('ch_passkey_User'); if(!savedId) return toast("Bind a device first to use vault.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); } }
 
+// 🎯 DRAG AND DROP ENGINE FOR ADMIN
+function dragStart(e, id) { e.dataTransfer.setData('text/plain', id); e.target.classList.add('dragging'); }
+function dragEnd(e) { e.target.classList.remove('dragging'); }
+function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function dragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+async function dropItem(e, folderName) { 
+    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+    let id = e.dataTransfer.getData('text/plain'); if(!id) return;
+    toast(`Moving item to ${folderName}...`, "info");
+    let res = await api('edit_item', {adminPass: window.CFG.PASS, id: id, folder: folderName});
+    if(res && res.s === 'ok') { toast("Item Moved!", "success"); location.reload(); } else { toast("Failed to move", "error"); }
+}
+
 function ren() { 
     try {
         let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
         
-        // 🎯 FIX FOR FLASHING "STORE EMPTY": Only render if data is fully loaded!
         if(!isDataLoaded) return; 
         
         let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
@@ -725,19 +721,22 @@ function ren() {
             let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
             let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); let artImg = r['Article Image'] || ''; 
             let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
-            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg };
+            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg, fldN: fldN };
             
             if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push(itemData); } return; } 
             if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
         }); 
         
+        let dDropTags = role === 'Admin' ? `ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropItem(event, 'FLD_NAME')"` : '';
+
         if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
         else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = safeHexToRgba(c[k].hHex, 0.15); hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
-        else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
-        else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
+        else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
+        else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
         a.innerHTML = hHtml; 
     } catch(err) { console.error(err); el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet formatting.<br><small>${err.message}</small></div>`; }
 }
+
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
 
@@ -755,9 +754,10 @@ function dR(i, q = "") {
     else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); if(navigator.vibrate) navigator.vibrate(50);">CALCULATE & ADD</button>`; } 
     else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; }
 
-    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.p}, '${i.status}')">EDIT</div>` : '';
+    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.p}, '${i.status}', '${sEnc(i.fldN)}')">EDIT</div>` : '';
+    let dragTag = role === 'Admin' ? `draggable="true" ondragstart="dragStart(event, '${i.id}')" ondragend="dragEnd(event)"` : '';
 
-    return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
+    return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
 }
 
 function calcImportPrice() {
@@ -793,6 +793,11 @@ function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"
 
 function opnCO() { 
     if(cart.length === 0) return toast("Cart Empty", "error"); 
+    
+    // Auto-fill contact info if saved
+    let savedContact = localStorage.getItem('ch_contact');
+    if(savedContact) { el('coC').value = savedContact; }
+    
     let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; 
     let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; 
     sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');
@@ -876,6 +881,9 @@ async function finOrd() {
             if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } 
             if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } 
             if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } 
+            
+            // Save the contact info locally for next time
+            localStorage.setItem('ch_contact', c);
             
             let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Final Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n📦 **ITEMS ORDERED:**\n\n`; 
             cart.forEach((i, idx) => { inv += `${idx + 1}. ${i.n}\n   🆔 Item ID: ${i.id}\n   💵 Orig Price: ${i.p.toFixed(2)} DT\n   💥 Final Price: ${i.finalPrice.toFixed(2)} DT\n`; if(i.c && i.c > 0) inv += `   🌍 Importer Base: ${i.c} DT\n`; inv += `----------------------------------\n`; }); 
