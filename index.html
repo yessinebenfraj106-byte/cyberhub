@@ -34,16 +34,23 @@
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         
-        /* Font stack strictly ordered to fix PC Emoji Rendering */
-        body { font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
+        /* ADVANCED EMOJI FONT OVERRIDE FOR PC & MAC */
+        @font-face {
+            font-family: 'EmojiFallback';
+            src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji');
+            unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', 'EmojiFallback', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+        
+        input, select, textarea, button, .btn { font-family: 'Plus Jakarta Sans', 'EmojiFallback', sans-serif; }
         
         #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; flex: 1; width: 100%; box-sizing: border-box; transition: all 0.3s ease;}
         
-        /* Admin Mobile Simulators */
         body.sim-ios .cont { max-width: 390px; margin: 40px auto; outline: 15px solid #222; border-radius: 40px; height: 844px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         body.sim-android .cont { max-width: 412px; margin: 40px auto; outline: 10px solid #111; border-radius: 20px; height: 915px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         
@@ -66,7 +73,7 @@
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
         
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; }
-        input, select, textarea { font-family: inherit; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
         
         .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
@@ -85,15 +92,14 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* DIAGONAL X MASTER BANDS */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); width: 200vw; left: -50vw; top: 50vh; }
         #stripe-1 { transform: rotate(45deg); }
         #stripe-2 { transform: rotate(-45deg); }
         
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
 
-        /* ADMIN DASHBOARD */
-        #admin-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100000; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
+        /* FIXED ADMIN DASHBOARD OPACITY BUG */
+        #admin-page { z-index: 100000; padding: 0; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
         .admin-tab.active { background: var(--p); color: #000; }
@@ -106,7 +112,6 @@
         #admin-menu-popup { display: none; position: fixed; bottom: 100px; left: 25px; flex-direction: column; gap: 10px; z-index: 100000; width: 200px; padding: 15px; border-radius: 15px; }
         .admin-fab { display: none; position: fixed; bottom: 25px; left: 25px; background: #ff00ff; color: #fff; width: 65px; height: 65px; border-radius: 50%; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 5px 20px rgba(255,0,255,0.4); cursor: pointer; z-index: 99999; border: none; }
         
-        /* SMOOTH ROLLING God's Eye Tracker */
         #gods-eye { display: none; align-items: center; justify-content: center; gap: 5px; position: fixed; top: 75px; right: 15px; background: rgba(10,15,30,0.95); backdrop-filter: blur(10px); border: 1px solid #00ff88; color: #00ff88; padding: 5px 15px; border-radius: 30px; font-size: 0.8rem; font-weight: bold; z-index: 50; box-shadow: 0 0 15px rgba(0,255,136,0.3); transition: all 0.3s; white-space: nowrap; }
         .admin-eye { border-color: #ff00ff !important; color: #ff00ff !important; box-shadow: 0 0 15px rgba(255,0,255,0.3) !important; }
 
@@ -219,6 +224,7 @@
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
     </div>
 
+    <!-- FIXED ADMIN DASHBOARD MODAL -->
     <div id="admin-page" class="modal">
         <div class="m-cnt" style="max-width:1000px;">
             <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
@@ -232,7 +238,6 @@
             </div>
 
             <div id="adm-ctrl" class="admin-section active">
-                <!-- Device Simulator Buttons -->
                 <div class="glass" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
                     <button class="btn" style="background:#555; color:#fff; flex:1;" onclick="simDevice('ios')">📱 View as iOS</button>
                     <button class="btn" style="background:#444; color:#fff; flex:1;" onclick="simDevice('android')">📱 View as Android</button>
@@ -271,7 +276,6 @@
     <div id="reorder-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3><p style="font-size:0.8rem; color:gray;">Drag items up/down then save.</p><div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div><button class="btn" style="background:var(--w);" id="b-reorder" onclick="saveReorder()">SAVE NEW ORDER</button><button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button></div></div>
     <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button></div></div>
     
-    <!-- Login & Auth -->
     <div id="log-mod" class="modal">
         <div class="m-cnt">
             <div id="l-step">
@@ -339,7 +343,6 @@
         </div>
     </div>
     
-    <!-- 🌍 GLOBAL IMPORTER MODAL -->
     <div id="import-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--p); margin-top:0;">🌍 Global Importer</h3><p style="color:gray; font-size:0.85rem;">Import exclusively from France (FR) regions. Exchange Rate: <b style="color:#00ff88">1 € = 4.35 DT</b></p><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid var(--b); margin-top:15px;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">1. Select Platform:</label><select id="imp-store" style="background:#000!important; margin-bottom:15px;" onchange="validateImportLink()"><option value="Shein">🛍️ Shein (FR)</option><option value="Amazon">📦 Amazon (FR)</option><option value="AliExpress">🛒 AliExpress (FR)</option><option value="Zara">👗 Zara (FR)</option></select><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">2. Paste Product/Cart Link:</label><input type="url" id="imp-link" placeholder="https://www.amazon.fr/..." oninput="validateImportLink()" style="margin-bottom:15px; font-size:0.85rem;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">3. Cart Total in Euros (€):</label><input type="number" id="imp-amt" placeholder="e.g. 50.00" oninput="calcImportPrice()" style="font-size:1.2rem; font-weight:bold; color:#00ff88!important;"></div><div style="margin:15px 0; padding:15px; border-top:1px dashed #444; border-bottom:1px dashed #444;"><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Supplier Cost:</span> <span id="imp-cost-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Shipping & Margin:</span> <span id="imp-margin-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--p); font-weight:900; font-size:1.3rem;"><span>FINAL PRICE:</span> <span id="imp-final-disp">0.00 DT</span></div></div><button class="btn" style="background:var(--p);" onclick="addImportToCart()">ADD TO CYBERHUB CART</button><button onclick="closeModal('import-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
 
     <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button></div></div></div>
@@ -349,7 +352,6 @@
             <div id="co-form">
                 <h3 style="color:var(--p); margin-top:0;">Secure Checkout</h3>
                 
-                <!-- Guest Warning Block -->
                 <div id="guest-contact-warning" style="background:rgba(255,77,77,0.1); border:1px dashed #ff4d4d; padding:10px; border-radius:10px; margin-bottom:15px; display:none;">
                     <span style="color:#ff4d4d; font-size:0.8rem; font-weight:bold;">⚠️ Guest Mode: Please provide your Instagram Username or WhatsApp Number below so we can reach you!</span>
                 </div>
@@ -359,7 +361,6 @@
                     <div style="margin:10px 0;"><label style="font-size:0.85rem; color:var(--w); font-weight:bold;">Select Discount:</label><select id="co-disc-selector" onchange="applySingleDiscount()" style="background:#111!important; border-color:var(--w); margin-top:5px;"></select></div>
                     <div id="promo-input-box" style="display:none; display:flex; gap:5px; margin-top:5px;"><input type="text" id="promo-code-val" placeholder="Enter Code" style="margin:0; text-transform:uppercase;"><button class="btn" style="width:auto; margin:0; padding:10px 15px;" onclick="validatePromoCode()">Apply</button></div>
                     
-                    <!-- Dynamic Tipping and Fee Logic -->
                     <div style="display:flex; align-items:center; gap:10px; margin-top:10px; border-top:1px dashed #333; padding-top:10px;">
                         <span style="color:#00ff88; font-weight:bold; font-size:0.9rem;">☕ Tip Admin (DT):</span>
                         <button class="icon-btn" style="padding:5px 10px; background:#333;" onclick="adjTip(-1)">-</button>
@@ -408,7 +409,6 @@
                 <h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2>
                 <div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div>
                 
-                <!-- Smart Redirect Instructions -->
                 <p style="color:var(--w); font-size:0.9rem; margin-bottom:5px;">✅ Invoice text copied to your clipboard!</p>
                 <p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Click below to redirect and paste it to us:</p>
 
@@ -431,8 +431,6 @@ const T = {
 
 let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {} }; 
 let cart = []; let cView = { t: 'cats', c: null, a: null }; 
-
-// Admin role checks correctly via caching
 let role = localStorage.getItem('ch_role') || 'User'; 
 let lang = localStorage.getItem('ch_lng') || 'en'; 
 let user = localStorage.getItem('ch_user'); 
@@ -441,7 +439,7 @@ let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
 let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" };
 
-let isTabVisible = true; let otpFlowType = 'signup';
+let isTabVisible = true; let otpFlowType = 'signup'; let isDataLoaded = false;
 document.addEventListener("visibilitychange", () => { isTabVisible = !document.hidden; });
 
 let tempImportCost = 0; let tempImportFinal = 0;
@@ -525,7 +523,7 @@ async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
 async function api(action, payload = {}) { try { let res = await fetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ action, payload }) }); return await res.json(); } catch(e) { return null; } }
 
-// Rolling God's Eye Effect
+// 🎯 SMOOTH ROLLING GOD'S EYE COUNTER
 function animateValue(obj, start, end, duration) {
   let startTimestamp = null;
   const step = (timestamp) => {
@@ -557,6 +555,7 @@ function updateGodsEye(count) {
     }
 }
 
+// 📱 DEVICE SIMULATOR
 function simDevice(type) {
     let b = document.body;
     if(type === 'ios') { b.className = 'sim-ios'; toast("iOS View Activated", "info"); }
@@ -575,7 +574,10 @@ function initApp() {
     const urlParams = new URLSearchParams(window.location.search); 
     if (urlParams.has('cart')) { try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} } else { let sc = localStorage.getItem('ch_cart'); if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; } } 
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
-        if(d && d.status === "success") { db = d; try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; } else { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; }
+        if(d && d.status === "success") { 
+            db = d; 
+            isDataLoaded = true; // 🎯 FIX FOR "STORE EMPTY" FLASH
+            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; } else { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; }
     }); 
     fetchSafeIP().then(ip => { userIP = ip; setInterval(() => { if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest') }).then(res => { if(res && res.success) updateGodsEye(res.count); }); } }, 15000); }); 
 }
@@ -613,7 +615,8 @@ async function saveReorder() { toast("Saving order to DB...", "info"); let nodes
 
 async function openAdminDashboard() { 
     toast("Fetching secured databases...", "info"); let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS});
-    if(res && res.s === 'ok') { adminDataCache = res; el('admin-page').style.display = 'block'; renderAdminUsers(); renderAdminOrders(); } else { toast("Failed to fetch admin data", "error"); }
+    // 🎯 FIX FOR INVISIBLE DASHBOARD: Uses openModal to apply CSS transitions!
+    if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); } else { toast("Failed to fetch admin data", "error"); }
 }
 function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); event.target.classList.add('active'); el('adm-' + tabId).classList.add('active'); }
 
@@ -688,6 +691,10 @@ async function revealPassword() { let savedId = localStorage.getItem('ch_passkey
 function ren() { 
     try {
         let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
+        
+        // 🎯 FIX FOR FLASHING "STORE EMPTY": Only render if data is fully loaded!
+        if(!isDataLoaded) return; 
+        
         let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
         let pMaint = db.maintObj && db.maintObj.partial ? String(db.maintObj.partial).toLowerCase() : ""; let isFr = lang === 'fr'; 
