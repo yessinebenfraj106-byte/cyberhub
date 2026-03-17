@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#050b14">
     
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
@@ -17,13 +17,11 @@
 
         window.CFG = {
             SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec",
-            NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058",
-            D17_QR: "https://i.ibb.co/3s6cRkH/qr.png" 
+            NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058"
         };
         
         const themes = [
             {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
-            {n: 'Vaporwave Pink', p: '#ff00ff', w: '#00f0ff', bg: '#1a0515', b: 'rgba(255,0,255,0.2)', c: 'rgba(26,5,21,0.8)'},
             {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
             {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}
         ];
@@ -35,11 +33,11 @@
 
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: background 0.5s; }
+        body { font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 100px; overflow-x: hidden; transition: color 0.5s; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         
-        /* Updated Particles CSS for guaranteed render */
-        #particles-js { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
+        #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; }
         .glass { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); border: 1px solid var(--b); border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4); }
@@ -63,7 +61,7 @@
         @keyframes glow { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
         
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; }
-        input, select, textarea { font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
+        input, select, textarea { font-family: 'Plus Jakarta Sans', 'Segoe UI Emoji', sans-serif; width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
         
         .modal { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(15px); padding: 15px; opacity: 0; transition: opacity 0.3s ease; }
         .modal.show { display: flex; opacity: 1; }
@@ -83,7 +81,6 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* Master Maintenance Stripes */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 40px; opacity: 0.9; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         #stripe-top { top: 10%; left: -20%; width: 140%; transform: rotate(-15deg); }
         #stripe-bot { bottom: 10%; right: -20%; width: 140%; transform: rotate(-15deg); }
@@ -91,7 +88,6 @@
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
         #wa-widget:hover { transform: scale(1.05); }
 
-        /* ADMIN DASHBOARD UI */
         #admin-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100000; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -120,28 +116,27 @@
         #drop-zone.active { background: rgba(0, 240, 255, 0.2); border-color: #ffae00; }
         #drop-zone.flagged { border-color: #ff4d4d !important; background: rgba(255, 77, 77, 0.1) !important; color: #ff4d4d; }
         
-        /* Honeypots for Autocomplete Fix */
         .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
     </style>
 </head>
 <body>
+    <div id="bg-layer"></div>
+    <div id="particles-js"></div>
+
     <div id="stripe-top" class="maint-stripes"></div>
     <div id="stripe-bot" class="maint-stripes"></div>
-    
-    <!-- Particles Div Base Layer -->
-    <div id="particles-js"></div>
 
     <div id="gods-eye">👁️ <span id="online-count">0</span> Users Online</div>
     <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat with us</span></div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
-    <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; z-index:100;">
+    <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; letter-spacing:1px; z-index:100;">
         🔥 EXTREME TRAFFIC DETECTED - SURGE PRICING ACTIVE 🔥
     </div>
 
     <div id="sidebar">
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
-        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="icon-512.png" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;"></div>
+        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="icon-512.png" onerror="this.src='https://via.placeholder.com/80?text=Logo'" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;"></div>
         
         <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
         <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
@@ -156,6 +151,7 @@
 
         <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
         <div class="m-item" onclick="openModal('wheel-mod'); toggleSidebar(); buildWheelUI();">🎡 <span class="tr" data-k="spin">Spin & Win</span></div>
+        <div class="m-item" onclick="openModal('import-mod'); toggleSidebar();" style="color:#00f0ff; border-color:#00f0ff;">🌍 <span class="tr" data-k="imp">Global Importer</span></div>
         <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ Request Custom Service</div>
     </div>
 
@@ -177,7 +173,7 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="main-logo" src="icon-512.png" class="logo" onclick="handleAdminClick()">
+            <img id="main-logo" src="icon-512.png" onerror="this.src='https://via.placeholder.com/110?text=Logo'" class="logo" onclick="handleAdminClick()">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
@@ -200,7 +196,6 @@
 
     <button class="fab-cart" onclick="opnCart(); playSnd();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
-    <!-- ADMIN FULL DASHBOARD -->
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Category')">Add Category</button>
@@ -241,7 +236,7 @@
             <div id="adm-users" class="admin-section">
                 <div class="glass" style="overflow-x:auto;">
                     <table class="admin-table">
-                        <thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Wallet</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Wallet</th><th>Total Spent</th><th>Actions</th></tr></thead>
                         <tbody id="a-t-users"></tbody>
                     </table>
                 </div>
@@ -276,16 +271,101 @@
         </div>
     </div>
 
-    <!-- MODALS -->
-    <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
-    
-    <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button></div></div>
-    
-    <div id="log-mod" class="modal"><div class="m-cnt"><div id="l-step"><h3 style="color:var(--p); margin-top:0;">Sign In</h3><form onsubmit="event.preventDefault(); exLog();"><input type="email" id="lEml" placeholder="Email" required><input type="password" id="lPas" placeholder="Password" required><button type="submit" class="btn">Log In</button></form><div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;"><span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span></div></div><div id="r-step" style="display:none;"><h3 style="color:var(--p); margin-top:0;">Create Account</h3><form onsubmit="event.preventDefault(); initiateSignup();"><input type="text" id="rN" placeholder="Full Name (Mandatory)" required><input type="email" id="rCnt" placeholder="Email (Primary)" required><input type="tel" id="rPh" placeholder="Phone Number (Secondary)"><input type="text" id="rWa" placeholder="WhatsApp Number"><input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)"><input type="password" id="rPas" placeholder="Create Password" required><button type="submit" class="btn">Send Verification Code</button></form><div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div></div><div id="otp-step" style="display:none; text-align:center;"><h3 style="color:#00ff88; margin-top:0;">Verify Email</h3><p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p><input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6"><button class="btn" onclick="finalizeSignup()">Verify & Register</button></div><button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
-    
-    <div id="prof-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3><p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p><div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;"><button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password</button><div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div></div><div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;"><div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div><div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div></div><button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button><button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button><button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
-    
-    <div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3><div id="pol-content" style="margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button></div></div>
+    <div id="create-mod" class="modal">
+        <div class="m-cnt">
+            <h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3>
+            <form onsubmit="event.preventDefault(); submitNewItem();">
+                <input type="text" id="a-catEn" placeholder="Category EN" required>
+                <input type="text" id="a-catFr" placeholder="Category FR" required>
+                <input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)">
+                <input type="text" id="a-nEn" placeholder="Item Name EN" required>
+                <input type="text" id="a-nFr" placeholder="Item Name FR" required>
+                <input type="number" id="a-price" placeholder="Selling Price (DT)" required>
+                <input type="text" id="a-img" placeholder="Image URL (ImgBB)">
+                <label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label>
+                <input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)">
+                <input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)">
+                <button type="submit" class="btn" id="b-add-item">ADD TO DB</button>
+                <button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-auth-modal" class="modal">
+        <div class="m-cnt" style="text-align:center;">
+            <h2 style="color:#ff00ff;">Admin Verification</h2>
+            <input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;">
+            <button class="btn" onclick="verifyAdminManual()">Authorize via Password</button>
+            <button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button>
+            <button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button>
+            <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button>
+        </div>
+    </div>
+
+    <div id="log-mod" class="modal">
+        <div class="m-cnt">
+            <div id="l-step">
+                <h3 style="color:var(--p); margin-top:0;">Sign In</h3>
+                <form onsubmit="event.preventDefault(); exLog();">
+                    <input type="email" id="lEml" placeholder="Email" required>
+                    <input type="password" id="lPas" placeholder="Password" required>
+                    <button type="submit" class="btn">Log In</button>
+                </form>
+                <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;">
+                    <span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span>
+                </div>
+            </div>
+            
+            <div id="r-step" style="display:none;">
+                <h3 style="color:var(--p); margin-top:0;">Create Account</h3>
+                <form onsubmit="event.preventDefault(); initiateSignup();">
+                    <input type="text" id="rN" placeholder="Full Name (Mandatory)" required>
+                    <input type="email" id="rCnt" placeholder="Email (Primary)" required>
+                    <input type="tel" id="rPh" placeholder="Phone Number (Secondary)">
+                    <input type="text" id="rWa" placeholder="WhatsApp Number">
+                    <input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)">
+                    <input type="password" id="rPas" placeholder="Create Password" required>
+                    <button type="submit" class="btn">Send Verification Code</button>
+                </form>
+                <div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div>
+            </div>
+
+            <div id="otp-step" style="display:none; text-align:center;">
+                <h3 style="color:#00ff88; margin-top:0;">Verify Email</h3>
+                <p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p>
+                <input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6">
+                <button class="btn" onclick="finalizeSignup()">Verify & Register</button>
+            </div>
+            <button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button>
+        </div>
+    </div>
+
+    <div id="prof-mod" class="modal">
+        <div class="m-cnt" style="text-align:center;">
+            <h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3>
+            <p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p>
+            <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;">
+                <button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password via Biometrics</button>
+                <div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div>
+            </div>
+            <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;">
+                <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div>
+                <div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
+            </div>
+            <button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button>
+            <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button>
+            <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button>
+        </div>
+    </div>
+
+    <div id="pol-mod" class="modal">
+        <div class="m-cnt">
+            <button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button>
+            <h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3>
+            <div id="pol-content" style="margin-top:15px;"></div>
+            <button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button>
+        </div>
+    </div>
 
     <div id="srv-mod" class="modal">
         <div class="m-cnt">
@@ -298,7 +378,6 @@
         </div>
     </div>
 
-    <!-- 🌍 GLOBAL IMPORTER MODAL (Triggered dynamically by Shein/Import items) -->
     <div id="import-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:var(--p); margin-top:0;">🌍 Global Importer</h3>
@@ -326,7 +405,6 @@
         </div>
     </div>
 
-    <!-- CART & CHECKOUT -->
     <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button></div></div></div>
 
     <div id="co-mod" class="modal">
@@ -353,7 +431,7 @@
                     <div id="pay-reveal" style="text-align:center;">
                         <span style="color:gray; font-size:0.85rem;" id="ui-pay-inst">Transfer to:</span>
                         <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
-                        <img id="qr-d17" src="https://i.ibb.co/3s6cRkH/qr.png" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
+                        <img id="qr-d17" src="qr.png" onerror="this.style.display='none'" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
                         <div id="upload-section-wrap" style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
                             <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
@@ -404,11 +482,16 @@ let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
 let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" }; let wSpinning = false; 
 
+// Track tab visibility to save API calls
+let isTabVisible = true;
+document.addEventListener("visibilitychange", () => { isTabVisible = !document.hidden; });
+
+// DELETED DUPLICATE DECLARATION OF tempImportCost TO FIX CRASH
 let tempImportCost = 0; let tempImportFinal = 0;
+
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 
-// --- BULLETPROOF DATABASE MAPPER ---
 function mapSheetToObjects(sheetData) {
     if(!sheetData || !Array.isArray(sheetData) || sheetData.length === 0) return [];
     if (!Array.isArray(sheetData[0]) && typeof sheetData[0] === 'object') return sheetData; 
@@ -416,9 +499,7 @@ function mapSheetToObjects(sheetData) {
     let headers = sheetData[0].map(h => String(h||"").trim());
     return sheetData.slice(1).map(row => {
         let obj = {};
-        headers.forEach((h, i) => { 
-            obj[h] = (row && Array.isArray(row) && i < row.length) ? row[i] : ""; 
-        });
+        headers.forEach((h, i) => { obj[h] = (row && Array.isArray(row) && i < row.length) ? row[i] : ""; });
         return obj;
     });
 }
@@ -430,15 +511,8 @@ function toggleSidebar() { el('sidebar').classList.toggle('open'); }
 function swA(i) { ['l-step', 'r-step', 'otp-step'].forEach(x => { if(el(x)) el(x).style.display = 'none'; }); if(el(i)) el(i).style.display = 'block'; }
 function maskEm(str) { return (str && str.includes('@')) ? str.split('@')[0].slice(0,2) + "***@" + str.split('@')[1] : "Guest"; }
 
-function hexToRgba(hex, alpha) { 
-    let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); 
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`; 
-}
-function safeHexToRgba(hex, alpha) {
-    let str = String(hex||"").trim();
-    if(str.length === 7 && str.startsWith('#')) return hexToRgba(str, alpha);
-    return str || 'var(--p)';
-}
+function hexToRgba(hex, alpha) { let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return `rgba(${r}, ${g}, ${b}, ${alpha})`; }
+function safeHexToRgba(hex, alpha) { let str = String(hex||"").trim(); if(str.length === 7 && str.startsWith('#')) return hexToRgba(str, alpha); return str || 'var(--p)'; }
 
 function cycleTheme() { let ct = parseInt(localStorage.getItem('ch_theme') || 0); ct = (ct + 1) % themes.length; localStorage.setItem('ch_theme', ct); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); toast("Theme updated", "info"); }
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
@@ -453,24 +527,19 @@ function chkUI() {
 }
 
 function getRating(id) {
-    if(!id) return "⭐⭐⭐⭐⭐ (42)";
-    let num = 0; 
-    let strId = String(id);
+    if(!id) return "⭐⭐⭐⭐⭐ (42)"; let num = 0; let strId = String(id);
     for(let i=0; i<strId.length; i++) num += strId.charCodeAt(i);
-    let stars = (num % 2 === 0) ? "⭐⭐⭐⭐⭐" : "⭐⭐⭐⭐"; let count = (num % 100) + 20;
-    return `${stars} (${count})`;
+    let stars = (num % 2 === 0) ? "⭐⭐⭐⭐⭐" : "⭐⭐⭐⭐"; let count = (num % 100) + 20; return `${stars} (${count})`;
 }
 
 function getStreakPct() {
     if(!db.rewards) return 0; let pct = 0; let objs = mapSheetToObjects(db.rewards);
-    objs.forEach(r => { if(r['--- STREAK ---'] && r['Active?']) { if(loginStreak >= (parseInt(r['Days Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } });
-    return pct;
+    objs.forEach(r => { if(r['--- STREAK ---'] && r['Active?']) { if(loginStreak >= (parseInt(r['Days Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } }); return pct;
 }
 
 function getHighestLoyaltyPct() {
     if(!db.rewards) return 0; let pct = 0; let objs = mapSheetToObjects(db.rewards);
-    objs.forEach(r => { if(r['--- LOYALTY ---'] && r['Active?']) { if(uOrders >= (parseInt(r['Orders Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } });
-    return pct;
+    objs.forEach(r => { if(r['--- LOYALTY ---'] && r['Active?']) { if(uOrders >= (parseInt(r['Orders Needed'])||0)) pct = Math.max(pct, parseFloat(r['Discount %'])||0); } }); return pct;
 }
 
 function fUsrOrd() {
@@ -501,28 +570,31 @@ async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
 async function api(action, payload = {}) { try { let res = await fetch(window.CFG.SURL, { method: 'POST', body: JSON.stringify({ action, payload }) }); return await res.json(); } catch(e) { return null; } }
 
-// --- BOOT & TIMERS ---
 let maintTimerInterval;
 
 function updateGodsEye(count) {
     el('gods-eye').style.display = 'flex';
     if(role === 'Admin') { el('gods-eye').classList.add('admin-eye'); el('online-count').innerText = Math.max(0, count - 1); } 
-    else { el('gods-eye').classList.remove('admin-eye'); let isClosed = db.maintObj && db.maintObj.closed; let min = isClosed ? 2 : 30; let max = isClosed ? 5 : 150; el('online-count').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
+    else { 
+        el('gods-eye').classList.remove('admin-eye'); 
+        let isClosed = db.maintObj && db.maintObj.closed; 
+        let min = isClosed ? 2 : 30; let max = isClosed ? 5 : 150; 
+        if (Math.random() > 0.4) { el('online-count').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
+    }
 }
 
 function initParticles() {
     if(typeof particlesJS !== 'undefined' && el('particles-js')) {
         particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } });
-    } else {
-        setTimeout(initParticles, 500); // Wait for external script to load
-    }
+    } else { setTimeout(initParticles, 500); }
 }
 window.addEventListener('load', initParticles);
 
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; 
     appLang();
-    if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', 'true'); }, 1000); }
+    
+    if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
     
     const urlParams = new URLSearchParams(window.location.search); 
     if (urlParams.has('cart')) { try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} } else { let sc = localStorage.getItem('ch_cart'); if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; } } 
@@ -541,7 +613,9 @@ function initApp() {
     
     fetchSafeIP().then(ip => {
         userIP = ip;
-        setInterval(() => { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest-' + Math.floor(Math.random()*1000)) }).then(res => { if(res && res.success) updateGodsEye(res.count); }); }, 15000); 
+        setInterval(() => { 
+            if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest') }).then(res => { if(res && res.success) updateGodsEye(res.count); }); }
+        }, 15000); 
     }); 
 }
 
@@ -560,7 +634,6 @@ function renderPolicy() {
     el('pol-content').innerHTML = h; 
 }
 
-// --- ADMIN FULL DASHBOARD ENGINE ---
 let adminDataCache = {};
 function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
 function openAdminCreate(type) { toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; }
@@ -584,7 +657,7 @@ function renderAdminUsers() {
     let usersObj = mapSheetToObjects(adminDataCache.users);
     usersObj.forEach(u => {
         if(!u.Email) return; 
-        tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`;
+        tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td>${u['Total Spent']||0} DT</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`;
     });
 }
 async function admUserAction(email, action, val="") {
@@ -598,7 +671,14 @@ function renderAdminOrders() {
     let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse();
     ordersObj.forEach(o => {
         if(!o['Order ID']) return;
-        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${o.Items}">${o.Items}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM Client</button></td></tr>`;
+        
+        let readableItems = o.Items;
+        try {
+            let itemArr = JSON.parse(o.Items);
+            readableItems = itemArr.map(i => i.n).join(', ');
+        } catch(e) {}
+        
+        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${readableItems}">${readableItems}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':'#00ff88'}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM Client</button></td></tr>`;
     });
 }
 async function admOrderAction(id, status) {
@@ -631,8 +711,6 @@ async function sendStoreMaint(closed) {
 async function nukeAppCache() { toast("Nuking cache...", "info"); let d = await api('nuke_cache', {adminPass: window.CFG.PASS}); if(d && d.s === 'ok') { toast("Cache nuked!", false); setTimeout(()=>location.reload(true), 2000); } }
 async function submitNewItem() { el('b-add-item').innerText = "..."; let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exEn: el('a-exEn').value, exFr: el('a-exFr').value }; let d = await api('add_item', payload); if(d && d.s === 'ok') { toast("Item Added!", false); closeModal('create-mod'); } el('b-add-item').innerText = "ADD TO DB"; }
 
-// --- OTP & REGISTRATION ---
-let tempReg = {};
 async function initiateSignup() {
     tempReg = { n: el('rN').value.trim(), c: el('rCnt').value.trim(), ph: el('rPh').value.trim(), wa: el('rWa').value.trim(), ig: el('rIg').value.trim(), p: el('rPas').value.trim() };
     if(!tempReg.n || !tempReg.c || !tempReg.p) return toast("Name, Email, and Password required.", "error");
@@ -660,7 +738,6 @@ async function exLog() {
 function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
 function logOut() { localStorage.removeItem('ch_user'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
 
-// --- ADMIN / GOD MODE ---
 let logoClicks = 0;
 function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
 function verifyAdminManual() {
@@ -668,7 +745,6 @@ function verifyAdminManual() {
     if(pw === window.CFG.PASS) { role = "Admin"; el('admin-fab').style.display = 'flex'; el('admin-crown').style.display = 'inline-block'; closeModal('admin-auth-modal'); updateGodsEye(2); toast("GOD MODE ACTIVATED", "info"); } else { toast("ACCESS DENIED", "error"); }
 }
 
-// --- BIOMETRICS ENGINE ---
 const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0));
 async function addBiometrics() {
     let pw = el('admin-pass-input') ? el('admin-pass-input').value : null;
@@ -685,7 +761,6 @@ async function revealPassword() {
     try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); }
 }
 
-// --- RENDER & DISPLAY (100% CRASH PROOF) ---
 function ren() { 
     try {
         let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
@@ -740,10 +815,7 @@ function ren() {
         else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
         else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
         a.innerHTML = hHtml; 
-    } catch(err) {
-        console.error(err);
-        el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet headers.<br><small>${err.message}</small></div>`;
-    }
+    } catch(err) { console.error(err); el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet formatting.<br><small>${err.message}</small></div>`; }
 }
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
@@ -754,7 +826,6 @@ function dR(i, q = "") {
     let btnCol = i.col || 'var(--p)'; let catHtml = (i.cat && i.sub) ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat} <span style="color:${btnCol};opacity:0.8;">▶</span> ${i.sub}</div>` : `<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">${i.cat}</div>`; let imgHtml = i.img ? `<img src="${i.img}" class="img-transparent" style="width:50px; height:50px; margin-right:15px;">` : ''; 
     let nDisp = q ? highlightMatch(i.n, q) : i.n; let revHtml = `<div style="font-size:0.75rem; color:#ffae00; margin-top:3px;">${getRating(i.id)}</div>`; 
 
-    // SMART IMPORT BUTTON LOGIC
     let nStr = String(i.n).toLowerCase(); let catStr = String(i.cat).toLowerCase();
     let isImport = nStr.includes("import") || nStr.includes("shein") || nStr.includes("amazon") || nStr.includes("aliexpress") || catStr.includes("import") || catStr.includes("shein");
     
@@ -766,8 +837,6 @@ function dR(i, q = "") {
     return `<div class="i-row" style="border-left:3px solid ${btnCol};" data-id="${i.id}"><div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
 }
 
-// --- GLOBAL IMPORTER ---
-let tempImportCost = 0; let tempImportFinal = 0;
 function calcImportPrice() {
     let amt = parseFloat(el('imp-amt').value);
     if(isNaN(amt) || amt <= 0) { el('imp-cost-disp').innerText = "0.00 DT"; el('imp-margin-disp').innerText = "0.00 DT"; el('imp-final-disp').innerText = "0.00 DT"; tempImportCost = 0; tempImportFinal = 0; return; }
@@ -795,46 +864,41 @@ function addImportToCart() {
     el('imp-amt').value = ''; el('imp-link').value = ''; calcImportPrice(); closeModal('import-mod');
 }
 
-// --- CHECKOUT ---
-function addC(eO, p, eN, hasEx, exCount) { let id = decodeURIComponent(eO); let n = decodeURIComponent(eN); if(hasEx) { let extVals = []; let missing = false; for(let j=0; j<exCount; j++) { let inp = el(`ex-${id}-${j}`); if(!inp || !inp.value) missing = true; else { extVals.push(inp.value); inp.value = ''; } } if(missing) n += " (⚠️ MISSING INFO)"; else n += " (" + extVals.join(' | ') + ")"; } cart.push({ id: id, n: n, p: parseFloat(p), finalPrice: parseFloat(p) }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.length; toast("Added to Cart!", false); }
-function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { let nHtml = i.n.includes("⚠️ MISSING INFO") ? i.n.replace("⚠️ MISSING INFO", "<b style='color:#ff4d4d;'>⚠️ MISSING INFO</b>") : i.n; return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${nHtml}</span> <span>${i.p} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
+function addC(eO, p, eN, hasEx, exCount) { 
+    let id = decodeURIComponent(eO); let n = decodeURIComponent(eN); 
+    if(hasEx) { 
+        let extVals = []; let missing = false; 
+        for(let j=0; j<exCount; j++) { 
+            let inp = el(`ex-${id}-${j}`); 
+            if(!inp || !inp.value.trim()) missing = true; 
+            else { let label = inp.getAttribute('placeholder').replace(/\.$/, ''); extVals.push(`${label}: ${inp.value.trim()}`); inp.value = ''; } 
+        } 
+        if(missing) return toast("Please fill all extra detail boxes!", "error"); 
+        n += " [" + extVals.join(' | ') + "]"; 
+    } 
+    cart.push({ id: id, n: n, p: parseFloat(p), finalPrice: parseFloat(p) }); 
+    localStorage.setItem('ch_cart', JSON.stringify(cart)); 
+    if(el('c-count')) el('c-count').innerText = cart.length; toast("Added to Cart!", false); 
+}
+
+function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${i.n}</span> <span>${i.p} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
 function opnCart() { updC(); openModal('cart-mod'); }
 function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"); let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); navigator.clipboard.writeText(window.location.href.split('?')[0] + "?cart=" + cartB64).then(() => { toast("Cart Link Copied!", false); }).catch(() => toast("Failed to copy", true)); }
-function opnCO() { if(cart.length === 0) return toast("Cart Empty", "error"); let hasMissingInfo = cart.some(i => i.n.includes("⚠️ MISSING INFO")); if (hasMissingInfo) { toast("Please provide the missing info!", "error"); let missingFix = prompt("You missed some Extra Info. Enter it here:"); if(!missingFix) return toast("Cannot checkout without info.", true); cart = cart.map(i => { if(i.n.includes("⚠️ MISSING INFO")) { i.n = i.n.replace(" (⚠️ MISSING INFO)", " ("+missingFix+")"); } return i; }); updC(); } let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');}
+
+function opnCO() { 
+    if(cart.length === 0) return toast("Cart Empty", "error"); 
+    let r = cart.reduce((s, i) => s + i.p, 0); el('co-sub').innerText = r.toFixed(2) + " DT"; 
+    let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; 
+    let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; 
+    let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; 
+    let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; 
+    sel.innerHTML += `<option value="Promo|0">🎟️ Enter Promo Code...</option>`; 
+    if(el('tip-admin-cb')) el('tip-admin-cb').checked = false; applySingleDiscount(); closeModal('cart-mod'); openModal('co-mod'); sPay('D17');
+}
+
 function applySingleDiscount() { let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } let isTip = el('tip-admin-cb') && el('tip-admin-cb').checked; let tipAmt = isTip ? 1 : 0; let r = cart.reduce((s, i) => s + i.p, 0); let total = r - (r * (activeDiscount.pct / 100)) + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); }
 async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await api("validate_promo", { code: c }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired", true); } else { toast("Invalid Code", true); } }
-function sPay(m) { 
-    payM = m; 
-    ['p-d17','p-mm','p-wal','p-later', 'p-cash-hl'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); 
-    if(m === 'D17') el('p-d17').classList.add('act'); 
-    else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); 
-    else if(m === 'Wallet') el('p-wal').classList.add('act'); 
-    else if(m === 'Pay Later') el('p-later').classList.add('act'); 
-    else if(m === 'Cash Hammam-Lif') el('p-cash-hl').classList.add('act'); 
-    
-    let dbox = el('d-box-pay'); 
-    if(m === 'D17' || m === 'Mandat Minute' || m === 'Cash Hammam-Lif') { 
-        dbox.style.display = 'block'; 
-        if(m === 'D17') { 
-            el('ui-d17-in').innerText = window.CFG.D17; 
-            el('qr-d17').style.display='block'; 
-            el('ui-pay-inst').innerText = "Transfer to D17:"; 
-            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block';
-        } else if(m === 'Mandat Minute') { 
-            el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; 
-            el('qr-d17').style.display='none'; 
-            el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; 
-            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block';
-        } else if(m === 'Cash Hammam-Lif') {
-            el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; 
-            el('qr-d17').style.display='none'; 
-            el('ui-pay-inst').innerText = "Hand Delivery Location:"; 
-            if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none';
-        }
-    } else { 
-        dbox.style.display = 'none'; 
-    } 
-}
+function sPay(m) { payM = m; ['p-d17','p-mm','p-wal','p-later', 'p-cash-hl'].forEach(x => { if(el(x)) el(x).classList.remove('act') }); if(m === 'D17') el('p-d17').classList.add('act'); else if(m === 'Mandat Minute') el('p-mm').classList.add('act'); else if(m === 'Wallet') el('p-wal').classList.add('act'); else if(m === 'Pay Later') el('p-later').classList.add('act'); else if(m === 'Cash Hammam-Lif') el('p-cash-hl').classList.add('act'); let dbox = el('d-box-pay'); if(m === 'D17' || m === 'Mandat Minute' || m === 'Cash Hammam-Lif') { dbox.style.display = 'block'; if(m === 'D17') { el('ui-d17-in').innerText = window.CFG.D17; el('qr-d17').style.display='block'; el('ui-pay-inst').innerText = "Transfer to D17:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block'; } else if(m === 'Mandat Minute') { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block'; } else if(m === 'Cash Hammam-Lif') { el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Hand Delivery Location:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none'; } } else { dbox.style.display = 'none'; } }
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
 function dzLeave() { el('drop-zone').classList.remove('active'); }
 function dzDrop(e) { e.preventDefault(); dzLeave(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); }
@@ -863,7 +927,10 @@ async function finOrd() {
             if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } 
             if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } 
             
-            let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n`; cart.forEach((i) => { inv += `🔸 ${i.n}\n   Price: ${i.finalPrice.toFixed(2)} DT\n\n`; }); inv += `⏳ Our team will process this ticket\n   and contact you within 15-30 mins!`; 
+            let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n📦 **ITEMS ORDERED:**\n\n`; 
+            cart.forEach((i, idx) => { inv += `${idx + 1}. ${i.n}\n   💵 Price: ${i.finalPrice.toFixed(2)} DT\n`; if(i.c && i.c > 0) inv += `   🌍 Importer Base Cost: ${i.c} DT\n`; inv += `----------------------------------\n`; }); 
+            if (cm) inv += `\n📝 Comments: ${cm}\n`; inv += `\n⏳ Our team will process this ticket\n   and contact you within 15-30 mins!`; 
+            
             navigator.clipboard.writeText(inv).catch(e=>{}); 
             try { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); } catch(e) {} 
             el('co-form').style.display = 'none'; el('co-succ').style.display = 'block'; el('succ-gid').innerText = d.gId; 
@@ -874,16 +941,10 @@ async function finOrd() {
     } catch(e) { el('b-fin').innerHTML = "PLACE ORDER"; el('b-fin').disabled = false; toast("System Error", true); } 
 }
 
-// --- UTILS ---
 async function trackOrdBtn() {
-    let id = el('track-inp').value.trim().toUpperCase(); if(!id) return toast("Enter Order ID", "error");
-    el('track-res').innerHTML = "Fetching secure data... ⏳";
+    let id = el('track-inp').value.trim().toUpperCase(); if(!id) return toast("Enter Order ID", "error"); el('track-res').innerHTML = "Fetching secure data... ⏳";
     let res = await api('track_order', {orderId: id});
-    if(res && res.success) {
-        let h = `Status: <b style="color:var(--w);">${res.status}</b><br>Total: ${res.total} DT`;
-        if(res.status === "Pending" && user) { h += `<br><button class="btn" style="background:#ff4d4d; color:white; padding:8px; margin-top:8px; width:100%;" onclick="cancelOrd('${id}')">Cancel Order</button>`; }
-        else if (res.status === "Pending") { h += `<br><span style="color:gray; font-size:0.7rem;">Login to cancel.</span>`; }
-        el('track-res').innerHTML = h;
+    if(res && res.success) { let h = `Status: <b style="color:var(--w);">${res.status}</b><br>Total: ${res.total} DT`; if(res.status === "Pending" && user) { h += `<br><button class="btn" style="background:#ff4d4d; color:white; padding:8px; margin-top:8px; width:100%;" onclick="cancelOrd('${id}')">Cancel Order</button>`; } else if (res.status === "Pending") { h += `<br><span style="color:gray; font-size:0.7rem;">Login to cancel.</span>`; } el('track-res').innerHTML = h;
     } else { el('track-res').innerHTML = "<span style='color:#ff4d4d;'>Order not found.</span>"; }
 }
 async function cancelOrd(id) { if(!confirm("Abort this order?")) return toast("Transmitting abort code...", "info"); let res = await api('cancel_order', {orderId: id, userEmail: user}); if(res && res.success) { toast("Order Cancelled", "success"); trackOrdBtn(); } else { toast("Unauthorized to cancel.", "error"); } }
@@ -891,6 +952,7 @@ async function cancelOrd(id) { if(!confirm("Abort this order?")) return toast("T
 function buildWheelUI() { let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; let wheelObjs = mapSheetToObjects(db.wheel); let sliceDeg = 360 / wheelObjs.length; wheelObjs.forEach((w, i) => { if(!w['Prize Name'])return; let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = w['Color Hex']; slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-80px); display:block;">${w['Emoji']}</span>`; wc.appendChild(slice); }); }
 async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
 
+if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 </script>
 </body>
 </html>
