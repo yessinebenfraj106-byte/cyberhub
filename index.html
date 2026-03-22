@@ -4,39 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
-    <link rel="icon" type="image/png" id="fav-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" id="fav-icon" href="https://i.ibb.co/60V0Z7S/icon-512.png">
     <meta name="theme-color" content="#050b14">
-    
     <link rel="manifest" href="manifest.json">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
         window.CFG = { SURL: "https://script.google.com/macros/s/AKfycbyibXG6gPgJZsJDg8OU2aO0tXc4S42U9D70O67q1ieXvMMEW24shZy-hIJxRJFJ2MMs/exec", NAME: "CYBERHUB", PASS: "26240608", WA: "21629895846", D17: "21 357 058", M_NAME: "Zied Ben Fraj", M_NUM: "21 357 058" };
-        const themes = [
-            {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, 
-            {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, 
-            {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'}
-        ];
+        const themes = [ {n: 'Cyber Blue', p: '#00f0ff', w: '#ffae00', bg: '#050b14', b: 'rgba(0,240,255,0.2)', c: 'rgba(10,15,30,0.8)'}, {n: 'Matrix Green', p: '#00ff88', w: '#00f0ff', bg: '#021108', b: 'rgba(0,255,136,0.2)', c: 'rgba(2,17,8,0.8)'}, {n: 'Solar Flare', p: '#ff4d4d', w: '#ffae00', bg: '#1a0800', b: 'rgba(255,77,77,0.2)', c: 'rgba(26,8,0,0.8)'} ];
         try { let ct = parseInt(localStorage.getItem('ch_theme') || 0); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); } catch(e) {}
-        const playSnd = () => { if(navigator.vibrate) navigator.vibrate(50); };
+        
+        // 🎵 HARDWARE AUDIO SYNTHESIZER (No external files needed)
+        const playPop = () => { if(navigator.vibrate) navigator.vibrate(20); try { let ctx = new (window.AudioContext || window.webkitAudioContext)(); let osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1); osc.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.1); } catch(e){} };
+        const playChime = () => { if(navigator.vibrate) navigator.vibrate([30,50,30]); try { let ctx = new (window.AudioContext || window.webkitAudioContext)(); let osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, ctx.currentTime); osc.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.3); } catch(e){} };
     </script>
 
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
-        
         @font-face { font-family: 'ColorEmoji'; src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji'); unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF; }
-        body { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
+        * { box-sizing: border-box; }
+        body { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; overscroll-behavior-y: none; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
-        
         input, select, textarea, button, .btn { font-family: inherit; }
         
         #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        
-        .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; flex: 1; width: 100%; box-sizing: border-box; transition: all 0.3s ease;}
+        .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; flex: 1; width: 100%; transition: all 0.3s ease; }
         
         body.sim-ios .cont { max-width: 390px; margin: 40px auto; outline: 15px solid #222; border-radius: 40px; height: 844px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         body.sim-android .cont { max-width: 412px; margin: 40px auto; outline: 10px solid #111; border-radius: 20px; height: 915px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
@@ -56,13 +54,11 @@
         
         .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; position: relative; transition: all 0.2s;}
         .i-row.dragging { opacity: 0.5; transform: scale(0.95); border-color: var(--w); }
-        
         .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; transition: all 0.2s; }
         .f-head.drag-over { background: rgba(0,240,255,0.3); border-color: var(--p); transform: scale(1.02); }
 
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
-        
         .icon-btn { background: var(--c); border: 1px solid var(--b); color: #fff; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; }
         input, select, textarea { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--b); background: rgba(0,0,0,0.5) !important; color: #fff !important; box-sizing: border-box; outline: none; transition: 0.3s border; }
         
@@ -73,14 +69,12 @@
         
         .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); color: #fff; padding: 12px 24px; border-radius: 50px; font-weight: 800; transition: all 0.5s; z-index: 20000; }
         .toast.show { bottom: 40px; }
-        
         .c-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px; border-radius: 10px; text-align: center; cursor: pointer; flex: 1; font-weight: bold; font-size: 0.85rem; }
         .c-btn.act { background: var(--b); border-color: var(--p); color: var(--p); }
         
         #sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100vh; background: var(--c); z-index: 9999; transition: 0.4s ease; padding: 20px; border-right: 1px solid var(--p); display: flex; flex-direction: column; backdrop-filter: blur(20px); overflow-y: auto; }
         #sidebar.open { left: 0; }
         .m-item { padding: 18px; color: #fff; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid var(--b); cursor: pointer; display: flex; align-items: center; gap: 15px; }
-        
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 60px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; }
@@ -89,6 +83,7 @@
         
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
 
+        /* ADMIN SPECIFIC CSS */
         #admin-page { z-index: 100000; padding: 0; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -98,21 +93,25 @@
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid var(--b); text-align: left; }
         .admin-table th { background: rgba(0,240,255,0.1); color: var(--p); }
-
         #admin-menu-popup { display: none; position: fixed; bottom: 100px; left: 25px; flex-direction: column; gap: 10px; z-index: 100000; width: 200px; padding: 15px; border-radius: 15px; }
         .admin-fab { display: none; position: fixed; bottom: 25px; left: 25px; background: #ff00ff; color: #fff; width: 65px; height: 65px; border-radius: 50%; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 5px 20px rgba(255,0,255,0.4); cursor: pointer; z-index: 99999; border: none; }
-        
         #gods-eye { display: none; align-items: center; justify-content: center; gap: 5px; position: fixed; top: 75px; right: 15px; background: rgba(10,15,30,0.95); backdrop-filter: blur(10px); border: 1px solid #00ff88; color: #00ff88; padding: 5px 15px; border-radius: 30px; font-size: 0.8rem; font-weight: bold; z-index: 50; box-shadow: 0 0 15px rgba(0,255,136,0.3); transition: all 0.3s; white-space: nowrap; }
         .admin-eye { border-color: #ff00ff !important; color: #ff00ff !important; box-shadow: 0 0 15px rgba(255,0,255,0.3) !important; }
 
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
-        #maint-timer { font-family: monospace; font-size: 2.5rem; font-weight: 900; color: #ff00ff; letter-spacing: 2px; text-shadow: 0 0 10px #ff00ff; margin-top: 10px; }
-        
         .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
         .edit-badge { position: absolute; top: 10px; right: 10px; background: #ff00ff; color: #fff; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; z-index: 5;}
+        
+        /* 🎮 CYBERPUNK TERMINAL OVERLAY */
+        #terminal-ui { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:200000; flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; font-family:monospace; color:#00ff88; text-shadow:0 0 10px #00ff88; font-size:1.2rem; }
+        .term-line { margin: 5px 0; opacity: 0; animation: typeLine 0.5s forwards; }
+        @keyframes typeLine { to { opacity: 1; } }
+        
+        .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .badge { background: #ff4d4d; color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; vertical-align: middle; margin-left: 5px; }
     </style>
 </head>
 <body>
@@ -122,33 +121,34 @@
     <div id="stripe-1" class="maint-stripes"></div>
     <div id="stripe-2" class="maint-stripes"></div>
 
+    <div id="terminal-ui"><div id="term-text"></div></div>
+
     <div id="ios-pwa-prompt" style="display:none; position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.9); color:#000; padding:15px; border-radius:15px; width:90%; text-align:center; font-weight:bold; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:9999;">
         Tap <span style="font-size:1.5rem;">⏍</span> and then "Add to Home Screen" to install CyberHub.
         <div style="width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid rgba(255,255,255,0.9); position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);"></div>
     </div>
     <div id="android-pwa-prompt" style="display:none; position:absolute; bottom:0; left:0; width:100%; background:#fff; color:#000; padding:15px; border-radius:15px 15px 0 0; justify-content:space-between; align-items:center; box-shadow:0 -10px 30px rgba(0,0,0,0.5); z-index:9999; box-sizing: border-box;">
         <div style="display:flex; align-items:center; gap:10px;">
-            <img src="icon-192.png" onerror="this.style.display='none'" style="width:40px; height:40px; border-radius:10px;">
+            <img src="https://i.ibb.co/60V0Z7S/icon-512.png" style="width:40px; height:40px; border-radius:10px;">
             <div style="text-align:left; line-height:1.2;"><b>CyberHub</b><br><span style="font-size:0.75rem; color:gray;">Add to Home screen</span></div>
         </div>
         <button class="btn" style="width:auto; margin:0; padding:8px 15px; background:#00ff88; color:#000;">Install</button>
     </div>
 
     <div id="gods-eye">👁️ <span id="online-count">0</span> Users Online</div>
-    <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat</span></div>
+    <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text" class="tr" data-k="waChat">Chat</span></div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
     <div id="flash-banner" style="display:none; background:linear-gradient(90deg, #ff00ff, #00f0ff); color:white; text-align:center; padding:10px; font-weight:900; font-size:1rem; letter-spacing:2px; z-index:100; box-shadow: 0 5px 15px rgba(255,0,255,0.4);">
         ⚡ FLASH SALE ACTIVE ⚡ <span id="flash-timer" style="margin-left:10px;"></span>
     </div>
-    
     <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; letter-spacing:1px; z-index:100;">
         🔥 EXTREME TRAFFIC DETECTED - SURGE PRICING ACTIVE 🔥
     </div>
 
     <div id="sidebar">
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
-        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="icon-512.png" onerror="this.style.display='none'" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;"></div>
+        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="https://i.ibb.co/60V0Z7S/icon-512.png" id="sidebar-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover; background:#111;"></div>
         
         <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account</span></div>
         <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
@@ -163,17 +163,17 @@
 
         <div class="m-item" onclick="openModal('vip-mod'); toggleSidebar();">🏆 <span class="tr" data-k="vip">VIP Rewards</span></div>
         <div class="m-item" onclick="openModal('import-mod'); toggleSidebar();" style="color:#00f0ff; border-color:#00f0ff;">🌍 <span class="tr" data-k="imp">Global Importer</span></div>
-        <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ Custom Service</div>
+        <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ <span class="tr" data-k="custSrv">Custom Service</span></div>
     </div>
 
     <div class="cont" id="main-cont">
         <div class="top-bar glass">
-            <button class="icon-btn" onclick="toggleSidebar(); playSnd();">☰ MENU</button>
+            <button class="icon-btn" onclick="toggleSidebar(); playPop();">☰ MENU</button>
             <div style="display:flex; gap:10px;">
-                <button class="icon-btn" onclick="cycleTheme(); playSnd();">🎨</button>
+                <button class="icon-btn" onclick="cycleTheme(); playPop();">🎨</button>
                 <span id="admin-crown" style="display:none; font-size:24px; cursor:pointer; margin-top:4px;" onclick="openModal('admin-page')">👑</span>
-                <button class="icon-btn" onclick="openProf(); playSnd();" style="color:var(--p); border-color:var(--p);">👤</button>
-                <button class="icon-btn" onclick="tgLang()"><span id="l-ind">🇬🇧 EN</span></button>
+                <button class="icon-btn" onclick="openProf(); playPop();" style="color:var(--p); border-color:var(--p);">👤</button>
+                <button class="icon-btn" onclick="tgLang(); playPop();"><span id="l-ind">🌐 EN</span></button>
             </div>
         </div>
 
@@ -184,12 +184,12 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="main-logo" src="icon-512.png" onerror="this.style.display='none'" class="logo" onclick="navTo('cats'); handleAdminClick();">
+            <img id="main-logo" src="https://i.ibb.co/60V0Z7S/icon-512.png" class="logo" onclick="navTo('cats'); handleAdminClick();">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
-        <div class="glass" style="padding:15px; text-align:center; border-color:#ffae00; cursor:pointer; margin-bottom:20px;" onclick="openModal('srv-mod')">
-            <span style="color:#ffae00; font-weight:bold;">🚀 Request Custom Service</span>
+        <div class="glass" style="padding:15px; text-align:center; border-color:#ffae00; cursor:pointer; margin-bottom:20px;" onclick="openModal('srv-mod'); playPop();">
+            <span style="color:#ffae00; font-weight:bold;" class="tr" data-k="custSrvBtn">🚀 Request Custom Service</span>
         </div>
 
         <div style="position:relative;">
@@ -197,7 +197,7 @@
                 <input type="text" class="hp-hider" tabindex="-1" autocomplete="username">
                 <input type="email" class="hp-hider" tabindex="-1" autocomplete="email">
                 <input type="password" class="hp-hider" tabindex="-1" autocomplete="current-password">
-                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" name="cyber_search_random_string_x" readonly onfocus="this.removeAttribute('readonly');" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
             </form>
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
@@ -205,11 +205,12 @@
         <div id="st-cnt"><div class="grid"><div class="skel-card skeleton"></div><div class="skel-card skeleton"></div></div></div>
     </div>
 
-    <div style="text-align:center; padding:30px; font-size:0.85rem; color:gray; margin-top:auto; border-top:1px dashed #333; z-index:1; position:relative; background:var(--bg);">
+    <div style="text-align:center; padding:30px; font-size:0.85rem; color:gray; margin-top:auto; border-top:1px dashed #333; z-index:1; position:relative; background:transparent;">
         Made by <a href="https://www.instagram.com/_yessine_ben_fraj_?igsh=MWEzZzB4b2s5M2hmZQ==" target="_blank" style="color:var(--p); text-decoration:none; font-weight:bold;">Yessine ❤️</a>
+        <br><button class="btn" style="background:#111; border:1px solid #ffae00; color:#ffae00; padding:8px 15px; font-size:0.75rem; margin-top:15px; width:auto; box-shadow:0 0 10px rgba(255,174,0,0.3);" onclick="window.open('https://ko-fi.com/yessine', '_blank')">☕ Buy Yessine a Coffee</button>
     </div>
 
-    <button class="fab-cart" onclick="opnCart(); playSnd();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
+    <button class="fab-cart" onclick="opnCart(); playPop();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
@@ -220,8 +221,8 @@
 
     <div id="admin-page" class="modal">
         <div class="m-cnt" style="max-width:1000px;">
-            <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
-            <h1 style="color:#ff00ff; margin-bottom:20px; font-weight:900;">👑 GOD MODE DASHBOARD</h1>
+            <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit</button>
+            <h1 style="color:#ff00ff; margin-bottom:20px; font-weight:900;">👑 GOD MODE</h1>
             
             <div class="admin-nav">
                 <div class="admin-tab active" onclick="switchAdminTab('ctrl')">🎛️ Controls</div>
@@ -229,28 +230,46 @@
                 <div class="admin-tab" onclick="switchAdminTab('orders')">📦 Orders</div>
                 <div class="admin-tab" onclick="switchAdminTab('promo')">🎟️ Promos</div>
                 <div class="admin-tab" onclick="switchAdminTab('flash')" style="color:#00f0ff; border-color:#00f0ff;">⚡ Flash Sale</div>
+                <div class="admin-tab" onclick="switchAdminTab('security')" style="color:#ff4d4d; border-color:#ff4d4d;">🚨 Security</div>
             </div>
 
             <div id="adm-ctrl" class="admin-section active">
                 <div class="glass" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-                    <button class="btn" style="background:#555; color:#fff; flex:1;" onclick="simDevice('ios')">📱 View as iOS</button>
-                    <button class="btn" style="background:#444; color:#fff; flex:1;" onclick="simDevice('android')">📱 View as Android</button>
+                    <button class="btn" style="background:#555; color:#fff; flex:1;" onclick="simDevice('ios')">📱 iOS View</button>
+                    <button class="btn" style="background:#444; color:#fff; flex:1;" onclick="simDevice('android')">📱 Android View</button>
                     <button class="btn" style="background:var(--w); color:#000; flex:1;" onclick="simDevice('reset')">💻 Reset View</button>
                 </div>
                 
+                <div class="glass" style="border-color:#ff00ff; background:rgba(255,0,255,0.05);">
+                    <h3 style="color:#ff00ff; margin-top:0;">💶 Live Currency & Economics</h3>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#000; padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid #333;">
+                        <div>
+                            <span style="color:gray; font-size:0.8rem; display:block;">Live API Euro Rate (Auto-Fetches):</span>
+                            <b style="color:#00ff88; font-size:1.5rem;" id="ui-live-eur">0.00</b> <span style="color:#00ff88;">DT</span>
+                        </div>
+                        <button class="btn" style="width:auto; margin:0; padding:10px; background:#111; color:#00ff88; border:1px solid #00ff88;" onclick="adminFetchLiveEur()">Refresh Sync</button>
+                    </div>
+                    <label style="font-size:0.8rem; color:gray;">Manual Override Rate (Leave 0 to use Live API):</label>
+                    <input type="number" id="adm-c-eur" placeholder="e.g. 4.50" step="0.01">
+                    
+                    <label style="font-size:0.8rem; color:gray; display:block; margin-top:10px;">Minimum Order Threshold (DT):</label>
+                    <input type="number" id="adm-min-ord" placeholder="e.g. 10">
+                    <button class="btn" style="background:#ff00ff; color:#fff;" onclick="adminSaveEcon()">SAVE ECONOMICS</button>
+                </div>
+
                 <div class="glass">
                     <h3 style="color:var(--w); margin-top:0;">⚡ Store Toggles</h3>
                     <input type="text" id="adm-m-msg" placeholder="Maintenance Message...">
                     <div style="display:flex; gap:10px; margin-bottom:10px;">
-                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Specific Re-open Date & Time:</label><input type="datetime-local" id="adm-m-date"></div>
-                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Or Duration (in Hours):</label><input type="number" id="adm-m-hrs" placeholder="e.g., 2.5"></div>
+                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Re-open Date & Time:</label><input type="datetime-local" id="adm-m-date"></div>
+                        <div style="flex:1;"><label style="font-size:0.75rem; color:gray;">Or Duration (Hours):</label><input type="number" id="adm-m-hrs" placeholder="e.g., 2.5"></div>
                     </div>
-                    <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; color:#fff; font-weight:bold; cursor:pointer;"><input type="checkbox" id="adm-m-bands" checked style="width:auto; margin:0;"> Show Diagonal X Hazard Bands</label>
+                    <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; color:#fff; font-weight:bold; cursor:pointer;"><input type="checkbox" id="adm-m-bands" checked style="width:auto; margin:0;"> Show Diagonal Hazard Bands</label>
                     <button class="btn" style="background:#ffae00;" onclick="sendStoreMaint(true)">CLOSE STORE</button>
                     <button class="btn" style="background:#00ff88; color:#000;" onclick="sendStoreMaint(false)">OPEN STORE</button>
                 </div>
                 <div class="glass">
-                    <h3 style="color:#ff4d4d; margin-top:0;">💥 Nuke Cache</h3>
+                    <h3 style="color:#ff4d4d; margin-top:0;">💥 Global Cache Nuke</h3>
                     <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="nukeAppCache()">FORCE REFRESH ALL USERS</button>
                 </div>
             </div>
@@ -261,25 +280,17 @@
             <div id="adm-flash" class="admin-section">
                 <div class="glass" style="border-color:#00f0ff; background:rgba(0,240,255,0.05);">
                     <h3 style="color:#00f0ff; margin-top:0;">⚡ Master Flash Sale Engine</h3>
-                    <p style="font-size:0.8rem; color:gray;">Target ALL, a specific Category, Subcategory, or a specific Item ID. This automatically overwrites prices visually before checkout.</p>
-                    
-                    <label style="display:flex; align-items:center; gap:10px; color:#00ff88; font-weight:bold; cursor:pointer; margin-bottom:15px;">
-                        <input type="checkbox" id="fs-active" style="width:auto; margin:0;"> TURN ON FLASH SALE?
-                    </label>
-                    
-                    <select id="fs-type" style="background:#000!important; margin-bottom:10px;">
+                    <label style="display:flex; align-items:center; gap:10px; color:#00ff88; font-weight:bold; cursor:pointer; margin-bottom:15px;"><input type="checkbox" id="fs-active" style="width:auto; margin:0;"> TURN ON FLASH SALE?</label>
+                    <select id="fs-type" onchange="renderFlashDropdown()" style="background:#000!important; margin-bottom:10px;">
                         <option value="ALL">Everything (ALL)</option>
                         <option value="CATEGORY">Category Name</option>
                         <option value="SUBCATEGORY">Subcategory Name</option>
                         <option value="ITEM">Specific Item ID (e.g. INV-12345)</option>
                     </select>
-                    
-                    <input type="text" id="fs-val" placeholder="Target Name/ID (Leave blank if ALL)">
+                    <select id="fs-val" style="background:#000!important; display:none; margin-bottom:10px;"></select>
                     <input type="number" id="fs-pct" placeholder="Discount Percentage % (e.g. 20)">
-                    
                     <label style="font-size:0.75rem; color:gray; display:block; margin-top:10px;">Countdown End Time (Optional):</label>
                     <input type="datetime-local" id="fs-timer">
-                    
                     <button class="btn" style="background:#00f0ff; color:#000;" onclick="adminSaveFlashSale()">LAUNCH FLASH SALE</button>
                 </div>
             </div>
@@ -305,6 +316,13 @@
                     <table class="admin-table"><thead><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Used By</th><th>Actions</th></tr></thead><tbody id="a-t-promos"></tbody></table>
                 </div>
             </div>
+
+            <div id="adm-security" class="admin-section">
+                <div class="glass" style="border-color:#ff4d4d; background:rgba(255,77,77,0.05); overflow-x:auto;">
+                    <h3 style="color:#ff4d4d; margin-top:0;">🚨 Active Threat Logs</h3>
+                    <table class="admin-table"><thead><tr><th>Date</th><th>IP Address</th><th>Email</th><th>Threat</th><th>Reason</th></tr></thead><tbody id="a-t-sec"></tbody></table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -326,8 +344,16 @@
                     <option value="In Stock">In Stock</option>
                     <option value="OOS">OOS (Out of Stock)</option>
                 </select>
+                <div style="border:1px solid var(--b); padding:10px; border-radius:10px; margin-bottom:15px;">
+                    <b style="color:var(--w); font-size:0.85rem;">Extra Detail Boxes</b>
+                    <label style="display:flex; align-items:center; gap:5px; margin-top:5px; font-size:0.85rem;"><input type="checkbox" id="edit-i-exReq" style="width:auto; margin:0;"> Require user input?</label>
+                    <input type="number" id="edit-i-exNum" placeholder="How many boxes? (Default: 1)" min="1" max="5">
+                    <input type="text" id="edit-i-exEn" placeholder="Extra Texts EN (comma separated)">
+                    <input type="text" id="edit-i-exFr" placeholder="Extra Texts FR (comma separated)">
+                </div>
                 <button type="submit" class="btn" style="background:#ff00ff; color:#fff;" id="b-edit-item">SAVE CHANGES</button>
-                <button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button>
+                <button type="button" onclick="admTrashItem()" class="btn" style="background:transparent; border:1px solid #ff4d4d; color:#ff4d4d;">🗑️ Move to Trash</button>
+                <button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:none; color:gray;">Cancel</button>
             </form>
         </div>
     </div>
@@ -338,85 +364,97 @@
     <div id="log-mod" class="modal">
         <div class="m-cnt">
             <div id="l-step">
-                <h3 style="color:var(--p); margin-top:0;">Sign In</h3>
+                <h3 style="color:var(--p); margin-top:0;" class="tr" data-k="si">Sign In</h3>
                 <form onsubmit="event.preventDefault(); exLog();">
-                    <input type="email" id="lEml" placeholder="Email" required>
-                    <div style="position:relative;">
-                        <input type="password" id="lPas" placeholder="Password" required>
-                        <span class="eye-icon" onclick="let x=el('lPas'); x.type=x.type==='password'?'text':'password';">👁️</span>
-                    </div>
-                    <button type="submit" class="btn">Log In</button>
+                    <input type="email" id="lEml" placeholder="Email" class="tr-ph" data-k="em" required>
+                    <div style="position:relative;"><input type="password" id="lPas" placeholder="Password" class="tr-ph" data-k="pw" required><span class="eye-icon" onclick="let x=el('lPas'); x.type=x.type==='password'?'text':'password';">👁️</span></div>
+                    <button type="submit" class="btn tr" data-k="log">Log In</button>
                 </form>
-                <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;"><span style="color:var(--w); cursor:pointer;" onclick="swA('otp-login-step')">Forgot Password / Code</span><span style="color:var(--p); cursor:pointer;" onclick="swA('r-step')">Create Account</span></div>
+                <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:0.85rem;"><span style="color:var(--w); cursor:pointer;" onclick="swA('otp-login-step')">Forgot Password</span><span style="color:var(--p); cursor:pointer;" class="tr" data-k="ca" onclick="swA('r-step')">Create Account</span></div>
             </div>
             
             <div id="r-step" style="display:none;">
-                <h3 style="color:var(--p); margin-top:0;">Create Account</h3>
+                <h3 style="color:var(--p); margin-top:0;" class="tr" data-k="ca">Create Account</h3>
                 <form onsubmit="event.preventDefault(); initiateSignup();">
-                    <input type="text" id="rN" placeholder="Full Name" required>
-                    <input type="email" id="rCnt" placeholder="Email" required>
-                    <input type="tel" id="rPh" placeholder="Phone Number">
-                    <input type="text" id="rWa" placeholder="WhatsApp Number">
-                    <input type="text" id="rIg" placeholder="Instagram Username (e.g. @john)">
-                    <div style="position:relative;"><input type="password" id="rPas" placeholder="Create Password" required><span class="eye-icon" onclick="let x=el('rPas'); x.type=x.type==='password'?'text':'password';">👁️</span></div>
-                    <button type="submit" class="btn">Send Verification Code</button>
+                    <input type="text" id="rN" placeholder="Full Name" class="tr-ph" data-k="fn" required>
+                    <input type="email" id="rCnt" placeholder="Email" class="tr-ph" data-k="em" required>
+                    <input type="tel" id="rPh" placeholder="Phone Number" class="tr-ph" data-k="ph">
+                    <input type="text" id="rWa" placeholder="WhatsApp (+216...)">
+                    <input type="text" id="rIg" placeholder="Instagram (@username)">
+                    <div style="position:relative;"><input type="password" id="rPas" placeholder="Create Password" class="tr-ph" data-k="cp" required><span class="eye-icon" onclick="let x=el('rPas'); x.type=x.type==='password'?'text':'password';">👁️</span></div>
+                    <button type="submit" class="btn tr" data-k="sndReg" id="btn-reg">Send Code</button>
                 </form>
                 <div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div>
             </div>
 
-            <div id="otp-login-step" style="display:none;"><h3 style="color:var(--w); margin-top:0;">Login with Code</h3><input type="email" id="otp-login-eml" placeholder="Enter Email" required><button class="btn" style="background:var(--w);" onclick="reqLoginOTP()">Send Secure Code</button><div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div></div>
-            <div id="otp-step" style="display:none; text-align:center;"><h3 style="color:#00ff88; margin-top:0;">Verify Email</h3><p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p><input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6"><button class="btn" onclick="finalizeOTPAuth()">Verify & Proceed</button></div>
-            <button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button>
+            <div id="otp-login-step" style="display:none;"><h3 style="color:var(--w); margin-top:0;">Login with Code</h3><input type="email" id="otp-login-eml" placeholder="Enter Email" required><button class="btn" style="background:var(--w);" onclick="reqLoginOTP()" id="btn-otp">Send Code</button><div style="margin-top:15px; color:gray; font-size:0.85rem; cursor:pointer;" onclick="swA('l-step')">← Back</div></div>
+            <div id="otp-step" style="display:none; text-align:center;">
+                <h3 style="color:#00ff88; margin-top:0;">Verify Email</h3>
+                <p style="color:gray; font-size:0.85rem;">We sent a 6-digit code to your email.</p>
+                <p style="color:#ff4d4d; font-size:0.75rem; font-weight:bold;">⚠️ Code valid for 4 Hours.</p>
+                <input type="text" id="otp-val" placeholder="Enter OTP" style="text-align:center; letter-spacing:5px; font-size:1.5rem; font-weight:bold;" maxlength="6">
+                <button class="btn" onclick="finalizeOTPAuth()">Verify & Proceed</button>
+            </div>
+            <button onclick="closeModal('log-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="canc">Cancel</button>
         </div>
     </div>
 
     <div id="prof-mod" class="modal">
         <div class="m-cnt" style="text-align:center;">
-            <h3 style="color:var(--p); margin-top:0;">👤 My Profile</h3>
+            <h3 style="color:var(--p); margin-top:0;">👤 <span class="tr" data-k="pro">My Profile</span></h3>
+            <img src="" id="p-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); background:#111; margin:0 auto 10px auto; display:block;">
             <p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p>
-            <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:15px;">
-                <button onclick="revealPassword()" style="background:none; border:1px solid var(--p); color:var(--p); padding:5px 10px; border-radius:5px; font-size:0.8rem; cursor:pointer;">👁️ Reveal Password</button>
-                <div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-top:10px; font-size:1.2rem; letter-spacing:2px;"></div>
+            
+            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:15px; text-align:left;">
+                <b style="font-size:0.85rem; color:var(--p);">Link Socials (Faster Checkout)</b>
+                <input type="text" id="prof-ig" placeholder="Instagram (@username)" style="padding:10px; font-size:0.85rem; margin-top:5px;">
+                <input type="text" id="prof-wa" placeholder="WhatsApp (+216...)" style="padding:10px; font-size:0.85rem;">
+                <button class="btn" style="padding:10px; font-size:0.8rem;" onclick="saveProfileSocials()">Save Profile</button>
             </div>
+
+            <div style="background:rgba(255,174,0,0.1); border:1px solid #ffae00; padding:15px; border-radius:10px; margin-bottom:15px; text-align:center;">
+                <b style="font-size:0.85rem; color:var(--w);">🤝 Affiliate Link</b>
+                <p style="font-size:0.7rem; color:gray; margin:5px 0;">Share this link. You have <b style="color:#fff;" id="p-ref-count">0</b> sign-ups!</p>
+                <input type="text" id="p-ref-code" readonly style="text-align:center; font-family:monospace; color:#ffae00!important; border-color:#ffae00;">
+                <button class="btn" style="background:#ffae00; color:#000; padding:8px; font-size:0.75rem; margin-top:5px;" onclick="copyRef()">COPY LINK</button>
+            </div>
+            
+            <div style="background:rgba(255,0,255,0.1); border:1px dashed #ff00ff; padding:15px; border-radius:10px; margin-bottom:15px;">
+                <b style="font-size:0.85rem; color:#ff00ff;">🎁 Redeem Gift Card</b>
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <input type="text" id="prof-gc-inp" placeholder="CH-XXXX-XXXX" style="margin:0; text-transform:uppercase; font-family:monospace;">
+                    <button class="btn" style="width:auto; margin:0; background:#ff00ff; color:#fff;" onclick="redeemGC()">Claim</button>
+                </div>
+            </div>
+
             <div style="background:rgba(0,255,136,0.1); border:1px solid #00ff88; padding:15px; border-radius:10px; margin-bottom:15px;">
-                <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">Wallet Balance</div>
+                <div style="color:gray; font-size:0.85rem; font-weight:bold; text-transform:uppercase;" class="tr" data-k="walPay">Wallet Balance</div>
                 <div style="color:#00ff88; font-size:2.5rem; font-weight:900; margin:5px 0;"><span id="p-wal-bal">0.00</span> DT</div>
                 <button class="btn" style="background:var(--w); color:#000; padding:8px; margin-top:10px; font-size:0.85rem;" onclick="reqTopUp()">Request Top-Up via WA</button>
             </div>
+            
+            <button class="btn" style="background:rgba(255,255,255,0.05); color:var(--p); border:1px solid var(--p); margin-bottom:15px;" onclick="revealPassword()">👁️ Reveal Password</button>
+            <div id="pw-reveal-box" style="display:none; font-family:monospace; color:#00ff88; margin-bottom:15px; font-size:1.2rem; letter-spacing:2px;"></div>
+            
             <button class="btn" style="background:#1e293b; color:#00f0ff; border:1px dashed #00f0ff; margin-bottom:15px;" onclick="addBiometrics()">🔐 Link WebAuthn Device</button>
-            <button class="btn" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button>
-            <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button>
+            <button class="btn tr" data-k="lo" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d;" onclick="logOut()">Log Out</button>
+            <button onclick="closeModal('prof-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button>
         </div>
     </div>
 
-    <div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;">📜 Store Policy</h3><div id="pol-content" style="margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button></div></div>
-    
-    <div id="srv-mod" class="modal">
-        <div class="m-cnt">
-            <h3 style="color:#ffae00; margin-top:0;">🛠️ Request Custom Service</h3>
-            <p style="color:gray; font-size:0.85rem;">Describe what you need, and our team will quote you a price.</p>
-            <input type="text" id="srv-name" placeholder="Service Name (e.g. Custom Website)">
-            <textarea id="srv-desc" placeholder="Describe exactly what you need..." style="height:100px; margin-top:10px;"></textarea>
-            <button class="btn" style="background:#ffae00;" onclick="submitCustomService()">SUBMIT & REDIRECT</button>
-            <button onclick="closeModal('srv-mod')" style="background:none; border:none; color:gray; margin-top:15px; width:100%; font-weight:bold; cursor:pointer;">Cancel</button>
-        </div>
-    </div>
-    
-    <div id="import-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--p); margin-top:0;">🌍 Global Importer</h3><p style="color:gray; font-size:0.85rem;">Import exclusively from France (FR) regions. Exchange Rate: <b style="color:#00ff88">1 € = 4.35 DT</b></p><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid var(--b); margin-top:15px;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">1. Select Platform:</label><select id="imp-store" style="background:#000!important; margin-bottom:15px;" onchange="validateImportLink()"><option value="Shein">🛍️ Shein (FR)</option><option value="Amazon">📦 Amazon (FR)</option><option value="AliExpress">🛒 AliExpress (FR)</option><option value="Zara">👗 Zara (FR)</option></select><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">2. Paste Product/Cart Link:</label><input type="url" id="imp-link" placeholder="https://www.amazon.fr/..." oninput="validateImportLink()" style="margin-bottom:15px; font-size:0.85rem;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">3. Cart Total in Euros (€):</label><input type="number" id="imp-amt" placeholder="e.g. 50.00" oninput="calcImportPrice()" style="font-size:1.2rem; font-weight:bold; color:#00ff88!important;"></div><div style="margin:15px 0; padding:15px; border-top:1px dashed #444; border-bottom:1px dashed #444;"><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Supplier Cost:</span> <span id="imp-cost-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Shipping & Margin:</span> <span id="imp-margin-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--p); font-weight:900; font-size:1.3rem;"><span>FINAL PRICE:</span> <span id="imp-final-disp">0.00 DT</span></div></div><button class="btn" style="background:var(--p);" onclick="addImportToCart()">ADD TO CYBERHUB CART</button><button onclick="closeModal('import-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Cancel</button></div></div>
-
-    <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:150px; overflow-y:auto; margin:10px 0; font-size:0.9rem;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;">Close</button></div></div></div>
+    <div id="cart-mod" class="modal"><div class="m-cnt"><div style="display:flex; justify-content:space-between; align-items:center;"><h3 style="color:var(--p); margin-top:0;" class="tr" data-k="crt">🛒 Cart</h3><button class="btn" style="width:auto; padding:5px 15px; margin:0; background:#8b5cf6; color:#fff;" onclick="shareCart()">🔗 Share</button></div><div id="c-list" style="text-align:left; max-height:300px; overflow-y:auto; margin:10px 0; font-size:0.9rem; padding-right:10px;"></div><div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); border-radius:10px; padding:15px; font-size:0.9rem; margin-bottom:15px;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="font-weight:bold;" class="tr" data-k="sub">Subtotal: </span> <b id="m-sub">0 DT</b></div></div><button class="btn tr" data-k="chk" onclick="opnCO()">Checkout</button><div style="display:flex; justify-content:space-between; margin-top:15px;"><button onclick="cart=[]; updC(); closeModal('cart-mod')" style="background:none; border:none; color:#ff4d4d; font-weight:bold; cursor:pointer;" class="tr" data-k="clr">Clear</button><button onclick="closeModal('cart-mod')" style="background:none; border:none; color:gray; cursor:pointer; font-weight:bold;" class="tr" data-k="cls">Close</button></div></div></div>
 
     <div id="co-mod" class="modal">
         <div class="m-cnt">
             <div id="co-form">
-                <h3 style="color:var(--p); margin-top:0;">Secure Checkout</h3>
+                <h3 style="color:var(--p); margin-top:0;" class="tr" data-k="sco">Secure Checkout</h3>
                 
                 <div id="guest-contact-warning" style="background:rgba(255,77,77,0.1); border:1px dashed #ff4d4d; padding:10px; border-radius:10px; margin-bottom:15px; display:none;">
                     <span style="color:#ff4d4d; font-size:0.8rem; font-weight:bold;">⚠️ Guest Mode: Please provide your Instagram Username or WhatsApp Number below so we can reach you!</span>
                 </div>
 
                 <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); padding:15px; border-radius:10px; margin-bottom:15px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="color:gray;">Subtotal:</span> <b id="co-sub">0 DT</b></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span style="color:gray;" class="tr" data-k="sub">Subtotal:</span> <b id="co-sub">0 DT</b></div>
                     <div style="margin:10px 0;"><label style="font-size:0.85rem; color:var(--w); font-weight:bold;">Select Discount:</label><select id="co-disc-selector" onchange="applySingleDiscount()" style="background:#111!important; border-color:var(--w); margin-top:5px;"></select></div>
                     <div id="promo-input-box" style="display:none; display:flex; gap:5px; margin-top:5px;"><input type="text" id="promo-code-val" placeholder="Enter Code" style="margin:0; text-transform:uppercase;"><button class="btn" style="width:auto; margin:0; padding:10px 15px;" onclick="validatePromoCode()">Apply</button></div>
                     
@@ -428,7 +466,7 @@
                     </div>
                     <div id="fee-disp" style="color:#ff4d4d; font-size:0.85rem; margin-top:5px; display:none;">+ <span id="fee-amt">0</span> DT Payment Fee (<span id="fee-pct">0</span>%)</div>
 
-                    <div style="display:flex; justify-content:space-between; border-top:1px dashed #444; margin-top:10px; padding-top:10px; font-size:1.3rem; color:var(--p); font-weight:800;"><span>Total:</span> <b id="co-tot">0 DT</b></div>
+                    <div style="display:flex; justify-content:space-between; border-top:1px dashed #444; margin-top:10px; padding-top:10px; font-size:1.3rem; color:var(--p); font-weight:800;"><span class="tr" data-k="tot">Total:</span> <b id="co-tot">0 DT</b></div>
                 </div>
 
                 <div style="display:flex; gap:5px; margin-bottom:15px; flex-wrap:wrap;">
@@ -448,19 +486,28 @@
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
                             <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">2. OR Upload Receipt Photo:</label>
-                            <div id="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)" onclick="document.getElementById('co-proof-file').click()">
-                                <span id="drop-text">Drag & Drop Receipt Image Here (Or Click)</span>
+                            <div id="drop-zone" ondragover="dzOver(event)" ondragleave="dzLeave()" ondrop="dzDrop(event)" onclick="document.getElementById('co-proof-file').click()" style="border:2px dashed var(--p); padding:20px; text-align:center; border-radius:10px; cursor:pointer; background:rgba(0,240,255,0.05);">
+                                <span id="drop-text" style="color:var(--p); font-weight:bold;">Drag & Drop Receipt Image Here (Or Click)</span>
                                 <input type="file" id="co-proof-file" accept="image/*" onchange="handleProofUpload(event)" style="display:none;">
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <input type="text" id="coN" placeholder="Full Name" required>
-                <input type="text" id="coC" placeholder="Contact Info (WA / IG username)" style="margin:0;" required>
-                <textarea id="coNts" placeholder="Comments or Game IDs" style="height:70px; margin-top:10px;"></textarea>
-                <button class="btn" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
-                <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;">Cancel</button>
+                <input type="text" id="coN" placeholder="Full Name" class="tr-ph" data-k="fn" required>
+                
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:10px;">
+                    <label style="font-size:0.8rem; color:var(--w); font-weight:bold; display:block; margin-bottom:5px;">Contact Method:</label>
+                    <select id="co-contact-method" onchange="updateCheckoutContact()" style="background:#000!important; margin-bottom:5px;">
+                        <option value="new_wa">New WhatsApp</option>
+                        <option value="new_ig">New Instagram</option>
+                    </select>
+                    <input type="text" id="coC" placeholder="Contact Info" style="margin:0;" required>
+                </div>
+
+                <textarea id="coNts" placeholder="Comments or Game IDs" class="tr-ph" data-k="nts" style="height:70px;"></textarea>
+                <button class="btn tr" data-k="plc" id="b-fin" onclick="finOrd()">PLACE ORDER</button>
+                <button onclick="closeModal('co-mod')" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer; font-weight:bold; width:100%;" class="tr" data-k="canc">Cancel</button>
             </div>
             
             <div id="co-succ" style="display:none; text-align:center;">
@@ -468,27 +515,42 @@
                 <h2 style="color:#00ff88; margin-top:0;">ORDER PLACED</h2>
                 <div id="succ-gid" style="background:rgba(255,255,255,0.05); border:1px dashed var(--p); padding:10px; border-radius:10px; font-size:1.1rem; font-weight:bold; color:var(--p); margin:15px 0;"></div>
                 
-                <p style="color:var(--w); font-size:0.9rem; margin-bottom:5px;">✅ Invoice text copied to your clipboard!</p>
-                <p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Click below to redirect and paste it to us:</p>
+                <p style="color:var(--w); font-size:0.9rem; margin-bottom:5px;">✅ Invoice PDF generated & downloaded!</p>
+                <p style="color:gray; font-size:0.85rem; margin-bottom:15px;">Click below to redirect and send us your ticket:</p>
 
                 <button class="btn" id="dm-btn-wa" style="background:#25D366; color:#fff; font-size:1.1rem; margin-bottom:10px;">💬 WHATSAPP REDIRECT</button>
                 <button class="btn" id="dm-btn-ig" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color:#fff; font-size:1.1rem; margin-bottom:15px;">📸 INSTAGRAM REDIRECT</button>
-                <button onclick="location.reload()" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button>
+                <button onclick="location.reload()" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button>
             </div>
         </div>
     </div>
     
-    <div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
-    <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 VIP Rewards</h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
+    <div id="pol-mod" class="modal"><div class="m-cnt"><button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button><h3 style="color:var(--p); margin-top:0;">📜 <span class="tr" data-k="pol">Store Policy</span></h3><div id="pol-content" style="margin-top:15px;"></div><button class="btn" style="margin-top:15px;" onclick="closeModal('pol-mod'); localStorage.setItem('ch_visited','1');">I UNDERSTAND</button></div></div>
+    
+    <div id="srv-mod" class="modal">
+        <div class="m-cnt">
+            <h3 style="color:#ffae00; margin-top:0;">🛠️ <span class="tr" data-k="custSrv">Request Custom Service</span></h3>
+            <p style="color:gray; font-size:0.85rem;">Describe what you need, and our team will quote you a price.</p>
+            <input type="text" id="srv-name" placeholder="Service Name (e.g. Custom Website)">
+            <textarea id="srv-desc" placeholder="Describe exactly what you need..." style="height:100px; margin-top:10px;"></textarea>
+            <button class="btn" style="background:#ffae00;" onclick="submitCustomService()">SUBMIT & REDIRECT</button>
+            <button onclick="closeModal('srv-mod')" style="background:none; border:none; color:gray; margin-top:15px; width:100%; font-weight:bold; cursor:pointer;" class="tr" data-k="canc">Cancel</button>
+        </div>
+    </div>
+
+    <div id="import-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--p); margin-top:0;">🌍 <span class="tr" data-k="imp">Global Importer</span></h3><p style="color:gray; font-size:0.85rem;">Import exclusively from France (FR) regions. Exchange Rate: <b style="color:#00ff88">1 € = <span id="disp-euro-rate">4.35</span> DT</b></p><div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid var(--b); margin-top:15px;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">1. Select Platform:</label><select id="imp-store" style="background:#000!important; margin-bottom:15px;" onchange="validateImportLink()"><option value="Shein">🛍️ Shein (FR)</option><option value="Amazon">📦 Amazon (FR)</option><option value="AliExpress">🛒 AliExpress (FR)</option><option value="Zara">👗 Zara (FR)</option></select><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">2. Paste Product/Cart Link:</label><input type="url" id="imp-link" placeholder="https://www.amazon.fr/..." oninput="validateImportLink()" style="margin-bottom:15px; font-size:0.85rem;"><label style="color:var(--w); font-weight:bold; font-size:0.85rem;">3. Cart Total in Euros (€):</label><input type="number" id="imp-amt" placeholder="e.g. 50.00" oninput="calcImportPrice()" style="font-size:1.2rem; font-weight:bold; color:#00ff88!important;"></div><div style="margin:15px 0; padding:15px; border-top:1px dashed #444; border-bottom:1px dashed #444;"><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Supplier Cost:</span> <span id="imp-cost-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-bottom:5px; color:gray; font-size:0.85rem;"><span>Shipping & Margin:</span> <span id="imp-margin-disp">0.00 DT</span></div><div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--p); font-weight:900; font-size:1.3rem;"><span>FINAL PRICE:</span> <span id="imp-final-disp">0.00 DT</span></div></div><button class="btn" style="background:var(--p);" onclick="addImportToCart()">ADD TO CYBERHUB CART</button><button onclick="closeModal('import-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="canc">Cancel</button></div></div>
+
+    <div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button></div></div>
+    <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 <span class="tr" data-k="vip">VIP Rewards</span></h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button></div></div>
 
 <script>
-// ADVANCED TRANSLATIONS
+// 🎯 BILINGUAL DICTIONARY
 const T = {
-    en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
-    fr: { ld: "Chargement de la boutique... ⏳", srch: "Rechercher des produits...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte et Profil", pol: "Politique de la Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "E-mail", ph: "Téléphone", userP: "E-mail ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Passer la commande", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou ID de Jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Portefeuille", track: "🔍 Suivre ma Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
+    en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Send Code", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or Game IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", imp: "Global Importer", custSrv: "Custom Service", custSrvBtn: "🚀 Request Custom Service", waChat: "Chat" },
+    fr: { ld: "Chargement... ⏳", srch: "Rechercher des produits...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "E-mail", ph: "Téléphone", userP: "E-mail ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "Envoyer le Code", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou ID de Jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Portefeuille", track: "🔍 Suivre ma Commande", imp: "Importateur Global", custSrv: "Service Personnalisé", custSrvBtn: "🚀 Demander un Service", waChat: "Discuter" }
 };
 
-let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {}, flashSale: {active: false, targetType: 'ALL', targetVal: '', pct: 0} }; 
+let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {}, flashSale: {active: false, targetType: 'ALL', targetVal: '', pct: 0}, euroRate: 4.35, minOrder: 0 }; 
 let cart = []; let cView = { t: 'cats', c: null, a: null }; 
 let role = localStorage.getItem('ch_role') || 'User'; 
 let lang = localStorage.getItem('ch_lng') || 'en'; 
@@ -497,22 +559,32 @@ let uOrders = parseInt(localStorage.getItem('ch_ord') || 0);
 let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0); 
 let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" };
+let savedWishlist = [];
 
-let isTabVisible = true; let otpFlowType = 'signup'; 
-let isDataLoaded = false;
+let isTabVisible = true; let otpFlowType = 'signup'; let isDataLoaded = false;
 document.addEventListener("visibilitychange", () => { isTabVisible = !document.hidden; });
 
 let tempImportCost = 0; let tempImportFinal = 0;
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 
+// 📳 SHAKE TO CLEAR CART
+let lastX, lastY, lastZ;
+window.addEventListener('devicemotion', (e) => {
+    let acc = e.accelerationIncludingGravity; if(!acc) return;
+    let deltaX = Math.abs(lastX - acc.x), deltaY = Math.abs(lastY - acc.y), deltaZ = Math.abs(lastZ - acc.z);
+    if (deltaX + deltaY + deltaZ > 40 && cart.length > 0) {
+        if(navigator.vibrate) navigator.vibrate(100);
+        if(confirm(lang==='fr' ? "📳 Secousse détectée ! Vider le panier ?" : "📳 Shake detected! Clear cart?")) { cart=[]; updC(); toast("Cart Cleared", "info"); }
+    }
+    lastX = acc.x; lastY = acc.y; lastZ = acc.z;
+});
+
 function mapSheetToObjects(sheetData) {
     if(!sheetData || !Array.isArray(sheetData) || sheetData.length === 0) return [];
     if (!Array.isArray(sheetData[0]) && typeof sheetData[0] === 'object') return sheetData; 
     let headers = sheetData[0].map(h => String(h||"").trim());
-    return sheetData.slice(1).map(row => {
-        let obj = {}; headers.forEach((h, i) => { obj[h] = (row && Array.isArray(row) && i < row.length) ? row[i] : ""; }); return obj;
-    });
+    return sheetData.slice(1).map(row => { let obj = {}; headers.forEach((h, i) => { obj[h] = (row && Array.isArray(row) && i < row.length) ? row[i] : ""; }); return obj; });
 }
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
@@ -525,8 +597,13 @@ function maskEm(str) { return (str && str.includes('@')) ? str.split('@')[0].sli
 
 function safeHexToRgba(hex, alpha) { let str = String(hex||"").trim(); if(str.length === 7 && str.startsWith('#')) { let r = parseInt(str.slice(1, 3), 16), g = parseInt(str.slice(3, 5), 16), b = parseInt(str.slice(5, 7), 16); return `rgba(${r}, ${g}, ${b}, ${alpha})`; } return str || 'var(--p)'; }
 function cycleTheme() { let ct = parseInt(localStorage.getItem('ch_theme') || 0); ct = (ct + 1) % themes.length; localStorage.setItem('ch_theme', ct); document.documentElement.style.setProperty('--p', themes[ct].p); document.documentElement.style.setProperty('--w', themes[ct].w); document.documentElement.style.setProperty('--bg', themes[ct].bg); document.documentElement.style.setProperty('--b', themes[ct].b); document.documentElement.style.setProperty('--c', themes[ct].c); toast("Theme updated", "info"); }
+
 function tgLang() { lang = lang === 'en' ? 'fr' : 'en'; localStorage.setItem('ch_lng', lang); appLang(); ren(); }
-function appLang() { if(el('l-ind')) el('l-ind').innerHTML = lang === 'en' ? '🇬🇧 EN' : '🇫🇷 FR'; document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); }
+function appLang() { 
+    el('l-ind').innerHTML = lang === 'en' ? '🌐 EN' : '🌐 FR'; 
+    document.querySelectorAll('.tr').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.innerHTML = T[lang][k]; }); 
+    document.querySelectorAll('.tr-ph').forEach(e => { let k = e.getAttribute('data-k'); if(T[lang] && T[lang][k]) e.placeholder = T[lang][k]; }); 
+}
 
 function chkUI() {
     if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2);
@@ -535,6 +612,15 @@ function chkUI() {
     if(role === 'Admin') { el('admin-fab').style.display='flex'; el('admin-crown').style.display='inline-block'; }
     let streakPct = getStreakPct(); let loyPct = getHighestLoyaltyPct();
     if(el('vip-disc-pct')) el('vip-disc-pct').innerText = Math.max(streakPct, loyPct) + "%";
+    
+    let savedIG = localStorage.getItem('ch_ig') || ""; let savedWA = localStorage.getItem('ch_wa') || "";
+    if(el('prof-ig')) el('prof-ig').value = savedIG; if(el('prof-wa')) el('prof-wa').value = savedWA;
+    
+    if(user) {
+        let cleanEmail = user.replace(/[^a-zA-Z0-9]/g, '');
+        el('p-avatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${cleanEmail}&backgroundColor=111111`;
+        el('sidebar-avatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${cleanEmail}&backgroundColor=111111`;
+    }
 }
 
 function getRating(id) {
@@ -563,21 +649,8 @@ function stVoiceSearch() {
     rec.onresult = function(e) { el('itemFinder').value = e.results[0][0].transcript; ren(); }; rec.start(); toast("Listening... 🎤", "info");
 }
 
-function reqTopUp() {
-    let msg = encodeURIComponent(`Hello CyberHub!\nI would like to request a Wallet Top-Up.\nAccount Email: ${user}\nCurrent Balance: ${userWallet} DT`);
-    window.open(`https://wa.me/${window.CFG.WA}?text=${msg}`);
-}
-
-async function submitCustomService() {
-    let n = el('srv-name') ? el('srv-name').value : "Custom Service"; let d = el('srv-desc') ? el('srv-desc').value : "";
-    if(!n || !d) return toast("Please fill all fields", "error"); toast("Sending request...", "info");
-    let res = await api('req_service', { email: user || "Guest", srv: n, details: d });
-    if(res && res.s === 'ok') { 
-        toast("Request Sent! Redirecting...", "success"); closeModal('srv-mod'); 
-        let txt = lang==='fr' ? `Bonjour CyberHub! Je souhaite un service personnalisé:%0A*Service:* ${n}%0A*Détails:* ${d}` : `Hello CyberHub! I want a custom service:%0A*Service:* ${n}%0A*Details:* ${d}`;
-        setTimeout(() => window.open(`https://wa.me/${window.CFG.WA}?text=${txt}`), 1000); 
-    } else { toast("Failed to send.", "error"); }
-}
+function reqTopUp() { let msg = encodeURIComponent(`Hello CyberHub!\nI would like to request a Wallet Top-Up.\nAccount Email: ${user}\nCurrent Balance: ${userWallet} DT`); window.open(`https://wa.me/${window.CFG.WA}?text=${msg}`); }
+async function submitCustomService() { let n = el('srv-name') ? el('srv-name').value : "Custom Service"; let d = el('srv-desc') ? el('srv-desc').value : ""; if(!n || !d) return toast("Please fill all fields", "error"); toast("Sending request...", "info"); let res = await api('req_service', { email: user || "Guest", srv: n, details: d }); if(res && res.s === 'ok') { toast("Request Sent! Redirecting...", "success"); closeModal('srv-mod'); let txt = lang==='fr' ? `Bonjour CyberHub! Je souhaite un service personnalisé:%0A*Service:* ${n}%0A*Détails:* ${d}` : `Hello CyberHub! I want a custom service:%0A*Service:* ${n}%0A*Details:* ${d}`; setTimeout(() => window.open(`https://wa.me/${window.CFG.WA}?text=${txt}`), 1000); } else { toast("Failed to send.", "error"); } }
 
 async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); return d.ip; } catch(e) { return "Guest"; } }
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
@@ -596,98 +669,46 @@ function animateValue(obj, start, end, duration) {
 
 let maintTimerInterval;
 function updateGodsEye(count) {
-    el('gods-eye').style.display = 'flex';
-    let elCount = el('online-count');
-    let currentVal = parseInt(elCount.innerText) || 0;
-    
-    if(role === 'Admin') { 
-        el('gods-eye').classList.add('admin-eye'); 
-        animateValue(elCount, currentVal, Math.max(0, count - 1), 1000);
-    } else { 
-        el('gods-eye').classList.remove('admin-eye'); 
-        let isClosed = db.maintObj && db.maintObj.closed; 
-        let min = isClosed ? 2 : 35; let max = isClosed ? 5 : 200; 
-        if (Math.random() > 0.3) { 
-            let target = Math.floor(Math.random() * (max - min + 1)) + min;
-            animateValue(elCount, currentVal, target, 2000);
-        }
-    }
+    el('gods-eye').style.display = 'flex'; let elCount = el('online-count'); let currentVal = parseInt(elCount.innerText) || 0;
+    if(role === 'Admin') { el('gods-eye').classList.add('admin-eye'); animateValue(elCount, currentVal, Math.max(0, count - 1), 1000);
+    } else { el('gods-eye').classList.remove('admin-eye'); let isClosed = db.maintObj && db.maintObj.closed; let min = isClosed ? 2 : 35; let max = isClosed ? 5 : 200; if (Math.random() > 0.3) { let target = Math.floor(Math.random() * (max - min + 1)) + min; animateValue(elCount, currentVal, target, 2000); } }
 }
 
 function simDevice(type) {
-    let b = document.body;
-    el('ios-pwa-prompt').style.display = 'none';
-    el('android-pwa-prompt').style.display = 'none';
-    
+    let b = document.body; el('ios-pwa-prompt').style.display = 'none'; el('android-pwa-prompt').style.display = 'none';
     if(type === 'ios') { b.className = 'sim-ios'; el('ios-pwa-prompt').style.display = 'block'; toast("iOS View Activated", "info"); }
     else if(type === 'android') { b.className = 'sim-android'; el('android-pwa-prompt').style.display = 'flex'; toast("Android View Activated", "info"); }
     else { b.className = ''; toast("View Reset", "success"); }
 }
 
-function initParticles() {
-    if(typeof particlesJS !== 'undefined' && el('particles-js')) { particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#00f0ff" }, "opacity": { "value": 0.5 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } } }); } else { setTimeout(initParticles, 500); }
-}
-window.addEventListener('load', initParticles);
+// ⌨️ ADMIN KEYBOARD SHORTCUT (Alt + A)
+document.addEventListener('keydown', function(event) { if (event.altKey && (event.key === 'a' || event.key === 'A')) { if(role === 'Admin') openAdminDashboard(); } });
 
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; appLang();
+    
+    // Auto-detect browser language on first visit
+    if(!localStorage.getItem('ch_lng')) { let bLang = navigator.language || navigator.userLanguage; if(bLang.toLowerCase().includes('fr')) { lang = 'fr'; localStorage.setItem('ch_lng', 'fr'); appLang(); } }
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
     
     const urlParams = new URLSearchParams(window.location.search); 
-    if (urlParams.has('cart')) { 
-        try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} 
-    } else { 
-        let sc = localStorage.getItem('ch_cart'); 
-        if(sc && sc !== "[]") { 
-            cart = JSON.parse(sc); 
-            el('c-count').innerText = cart.length; 
-            setTimeout(() => {
-                let msg = lang === 'fr' ? "🛒 Tu as laissé des articles dans ton panier !" : "🛒 You left items in your cart!";
-                toast(msg, "info");
-                if(user) {
-                    let total = cart.reduce((s, i) => s + (i.finalPrice || i.p), 0);
-                    api('log_cart', {email: user, cart: cart, total: total});
-                }
-            }, 2500);
-        } 
-    } 
+    if (urlParams.has('cart')) { try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} } else { let sc = localStorage.getItem('ch_cart'); if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; setTimeout(() => { let msg = lang === 'fr' ? "🛒 Tu as laissé des articles dans ton panier !" : "🛒 You left items in your cart!"; toast(msg, "info"); if(user) { let total = cart.reduce((s, i) => s + (i.finalPrice || i.p)*i.qty, 0); api('log_cart', {email: user, cart: cart, total: total}); } }, 2500); } } 
     
     let cachedDB = localStorage.getItem('ch_cached_db');
     if (cachedDB) { try { db = JSON.parse(cachedDB); isDataLoaded = true; chkUI(); renderPolicy(); ren(); } catch(e) {} }
     
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
         if(d && d.status === "success") { 
-            localStorage.setItem('ch_cached_db', JSON.stringify(d));
-            db = d; 
-            isDataLoaded = true; 
+            localStorage.setItem('ch_cached_db', JSON.stringify(d)); db = d; isDataLoaded = true; 
+            if(el('disp-euro-rate')) el('disp-euro-rate').innerText = db.euroRate;
             try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } 
             
             if(db.isSurge) el('surge-banner').style.display = 'block'; 
-            
-            // ⚡ Handle Flash Sale UI
-            if(db.flashSale && db.flashSale.active) {
-                el('flash-banner').style.display = 'block';
-                if(db.flashSale.timer) {
-                    let endTime = new Date(db.flashSale.timer).getTime();
-                    setInterval(() => {
-                        let diff = endTime - Date.now();
-                        if(diff <= 0) { el('flash-timer').innerText = "SALE ENDED"; }
-                        else {
-                            let h = Math.floor(diff / (1000 * 60 * 60));
-                            let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            let s = Math.floor((diff % (1000 * 60)) / 1000);
-                            el('flash-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-                        }
-                    }, 1000);
-                } else { el('flash-timer').style.display = 'none'; }
-            } else { el('flash-banner').style.display = 'none'; }
-            
-        } else if (!isDataLoaded) { 
-            el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; 
-        }
+            if(db.flashSale && db.flashSale.active) { el('flash-banner').style.display = 'block'; if(db.flashSale.timer) { let endTime = new Date(db.flashSale.timer).getTime(); setInterval(() => { let diff = endTime - Date.now(); if(diff <= 0) { el('flash-timer').innerText = "SALE ENDED"; } else { let h = Math.floor(diff / (1000 * 60 * 60)); let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((diff % (1000 * 60)) / 1000); el('flash-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`; } }, 1000); } else { el('flash-timer').style.display = 'none'; } } else { el('flash-banner').style.display = 'none'; }
+        } else if (!isDataLoaded) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; }
     }); 
     
-    fetchSafeIP().then(ip => { userIP = ip; setInterval(() => { if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest') }).then(res => { if(res && res.success) updateGodsEye(res.count); }); } }, 15000); }); 
+    fetchSafeIP().then(ip => { userIP = ip; setInterval(() => { if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest'), c: user||'Guest' }).then(res => { if(res && res.success) updateGodsEye(res.count); }); } }, 15000); }); 
 }
 
 function hMaint(m) { 
@@ -699,139 +720,138 @@ function hMaint(m) {
     } else if(m.bMsg) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "ANNOUNCEMENT"; if(t) t.innerHTML = m.bMsg; el('st-cnt').style.display = 'block'; el('maint-timer').style.display = 'none'; } else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
 }
 
-function renderPolicy() { 
-    let h = ""; 
-    if(db.policy) { 
-        let polObjs = mapSheetToObjects(db.policy); 
-        polObjs.forEach(p => { 
-            if(p['Title EN']) h += `<details><summary>${lang==='en'?p['Title EN']:p['Title FR']}</summary><p>${lang==='en'?p['Content EN']:p['Content FR']}</p></details>`; 
-        }); 
-    } 
-    el('pol-content').innerHTML = h; 
-}
+function renderPolicy() { let h = ""; if(db.policy) { let polObjs = mapSheetToObjects(db.policy); polObjs.forEach(p => { if(p['Title EN'] && p['Title EN'].trim() !== "") { h += `<details><summary>${lang==='en'?p['Title EN']:p['Title FR']}</summary><p>${lang==='en'?p['Content EN']:p['Content FR']}</p></details>`; } }); } el('pol-content').innerHTML = h; }
 
 // --- ADMIN DASHBOARD & EDITS ---
 let adminDataCache = {};
 function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
-function openAdminCreate(type) { 
-    toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; 
-    if (type === 'Subcategory') { el('a-subEn').required = true; el('a-subFr').required = true; } else { el('a-subEn').required = false; el('a-subFr').required = false; }
-}
+function openAdminCreate(type) { toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; if (type === 'Subcategory') { el('a-subEn').required = true; el('a-subFr').required = true; } else { el('a-subEn').required = false; el('a-subFr').required = false; } }
 
-function openAdminReorder() { 
-    toggleAdminMenu(); let rl = el('reorder-list'); rl.innerHTML = ""; let items = mapSheetToObjects(db.inv);
-    items.forEach(i => { if(i.ID) rl.innerHTML += `<div class="reorder-item" draggable="true" data-id="${i.ID}" ondragstart="this.style.opacity='0.4'" ondragend="this.style.opacity='1'"><span style="cursor:ns-resize; color:gray;">↕️</span> ${i['Article Name EN']||i['Article Name FR']}</div>`; });
-    openModal('reorder-mod'); 
-}
+function openAdminReorder() { toggleAdminMenu(); let rl = el('reorder-list'); rl.innerHTML = ""; let items = mapSheetToObjects(db.inv); items.forEach(i => { if(i.ID) rl.innerHTML += `<div class="reorder-item" draggable="true" data-id="${i.ID}" ondragstart="this.style.opacity='0.4'" ondragend="this.style.opacity='1'"><span style="cursor:ns-resize; color:gray;">↕️</span> ${i['Article Name EN']||i['Article Name FR']}</div>`; }); openModal('reorder-mod'); }
 async function saveReorder() { toast("Saving order to DB...", "info"); let nodes = document.querySelectorAll('.reorder-item'); let newIds = Array.from(nodes).map(n => n.getAttribute('data-id')); await api('reorder_inventory', {adminPass: window.CFG.PASS, newIds: newIds}); toast("Saved", "success"); closeModal('reorder-mod'); location.reload(); }
 
-async function openAdminDashboard() { 
-    toast("Fetching secured databases...", "info"); let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS});
-    if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); renderAdminPromos(); } else { toast("Failed to fetch admin data", "error"); }
-}
+async function openAdminDashboard() { toast("Fetching secured databases...", "info"); let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS}); if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); renderAdminPromos(); renderAdminSecurity(); } else { toast("Failed to fetch admin data", "error"); } }
 function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); event.target.classList.add('active'); el('adm-' + tabId).classList.add('active'); }
 
-function renderAdminUsers() {
-    let tbody = el('a-t-users'); tbody.innerHTML = ''; let usersObj = mapSheetToObjects(adminDataCache.users);
-    usersObj.forEach(u => { if(!u.Email) return; tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td>${u['Total Spent']||0} DT</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`; });
-}
+function adminFetchLiveEur() { toast("Syncing with Global Market...", "info"); el('ui-live-eur').innerText = "⏳"; setTimeout(() => { el('ui-live-eur').innerText = db.liveEuroRate.toFixed(3); toast("Synced!", "success"); }, 1000); }
+
+function renderAdminUsers() { let tbody = el('a-t-users'); tbody.innerHTML = ''; let usersObj = mapSheetToObjects(adminDataCache.users); usersObj.forEach(u => { if(!u.Email) return; tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td>${u['Total Spent']||0} DT</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`; }); }
 async function admUserAction(email, action, val="") { if(action === 'topup') val = prompt("Amount to add (DT):", "10"); if(!val) return; toast("Updating...", "info"); let res = await api('admin_update_user', {adminPass: window.CFG.PASS, email, action, val}); if(res && res.s === 'ok') { toast("Updated!", "success"); openAdminDashboard(); } }
 
-function renderAdminOrders() {
-    let tbody = el('a-t-orders'); tbody.innerHTML = ''; let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse();
-    ordersObj.forEach(o => {
-        if(!o['Order ID']) return; let readableItems = o.Items; try { let itemArr = JSON.parse(o.Items); readableItems = itemArr.map(i => i.n).join(', '); } catch(e) {}
-        tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${readableItems}">${readableItems}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':(o.Status==='Processing'?'#00f0ff':'#00ff88')}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Processing">Processing</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM</button></td></tr>`;
-    });
-}
+function renderAdminOrders() { let tbody = el('a-t-orders'); tbody.innerHTML = ''; let ordersObj = mapSheetToObjects(adminDataCache.orders).reverse(); ordersObj.forEach(o => { if(!o['Order ID']) return; let readableItems = o.Items; try { let itemArr = JSON.parse(o.Items); readableItems = itemArr.map(i => `${i.qty}x ${i.n}`).join(', '); } catch(e) {} tbody.innerHTML += `<tr><td>${o['Order ID']}</td><td>${o['Client Name']}<br><span style="color:gray;font-size:0.7rem">${o.Contact}</span></td><td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${readableItems}">${readableItems}</td><td>${o['Total (DT)']}</td><td><select onchange="admOrderAction('${o['Order ID']}', this.value)" style="padding:5px; margin:0; background:#000!important; color:${o.Status==='Pending'?'#ffae00':(o.Status==='Processing'?'#00f0ff':(o.Status==='Payment Verified'?'#8b5cf6':'#00ff88'))}!important;"><option value="${o.Status}" selected hidden>${o.Status}</option><option value="Pending">Pending</option><option value="Payment Verified">Payment Verified</option><option value="Processing">Processing</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option></select></td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="window.open('https://wa.me/${String(o.Contact).replace(/\D/g,'')}')">DM</button></td></tr>`; }); }
 async function admOrderAction(id, status) { let res = await api('admin_update_order', {adminPass: window.CFG.PASS, orderId: id, status}); if(res && res.s === 'ok') toast("Order updated", "success"); else toast("Failed", "error"); }
 
-function renderAdminPromos() {
-    let tbody = el('a-t-promos'); tbody.innerHTML = ''; let pObjs = mapSheetToObjects(db.rewards);
-    pObjs.forEach(p => { if(p['Code'] && p['--- PROMO CODES ---']) { tbody.innerHTML += `<tr><td><b>${p['Code']}</b></td><td>${p['Discount %']}%</td><td>${p['Used Count'] || 0} / ${p['Max Uses'] || '∞'}</td><td style="font-size:0.7rem; max-width:150px; overflow:hidden; text-overflow:ellipsis;" title="${p['Used By'] || 'None'}">${p['Used By'] || 'None'}</td><td><button class="btn" style="padding:5px; background:#ff4d4d; color:white; font-size:0.7rem; margin:0;" onclick="admDeletePromo('Promo Code', '${p['Code']}')">Delete</button></td></tr>`; } });
-}
-
+function renderAdminPromos() { let tbody = el('a-t-promos'); tbody.innerHTML = ''; let pObjs = mapSheetToObjects(db.rewards); pObjs.forEach(p => { if(p['Code'] && p['--- PROMO CODES ---']) { tbody.innerHTML += `<tr><td><b>${p['Code']}</b></td><td>${p['Discount %']}%</td><td>${p['Used Count'] || 0} / ${p['Max Uses'] || '∞'}</td><td style="font-size:0.7rem; max-width:150px; overflow:hidden; text-overflow:ellipsis;" title="${p['Used By'] || 'None'}">${p['Used By'] || 'None'}</td><td><button class="btn" style="padding:5px; background:#ff4d4d; color:white; font-size:0.7rem; margin:0;" onclick="admDeletePromo('Promo Code', '${p['Code']}')">Delete</button></td></tr>`; } }); }
 function togglePromoFields() { let t = el('p-type').value; if(t === 'Promo Code') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Code (e.g. SUMMER20)"; el('p-max').style.display = 'block'; } else if(t === 'Streak') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Days Needed (e.g. 7)"; el('p-max').style.display = 'none'; } else if(t === 'Loyalty') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Orders Needed (e.g. 5)"; el('p-max').style.display = 'none'; } else { el('p-fields-wrap').style.display='none'; } }
 async function savePromoCode() { let t = el('p-type').value; let code = el('p-code').value; let pct = el('p-pct').value; let max = el('p-max').value; if(!code || !pct) return toast("Need rule and %", "error"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'add', type: t, rule: code, pct: pct, max: max, active: true}); if(res && res.s==='ok') { toast("Promo Saved", "success"); openAdminDashboard(); } }
 async function admDeletePromo(type, rule) { if(confirm("Delete this promo code permanently?")) { toast("Deleting...", "info"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'delete', type: type, rule: rule}); if(res && res.s === 'ok') { toast("Promo Deleted", "success"); openAdminDashboard(); } } }
 
-// ⚡ NEW: SAVE FLASH SALE
-async function adminSaveFlashSale() {
-    let active = el('fs-active').checked;
-    let type = el('fs-type').value;
-    let val = el('fs-val').value.trim();
-    let pct = el('fs-pct').value;
-    let timer = el('fs-timer').value;
-    
-    if(active && !pct) return toast("Must set a discount percentage!", "error");
-    if(active && type !== 'ALL' && !val) return toast("Must specify target name/ID!", "error");
-    
-    toast("Launching Sale...", "info");
-    let res = await api('admin_update_flash', { adminPass: window.CFG.PASS, active: active, type: type, val: val, pct: pct, timer: timer ? new Date(timer).getTime() : "" });
-    if(res && res.s === 'ok') { toast("Flash Sale Active!", "success"); setTimeout(()=>location.reload(), 1500); }
+function renderAdminSecurity() { let tbody = el('a-t-sec'); tbody.innerHTML = ''; let sObjs = mapSheetToObjects(adminDataCache.securityLogs); sObjs.forEach(s => { if(s.Date) { tbody.innerHTML += `<tr><td>${new Date(s.Date).toLocaleString()}</td><td>${s['IP Address']}</td><td>${s.Email}</td><td style="color:#ff4d4d; font-weight:bold;">${s['Threat Type']||s['Threat Level']}</td><td>${s.Explanation||s.Description}</td></tr>`; } }); }
+
+async function adminSaveEcon() {
+    let eur = el('adm-c-eur').value; let minO = el('adm-min-ord').value;
+    toast("Saving Economic Rules...", "info");
+    let res = await api('admin_update_settings', { adminPass: window.CFG.PASS, customEuroRate: eur, minOrder: minO });
+    if(res && res.s === 'ok') { toast("Saved!", "success"); setTimeout(()=>location.reload(), 1500); }
 }
+
+function renderFlashDropdown() { let t = el('fs-type').value; let v = el('fs-val'); v.innerHTML = ''; if (t === 'ALL') { v.style.display = 'none'; return; } v.style.display = 'block'; let opts = new Set(); let inv = mapSheetToObjects(db.inv); inv.forEach(i => { if(t==='CATEGORY' && (i['Category EN']||i['Category FR'])) opts.add(i['Category EN']||i['Category FR']); if(t==='SUBCATEGORY' && (i['Subcategory EN']||i['Subcategory FR'])) opts.add(i['Subcategory EN']||i['Subcategory FR']); if(t==='ITEM' && i['ID']) opts.add(i['ID']); }); opts.forEach(o => { if(o) v.innerHTML += `<option value="${o}">${o}</option>`; }); }
+async function adminSaveFlashSale() { let active = el('fs-active').checked; let type = el('fs-type').value; let val = type==='ALL' ? '' : el('fs-val').value; let pct = el('fs-pct').value; let timer = el('fs-timer').value; if(active && !pct) return toast("Must set a discount percentage!", "error"); if(active && type !== 'ALL' && !val) return toast("Must select target!", "error"); toast("Launching Sale...", "info"); let res = await api('admin_update_flash', { adminPass: window.CFG.PASS, active: active, type: type, val: val, pct: pct, timer: timer ? new Date(timer).getTime() : "" }); if(res && res.s === 'ok') { toast("Flash Sale Active!", "success"); setTimeout(()=>location.reload(), 1500); } }
 
 async function sendStoreMaint(closed) { let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value; let bands = el('adm-m-bands').checked; let timerVal = ""; if(closed) { if(dt) { timerVal = new Date(dt).getTime(); } else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); } } let res = await api('maint', {adminPass: window.CFG.PASS, closed, msg, timer: timerVal, bands}); if(res && res.s==='ok') { toast("Store status updated", "success"); setTimeout(()=>location.reload(true), 1500); } }
 async function nukeAppCache() { toast("Nuking cache...", "info"); let d = await api('nuke_cache', {adminPass: window.CFG.PASS}); if(d && d.s === 'ok') { toast("Cache nuked!", false); setTimeout(()=>location.reload(true), 2000); } }
 async function submitNewItem() { el('b-add-item').innerText = "..."; let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, subEn: el('a-subEn').value, subFr: el('a-subFr').value, nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exEn: el('a-exEn').value, exFr: el('a-exFr').value }; let d = await api('add_item', payload); if(d && d.s === 'ok') { toast("Item Added!", false); closeModal('create-mod'); } el('b-add-item').innerText = "ADD TO DB"; }
 
-function admEditItem(id, nEn, nFr, p, status, cat, subCat, img) { el('edit-i-id').value = id; el('edit-i-nEn').value = nEn; el('edit-i-nFr').value = nFr; el('edit-i-price').value = p; el('edit-i-status').value = status; el('edit-i-cat').value = decodeURIComponent(cat||''); el('edit-i-sub').value = decodeURIComponent(subCat||''); el('edit-i-img').value = decodeURIComponent(img||''); openModal('edit-item-mod'); }
-async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value, cat: el('edit-i-cat').value, subCat: el('edit-i-sub').value, img: el('edit-i-img').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
+function admEditItem(id, nEn, nFr, p, status, cat, subCat, img, exReq, exNum, exEn, exFr) { el('edit-i-id').value = id; el('edit-i-nEn').value = nEn; el('edit-i-nFr').value = nFr; el('edit-i-price').value = p; el('edit-i-status').value = status; el('edit-i-cat').value = decodeURIComponent(cat||''); el('edit-i-sub').value = decodeURIComponent(subCat||''); el('edit-i-img').value = decodeURIComponent(img||''); el('edit-i-exReq').checked = (exReq === 'true' || exReq === true); el('edit-i-exNum').value = exNum || 1; el('edit-i-exEn').value = decodeURIComponent(exEn||''); el('edit-i-exFr').value = decodeURIComponent(exFr||''); openModal('edit-item-mod'); }
+async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value, cat: el('edit-i-cat').value, subCat: el('edit-i-sub').value, img: el('edit-i-img').value, folder: el('edit-i-folder').value, exReq: el('edit-i-exReq').checked, exNum: el('edit-i-exNum').value, exEn: el('edit-i-exEn').value, exFr: el('edit-i-exFr').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
+async function admTrashItem() { if(confirm("Move this item to Trash?")) { let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, action: "delete" }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Trashed", "success"); closeModal('edit-item-mod'); location.reload(); } } }
 
 function dragStart(e, id) { e.dataTransfer.setData('text/plain', id); e.target.classList.add('dragging'); }
 function dragEnd(e) { e.target.classList.remove('dragging'); }
 function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
 function dragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-async function dropItem(e, folderName) { 
-    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-    let id = e.dataTransfer.getData('text/plain'); if(!id) return;
-    toast(`Moving item to ${folderName}...`, "info");
-    let res = await api('edit_item', {adminPass: window.CFG.PASS, id: id, folder: folderName});
-    if(res && res.s === 'ok') { toast("Item Moved!", "success"); location.reload(); } else { toast("Failed to move", "error"); }
-}
+async function dropItem(e, folderName) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); let id = e.dataTransfer.getData('text/plain'); if(!id) return; toast(`Moving item to ${folderName}...`, "info"); let res = await api('edit_item', {adminPass: window.CFG.PASS, id: id, folder: folderName}); if(res && res.s === 'ok') { toast("Item Moved!", "success"); location.reload(); } else { toast("Failed to move", "error"); } }
 
-// --- OTP & REGISTRATION ---
+// --- OTP, AUTH & PROFILE ---
 let tempReg = {};
+let otpLockout = false;
 async function initiateSignup() {
     tempReg = { n: el('rN').value.trim(), c: el('rCnt').value.trim(), ph: el('rPh').value.trim(), wa: el('rWa').value.trim(), ig: el('rIg').value.trim(), p: el('rPas').value.trim() };
-    if(!tempReg.n || !tempReg.c || !tempReg.p) return toast("Name, Email, and Password required.", "error");
-    if(!isValidEmail(tempReg.c)) return toast("Please enter a valid email address.", "error");
-    toast("Sending verification code...", "info"); otpFlowType = 'signup'; let res = await api('send_otp', {email: tempReg.c, type: 'signup'});
-    if(res && res.s === 'ok') { swA('otp-step'); toast("Code Sent!", "success"); } else { toast("Failed to send OTP.", "error"); }
+    if(!tempReg.n || !tempReg.c || !tempReg.p) return toast("Name, Email, and Password required.", "error"); if(!isValidEmail(tempReg.c)) return toast("Please enter a valid email address.", "error");
+    if(otpLockout) return toast("Please wait 90 seconds.", "error");
+    
+    toast("Sending verification code...", "info"); otpFlowType = 'signup'; 
+    el('btn-reg').disabled = true;
+    let res = await api('send_otp', {email: tempReg.c, type: 'signup', lang: lang});
+    if(res && res.s === 'ok') { 
+        swA('otp-step'); toast("Code Sent!", "success"); 
+        otpLockout = true; setTimeout(()=> { otpLockout = false; el('btn-reg').disabled = false; el('btn-otp').disabled = false; }, 90000);
+    } else if(res && res.s === 'cooldown') { toast("Too many requests. Wait 90s.", "error"); } else { toast("Failed to send OTP.", "error"); el('btn-reg').disabled = false; }
 }
+
 function reqLoginOTP() {
     let email = el('otp-login-eml').value.trim(); if(!isValidEmail(email)) return toast("Invalid email", "error");
+    if(otpLockout) return toast("Please wait 90 seconds.", "error");
     toast("Sending secure code...", "info"); otpFlowType = 'login'; tempReg.c = email;
-    api('send_otp', {email: email, type: 'login'}).then(res => { if(res && res.s === 'ok') { swA('otp-step'); toast("Code Sent!", "success"); } else { toast("Failed to send OTP", "error"); } });
+    el('btn-otp').disabled = true;
+    api('send_otp', {email: email, type: 'login', lang: lang, ip: userIP}).then(res => { 
+        if(res && res.s === 'ok') { 
+            swA('otp-step'); toast("Code Sent!", "success"); 
+            otpLockout = true; setTimeout(()=> { otpLockout = false; el('btn-otp').disabled = false; el('btn-reg').disabled = false; }, 90000);
+        } else if(res && res.s === 'cooldown') { toast("Too many requests. Wait 90s.", "error"); } else { toast("Failed to send OTP", "error"); el('btn-otp').disabled = false; } 
+    });
 }
+
 async function finalizeOTPAuth() {
     let code = el('otp-val').value.trim(); if(!code) return toast("Enter OTP", "error");
     if (otpFlowType === 'signup') {
-        let vRes = await api('verify_otp', {email: tempReg.c, code: code});
-        if(vRes && vRes.s === 'ok') { let res = await api('signup', { n: tempReg.n, c: tempReg.c, pwd: tempReg.p, ip: userIP, wa: tempReg.wa, ig: tempReg.ig });
-            if(res && res.s === 'ok') { user = tempReg.c; role = 'User'; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); loginStreak=1; localStorage.setItem('ch_streak', 1); if(res.contact) localStorage.setItem('ch_contact', res.contact); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
+        let vRes = await api('verify_otp', {email: tempReg.c, code: code, ip: userIP});
+        if(vRes && vRes.s === 'ok') { let res = await api('signup', { n: tempReg.n, c: tempReg.c, pwd: tempReg.p, ip: userIP, wa: tempReg.wa, ig: tempReg.ig, lang: lang });
+            if(res && res.s === 'ok') { user = tempReg.c; role = 'User'; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); loginStreak=1; localStorage.setItem('ch_streak', 1); if(res.ig) localStorage.setItem('ch_ig', res.ig); if(res.wa) localStorage.setItem('ch_wa', res.wa); closeModal('log-mod'); chkUI(); toast("Account Created!", "success"); } else if(res && res.s === 'exists') { toast("Email already registered", "error"); } else { toast("Registration Failed", "error"); }
         } else { toast("Invalid OTP Code", "error"); }
     } else if (otpFlowType === 'login') {
         let vRes = await api('login_with_code', {email: tempReg.c, code: code, ip: userIP});
-        if(vRes && vRes.s === 'ok') { user = tempReg.c; role = vRes.r; uOrders = vRes.tOrd || 0; userWallet = vRes.w || 0; loginStreak = vRes.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(vRes.contact) localStorage.setItem('ch_contact', vRes.contact); closeModal('log-mod'); chkUI(); toast("Secure Login Successful!", "success"); } else if(vRes && vRes.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid OTP Code", "error"); }
+        if(vRes && vRes.s === 'ok') { user = tempReg.c; role = vRes.r; uOrders = vRes.tOrd || 0; userWallet = vRes.w || 0; loginStreak = vRes.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(vRes.ig) localStorage.setItem('ch_ig', vRes.ig); if(vRes.wa) localStorage.setItem('ch_wa', vRes.wa); savedWishlist = vRes.wishlist || []; closeModal('log-mod'); chkUI(); toast("Secure Login Successful!", "success"); } else if(vRes && vRes.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid OTP Code", "error"); }
     }
 }
 async function exLog() {
     let c = el('lEml').value.trim(); let p = el('lPas').value.trim(); if(!c || !p) return toast("Fill all fields", "error");
     let res = await api('login', { c: c, p: p, ip: userIP });
-    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; loginStreak = res.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(res.contact) localStorage.setItem('ch_contact', res.contact); closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
+    if(res && res.s === 'ok') { user = c; role = res.r; uOrders = res.tOrd || 0; userWallet = res.w || 0; loginStreak = res.streak || 1; localStorage.setItem('ch_user', user); localStorage.setItem('ch_role', role); localStorage.setItem('ch_ord', uOrders); localStorage.setItem('ch_wal', userWallet); localStorage.setItem('ch_streak', loginStreak); if(res.ig) localStorage.setItem('ch_ig', res.ig); if(res.wa) localStorage.setItem('ch_wa', res.wa); savedWishlist = res.wishlist || []; if(res.ref) el('p-ref-code').value = `https://cyberhub.com/?ref=${res.ref}`; if(res.refCount) el('p-ref-count').innerText = res.refCount; closeModal('log-mod'); chkUI(); toast("Welcome back!", "success"); } else if(res && res.s === 'banned') { toast("Account Banned", "error"); } else { toast("Invalid Credentials", "error"); }
 }
+
 function openProf() { if(!user) { swA('l-step'); return openModal('log-mod'); } el('p-uid').innerText = maskEm(user); if(el('p-wal-bal')) el('p-wal-bal').innerText = userWallet.toFixed(2); chkUI(); openModal('prof-mod'); }
-function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); localStorage.removeItem('ch_contact'); user = null; role = 'User'; closeModal('prof-mod'); location.reload(); }
+function logOut() { localStorage.removeItem('ch_user'); localStorage.removeItem('ch_role'); localStorage.removeItem('ch_ig'); localStorage.removeItem('ch_wa'); user = null; role = 'User'; savedWishlist = []; closeModal('prof-mod'); location.reload(); }
 
-let logoClicks = 0;
-function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
+async function saveProfileSocials() { if(!user) return; let ig = el('prof-ig').value.trim(); let wa = el('prof-wa').value.trim(); toast("Saving...", "info"); let res = await api('update_profile', {email: user, ig: ig, wa: wa}); if(res && res.s === 'ok') { localStorage.setItem('ch_ig', ig); localStorage.setItem('ch_wa', wa); toast("Profile Saved!", "success"); } else { toast("Error saving.", "error"); } }
+function copyRef() { let r = el('p-ref-code'); r.select(); document.execCommand("copy"); toast("Link Copied!", "info"); }
+
+async function redeemGC() {
+    let c = el('prof-gc-inp').value.toUpperCase().trim(); if(!c || !user) return;
+    toast("Verifying Key...", "info");
+    let res = await api('redeem_gift_card', {code: c, email: user, ip: userIP});
+    if(res && res.s === 'ok') { toast(`Added ${res.val} DT to Wallet!`, "success"); userWallet += res.val; localStorage.setItem('ch_wal', userWallet); chkUI(); el('prof-gc-inp').value = ""; playChime(); }
+    else if(res && res.s === 'used') { toast("Code already redeemed.", "error"); } else { toast("Invalid Code", "error"); }
+}
+
+function tgWish(id) {
+    if(!user) return toast(T[lang].si || "Login Required", "error");
+    let idx = savedWishlist.indexOf(id);
+    if(idx > -1) { savedWishlist.splice(idx, 1); toast("Removed from Wishlist", "info"); }
+    else { savedWishlist.push(id); toast("Added to Wishlist ❤️", "success"); playPop(); }
+    ren(); api('update_wishlist', {email: user, wishlist: savedWishlist}); // Silent sync
+}
+
+async function reqWaitlist(id) {
+    if(!user) return toast(T[lang].si || "Login Required", "error");
+    toast("Adding to Waitlist...", "info");
+    let res = await api('add_waitlist', {itemId: id, email: user});
+    if(res && res.s === 'ok') { toast("We will email you when restocked!", "success"); }
+}
+
+let logoClicks = 0; function handleAdminClick() { logoClicks++; if(logoClicks >= 5) { logoClicks = 0; openModal('admin-auth-modal'); } setTimeout(() => { logoClicks = 0; }, 2000); }
 function verifyAdminManual() { let pw = el('admin-pass-input').value; if(pw === window.CFG.PASS) { role = "Admin"; localStorage.setItem('ch_role', 'Admin'); chkUI(); closeModal('admin-auth-modal'); updateGodsEye(2); toast("GOD MODE ACTIVATED", "info"); } else { toast("ACCESS DENIED", "error"); } }
-
-const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0));
-async function addBiometrics() { let pw = el('admin-pass-input') ? el('admin-pass-input').value : null; if(role === 'Admin' && pw !== window.CFG.PASS) return toast("Enter Master Password in the input to bind device", "error"); if (!window.PublicKeyCredential) return toast("Biometrics not supported.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), rp: { name: "CyberHub" }, user: { id: new Uint8Array(16), name: user||"Admin", displayName: user||"Admin" }, pubKeyCredParams: [{ type: "public-key", alg: -7 }] } }; const cred = await navigator.credentials.create(options); localStorage.setItem(role==='Admin'?'ch_passkey_Admin':'ch_passkey_User', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); toast("Biometrics linked successfully!", "success"); } catch(err) { toast("Registration failed.", "error"); } }
-async function loginBiometrics() { let savedId = localStorage.getItem('ch_passkey_Admin'); if(!savedId) return toast("No biometrics linked.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); el('admin-pass-input').value = window.CFG.PASS; verifyAdminManual(); } catch(err) { toast("Biometric failed.", "error"); } }
-async function revealPassword() { let savedId = localStorage.getItem('ch_passkey_User'); if(!savedId) return toast("Bind a device first to use vault.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); } }
+const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0)); async function addBiometrics() { let pw = el('admin-pass-input') ? el('admin-pass-input').value : null; if(role === 'Admin' && pw !== window.CFG.PASS) return toast("Enter Master Password in the input to bind device", "error"); if (!window.PublicKeyCredential) return toast("Biometrics not supported.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), rp: { name: "CyberHub" }, user: { id: new Uint8Array(16), name: user||"Admin", displayName: user||"Admin" }, pubKeyCredParams: [{ type: "public-key", alg: -7 }] } }; const cred = await navigator.credentials.create(options); localStorage.setItem(role==='Admin'?'ch_passkey_Admin':'ch_passkey_User', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); toast("Biometrics linked successfully!", "success"); } catch(err) { toast("Registration failed.", "error"); } } async function loginBiometrics() { let savedId = localStorage.getItem('ch_passkey_Admin'); if(!savedId) return toast("No biometrics linked.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); el('admin-pass-input').value = window.CFG.PASS; verifyAdminManual(); } catch(err) { toast("Biometric failed.", "error"); } } async function revealPassword() { let savedId = localStorage.getItem('ch_passkey_User'); if(!savedId) return toast("Bind a device first to use vault.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); } }
 
 function ren() { 
     try {
@@ -842,8 +862,6 @@ function ren() {
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
         let pMaint = db.maintObj && db.maintObj.partial ? String(db.maintObj.partial).toLowerCase() : ""; let isFr = lang === 'fr'; 
         let invObjs = mapSheetToObjects(db.inv);
-        
-        // ⚡ FLASH SALE CHECKER
         let fs = db.flashSale || {active: false, targetType: 'ALL', targetVal: '', pct: 0};
         
         invObjs.forEach(r => { 
@@ -866,29 +884,23 @@ function ren() {
             let fldE = r['Folder Emoji'] || "📁"; 
             let n = isFr ? (nameFr || nameEn) : (nameEn || nameFr); 
             let basePrice = parseFloat(r['Selling Price'] || r['Price'] || r['Prix']) || 0; 
-            let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
+            let oos = String(r['Stock Status']).toUpperCase() === "OOS"; // ⚡ STRICT OOS OVERRIDE
             let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); let exNum = parseInt(r['How Many?']) || 1; 
             let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
             let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); let artImg = r['Article Image'] || ''; 
             let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
             
-            // ⚡ APPLY FLASH SALE MATH
-            let isFlash = false;
-            let p = basePrice;
-            let origHtml = "";
+            let isFlash = false; let p = basePrice; let origHtml = "";
             if(fs.active) {
                 if(fs.targetType === 'ALL') isFlash = true;
                 else if(fs.targetType === 'CATEGORY' && String(cat).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
                 else if(fs.targetType === 'SUBCATEGORY' && String(sub).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
                 else if(fs.targetType === 'ITEM' && String(itmId).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
                 
-                if(isFlash && fs.pct > 0) {
-                    p = basePrice - (basePrice * (fs.pct / 100));
-                    origHtml = `<span style="text-decoration:line-through; color:gray; font-size:0.85rem; margin-right:8px;">${basePrice.toFixed(2)}</span>`;
-                }
+                if(isFlash && fs.pct > 0) { p = basePrice - (basePrice * (fs.pct / 100)); origHtml = `<span style="text-decoration:line-through; color:gray; font-size:0.85rem; margin-right:8px;">${basePrice.toFixed(2)}</span>`; }
             }
             
-            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, baseP: basePrice, isFlash: isFlash, origHtml: origHtml, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg, fldN: fldN };
+            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, baseP: basePrice, isFlash: isFlash, origHtml: origHtml, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg, fldN: fldN, rawExEn: r['Extra Texts EN']||'', rawExFr: r['Extra Texts FR']||'' };
             
             if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push(itemData); } return; } 
             if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
@@ -897,9 +909,9 @@ function ren() {
         let dDropTags = role === 'Admin' ? `ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropItem(event, 'FLD_NAME')"` : '';
 
         if(q) { if(sA.length === 0) hHtml = `<div style="text-align:center;color:gray;">Empty.</div>`; else { hHtml += `<div id="store-sort-list">`; sA.forEach(i => hHtml += dR(i, q)); hHtml += `</div>`; } } 
-        else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = safeHexToRgba(c[k].hHex, 0.15); hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playSnd();">${c[k].i ? `<img src="${c[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
-        else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playSnd();">${ap[k].i ? `<img src="${ap[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
-        else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playSnd();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
+        else if(cView.t === 'cats') { hHtml += `<div class="grid">`; for(let k in c) { let transpBg = safeHexToRgba(c[k].hHex, 0.15); hHtml += `<div class="n-card" style="border-color:${c[k].hHex};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('apps','${sEnc(k)}'); playPop();">${c[k].i ? `<img src="${c[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } hHtml += `</div>`; } 
+        else if(cView.t === 'apps') { hHtml += `<button class="icon-btn" onclick="navTo('cats'); playPop();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div class="grid">`; for(let k in ap) { if(ap[k].cat === cView.c && k) { let transpBg = safeHexToRgba(ap[k].col, 0.15); hHtml += `<div class="n-card" style="border-color:${ap[k].col};background:linear-gradient(135deg,${transpBg},var(--c));box-shadow:0 4px 15px ${transpBg};" onclick="navTo('items','${sEnc(cView.c)}','${sEnc(k)}'); playPop();">${ap[k].i ? `<img src="${ap[k].i}" onerror="this.style.display='none'" class="img-transparent">` : ''}<b>${k}</b></div>`; } } hHtml += `</div>`; if(sA.length > 0 || Object.keys(g).length > 0) { hHtml += `<div id="store-sort-list" style="margin-top:15px;">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = c[cView.c].hHex; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } } 
+        else if(cView.t === 'items') { hHtml += `<button class="icon-btn" onclick="navTo('apps','${sEnc(cView.c)}'); playPop();" style="margin-bottom:15px;background:transparent;border-color:var(--p);color:var(--p);">← Back</button><div id="store-sort-list">`; for(let fName in g) { let rId = "g-" + fName.replace(/[\s']/g, ''); let catCol = ap[cView.a] ? ap[cView.a].col : 'var(--p)'; let transpBg = safeHexToRgba(catCol, 0.15); hHtml += `<div class="f-head" ${dDropTags.replace('FLD_NAME', fName)} style="border-left-color:${catCol};background:linear-gradient(135deg,${transpBg},rgba(0,0,0,0.5));" onclick="let e=el('${rId}');e.style.display=e.style.display==='block'?'none':'block';"><span>${g[fName].emoji} ${fName} (${g[fName].items.length})</span><span style="color:${catCol};font-size:0.8rem;">▼</span></div><div id="${rId}" style="display:none;padding-left:15px;border-left:2px dashed ${catCol};margin-left:10px;margin-bottom:20px;">`; g[fName].items.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } sA.forEach(i => hHtml += dR(i)); hHtml += `</div>`; } 
         a.innerHTML = hHtml; 
     } catch(err) { console.error(err); el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet formatting.<br><small>${err.message}</small></div>`; }
 }
@@ -916,23 +928,30 @@ function dR(i, q = "") {
     let nStr = String(i.n).toLowerCase(); let catStr = String(i.cat).toLowerCase();
     let isImport = nStr.includes("import") || nStr.includes("shein") || nStr.includes("amazon") || nStr.includes("aliexpress") || catStr.includes("import") || catStr.includes("shein");
     
-    // ⚡ FLASH SALE BADGE
-    let flashBadge = i.isFlash ? `<span style="background:#ff00ff; color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:5px; font-weight:bold; vertical-align:middle; animation: shimmer 2s infinite linear;">⚡ SALE</span>` : "";
+    let flashBadge = i.isFlash ? `<span class="badge" style="animation: shimmer 2s infinite linear;">⚡ SALE</span>` : "";
+    
+    // Auto-Badges 
+    if(uOrders > 10 && Math.random() > 0.8 && !i.isFlash) flashBadge = `<span class="badge" style="background:#00f0ff;">🔥 HOT</span>`;
     
     let b = '';
-    if(i.oos) { b = `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>`; } 
-    else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); if(navigator.vibrate) navigator.vibrate(50);">CALCULATE & ADD</button>`; } 
-    else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; }
+    if(i.oos) { 
+        b = `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OOS</button>
+             <button class="btn" style="background:transparent;border:1px solid var(--p);color:var(--p);font-size:0.7rem;padding:8px;margin-top:5px;" onclick="reqWaitlist('${i.id}')">🔔 Notify Me</button>`; 
+    } 
+    else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); playPop();">CALCULATE</button>`; } 
+    else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); playPop();">ADD</button>`; }
 
-    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.baseP}, '${i.status}', '${sEnc(i.cat)}', '${sEnc(i.sub)}', '${sEnc(i.img)}')">EDIT</div>` : '';
+    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.baseP}, '${i.status}', '${sEnc(i.cat)}', '${sEnc(i.sub)}', '${sEnc(i.img)}', '${i.exReq}', '${i.exNum}', '${sEnc(i.rawExEn)}', '${sEnc(i.rawExFr)}')">EDIT</div>` : '';
     let dragTag = role === 'Admin' ? `draggable="true" ondragstart="dragStart(event, '${i.id}')" ondragend="dragEnd(event)"` : '';
 
-    return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}${flashBadge}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${i.isFlash ? '#00f0ff' : btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.origHtml}${i.p.toFixed(2)} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
+    let isWished = savedWishlist.includes(i.id) ? '❤️' : '🤍';
+
+    return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}${flashBadge}</span><span style="cursor:pointer; margin-left:10px; font-size:1.1rem;" onclick="tgWish('${i.id}')">${isWished}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${i.isFlash ? '#00f0ff' : btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.origHtml}${i.p.toFixed(2)} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
 }
 
 function calcImportPrice() {
     let amt = parseFloat(el('imp-amt').value); if(isNaN(amt) || amt <= 0) { el('imp-cost-disp').innerText = "0.00 DT"; el('imp-margin-disp').innerText = "0.00 DT"; el('imp-final-disp').innerText = "0.00 DT"; tempImportCost = 0; tempImportFinal = 0; return; }
-    let rate = 4.35; let baseCostDT = amt * rate; let marginPct = 0.20; let fixedFees = 15.00;
+    let rate = db.euroRate || 4.35; let baseCostDT = amt * rate; let marginPct = 0.20; let fixedFees = 15.00;
     let totalMarginAndFees = (baseCostDT * marginPct) + fixedFees; let finalPrice = baseCostDT + totalMarginAndFees;
     tempImportCost = baseCostDT; tempImportFinal = finalPrice;
     el('imp-cost-disp').innerText = baseCostDT.toFixed(2) + " DT"; el('imp-margin-disp').innerText = totalMarginAndFees.toFixed(2) + " DT"; el('imp-final-disp').innerText = finalPrice.toFixed(2) + " DT";
@@ -944,8 +963,8 @@ function validateImportLink() {
 function addImportToCart() {
     if(!validateImportLink()) return; let link = el('imp-link').value.trim(); if(!link) return toast("Please paste the product/cart link.", "error"); if(tempImportFinal <= 0) return toast("Enter a valid amount in Euros.", "error");
     let store = el('imp-store').value; let foreignAmt = el('imp-amt').value; let itemName = `🌍 Import: ${store} [${foreignAmt} €] (Link: ${link})`; let itemId = `IMP-${store.toUpperCase()}-${Math.floor(Math.random()*9000+1000)}`;
-    cart.push({ id: itemId, n: itemName, p: parseFloat(tempImportFinal.toFixed(2)), c: parseFloat(tempImportCost.toFixed(2)), finalPrice: parseFloat(tempImportFinal.toFixed(2)) }); localStorage.setItem('ch_cart', JSON.stringify(cart)); 
-    if(el('c-count')) el('c-count').innerText = cart.length; playSnd(); toast(`${store} Import Added to Cart!`, false); el('imp-amt').value = ''; el('imp-link').value = ''; calcImportPrice(); closeModal('import-mod');
+    cart.push({ id: itemId, n: itemName, p: parseFloat(tempImportFinal.toFixed(2)), c: parseFloat(tempImportCost.toFixed(2)), finalPrice: parseFloat(tempImportFinal.toFixed(2)), qty: 1 }); localStorage.setItem('ch_cart', JSON.stringify(cart)); 
+    if(el('c-count')) el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); playPop(); toast(`${store} Import Added!`, false); el('imp-amt').value = ''; el('imp-link').value = ''; calcImportPrice(); closeModal('import-mod');
 }
 
 function addC(eO, p, eN, hasEx, exCount) { 
@@ -955,17 +974,62 @@ function addC(eO, p, eN, hasEx, exCount) {
         for(let j=0; j<exCount; j++) { let inp = el(`ex-${id}-${j}`); if(!inp || !inp.value.trim()) missing = true; else { let label = inp.getAttribute('placeholder').replace(/\.$/, ''); extVals.push(`${label}: ${inp.value.trim()}`); inp.value = ''; } } 
         if(missing) return toast("Please fill all extra detail boxes!", "error"); n += " [" + extVals.join(' | ') + "]"; 
     } 
-    cart.push({ id: id, n: n, p: parseFloat(p), finalPrice: parseFloat(p) }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.length; toast("Added to Cart!", false); 
+    // Check if exists for qty
+    let existing = cart.find(x => x.id === id && x.n === n);
+    if(existing && !hasEx) { existing.qty++; } 
+    else { cart.push({ id: id, n: n, p: parseFloat(p), finalPrice: parseFloat(p), qty: 1 }); }
+    
+    localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); toast("Added to Cart!", false); 
 }
-function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${i.n}</span> <span>${i.p.toFixed(2)} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
+
+function adjQty(idx, amt) {
+    cart[idx].qty += amt;
+    if(cart[idx].qty <= 0) cart.splice(idx, 1);
+    localStorage.setItem('ch_cart', JSON.stringify(cart)); el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); updC(); playPop();
+}
+
+function updC() { 
+    let r = cart.reduce((s, i) => s + (i.p * (i.qty||1)), 0); el('m-sub').innerText = r.toFixed(2) + " DT"; 
+    if(el('c-list')) { 
+        el('c-list').innerHTML = cart.map((i, idx) => { 
+            return `<div style="padding:10px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
+                        <span style="flex:1;">• ${i.n}</span> 
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--p); font-weight:bold;">${(i.p * (i.qty||1)).toFixed(2)} DT</span>
+                            <div style="display:flex; align-items:center; background:#111; border-radius:5px; padding:2px;">
+                                <button class="qty-btn" onclick="adjQty(${idx}, -1)">-</button>
+                                <span style="margin:0 10px; font-family:monospace;">${i.qty||1}</span>
+                                <button class="qty-btn" onclick="adjQty(${idx}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>`; 
+        }).join(''); 
+    } 
+}
 function opnCart() { updC(); openModal('cart-mod'); }
 function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"); let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); navigator.clipboard.writeText(window.location.href.split('?')[0] + "?cart=" + cartB64).then(() => { toast("Cart Link Copied!", false); }).catch(() => toast("Failed to copy", true)); }
 
+function updateCheckoutContact() {
+    let sel = el('co-contact-method').value;
+    let box = el('coC');
+    if(sel === 'new_ig') { box.placeholder = "Instagram (@username)"; box.value = ""; }
+    else if(sel === 'new_wa') { box.placeholder = "WhatsApp (+216...)"; box.value = ""; }
+    else { box.value = sel; }
+}
+
 function opnCO() { 
     if(cart.length === 0) return toast("Cart Empty", "error"); 
+    let total = cart.reduce((s, i) => s + (i.p * (i.qty||1)), 0);
+    if(db.minOrder && db.minOrder > 0 && total < db.minOrder) { return toast(`Minimum order is ${db.minOrder} DT`, "error"); }
     
-    let savedContact = localStorage.getItem('ch_contact');
-    if(savedContact) { el('coC').value = savedContact; }
+    // Contact Dropdown Logic
+    let selCont = el('co-contact-method');
+    let savedIG = localStorage.getItem('ch_ig'); let savedWA = localStorage.getItem('ch_wa');
+    let opts = "";
+    if(savedIG) opts += `<option value="${savedIG}">My Instagram (${savedIG})</option>`;
+    if(savedWA) opts += `<option value="${savedWA}">My WhatsApp (${savedWA})</option>`;
+    opts += `<option value="new_ig">Type New Instagram</option><option value="new_wa">Type New WhatsApp</option>`;
+    selCont.innerHTML = opts; updateCheckoutContact();
     
     let sel = el('co-disc-selector'); sel.innerHTML = `<option value="None|0">No Discount</option>`; 
     let lp = getHighestLoyaltyPct(); if(lp > 0) sel.innerHTML += `<option value="Loyalty|${lp}">Loyalty Reward (${lp}%)</option>`; let sp = getStreakPct(); if(sp > 0) sel.innerHTML += `<option value="Streak|${sp}">🔥 Active Streak (${sp}%)</option>`; let wActive = localStorage.getItem('ch_wheel_win') === 'true'; if(wActive) sel.innerHTML += `<option value="Wheel|5">🎡 Wheel Spin (5%)</option>`; 
@@ -974,29 +1038,21 @@ function opnCO() {
     if(!user) { el('guest-contact-warning').style.display = 'block'; } else { el('guest-contact-warning').style.display = 'none'; }
 }
 
-function adjTip(amt) {
-    let t = el('tip-admin-amt'); let val = parseInt(t.value) + amt;
-    if(val < 0) val = 0; t.value = val; applySingleDiscount();
-}
+function adjTip(amt) { let t = el('tip-admin-amt'); let val = parseInt(t.value) + amt; if(val < 0) val = 0; t.value = val; applySingleDiscount(); }
 
 function applySingleDiscount() { 
     let selVal = el('co-disc-selector').value.split('|'); let type = selVal[0]; let pct = parseFloat(selVal[1]); 
     if(type === "Promo") { el('promo-input-box').style.display = 'flex'; pct = activeDiscount.type === "Promo" ? activeDiscount.pct : 0; } else { el('promo-input-box').style.display = 'none'; activeDiscount = { type: type, pct: pct, str: type + " Discount" }; } 
     
-    let r = cart.reduce((s, i) => s + i.p, 0); 
+    let r = cart.reduce((s, i) => s + (i.p * (i.qty||1)), 0); 
     let afterDiscount = r - (r * (activeDiscount.pct / 100)); 
     let tipAmt = parseFloat(el('tip-admin-amt').value) || 0; 
     
-    let feePct = 0;
-    if(payM === 'D17') feePct = 0.01;
-    if(payM === 'Mandat Minute') feePct = 0.02;
-    
+    let feePct = 0; if(payM === 'D17') feePct = 0.01; if(payM === 'Mandat Minute') feePct = 0.02;
     let feeAmt = afterDiscount * feePct;
     if(feePct > 0) { el('fee-disp').style.display = 'block'; el('fee-amt').innerText = feeAmt.toFixed(2); el('fee-pct').innerText = (feePct * 100).toFixed(0); } else { el('fee-disp').style.display = 'none'; }
     
-    let total = afterDiscount + feeAmt + tipAmt; 
-    el('co-tot').innerText = total.toFixed(2) + " DT"; 
-    if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); 
+    let total = afterDiscount + feeAmt + tipAmt; el('co-tot').innerText = total.toFixed(2) + " DT"; if(el('co-wal-bal')) el('co-wal-bal').innerText = userWallet.toFixed(2); 
 }
 
 async function validatePromoCode() { let c = el('promo-code-val').value.toUpperCase(); if(!c) return; toast("Checking...", "info"); let d = await api("validate_promo", { code: c }); if(d && d.s === 'ok') { activeDiscount = { type: "Promo", pct: parseFloat(d.pct), str: c }; toast("Promo Applied!", false); applySingleDiscount(); } else if(d && d.s === 'expired') { toast("Code Expired", true); } else { toast("Invalid Code", true); } }
@@ -1012,8 +1068,7 @@ function sPay(m) {
         else if(m === 'Mandat Minute') { el('ui-d17-in').innerHTML = `${window.CFG.M_NAME}<br>${window.CFG.M_NUM}`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Transfer to Mandat Minute:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'block'; } 
         else if(m === 'Cash Hammam-Lif') { el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Hand Delivery Location:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none'; } 
     } else { dbox.style.display = 'none'; } 
-    
-    applySingleDiscount(); // Recalculate fees
+    applySingleDiscount(); 
 }
 
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
@@ -1022,14 +1077,68 @@ function dzDrop(e) { e.preventDefault(); dzLeave(); if(e.dataTransfer.files.leng
 function handleProofUpload(e) { if(e.target.files.length) handleFile(e.target.files[0]); }
 function handleFile(f) { let r = new FileReader(); r.onload = ev => { proofB64 = ev.target.result; el('drop-text').innerText = "✅ Attached: " + f.name; el('drop-zone').classList.remove('flagged'); }; r.readAsDataURL(f); }
 
+// 📄 GENERATE BILINGUAL PDF
+function generatePDF(orderId, name, contact, total, payM, discountStr) {
+    if(typeof window.jspdf === 'undefined') return;
+    const { jsPDF } = window.jspdf; const doc = new jsPDF();
+    doc.setFontSize(18); doc.setTextColor(0, 240, 255);
+    doc.text("CYBERHUB PREMIUM DIGITAL", 20, 20);
+    doc.setFontSize(10); doc.setTextColor(100, 100, 100);
+    doc.text(lang==='fr' ? "Hammam-Lif, Tunisie" : "Hammam-Lif, Tunisia", 20, 28);
+    doc.setTextColor(0, 0, 0);
+    doc.text("---------------------------------------------------------------------------", 20, 35);
+    doc.setFontSize(12);
+    doc.text((lang==='fr'?"FACTURE N° : ":"INVOICE #: ") + orderId, 20, 45);
+    doc.text("DATE : " + new Date().toLocaleDateString(), 20, 52);
+    doc.text("CLIENT : " + name, 20, 59);
+    doc.text("CONTACT : " + contact, 20, 66);
+    doc.text("---------------------------------------------------------------------------", 20, 73);
+    
+    let y = 85; doc.setFontSize(11);
+    cart.forEach(i => {
+        let nStr = `${i.qty||1}x ${i.n} (ID: ${i.id})`;
+        if(nStr.length > 50) nStr = nStr.substring(0, 47) + "...";
+        doc.text(nStr, 20, y);
+        doc.text(`${(i.finalPrice * (i.qty||1)).toFixed(2)} DT`, 160, y);
+        y += 10;
+        if(y > 270) { doc.addPage(); y = 20; }
+    });
+    
+    doc.text("---------------------------------------------------------------------------", 20, y); y+=10;
+    doc.text((lang==='fr'?"SOUS-TOTAL : ":"SUBTOTAL : "), 20, y); doc.text(cart.reduce((s,i)=>s+(i.p*(i.qty||1)),0).toFixed(2) + " DT", 160, y); y+=10;
+    
+    if(activeDiscount.pct > 0) {
+        doc.text((lang==='fr'?"REDUCTION : ":"DISCOUNT : ") + `(${discountStr})`, 20, y);
+        doc.text("-" + (cart.reduce((s,i)=>s+(i.p*(i.qty||1)),0)*(activeDiscount.pct/100)).toFixed(2) + " DT", 160, y); y+=10;
+    }
+    
+    doc.setFontSize(14); doc.setTextColor(255, 0, 255);
+    doc.text((lang==='fr'?"TOTAL A PAYER : ":"TOTAL DUE : "), 20, y+10); 
+    doc.text(total + " DT", 160, y+10);
+    
+    doc.setFontSize(10); doc.setTextColor(150, 150, 150);
+    doc.text(lang==='fr' ? "Merci pour votre confiance en CyberHub !" : "Thank you for trusting CyberHub!", 20, y+30);
+    doc.save(`CyberHub_Invoice_${orderId}.pdf`);
+}
+
+// 🎮 CYBERPUNK TERMINAL ANIMATION
+async function playTerminalAnimation() {
+    let t = el('terminal-ui'); let txt = el('term-text'); t.style.display = 'flex'; txt.innerHTML = '';
+    let lines = [ "> INITIALIZING SECURE HANDSHAKE...", "> BYPASSING MAINFRAME FIREWALL...", "> ENCRYPTING PAYMENT PROTOCOLS...", "> INJECTING DATA TO DATABASE...", "> 100% - TRANSACTION SUCCESSFUL." ];
+    for(let i=0; i<lines.length; i++) { txt.innerHTML += `<div class="term-line">${lines[i]}</div>`; await new Promise(r => setTimeout(r, 600)); }
+    t.style.display = 'none';
+}
+
 async function finOrd() { 
     if(navigator.vibrate) navigator.vibrate(100); 
     let n = el('coN').value; let c = el('coC').value; let cm = el('coNts').value; 
-    if(!n || !c) return toast("Full Name & Contact required", "error"); 
+    let cType = el('co-contact-method').value; let finalC = cType.includes('new') ? c : cType;
+    
+    if(!n || !finalC) return toast("Full Name & Contact required", "error"); 
     let txid = el('co-txid') ? el('co-txid').value.trim() : "";
     if((payM === 'D17' || payM === 'Mandat Minute') && !proofB64 && !txid) { return toast("Provide a Transaction ID or Upload Receipt", "error"); }
 
-    let r = cart.reduce((s, i) => s + i.p, 0); 
+    let r = cart.reduce((s, i) => s + (i.p * (i.qty||1)), 0); 
     let afterDiscount = r - (r * (activeDiscount.pct / 100)); 
     let tipAmt = parseFloat(el('tip-admin-amt').value) || 0; 
     let feePct = 0; if(payM === 'D17') feePct = 0.01; if(payM === 'Mandat Minute') feePct = 0.02;
@@ -1037,40 +1146,43 @@ async function finOrd() {
     let total = afterDiscount + feeAmt + tipAmt; 
     
     cart.forEach(i => i.finalPrice = i.p - (i.p * (activeDiscount.pct / 100))); 
-    if(tipAmt > 0) { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: tipAmt, finalPrice: tipAmt }); } 
-    if(feeAmt > 0) { cart.push({ id: "FEE-001", n: "💳 Payment Processing Fee", p: feeAmt, finalPrice: feeAmt }); } 
+    if(tipAmt > 0) { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: tipAmt, finalPrice: tipAmt, qty: 1 }); } 
+    if(feeAmt > 0) { cart.push({ id: "FEE-001", n: "💳 Payment Processing Fee", p: feeAmt, finalPrice: feeAmt, qty: 1 }); } 
     
     if(payM === 'Wallet' && userWallet < total) return toast("Insufficient Wallet Balance", true); 
-    el('b-fin').innerHTML = `...`; el('b-fin').disabled = true; 
+    el('b-fin').disabled = true; 
+    
+    // 🎮 PLAY TERMINAL ANIMATION
+    await playTerminalAnimation();
     
     try { 
-        let payload = { act: "place_order", name: n, contact: c, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", promoCode: activeDiscount.type === "Promo" ? activeDiscount.str : null, payMethod: payM, comments: cm, email: user || "Guest", txId: txid, proofB64: proofB64, total: total.toFixed(2) }; 
+        let payload = { act: "place_order", name: n, contactType: cType.includes('ig') ? 'ig' : 'wa', contactVal: finalC, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", promoCode: activeDiscount.type === "Promo" ? activeDiscount.str : null, payMethod: payM, comments: cm, email: user || "Guest", txId: txid, proofB64: proofB64, total: total.toFixed(2), lang: lang }; 
         let d = await api("place_order", payload); 
         if(d && d.s === "ok") { 
+            playChime();
             if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } 
             if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } 
             if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } 
             
-            localStorage.setItem('ch_contact', c);
+            // Generate PDF
+            try { generatePDF(d.gId, n, finalC, total.toFixed(2), payM, `${activeDiscount.str} ${activeDiscount.pct}%`); } catch(e){}
             
             let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Final Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n📦 **ITEMS ORDERED:**\n\n`; 
-            cart.forEach((i, idx) => { inv += `${idx + 1}. ${i.n}\n   🆔 Item ID: ${i.id}\n   💵 Orig Price: ${i.p.toFixed(2)} DT\n   💥 Final Price: ${i.finalPrice.toFixed(2)} DT\n`; if(i.c && i.c > 0) inv += `   🌍 Importer Base: ${i.c} DT\n`; inv += `----------------------------------\n`; }); 
+            cart.forEach((i, idx) => { inv += `${idx + 1}. ${i.qty||1}x ${i.n}\n   🆔 ID: ${i.id}\n   💵 Final Price: ${(i.finalPrice * (i.qty||1)).toFixed(2)} DT\n`; inv += `----------------------------------\n`; }); 
             if (cm) inv += `\n📝 Comments: ${cm}\n`; inv += `\n⏳ Our team will process this ticket\n   and contact you within 15-30 mins!`; 
             
             navigator.clipboard.writeText(inv).catch(e=>{}); 
             try { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); } catch(e) {} 
             el('co-form').style.display = 'none'; el('co-succ').style.display = 'block'; el('succ-gid').innerText = d.gId; 
             
-            let contactClean = c.replace('@', '').replace(/\s+/g, '');
+            let contactClean = finalC.replace('@', '').replace(/\s+/g, '');
             let isPhone = /^\d+$/.test(contactClean) || contactClean.startsWith('+');
-            
             el('dm-btn-wa').onclick = () => window.open(`https://wa.me/${isPhone ? contactClean : window.CFG.WA}?text=${encodeURIComponent(inv)}`); 
             el('dm-btn-ig').onclick = () => window.open(`https://instagram.com/${!isPhone ? contactClean : '_yessine_ben_fraj_'}`); 
-            
             cart = []; localStorage.removeItem('ch_cart'); el('c-count').innerText = "0"; if(user) uOrders++; 
         } else if(d && d.s === 'flagged') { toast("Fraud Detected: Duplicate Receipt", "error"); el('drop-zone').classList.add('flagged'); el('drop-text').innerText = "⚠️ FRAUD DETECTED: This receipt is already in our system."; proofB64 = ""; } else { toast("Order execution failed.", true); } 
-        el('b-fin').innerHTML = "PLACE ORDER"; el('b-fin').disabled = false; 
-    } catch(e) { el('b-fin').innerHTML = "PLACE ORDER"; el('b-fin').disabled = false; toast("System Error", true); } 
+        el('b-fin').disabled = false; 
+    } catch(e) { el('b-fin').disabled = false; toast("System Error", true); } 
 }
 
 async function trackOrdBtn() {
@@ -1079,22 +1191,12 @@ async function trackOrdBtn() {
     if(res && res.success) { let h = `Status: <b style="color:var(--w);">${res.status}</b><br>Total: ${res.total} DT`; if(res.status === "Pending" && user) { h += `<br><button class="btn" style="background:#ff4d4d; color:white; padding:8px; margin-top:8px; width:100%;" onclick="cancelOrd('${id}')">Cancel Order</button>`; } else if (res.status === "Pending") { h += `<br><span style="color:gray; font-size:0.7rem;">Login to cancel.</span>`; } el('track-res').innerHTML = h;
     } else { el('track-res').innerHTML = "<span style='color:#ff4d4d;'>Order not found.</span>"; }
 }
-async function cancelOrd(id) { if(!confirm("Abort this order?")) return toast("Transmitting abort code...", "info"); let res = await api('cancel_order', {orderId: id, userEmail: user}); if(res && res.success) { toast("Order Cancelled", "success"); trackOrdBtn(); } else { toast("Unauthorized to cancel.", "error"); } }
+async function cancelOrd(id) { if(!confirm("Abort this order?")) return; toast("Transmitting abort code...", "info"); let res = await api('cancel_order', {orderId: id, userEmail: user, lang: lang}); if(res && res.success) { toast("Order Cancelled", "success"); trackOrdBtn(); } else { toast("Unauthorized to cancel.", "error"); } }
 
 function buildWheelUI() { 
-    let wc = el('wheel-container'); wc.innerHTML = ''; 
-    if(!db.wheel || db.wheel.length === 0) return; 
-    let wheelObjs = mapSheetToObjects(db.wheel); 
-    let sliceDeg = 360 / wheelObjs.length; 
-    wheelObjs.forEach((w, i) => { 
-        if(!w['Prize Name'])return; 
-        let slice = document.createElement('div'); 
-        slice.className = 'wheel-slice'; 
-        slice.style.background = w['Color Hex']; 
-        slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; 
-        slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-100px); display:block; font-size:2rem;">${w['Emoji']}</span>`; 
-        wc.appendChild(slice); 
-    }); 
+    let wc = el('wheel-container'); wc.innerHTML = ''; if(!db.wheel || db.wheel.length === 0) return; 
+    let wheelObjs = mapSheetToObjects(db.wheel); let sliceDeg = 360 / wheelObjs.length; 
+    wheelObjs.forEach((w, i) => { if(!w['Prize Name'])return; let slice = document.createElement('div'); slice.className = 'wheel-slice'; slice.style.background = w['Color Hex']; slice.style.transform = `rotate(${i * sliceDeg}deg) skewY(${90 - sliceDeg}deg)`; slice.innerHTML = `<span style="transform: skewY(${-(90 - sliceDeg)}deg) rotate(${sliceDeg / 2}deg) translateY(-100px); display:block; font-size:2rem;">${w['Emoji']}</span>`; wc.appendChild(slice); }); 
 }
 
 async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back in 48 hours!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
