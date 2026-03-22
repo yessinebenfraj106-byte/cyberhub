@@ -27,24 +27,17 @@
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         
-        /* 🎯 EMOJI FIX FOR ALL PLATFORMS */
-        @font-face {
-            font-family: 'ColorEmoji';
-            src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji');
-            unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF;
-        }
-        
+        @font-face { font-family: 'ColorEmoji'; src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji'); unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF; }
         body { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         
-        input, select, textarea, button, .btn { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; }
+        input, select, textarea, button, .btn { font-family: inherit; }
         
         #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; flex: 1; width: 100%; box-sizing: border-box; transition: all 0.3s ease;}
         
-        /* Device Simulator styling */
         body.sim-ios .cont { max-width: 390px; margin: 40px auto; outline: 15px solid #222; border-radius: 40px; height: 844px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         body.sim-android .cont { max-width: 412px; margin: 40px auto; outline: 10px solid #111; border-radius: 20px; height: 915px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         
@@ -57,7 +50,6 @@
         .skel-card { height: 140px; width: 100%; }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        
         .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;}
         .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
         .img-transparent { width: 65px; height: 65px; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); margin: 0;}
@@ -91,14 +83,12 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* 🎯 PERFECT DIAGONAL X BANDS */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 60px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; }
         #stripe-1 { transform: translate(-50%, -50%) rotate(45deg); }
         #stripe-2 { transform: translate(-50%, -50%) rotate(-45deg); }
         
         #wa-widget { position: fixed; bottom: 105px; right: 25px; background: #25D366; color: #fff; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 5px 20px rgba(37,211,102,0.4); z-index: 1000; font-weight: bold; }
 
-        /* FIXED ADMIN DASHBOARD OPACITY BUG */
         #admin-page { z-index: 100000; padding: 0; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -118,6 +108,7 @@
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
+        #maint-timer { font-family: monospace; font-size: 2.5rem; font-weight: 900; color: #ff00ff; letter-spacing: 2px; text-shadow: 0 0 10px #ff00ff; margin-top: 10px; }
         
         .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
@@ -147,6 +138,10 @@
     <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat</span></div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
+    <div id="flash-banner" style="display:none; background:linear-gradient(90deg, #ff00ff, #00f0ff); color:white; text-align:center; padding:10px; font-weight:900; font-size:1rem; letter-spacing:2px; z-index:100; box-shadow: 0 5px 15px rgba(255,0,255,0.4);">
+        ⚡ FLASH SALE ACTIVE ⚡ <span id="flash-timer" style="margin-left:10px;"></span>
+    </div>
+    
     <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; letter-spacing:1px; z-index:100;">
         🔥 EXTREME TRAFFIC DETECTED - SURGE PRICING ACTIVE 🔥
     </div>
@@ -155,9 +150,9 @@
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
         <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="icon-512.png" onerror="this.style.display='none'" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;"></div>
         
-        <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Compte / Account</span></div>
+        <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account</span></div>
         <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
-        <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">📦 <span class="tr" data-k="mord">Mes Commandes</span></div>
+        <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">📦 <span class="tr" data-k="mord">Orders</span></div>
         
         <div style="padding: 15px; border: 1px solid var(--b); background: rgba(0,0,0,0.3); border-radius: 12px; margin: 15px 0;">
             <b style="color:var(--w);" class="tr" data-k="track">🔍 Track Order</b>
@@ -221,8 +216,6 @@
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Category')">Add Category</button>
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:#00ff88;" onclick="openAdminCreate('Subcategory')">Add Subcategory</button>
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Item')">Add Item</button>
-        <hr style="border-color:var(--b); width:100%; margin:5px 0;">
-        <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
     </div>
 
     <div id="admin-page" class="modal">
@@ -235,6 +228,7 @@
                 <div class="admin-tab" onclick="switchAdminTab('users')">👥 Users</div>
                 <div class="admin-tab" onclick="switchAdminTab('orders')">📦 Orders</div>
                 <div class="admin-tab" onclick="switchAdminTab('promo')">🎟️ Promos</div>
+                <div class="admin-tab" onclick="switchAdminTab('flash')" style="color:#00f0ff; border-color:#00f0ff;">⚡ Flash Sale</div>
             </div>
 
             <div id="adm-ctrl" class="admin-section active">
@@ -264,6 +258,32 @@
             <div id="adm-users" class="admin-section"><div class="glass" style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Wallet</th><th>Spent</th><th>Actions</th></tr></thead><tbody id="a-t-users"></tbody></table></div></div>
             <div id="adm-orders" class="admin-section"><div class="glass" style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>ID</th><th>Client</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr></thead><tbody id="a-t-orders"></tbody></table></div></div>
             
+            <div id="adm-flash" class="admin-section">
+                <div class="glass" style="border-color:#00f0ff; background:rgba(0,240,255,0.05);">
+                    <h3 style="color:#00f0ff; margin-top:0;">⚡ Master Flash Sale Engine</h3>
+                    <p style="font-size:0.8rem; color:gray;">Target ALL, a specific Category, Subcategory, or a specific Item ID. This automatically overwrites prices visually before checkout.</p>
+                    
+                    <label style="display:flex; align-items:center; gap:10px; color:#00ff88; font-weight:bold; cursor:pointer; margin-bottom:15px;">
+                        <input type="checkbox" id="fs-active" style="width:auto; margin:0;"> TURN ON FLASH SALE?
+                    </label>
+                    
+                    <select id="fs-type" style="background:#000!important; margin-bottom:10px;">
+                        <option value="ALL">Everything (ALL)</option>
+                        <option value="CATEGORY">Category Name</option>
+                        <option value="SUBCATEGORY">Subcategory Name</option>
+                        <option value="ITEM">Specific Item ID (e.g. INV-12345)</option>
+                    </select>
+                    
+                    <input type="text" id="fs-val" placeholder="Target Name/ID (Leave blank if ALL)">
+                    <input type="number" id="fs-pct" placeholder="Discount Percentage % (e.g. 20)">
+                    
+                    <label style="font-size:0.75rem; color:gray; display:block; margin-top:10px;">Countdown End Time (Optional):</label>
+                    <input type="datetime-local" id="fs-timer">
+                    
+                    <button class="btn" style="background:#00f0ff; color:#000;" onclick="adminSaveFlashSale()">LAUNCH FLASH SALE</button>
+                </div>
+            </div>
+
             <div id="adm-promo" class="admin-section">
                 <div class="glass" style="margin-bottom:15px;">
                     <h3 style="color:var(--p); margin-top:0;">Create Promotion</h3>
@@ -462,12 +482,13 @@
     <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 VIP Rewards</h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
 
 <script>
+// ADVANCED TRANSLATIONS
 const T = {
     en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
-    fr: { ld: "Chargement de la boutique... ⏳", srch: "Rechercher des produits...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte et Profil", pol: "Politique de la Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "E-mail", ph: "Téléphone", userP: "E-mail ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou ID de Jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Portefeuille", track: "🔍 Suivre ma Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
+    fr: { ld: "Chargement de la boutique... ⏳", srch: "Rechercher des produits...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte et Profil", pol: "Politique de la Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "E-mail", ph: "Téléphone", userP: "E-mail ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Passer la commande", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou ID de Jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Portefeuille", track: "🔍 Suivre ma Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
 };
 
-let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {} }; 
+let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {}, flashSale: {active: false, targetType: 'ALL', targetVal: '', pct: 0} }; 
 let cart = []; let cView = { t: 'cats', c: null, a: null }; 
 let role = localStorage.getItem('ch_role') || 'User'; 
 let lang = localStorage.getItem('ch_lng') || 'en'; 
@@ -608,7 +629,6 @@ function initParticles() {
 }
 window.addEventListener('load', initParticles);
 
-// 🎯 INSTANT LOAD CACHING & ABANDONED CART TRACKER
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; appLang();
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
@@ -621,12 +641,9 @@ function initApp() {
         if(sc && sc !== "[]") { 
             cart = JSON.parse(sc); 
             el('c-count').innerText = cart.length; 
-            
-            // ABANDONED CART LOGIC
             setTimeout(() => {
                 let msg = lang === 'fr' ? "🛒 Tu as laissé des articles dans ton panier !" : "🛒 You left items in your cart!";
                 toast(msg, "info");
-                
                 if(user) {
                     let total = cart.reduce((s, i) => s + (i.finalPrice || i.p), 0);
                     api('log_cart', {email: user, cart: cart, total: total});
@@ -643,7 +660,28 @@ function initApp() {
             localStorage.setItem('ch_cached_db', JSON.stringify(d));
             db = d; 
             isDataLoaded = true; 
-            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; 
+            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } 
+            
+            if(db.isSurge) el('surge-banner').style.display = 'block'; 
+            
+            // ⚡ Handle Flash Sale UI
+            if(db.flashSale && db.flashSale.active) {
+                el('flash-banner').style.display = 'block';
+                if(db.flashSale.timer) {
+                    let endTime = new Date(db.flashSale.timer).getTime();
+                    setInterval(() => {
+                        let diff = endTime - Date.now();
+                        if(diff <= 0) { el('flash-timer').innerText = "SALE ENDED"; }
+                        else {
+                            let h = Math.floor(diff / (1000 * 60 * 60));
+                            let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            let s = Math.floor((diff % (1000 * 60)) / 1000);
+                            el('flash-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                        }
+                    }, 1000);
+                } else { el('flash-timer').style.display = 'none'; }
+            } else { el('flash-banner').style.display = 'none'; }
+            
         } else if (!isDataLoaded) { 
             el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; 
         }
@@ -656,7 +694,7 @@ function hMaint(m) {
     if(!m) return; let b = el('maint-banner'), t = el('ui-m-m'), tit = el('ui-m-t'); 
     if(m.bands) { el('stripe-1').style.display = 'block'; el('stripe-2').style.display = 'block'; } else { el('stripe-1').style.display = 'none'; el('stripe-2').style.display = 'none'; } 
     if(m.closed) { 
-        if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "STORE CLOSED"; if(t) t.innerHTML = m.msg; el('st-cnt').style.display = 'none'; 
+        if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "STORE CLOSED"; if(t) t.innerHTML = m.msg; el('st-cnt').style.display = 'none'; el('flash-banner').style.display = 'none';
         if(m.timer && !isNaN(parseInt(m.timer))) { let endTime = parseInt(m.timer); el('maint-timer').style.display = 'block'; clearInterval(maintTimerInterval); maintTimerInterval = setInterval(() => { let diff = endTime - Date.now(); if(diff <= 0) { el('maint-timer').innerText = "00:00:00"; clearInterval(maintTimerInterval); } else { let h = Math.floor(diff / (1000 * 60 * 60)); let mi = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); let s = Math.floor((diff % (1000 * 60)) / 1000); el('maint-timer').innerText = `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`; } }, 1000); } else { el('maint-timer').style.display = 'none'; }
     } else if(m.bMsg) { if(b) b.style.display = 'block'; if(tit) tit.innerHTML = "ANNOUNCEMENT"; if(t) t.innerHTML = m.bMsg; el('st-cnt').style.display = 'block'; el('maint-timer').style.display = 'none'; } else { if(b) b.style.display = 'none'; el('st-cnt').style.display = 'block'; } 
 }
@@ -716,6 +754,22 @@ function renderAdminPromos() {
 function togglePromoFields() { let t = el('p-type').value; if(t === 'Promo Code') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Code (e.g. SUMMER20)"; el('p-max').style.display = 'block'; } else if(t === 'Streak') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Days Needed (e.g. 7)"; el('p-max').style.display = 'none'; } else if(t === 'Loyalty') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Orders Needed (e.g. 5)"; el('p-max').style.display = 'none'; } else { el('p-fields-wrap').style.display='none'; } }
 async function savePromoCode() { let t = el('p-type').value; let code = el('p-code').value; let pct = el('p-pct').value; let max = el('p-max').value; if(!code || !pct) return toast("Need rule and %", "error"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'add', type: t, rule: code, pct: pct, max: max, active: true}); if(res && res.s==='ok') { toast("Promo Saved", "success"); openAdminDashboard(); } }
 async function admDeletePromo(type, rule) { if(confirm("Delete this promo code permanently?")) { toast("Deleting...", "info"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'delete', type: type, rule: rule}); if(res && res.s === 'ok') { toast("Promo Deleted", "success"); openAdminDashboard(); } } }
+
+// ⚡ NEW: SAVE FLASH SALE
+async function adminSaveFlashSale() {
+    let active = el('fs-active').checked;
+    let type = el('fs-type').value;
+    let val = el('fs-val').value.trim();
+    let pct = el('fs-pct').value;
+    let timer = el('fs-timer').value;
+    
+    if(active && !pct) return toast("Must set a discount percentage!", "error");
+    if(active && type !== 'ALL' && !val) return toast("Must specify target name/ID!", "error");
+    
+    toast("Launching Sale...", "info");
+    let res = await api('admin_update_flash', { adminPass: window.CFG.PASS, active: active, type: type, val: val, pct: pct, timer: timer ? new Date(timer).getTime() : "" });
+    if(res && res.s === 'ok') { toast("Flash Sale Active!", "success"); setTimeout(()=>location.reload(), 1500); }
+}
 
 async function sendStoreMaint(closed) { let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value; let bands = el('adm-m-bands').checked; let timerVal = ""; if(closed) { if(dt) { timerVal = new Date(dt).getTime(); } else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); } } let res = await api('maint', {adminPass: window.CFG.PASS, closed, msg, timer: timerVal, bands}); if(res && res.s==='ok') { toast("Store status updated", "success"); setTimeout(()=>location.reload(true), 1500); } }
 async function nukeAppCache() { toast("Nuking cache...", "info"); let d = await api('nuke_cache', {adminPass: window.CFG.PASS}); if(d && d.s === 'ok') { toast("Cache nuked!", false); setTimeout(()=>location.reload(true), 2000); } }
@@ -782,13 +836,15 @@ async function revealPassword() { let savedId = localStorage.getItem('ch_passkey
 function ren() { 
     try {
         let hHtml = ""; let a = el('st-cnt'); if(!a) return; 
-        
         if(!isDataLoaded) return; 
         
         let q = el('itemFinder').value.trim(); let c = {}, ap = {}, g = {}, sA = []; 
         if(!db.inv || db.inv.length < 2) { a.innerHTML = `<div style="text-align:center;padding:40px;color:var(--w);font-weight:bold;">Store is empty right now!</div>`; return; } 
         let pMaint = db.maintObj && db.maintObj.partial ? String(db.maintObj.partial).toLowerCase() : ""; let isFr = lang === 'fr'; 
         let invObjs = mapSheetToObjects(db.inv);
+        
+        // ⚡ FLASH SALE CHECKER
+        let fs = db.flashSale || {active: false, targetType: 'ALL', targetVal: '', pct: 0};
         
         invObjs.forEach(r => { 
             let nameEn = r['Article Name EN'] || r['Name EN']; let nameFr = r['Article Name FR'] || r['Name FR']; if(!r || (!nameEn && !nameFr)) return; 
@@ -809,13 +865,30 @@ function ren() {
             let fldN = isFr ? (r['Folder Name FR'] || r['Folder Name EN']) : (r['Folder Name EN'] || r['Folder Name FR']); 
             let fldE = r['Folder Emoji'] || "📁"; 
             let n = isFr ? (nameFr || nameEn) : (nameEn || nameFr); 
-            let p = parseFloat(r['Selling Price'] || r['Price'] || r['Prix']) || 0; 
+            let basePrice = parseFloat(r['Selling Price'] || r['Price'] || r['Prix']) || 0; 
             let oos = String(r['Stock Status']).toUpperCase().includes("OOS"); 
             let exReq = (r['Extra Box?'] === true || String(r['Extra Box?']).toLowerCase() === 'true'); let exNum = parseInt(r['How Many?']) || 1; 
             let exTxt = isFr ? (r['Extra Texts FR'] || "Details...") : (r['Extra Texts EN'] || "Details..."); 
             let wrn = isFr ? (r['Warn FR'] || r['Warn EN']) : (r['Warn EN'] || r['Warn FR']); let artImg = r['Article Image'] || ''; 
             let subHex = sub && ap[sub] ? ap[sub].col : (c[cat] ? c[cat].hHex : 'var(--p)'); 
-            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg, fldN: fldN };
+            
+            // ⚡ APPLY FLASH SALE MATH
+            let isFlash = false;
+            let p = basePrice;
+            let origHtml = "";
+            if(fs.active) {
+                if(fs.targetType === 'ALL') isFlash = true;
+                else if(fs.targetType === 'CATEGORY' && String(cat).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
+                else if(fs.targetType === 'SUBCATEGORY' && String(sub).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
+                else if(fs.targetType === 'ITEM' && String(itmId).toLowerCase() === fs.targetVal.toLowerCase()) isFlash = true;
+                
+                if(isFlash && fs.pct > 0) {
+                    p = basePrice - (basePrice * (fs.pct / 100));
+                    origHtml = `<span style="text-decoration:line-through; color:gray; font-size:0.85rem; margin-right:8px;">${basePrice.toFixed(2)}</span>`;
+                }
+            }
+            
+            let itemData = { id: itmId, n: n, nEn: nameEn, nFr: nameFr, p: p, baseP: basePrice, isFlash: isFlash, origHtml: origHtml, oos: oos, status: String(r['Stock Status']).trim(), exReq: exReq, exTxt: exTxt, exNum: exNum, wrn: wrn, col: subHex, cat: cat, sub: sub, img: artImg, fldN: fldN };
             
             if(q) { let lQ = q.toLowerCase(); if(n.toLowerCase().includes(lQ) || itmId.toLowerCase().includes(lQ)) { sA.push(itemData); } return; } 
             if(cView.t === 'cats') {} else if(cView.t === 'apps' && cView.c === cat) { if(!sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } } else if(cView.t === 'items' && cView.c === cat && cView.a === sub) { if(hasFld) { if(!g[fldN]) g[fldN] = { emoji: fldE, items: [] }; g[fldN].items.push(itemData); } else { sA.push(itemData); } } 
@@ -830,6 +903,7 @@ function ren() {
         a.innerHTML = hHtml; 
     } catch(err) { console.error(err); el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet formatting.<br><small>${err.message}</small></div>`; }
 }
+
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
 
@@ -842,15 +916,18 @@ function dR(i, q = "") {
     let nStr = String(i.n).toLowerCase(); let catStr = String(i.cat).toLowerCase();
     let isImport = nStr.includes("import") || nStr.includes("shein") || nStr.includes("amazon") || nStr.includes("aliexpress") || catStr.includes("import") || catStr.includes("shein");
     
+    // ⚡ FLASH SALE BADGE
+    let flashBadge = i.isFlash ? `<span style="background:#ff00ff; color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:5px; font-weight:bold; vertical-align:middle; animation: shimmer 2s infinite linear;">⚡ SALE</span>` : "";
+    
     let b = '';
     if(i.oos) { b = `<button class="btn" style="background:#333;color:#777;margin:0;" disabled>OUT OF STOCK</button>`; } 
     else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); if(navigator.vibrate) navigator.vibrate(50);">CALCULATE & ADD</button>`; } 
     else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; }
 
-    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.p}, '${i.status}', '${sEnc(i.cat)}', '${sEnc(i.sub)}', '${sEnc(i.img)}')">EDIT</div>` : '';
+    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.baseP}, '${i.status}', '${sEnc(i.cat)}', '${sEnc(i.sub)}', '${sEnc(i.img)}')">EDIT</div>` : '';
     let dragTag = role === 'Admin' ? `draggable="true" ondragstart="dragStart(event, '${i.id}')" ondragend="dragEnd(event)"` : '';
 
-    return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
+    return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}${flashBadge}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${i.isFlash ? '#00f0ff' : btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.origHtml}${i.p.toFixed(2)} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
 }
 
 function calcImportPrice() {
@@ -880,7 +957,7 @@ function addC(eO, p, eN, hasEx, exCount) {
     } 
     cart.push({ id: id, n: n, p: parseFloat(p), finalPrice: parseFloat(p) }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.length; toast("Added to Cart!", false); 
 }
-function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${i.n}</span> <span>${i.p} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
+function updC() { let r = cart.reduce((s, i) => s + i.p, 0); el('m-sub').innerText = r.toFixed(2) + " DT"; if(el('c-list')) { el('c-list').innerHTML = cart.map((i, idx) => { return `<div style="padding:5px 0;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>• ${i.n}</span> <span>${i.p.toFixed(2)} DT <span style="color:red;cursor:pointer;margin-left:5px;" onclick="cart.splice(${idx},1);updC();el('c-count').innerText=cart.length;">✖</span></span></div>`; }).join(''); } }
 function opnCart() { updC(); openModal('cart-mod'); }
 function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"); let cartB64 = btoa(encodeURIComponent(JSON.stringify(cart))); navigator.clipboard.writeText(window.location.href.split('?')[0] + "?cart=" + cartB64).then(() => { toast("Cart Link Copied!", false); }).catch(() => toast("Failed to copy", true)); }
 
@@ -936,7 +1013,7 @@ function sPay(m) {
         else if(m === 'Cash Hammam-Lif') { el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Hand Delivery Location:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none'; } 
     } else { dbox.style.display = 'none'; } 
     
-    applySingleDiscount(); 
+    applySingleDiscount(); // Recalculate fees
 }
 
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
@@ -1020,7 +1097,7 @@ function buildWheelUI() {
     }); 
 }
 
-async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back tomorrow!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
+async function spinWheel() { if(wSpinning || !user) return toast(user ? "Wait..." : "Login Required!", true); wSpinning = true; let d = await api('log_spin', {c: user, ip: userIP, prize: "Processing"}); if(d && d.s === 'cooldown') { wSpinning = false; return toast("Come back in 48 hours!", true); } let r = Math.random() * 100; let selectedIndex = 0; let cumulative = 0; let wheelObjs = mapSheetToObjects(db.wheel); for(let i=0; i<wheelObjs.length; i++) { if(!wheelObjs[i]['Prize Name'])continue; cumulative += parseFloat(wheelObjs[i]['Win Chance %'] || 25); if(r <= cumulative) { selectedIndex = i; break; } } let sliceDeg = 360 / wheelObjs.length; let extraSpins = 5 * 360; let stopDeg = extraSpins + (360 - (selectedIndex * sliceDeg)) - (sliceDeg / 2); el('wheel-container').style.transform = `rotate(${stopDeg}deg)`; setTimeout(() => { wSpinning = false; let wonObj = wheelObjs[selectedIndex]; if(wonObj['Prize Name'].includes("Discount")) { localStorage.setItem('ch_wheel_win', 'true'); } api('log_spin', {c: user, ip: userIP, prize: wonObj['Prize Name']}); toast(`You got: ${wonObj['Prize Name']} ${wonObj['Emoji']}`, false); }, 4500); }
 
 if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
 </script>
