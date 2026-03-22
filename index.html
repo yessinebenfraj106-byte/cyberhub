@@ -27,17 +27,24 @@
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         
-        /* THE ULTIMATE NATIVE OS EMOJI FIX FOR ALL PLATFORMS */
-        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
+        /* 🎯 EMOJI FIX FOR ALL PLATFORMS */
+        @font-face {
+            font-family: 'ColorEmoji';
+            src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji');
+            unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF, U+2700-27BF, U+1F900-1F9FF, U+1F018-1F270, U+238C-2454, U+20D0-20FF;
+        }
+        
+        body { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; background: transparent; color: #fff; margin: 0; padding-bottom: 0; overflow-x: hidden; transition: color 0.5s; display: flex; flex-direction: column; min-height: 100vh; }
         body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
         
-        input, select, textarea, button, .btn { font-family: inherit; }
+        input, select, textarea, button, .btn { font-family: 'ColorEmoji', 'Plus Jakarta Sans', sans-serif; }
         
         #bg-layer { position: fixed; inset: 0; background: var(--bg); z-index: -2; transition: background 0.5s; }
         #particles-js { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         
         .cont { max-width: 500px; margin: auto; padding: 20px; position: relative; z-index: 1; flex: 1; width: 100%; box-sizing: border-box; transition: all 0.3s ease;}
         
+        /* Device Simulator styling */
         body.sim-ios .cont { max-width: 390px; margin: 40px auto; outline: 15px solid #222; border-radius: 40px; height: 844px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         body.sim-android .cont { max-width: 412px; margin: 40px auto; outline: 10px solid #111; border-radius: 20px; height: 915px; overflow-y: auto; background: var(--bg); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         
@@ -50,16 +57,16 @@
         .skel-card { height: 140px; width: 100%; }
         
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
-        .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
-        .img-transparent { width: 65px; height: 65px; margin: 0 auto 10px auto; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); }
         
-        /* Drag and drop styling */
+        .n-card { background: var(--c); border: 1px solid var(--b); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;}
+        .n-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--b); }
+        .img-transparent { width: 65px; height: 65px; display: block; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); margin: 0;}
+        
         .i-row { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 12px; position: relative; transition: all 0.2s;}
         .i-row.dragging { opacity: 0.5; transform: scale(0.95); border-color: var(--w); }
         
         .f-head { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); border: 1px solid var(--b); border-left: 4px solid var(--p); padding: 18px 20px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; transition: all 0.2s; }
-        .f-head.drag-over { background: rgba(0,240,255,0.2); border-color: var(--p); transform: scale(1.02); }
+        .f-head.drag-over { background: rgba(0,240,255,0.3); border-color: var(--p); transform: scale(1.02); }
 
         .btn { background: var(--p); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
@@ -84,7 +91,7 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* FIXED DIAGONAL X BANDS (Perfectly Corner to Corner) */
+        /* 🎯 PERFECT DIAGONAL X BANDS */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 20px, #111 20px, #111 40px); display: none; height: 60px; opacity: 0.9; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; }
         #stripe-1 { transform: translate(-50%, -50%) rotate(45deg); }
         #stripe-2 { transform: translate(-50%, -50%) rotate(-45deg); }
@@ -111,7 +118,6 @@
         details { background: rgba(255,255,255,0.05); border: 1px solid var(--b); border-radius: 10px; margin-bottom: 10px; padding: 10px; }
         summary { font-weight: bold; cursor: pointer; outline: none; color: var(--p); font-size: 1.1rem; }
         details p { color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.4; }
-        #maint-timer { font-family: monospace; font-size: 2.5rem; font-weight: 900; color: #ff00ff; letter-spacing: 2px; text-shadow: 0 0 10px #ff00ff; margin-top: 10px; }
         
         .hp-hider { opacity: 0; position: absolute; top: -9999px; left: -9999px; }
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
@@ -125,8 +131,20 @@
     <div id="stripe-1" class="maint-stripes"></div>
     <div id="stripe-2" class="maint-stripes"></div>
 
+    <div id="ios-pwa-prompt" style="display:none; position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.9); color:#000; padding:15px; border-radius:15px; width:90%; text-align:center; font-weight:bold; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:9999;">
+        Tap <span style="font-size:1.5rem;">⏍</span> and then "Add to Home Screen" to install CyberHub.
+        <div style="width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid rgba(255,255,255,0.9); position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);"></div>
+    </div>
+    <div id="android-pwa-prompt" style="display:none; position:absolute; bottom:0; left:0; width:100%; background:#fff; color:#000; padding:15px; border-radius:15px 15px 0 0; justify-content:space-between; align-items:center; box-shadow:0 -10px 30px rgba(0,0,0,0.5); z-index:9999; box-sizing: border-box;">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="icon-192.png" onerror="this.style.display='none'" style="width:40px; height:40px; border-radius:10px;">
+            <div style="text-align:left; line-height:1.2;"><b>CyberHub</b><br><span style="font-size:0.75rem; color:gray;">Add to Home screen</span></div>
+        </div>
+        <button class="btn" style="width:auto; margin:0; padding:8px 15px; background:#00ff88; color:#000;">Install</button>
+    </div>
+
     <div id="gods-eye">👁️ <span id="online-count">0</span> Users Online</div>
-    <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat with us</span></div>
+    <div id="wa-widget" onclick="window.open(`https://wa.me/${window.CFG.WA}`)"><span style="font-size:1.5rem;">💬</span><span id="wa-text">Chat</span></div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
     <div id="surge-banner" style="display:none; background:linear-gradient(90deg, #ff4d4d, #ffae00); color:white; text-align:center; padding:8px; font-weight:bold; font-size:0.85rem; letter-spacing:1px; z-index:100;">
@@ -137,9 +155,9 @@
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
         <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="icon-512.png" onerror="this.style.display='none'" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover;"></div>
         
-        <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account & Profile</span></div>
+        <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Compte / Account</span></div>
         <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
-        <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">📦 <span class="tr" data-k="mord">My Orders</span></div>
+        <div class="m-item" onclick="fUsrOrd(); toggleSidebar();">📦 <span class="tr" data-k="mord">Mes Commandes</span></div>
         
         <div style="padding: 15px; border: 1px solid var(--b); background: rgba(0,0,0,0.3); border-radius: 12px; margin: 15px 0;">
             <b style="color:var(--w);" class="tr" data-k="track">🔍 Track Order</b>
@@ -171,7 +189,6 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <!-- Click once to go home, multiple times activates hidden admin menu feature -->
             <img id="main-logo" src="icon-512.png" onerror="this.style.display='none'" class="logo" onclick="navTo('cats'); handleAdminClick();">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
@@ -193,14 +210,12 @@
         <div id="st-cnt"><div class="grid"><div class="skel-card skeleton"></div><div class="skel-card skeleton"></div></div></div>
     </div>
 
-    <!-- The Permanent Signature Footer -->
     <div style="text-align:center; padding:30px; font-size:0.85rem; color:gray; margin-top:auto; border-top:1px dashed #333; z-index:1; position:relative; background:var(--bg);">
         Made by <a href="https://www.instagram.com/_yessine_ben_fraj_?igsh=MWEzZzB4b2s5M2hmZQ==" target="_blank" style="color:var(--p); text-decoration:none; font-weight:bold;">Yessine ❤️</a>
     </div>
 
     <button class="fab-cart" onclick="opnCart(); playSnd();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
-    <!-- ADMIN SYSTEM -->
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Category')">Add Category</button>
@@ -210,7 +225,6 @@
         <button class="btn" style="margin:0; padding:10px; font-size:0.8rem; background:var(--w);" onclick="openAdminReorder()">Manage Inventory</button>
     </div>
 
-    <!-- FIXED ADMIN DASHBOARD MODAL (Now uses openModal for transitions) -->
     <div id="admin-page" class="modal">
         <div class="m-cnt" style="max-width:1000px;">
             <button onclick="closeModal('admin-page')" style="position:absolute; top:20px; right:20px; background:var(--c); border:1px solid var(--p); color:var(--p); font-weight:bold; padding:10px 20px; border-radius:10px; cursor:pointer; z-index:1000000;">Exit Admin</button>
@@ -249,15 +263,54 @@
 
             <div id="adm-users" class="admin-section"><div class="glass" style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Wallet</th><th>Spent</th><th>Actions</th></tr></thead><tbody id="a-t-users"></tbody></table></div></div>
             <div id="adm-orders" class="admin-section"><div class="glass" style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>ID</th><th>Client</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr></thead><tbody id="a-t-orders"></tbody></table></div></div>
-            <div id="adm-promo" class="admin-section"><div class="glass"><h3 style="color:var(--p); margin-top:0;">Manage Promotions</h3><select id="p-type" onchange="togglePromoFields()" style="background:#000!important; border-color:var(--p);"><option value="" disabled selected>-- Select Type to Add/Edit --</option><option value="Promo Code">🎟️ Add/Edit Promo Code</option><option value="Streak">🔥 Edit Streak Reward</option><option value="Loyalty">🛡️ Edit Loyalty Reward</option></select><div id="p-fields-wrap" style="display:none; margin-top:10px;"><input type="text" id="p-code" placeholder="" style="text-transform:uppercase;"><input type="number" id="p-pct" placeholder="Discount % (e.g. 10)"><input type="number" id="p-max" placeholder="Max Uses (0 = unlimited)"><button class="btn" onclick="savePromoCode()">Save to Database</button></div></div></div>
+            
+            <div id="adm-promo" class="admin-section">
+                <div class="glass" style="margin-bottom:15px;">
+                    <h3 style="color:var(--p); margin-top:0;">Create Promotion</h3>
+                    <select id="p-type" onchange="togglePromoFields()" style="background:#000!important; border-color:var(--p);">
+                        <option value="" disabled selected>-- Select Type to Add --</option>
+                        <option value="Promo Code">🎟️ Add Promo Code</option>
+                        <option value="Streak">🔥 Add Streak Reward</option>
+                        <option value="Loyalty">🛡️ Add Loyalty Reward</option>
+                    </select>
+                    <div id="p-fields-wrap" style="display:none; margin-top:10px;">
+                        <input type="text" id="p-code" placeholder="" style="text-transform:uppercase;">
+                        <input type="number" id="p-pct" placeholder="Discount % (e.g. 10)">
+                        <input type="number" id="p-max" placeholder="Max Uses (0 = unlimited)">
+                        <button class="btn" onclick="savePromoCode()">Save to Database</button>
+                    </div>
+                </div>
+                <div class="glass" style="overflow-x:auto;">
+                    <h3 style="color:var(--w); margin-top:0;">Existing Promos</h3>
+                    <table class="admin-table"><thead><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Used By</th><th>Actions</th></tr></thead><tbody id="a-t-promos"></tbody></table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- MODALS -->
     <div id="create-mod" class="modal"><div class="m-cnt"><h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3><form onsubmit="event.preventDefault(); submitNewItem();"><input type="text" id="a-catEn" placeholder="Category EN" required><input type="text" id="a-catFr" placeholder="Category FR" required><input type="text" id="a-catCol" placeholder="Category HEX Color (e.g. #00ff88)"><input type="text" id="a-subEn" placeholder="Subcategory EN (Optional)"><input type="text" id="a-subFr" placeholder="Subcategory FR (Optional)"><input type="text" id="a-nEn" placeholder="Item Name EN" required><input type="text" id="a-nFr" placeholder="Item Name FR" required><input type="number" id="a-price" placeholder="Selling Price (DT)" required><input type="text" id="a-img" placeholder="Image URL (ImgBB)"><label style="display:flex; align-items:center; gap:5px; margin-top:10px;"><input type="checkbox" id="a-exReq" style="width:auto; margin:0;"> Require Extra Box?</label><input type="text" id="a-exEn" placeholder="Extra Text EN (e.g. Player ID)"><input type="text" id="a-exFr" placeholder="Extra Text FR (e.g. ID Joueur)"><button type="submit" class="btn" id="b-add-item">ADD TO DB</button><button type="button" onclick="closeModal('create-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
     
-    <!-- Advanced Inline Edit Modal for Admin -->
-    <div id="edit-item-mod" class="modal"><div class="m-cnt"><h3 style="color:#ff00ff; margin-top:0;">✏️ Edit Item</h3><form onsubmit="event.preventDefault(); saveEditItem();"><input type="hidden" id="edit-i-id"><input type="text" id="edit-i-nEn" placeholder="Name EN"><input type="text" id="edit-i-nFr" placeholder="Name FR"><input type="number" id="edit-i-price" placeholder="Price (DT)" step="0.01"><input type="text" id="edit-i-folder" placeholder="Folder Name (e.g. Games)"><select id="edit-i-status" style="margin-bottom:15px;"><option value="In Stock">In Stock</option><option value="OOS">OOS (Out of Stock)</option></select><button type="submit" class="btn" style="background:#ff00ff; color:#fff;" id="b-edit-item">SAVE CHANGES</button><button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button></form></div></div>
+    <div id="edit-item-mod" class="modal">
+        <div class="m-cnt">
+            <h3 style="color:#ff00ff; margin-top:0;">✏️ Master Edit Item</h3>
+            <form onsubmit="event.preventDefault(); saveEditItem();">
+                <input type="hidden" id="edit-i-id">
+                <input type="text" id="edit-i-nEn" placeholder="Name EN">
+                <input type="text" id="edit-i-nFr" placeholder="Name FR">
+                <input type="number" id="edit-i-price" placeholder="Price (DT)" step="0.01">
+                <input type="text" id="edit-i-cat" placeholder="Category Name (e.g. Games)">
+                <input type="text" id="edit-i-sub" placeholder="Subcategory Name (Optional)">
+                <input type="text" id="edit-i-folder" placeholder="Folder Name (Optional)">
+                <input type="text" id="edit-i-img" placeholder="Image URL (ImgBB)">
+                <select id="edit-i-status" style="margin-bottom:15px;">
+                    <option value="In Stock">In Stock</option>
+                    <option value="OOS">OOS (Out of Stock)</option>
+                </select>
+                <button type="submit" class="btn" style="background:#ff00ff; color:#fff;" id="b-edit-item">SAVE CHANGES</button>
+                <button type="button" onclick="closeModal('edit-item-mod')" class="btn" style="background:transparent; border:1px solid gray; color:gray;">Cancel</button>
+            </form>
+        </div>
+    </div>
     
     <div id="reorder-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3><p style="font-size:0.8rem; color:gray;">Drag items up/down then save.</p><div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div><button class="btn" style="background:var(--w);" id="b-reorder" onclick="saveReorder()">SAVE NEW ORDER</button><button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button></div></div>
     <div id="admin-auth-modal" class="modal"><div class="m-cnt" style="text-align:center;"><h2 style="color:#ff00ff;">Admin Verification</h2><input type="password" id="admin-pass-input" placeholder="Enter Password" style="text-align:center; letter-spacing:3px;"><button class="btn" onclick="verifyAdminManual()">Authorize via Password</button><button class="btn" onclick="loginBiometrics()" style="background:#1e293b; color:#00ff88; margin-top:10px;">👆 Biometric Login</button><button onclick="addBiometrics()" style="background:none; border:none; color:var(--p); margin-top:15px; cursor:pointer; font-size: 0.85rem; text-decoration: underline;">Bind New Biometric Device</button><button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button></div></div>
@@ -405,10 +458,13 @@
         </div>
     </div>
     
+    <div id="d-mod" class="modal"><div class="m-cnt" style="max-width:800px;"><h3 id="d-tit" style="color:var(--p); margin-top:0;">Data</h3><div id="d-box" style="text-align:left; max-height:65vh; overflow-y:auto; font-size:0.85rem;"></div><button onclick="closeModal('d-mod')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
+    <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 VIP Rewards</h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;">Close</button></div></div>
+
 <script>
 const T = {
     en: { ld: "Loading Store... ⏳", srch: "Search digital assets...", add: "ADD TO CART", oos: "OUT OF STOCK", bck: "← Back", acc: "Account & Profile", pol: "Store Policy", mord: "My Orders", spin: "Spin & Win", si: "Sign In", ca: "Create Account", em: "Email", ph: "Phone", userP: "Email or Phone", pw: "Password", cp: "Create Password", log: "Log In", sndReg: "Register", canc: "Cancel", pro: "My Profile", lo: "Log Out", crt: "Cart", sub: "Subtotal: ", tot: "Total: ", chk: "Checkout", clr: "Clear", cls: "Close", sco: "Secure Checkout", fn: "Full Name", nts: "Comments or IDs", plc: "PLACE ORDER", emp: "Cart Empty", vip: "VIP Rewards", walPay: "Wallet", track: "🔍 Track Order", adminVerify: "Admin Verification", imp: "Global Importer" },
-    fr: { ld: "Chargement... ⏳", srch: "Rechercher un actif...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte & Profil", pol: "Politique Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "Email", ph: "Téléphone", userP: "Email ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou IDs de jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Wallet", track: "🔍 Suivre Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
+    fr: { ld: "Chargement de la boutique... ⏳", srch: "Rechercher des produits...", add: "AJOUTER", oos: "RUPTURE DE STOCK", bck: "← Retour", acc: "Compte et Profil", pol: "Politique de la Boutique", mord: "Mes Commandes", spin: "Tourner & Gagner", si: "Se Connecter", ca: "Créer un Compte", em: "E-mail", ph: "Téléphone", userP: "E-mail ou Téléphone", pw: "Mot de passe", cp: "Créer un Mot de passe", log: "Connexion", sndReg: "S'inscrire", canc: "Annuler", pro: "Mon Profil", lo: "Déconnexion", crt: "Panier", sub: "Sous-total : ", tot: "Total : ", chk: "Commander", clr: "Vider", cls: "Fermer", sco: "Paiement Sécurisé", fn: "Nom Complet", nts: "Commentaires ou ID de Jeu", plc: "VALIDER LA COMMANDE", emp: "Panier Vide", vip: "Récompenses VIP", walPay: "Portefeuille", track: "🔍 Suivre ma Commande", adminVerify: "Vérification Admin", imp: "Importateur Global" }
 };
 
 let db = { inv: [], rewards: [], wheel: [], ord: [], policy: [], isSurge: false, maintObj: {} }; 
@@ -421,7 +477,8 @@ let userWallet = parseFloat(localStorage.getItem('ch_wal') || 0);
 let loginStreak = parseInt(localStorage.getItem('ch_streak') || 0);
 let payM = "D17"; let proofB64 = ""; let userIP = "Unknown"; let activeDiscount = { type: "None", pct: 0, str: "" };
 
-let isTabVisible = true; let otpFlowType = 'signup'; let isDataLoaded = false;
+let isTabVisible = true; let otpFlowType = 'signup'; 
+let isDataLoaded = false;
 document.addEventListener("visibilitychange", () => { isTabVisible = !document.hidden; });
 
 let tempImportCost = 0; let tempImportFinal = 0;
@@ -538,8 +595,11 @@ function updateGodsEye(count) {
 
 function simDevice(type) {
     let b = document.body;
-    if(type === 'ios') { b.className = 'sim-ios'; toast("iOS View Activated", "info"); }
-    else if(type === 'android') { b.className = 'sim-android'; toast("Android View Activated", "info"); }
+    el('ios-pwa-prompt').style.display = 'none';
+    el('android-pwa-prompt').style.display = 'none';
+    
+    if(type === 'ios') { b.className = 'sim-ios'; el('ios-pwa-prompt').style.display = 'block'; toast("iOS View Activated", "info"); }
+    else if(type === 'android') { b.className = 'sim-android'; el('android-pwa-prompt').style.display = 'flex'; toast("Android View Activated", "info"); }
     else { b.className = ''; toast("View Reset", "success"); }
 }
 
@@ -548,17 +608,47 @@ function initParticles() {
 }
 window.addEventListener('load', initParticles);
 
+// 🎯 INSTANT LOAD CACHING & ABANDONED CART TRACKER
 function initApp() { 
     el('ui-store-name').innerText = window.CFG.NAME; appLang();
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
+    
     const urlParams = new URLSearchParams(window.location.search); 
-    if (urlParams.has('cart')) { try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} } else { let sc = localStorage.getItem('ch_cart'); if(sc && sc !== "[]") { cart = JSON.parse(sc); el('c-count').innerText = cart.length; } } 
+    if (urlParams.has('cart')) { 
+        try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.length; setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} 
+    } else { 
+        let sc = localStorage.getItem('ch_cart'); 
+        if(sc && sc !== "[]") { 
+            cart = JSON.parse(sc); 
+            el('c-count').innerText = cart.length; 
+            
+            // ABANDONED CART LOGIC
+            setTimeout(() => {
+                let msg = lang === 'fr' ? "🛒 Tu as laissé des articles dans ton panier !" : "🛒 You left items in your cart!";
+                toast(msg, "info");
+                
+                if(user) {
+                    let total = cart.reduce((s, i) => s + (i.finalPrice || i.p), 0);
+                    api('log_cart', {email: user, cart: cart, total: total});
+                }
+            }, 2500);
+        } 
+    } 
+    
+    let cachedDB = localStorage.getItem('ch_cached_db');
+    if (cachedDB) { try { db = JSON.parse(cachedDB); isDataLoaded = true; chkUI(); renderPolicy(); ren(); } catch(e) {} }
+    
     customFetch(window.CFG.SURL + "?action=get_public_data").then(d => { 
         if(d && d.status === "success") { 
+            localStorage.setItem('ch_cached_db', JSON.stringify(d));
             db = d; 
             isDataLoaded = true; 
-            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; } else { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; }
+            try { hMaint(d.maintObj); chkUI(); renderPolicy(); ren(); } catch(e) { el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>Data render error.</b></div>`; } if(db.isSurge) el('surge-banner').style.display = 'block'; 
+        } else if (!isDataLoaded) { 
+            el('st-cnt').innerHTML = `<div style="text-align:center;padding:20px;color:#ff4d4d;"><b>API Offline.</b></div>`; 
+        }
     }); 
+    
     fetchSafeIP().then(ip => { userIP = ip; setInterval(() => { if(isTabVisible) { api('ping', { ip: role==='Admin' ? 'Admin' : (userIP || 'Guest') }).then(res => { if(res && res.success) updateGodsEye(res.count); }); } }, 15000); }); 
 }
 
@@ -582,12 +672,11 @@ function renderPolicy() {
     el('pol-content').innerHTML = h; 
 }
 
+// --- ADMIN DASHBOARD & EDITS ---
 let adminDataCache = {};
 function toggleAdminMenu() { let m = el('admin-menu-popup'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
 function openAdminCreate(type) { 
-    toggleAdminMenu(); 
-    openModal('create-mod'); 
-    el('admin-creation-title').innerText = "📦 Create " + type; 
+    toggleAdminMenu(); openModal('create-mod'); el('admin-creation-title').innerText = "📦 Create " + type; 
     if (type === 'Subcategory') { el('a-subEn').required = true; el('a-subFr').required = true; } else { el('a-subEn').required = false; el('a-subFr').required = false; }
 }
 
@@ -600,7 +689,7 @@ async function saveReorder() { toast("Saving order to DB...", "info"); let nodes
 
 async function openAdminDashboard() { 
     toast("Fetching secured databases...", "info"); let res = await api('admin_fetch_all', {adminPass: window.CFG.PASS});
-    if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); } else { toast("Failed to fetch admin data", "error"); }
+    if(res && res.s === 'ok') { adminDataCache = res; openModal('admin-page'); renderAdminUsers(); renderAdminOrders(); renderAdminPromos(); } else { toast("Failed to fetch admin data", "error"); }
 }
 function switchAdminTab(tabId) { document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); event.target.classList.add('active'); el('adm-' + tabId).classList.add('active'); }
 
@@ -619,15 +708,33 @@ function renderAdminOrders() {
 }
 async function admOrderAction(id, status) { let res = await api('admin_update_order', {adminPass: window.CFG.PASS, orderId: id, status}); if(res && res.s === 'ok') toast("Order updated", "success"); else toast("Failed", "error"); }
 
+function renderAdminPromos() {
+    let tbody = el('a-t-promos'); tbody.innerHTML = ''; let pObjs = mapSheetToObjects(db.rewards);
+    pObjs.forEach(p => { if(p['Code'] && p['--- PROMO CODES ---']) { tbody.innerHTML += `<tr><td><b>${p['Code']}</b></td><td>${p['Discount %']}%</td><td>${p['Used Count'] || 0} / ${p['Max Uses'] || '∞'}</td><td style="font-size:0.7rem; max-width:150px; overflow:hidden; text-overflow:ellipsis;" title="${p['Used By'] || 'None'}">${p['Used By'] || 'None'}</td><td><button class="btn" style="padding:5px; background:#ff4d4d; color:white; font-size:0.7rem; margin:0;" onclick="admDeletePromo('Promo Code', '${p['Code']}')">Delete</button></td></tr>`; } });
+}
+
 function togglePromoFields() { let t = el('p-type').value; if(t === 'Promo Code') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Code (e.g. SUMMER20)"; el('p-max').style.display = 'block'; } else if(t === 'Streak') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Days Needed (e.g. 7)"; el('p-max').style.display = 'none'; } else if(t === 'Loyalty') { el('p-fields-wrap').style.display='block'; el('p-code').placeholder = "Orders Needed (e.g. 5)"; el('p-max').style.display = 'none'; } else { el('p-fields-wrap').style.display='none'; } }
-async function savePromoCode() { let t = el('p-type').value; let code = el('p-code').value; let pct = el('p-pct').value; let max = el('p-max').value; if(!code || !pct) return toast("Need rule and %", "error"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, type: t, rule: code, pct: pct, max: max, active: true}); if(res && res.s==='ok') toast("Promo Saved", "success"); }
+async function savePromoCode() { let t = el('p-type').value; let code = el('p-code').value; let pct = el('p-pct').value; let max = el('p-max').value; if(!code || !pct) return toast("Need rule and %", "error"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'add', type: t, rule: code, pct: pct, max: max, active: true}); if(res && res.s==='ok') { toast("Promo Saved", "success"); openAdminDashboard(); } }
+async function admDeletePromo(type, rule) { if(confirm("Delete this promo code permanently?")) { toast("Deleting...", "info"); let res = await api('admin_update_promo', {adminPass: window.CFG.PASS, action: 'delete', type: type, rule: rule}); if(res && res.s === 'ok') { toast("Promo Deleted", "success"); openAdminDashboard(); } } }
 
 async function sendStoreMaint(closed) { let msg = el('adm-m-msg').value; let hrs = el('adm-m-hrs').value; let dt = el('adm-m-date').value; let bands = el('adm-m-bands').checked; let timerVal = ""; if(closed) { if(dt) { timerVal = new Date(dt).getTime(); } else if(hrs && !isNaN(parseFloat(hrs))) { timerVal = Date.now() + (parseFloat(hrs) * 60 * 60 * 1000); } } let res = await api('maint', {adminPass: window.CFG.PASS, closed, msg, timer: timerVal, bands}); if(res && res.s==='ok') { toast("Store status updated", "success"); setTimeout(()=>location.reload(true), 1500); } }
 async function nukeAppCache() { toast("Nuking cache...", "info"); let d = await api('nuke_cache', {adminPass: window.CFG.PASS}); if(d && d.s === 'ok') { toast("Cache nuked!", false); setTimeout(()=>location.reload(true), 2000); } }
 async function submitNewItem() { el('b-add-item').innerText = "..."; let payload = { act: "add_item", adminPass: window.CFG.PASS, catEn: el('a-catEn').value, catFr: el('a-catFr').value, catCol: el('a-catCol').value, subEn: el('a-subEn').value, subFr: el('a-subFr').value, nEn: el('a-nEn').value, nFr: el('a-nFr').value, price: el('a-price').value, img: el('a-img').value, exReq: el('a-exReq').checked, exEn: el('a-exEn').value, exFr: el('a-exFr').value }; let d = await api('add_item', payload); if(d && d.s === 'ok') { toast("Item Added!", false); closeModal('create-mod'); } el('b-add-item').innerText = "ADD TO DB"; }
 
-function admEditItem(id, nEn, nFr, p, status) { el('edit-i-id').value = id; el('edit-i-nEn').value = nEn; el('edit-i-nFr').value = nFr; el('edit-i-price').value = p; el('edit-i-status').value = status; openModal('edit-item-mod'); }
-async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value, folder: el('edit-i-folder').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
+function admEditItem(id, nEn, nFr, p, status, cat, subCat, img) { el('edit-i-id').value = id; el('edit-i-nEn').value = nEn; el('edit-i-nFr').value = nFr; el('edit-i-price').value = p; el('edit-i-status').value = status; el('edit-i-cat').value = decodeURIComponent(cat||''); el('edit-i-sub').value = decodeURIComponent(subCat||''); el('edit-i-img').value = decodeURIComponent(img||''); openModal('edit-item-mod'); }
+async function saveEditItem() { el('b-edit-item').innerText = "..."; let p = { act: "edit_item", adminPass: window.CFG.PASS, id: el('edit-i-id').value, nEn: el('edit-i-nEn').value, nFr: el('edit-i-nFr').value, price: el('edit-i-price').value, status: el('edit-i-status').value, cat: el('edit-i-cat').value, subCat: el('edit-i-sub').value, img: el('edit-i-img').value }; let d = await api('edit_item', p); if(d && d.s === 'ok') { toast("Item Updated!", "success"); closeModal('edit-item-mod'); location.reload(); } el('b-edit-item').innerText = "SAVE CHANGES"; }
+
+function dragStart(e, id) { e.dataTransfer.setData('text/plain', id); e.target.classList.add('dragging'); }
+function dragEnd(e) { e.target.classList.remove('dragging'); }
+function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function dragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+async function dropItem(e, folderName) { 
+    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+    let id = e.dataTransfer.getData('text/plain'); if(!id) return;
+    toast(`Moving item to ${folderName}...`, "info");
+    let res = await api('edit_item', {adminPass: window.CFG.PASS, id: id, folder: folderName});
+    if(res && res.s === 'ok') { toast("Item Moved!", "success"); location.reload(); } else { toast("Failed to move", "error"); }
+}
 
 // --- OTP & REGISTRATION ---
 let tempReg = {};
@@ -671,19 +778,6 @@ const b64ToArray = (str) => Uint8Array.from(atob(str || ''), c => c.charCodeAt(0
 async function addBiometrics() { let pw = el('admin-pass-input') ? el('admin-pass-input').value : null; if(role === 'Admin' && pw !== window.CFG.PASS) return toast("Enter Master Password in the input to bind device", "error"); if (!window.PublicKeyCredential) return toast("Biometrics not supported.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), rp: { name: "CyberHub" }, user: { id: new Uint8Array(16), name: user||"Admin", displayName: user||"Admin" }, pubKeyCredParams: [{ type: "public-key", alg: -7 }] } }; const cred = await navigator.credentials.create(options); localStorage.setItem(role==='Admin'?'ch_passkey_Admin':'ch_passkey_User', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); toast("Biometrics linked successfully!", "success"); } catch(err) { toast("Registration failed.", "error"); } }
 async function loginBiometrics() { let savedId = localStorage.getItem('ch_passkey_Admin'); if(!savedId) return toast("No biometrics linked.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); el('admin-pass-input').value = window.CFG.PASS; verifyAdminManual(); } catch(err) { toast("Biometric failed.", "error"); } }
 async function revealPassword() { let savedId = localStorage.getItem('ch_passkey_User'); if(!savedId) return toast("Bind a device first to use vault.", "error"); try { const options = { publicKey: { challenge: new Uint8Array(32), allowCredentials: [{ type: "public-key", id: b64ToArray(savedId) }] } }; await navigator.credentials.get(options); let res = await api('get_password', {email: user}); if(res && res.s === 'ok') { el('pw-reveal-box').innerText = res.pwd; el('pw-reveal-box').style.display = 'block'; } else { toast("Vault Error", "error"); } } catch(err) { toast("Verification failed.", "error"); } }
-
-// 🎯 DRAG AND DROP ENGINE FOR ADMIN
-function dragStart(e, id) { e.dataTransfer.setData('text/plain', id); e.target.classList.add('dragging'); }
-function dragEnd(e) { e.target.classList.remove('dragging'); }
-function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-function dragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-async function dropItem(e, folderName) { 
-    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-    let id = e.dataTransfer.getData('text/plain'); if(!id) return;
-    toast(`Moving item to ${folderName}...`, "info");
-    let res = await api('edit_item', {adminPass: window.CFG.PASS, id: id, folder: folderName});
-    if(res && res.s === 'ok') { toast("Item Moved!", "success"); location.reload(); } else { toast("Failed to move", "error"); }
-}
 
 function ren() { 
     try {
@@ -736,7 +830,6 @@ function ren() {
         a.innerHTML = hHtml; 
     } catch(err) { console.error(err); el('st-cnt').innerHTML = `<div style="text-align:center;padding:40px;color:#ff4d4d;"><b>UI Render Error</b><br>Please check Google Sheet formatting.<br><small>${err.message}</small></div>`; }
 }
-
 function navTo(t, c, a) { cView.t = t; cView.c = c ? decodeURIComponent(c) : null; cView.a = a ? decodeURIComponent(a) : null; el('itemFinder').value = ""; ren(); }
 function highlightMatch(text, query) { if(!query) return text; let regex = new RegExp(`(${query})`, "gi"); return text.replace(regex, "<span style='color:var(--w); text-shadow:0 0 8px var(--w); font-weight:bold;'>$1</span>"); }
 
@@ -754,7 +847,7 @@ function dR(i, q = "") {
     else if(isImport) { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="openModal('import-mod'); if(navigator.vibrate) navigator.vibrate(50);">CALCULATE & ADD</button>`; } 
     else { b = `<button class="btn" style="margin:0;background:${btnCol};color:#000;" onclick="addC('${eO}',${i.p},'${eN}',${i.exReq}, ${exCount}); if(navigator.vibrate) navigator.vibrate(50);">ADD</button>`; }
 
-    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.p}, '${i.status}', '${sEnc(i.fldN)}')">EDIT</div>` : '';
+    let adminEditHtml = role === 'Admin' ? `<div class="edit-badge" onclick="admEditItem('${i.id}', '${sEnc(i.nEn)}', '${sEnc(i.nFr)}', ${i.p}, '${i.status}', '${sEnc(i.cat)}', '${sEnc(i.sub)}', '${sEnc(i.img)}')">EDIT</div>` : '';
     let dragTag = role === 'Admin' ? `draggable="true" ondragstart="dragStart(event, '${i.id}')" ondragend="dragEnd(event)"` : '';
 
     return `<div class="i-row" ${dragTag} style="border-left:3px solid ${btnCol};" data-id="${i.id}">${adminEditHtml}<div style="display:flex;justify-content:space-between;align-items:flex-start;">${imgHtml}<div style="flex:1;">${catHtml}<span style="font-weight:900;font-size:1.15rem;color:#fff;">${nDisp}</span><br><span style="color:rgba(255,255,255,0.4);font-size:0.75rem;font-family:monospace;">ID: ${i.id}</span>${revHtml}<b style="color:${btnCol};font-size:1.25rem;margin-top:3px;display:block;">${i.p} DT</b>${wrnHtml}</div><div style="width:140px;text-align:right;margin-left:10px;">${extHtml}${b}</div></div></div>`; 
@@ -794,7 +887,6 @@ function shareCart() { if (cart.length === 0) return toast("Cart Empty", "error"
 function opnCO() { 
     if(cart.length === 0) return toast("Cart Empty", "error"); 
     
-    // Auto-fill contact info if saved
     let savedContact = localStorage.getItem('ch_contact');
     if(savedContact) { el('coC').value = savedContact; }
     
@@ -844,7 +936,7 @@ function sPay(m) {
         else if(m === 'Cash Hammam-Lif') { el('ui-d17-in').innerHTML = `📍 Hammam-Lif Center`; el('qr-d17').style.display='none'; el('ui-pay-inst').innerText = "Hand Delivery Location:"; if(el('upload-section-wrap')) el('upload-section-wrap').style.display = 'none'; } 
     } else { dbox.style.display = 'none'; } 
     
-    applySingleDiscount(); // Recalculate fees
+    applySingleDiscount(); 
 }
 
 function dzOver(e) { e.preventDefault(); el('drop-zone').classList.add('active'); }
@@ -875,14 +967,13 @@ async function finOrd() {
     el('b-fin').innerHTML = `...`; el('b-fin').disabled = true; 
     
     try { 
-        let payload = { act: "place_order", name: n, contact: c, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", payMethod: payM, comments: cm, email: user || "Guest", txId: txid, proofB64: proofB64, total: total.toFixed(2) }; 
+        let payload = { act: "place_order", name: n, contact: c, cart: cart, discount: activeDiscount.str + " (" + activeDiscount.pct + "%)", promoCode: activeDiscount.type === "Promo" ? activeDiscount.str : null, payMethod: payM, comments: cm, email: user || "Guest", txId: txid, proofB64: proofB64, total: total.toFixed(2) }; 
         let d = await api("place_order", payload); 
         if(d && d.s === "ok") { 
             if(payM === 'Wallet') { userWallet -= total; localStorage.setItem('ch_wal', userWallet); chkUI(); } 
             if(activeDiscount.type === "Streak") { localStorage.setItem('ch_streak', 0); loginStreak = 0; } 
             if(activeDiscount.type === "Wheel") { localStorage.setItem('ch_wheel_win', 'false'); } 
             
-            // Save the contact info locally for next time
             localStorage.setItem('ch_contact', c);
             
             let inv = `╔══════════════════════════════════╗\n║     💎 CYBERHUB ORDER TICKET     ║\n╚══════════════════════════════════╝\n👤 Client: ${n}\n🏷️ ID: ${d.gId}\n💰 Final Total: ${total.toFixed(2)} DT\n💳 Pay: ${payM}\n\n📦 **ITEMS ORDERED:**\n\n`; 
