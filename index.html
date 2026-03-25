@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     
-    <!-- 🎯 PERMANENT CLOUD LOGO URL -->
-    <link rel="icon" type="image/png" id="fav-icon" href="https://i.ibb.co/60V0Z7S/icon-512.png">
+    <link rel="icon" type="image/svg+xml" id="fav-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjMDBmMGZmIiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmFlMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNIPC90ZXh0Pjwvc3ZnPg==">
     <meta name="theme-color" content="#050b14">
     <link rel="manifest" href="manifest.json">
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 
-    <!-- 🔥 FIREBASE PUSH NOTIFICATIONS SDK (FREE) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 
@@ -44,7 +43,6 @@
     <style>
         :root { --p: #00f0ff; --bg: #050b14; --c: rgba(10,15,30,0.8); --b: rgba(0,240,255,0.2); --w: #ffae00; }
         
-        /* 🎯 PERFECT FONT RENDERING & KERNING FIX */
         @font-face { 
             font-family: 'ColorEmoji'; 
             src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('Segoe UI Symbol'), local('Noto Color Emoji'); 
@@ -69,7 +67,7 @@
             transition: background 0.4s; 
         }
         
-        /* 📱 SIMULATOR ENVELOPE FIX */
+        /* 📱 SIMULATOR ENVELOPE */
         #app-frame { position: relative; width: 100%; min-height: 100vh; background: transparent; overflow-x: hidden; overflow-y: auto; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; }
         body.modal-open #app-frame { overflow: hidden; }
         
@@ -78,7 +76,6 @@
         body.sim-android { background: #000; align-items: center; padding: 40px 0; }
         body.sim-android #app-frame { width: 412px; height: 915px; min-height: auto; border-radius: 20px; outline: 10px solid #111; box-shadow: 0 20px 50px rgba(255,255,255,0.05); background: var(--bg); }
 
-        /* Fix absolute elements inside simulator */
         .sim-ios .modal, .sim-android .modal, .sim-ios #sidebar, .sim-android #sidebar, .sim-ios .fab-cart, .sim-android .fab-cart, .sim-ios .maint-stripes, .sim-android .maint-stripes, .sim-ios #terminal-ui, .sim-android #terminal-ui, .sim-ios #coming-soon-ui, .sim-android #coming-soon-ui, .sim-ios #cart-action-mod, .sim-android #cart-action-mod { position: absolute; }
 
         input, select, textarea, button, .btn { font-family: inherit; }
@@ -128,12 +125,10 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* 🚧 MAINTENANCE BANDS UPGRADE */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 30px, #111 30px, #111 60px); display: none; height: 60px; opacity: 0.95; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; line-height: 60px; text-align: center; font-size: 2rem; font-weight: 900; color: #000; letter-spacing: 15px; white-space: nowrap; overflow: hidden; text-shadow: 2px 2px 0px #fff; }
         #stripe-1 { transform: translate(-50%, -50%) rotate(45deg); }
         #stripe-2 { transform: translate(-50%, -50%) rotate(-45deg); }
 
-        /* ADMIN CSS */
         #admin-page { z-index: 100000; padding: 0; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -144,7 +139,6 @@
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid var(--b); text-align: left; }
         .admin-table th { background: rgba(0,240,255,0.1); color: var(--p); }
 
-        /* 🎨 TRI-STATE ORDER FILTERING */
         .order-filter-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; }
         .order-filter-btn.act { background: var(--p); color: #000; font-weight: bold; }
 
@@ -162,7 +156,6 @@
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
         .edit-badge { position: absolute; top: 10px; right: 10px; background: #ff00ff; color: #fff; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; z-index: 5;}
         
-        /* 🎮 CYBERPUNK TERMINAL OVERLAY */
         #terminal-ui { display:none; position:absolute; inset:0; background:rgba(0,0,0,0.95); z-index:200000; flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; font-family:monospace; color:#00ff88; text-shadow:0 0 10px #00ff88; font-size:1.2rem; }
         .term-line { margin: 5px 0; opacity: 0; animation: typeLine 0.5s forwards; }
         @keyframes typeLine { to { opacity: 1; } }
@@ -170,12 +163,10 @@
         .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .badge { background: #ff4d4d; color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; vertical-align: middle; margin-left: 5px; }
         
-        /* 📸 ImgBB Drag and Drop styling */
         .imgbb-dropzone { border: 2px dashed var(--p); padding: 15px; text-align: center; border-radius: 10px; background: rgba(0,240,255,0.05); cursor: pointer; transition: 0.3s; margin-top: 8px; }
         .imgbb-dropzone.dragover { background: rgba(0,240,255,0.2); transform: scale(1.02); }
         .imgbb-dropzone p { margin: 0; font-size: 0.8rem; color: var(--p); font-weight: bold; }
         
-        /* 🛒 Cart Action Modal */
         #cart-action-mod { display:none; position:absolute; inset:0; background:rgba(0,0,0,0.8); z-index:150000; justify-content:center; align-items:flex-end; padding-bottom:50px; }
         .ca-box { background:var(--bg); border:1px solid var(--p); padding:20px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 10px 40px var(--b); animation: slideUp 0.3s forwards; }
         @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -191,16 +182,14 @@
 
     <div id="terminal-ui"><div id="term-text"></div></div>
     
-    <!-- 🚧 COMING SOON OVERLAY -->
     <div id="coming-soon-ui" style="display:none; position:absolute; inset:0; background:#050b14; z-index:9999999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
-        <img src="https://i.ibb.co/60V0Z7S/icon-512.png" style="width:120px; border-radius:50%; border:3px solid var(--p); margin-bottom:20px; box-shadow: 0 0 30px var(--p);">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjMDBmMGZmIiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmFlMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNIPC90ZXh0Pjwvc3ZnPg==" style="width:120px; border-radius:50%; margin-bottom:20px; box-shadow: 0 0 30px var(--p);">
         <h1 style="color:var(--p); letter-spacing:4px; margin:0; font-weight:900;">COMING SOON</h1>
         <p style="color:gray; font-size:1.1rem; margin-top:10px;" class="tr" data-k="csDesc">We are preparing something amazing.</p>
         <div id="cs-timer" style="font-family:monospace; font-size:3rem; font-weight:900; color:#ffae00; margin:20px 0; text-shadow:0 0 15px rgba(255,174,0,0.5);">00:00:00:00</div>
         <button class="btn" id="cs-ig-btn" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color:#fff; max-width:300px;">Follow our Instagram</button>
     </div>
 
-    <!-- 🛒 ADD TO CART ACTION MODAL -->
     <div id="cart-action-mod">
         <div class="ca-box">
             <h3 style="color:#00ff88; margin-top:0;">✅ Added to Cart</h3>
@@ -209,23 +198,9 @@
         </div>
     </div>
 
-    <!-- PWA Prompts -->
-    <div id="ios-pwa-prompt" style="display:none; position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.9); color:#000; padding:15px; border-radius:15px; width:90%; text-align:center; font-weight:bold; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:9999;">
-        Tap <span style="font-size:1.5rem;">⏍</span> and then "Add to Home Screen" to install CyberHub.
-        <div style="width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid rgba(255,255,255,0.9); position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);"></div>
-    </div>
-    <div id="android-pwa-prompt" style="display:none; position:absolute; bottom:0; left:0; width:100%; background:#fff; color:#000; padding:15px; border-radius:15px 15px 0 0; justify-content:space-between; align-items:center; box-shadow:0 -10px 30px rgba(0,0,0,0.5); z-index:9999; box-sizing: border-box;">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <img src="https://i.ibb.co/60V0Z7S/icon-512.png" style="width:40px; height:40px; border-radius:10px;">
-            <div style="text-align:left; line-height:1.2;"><b>CyberHub</b><br><span style="font-size:0.75rem; color:gray;">Add to Home screen</span></div>
-        </div>
-        <button class="btn" style="width:auto; margin:0; padding:8px 15px; background:#00ff88; color:#000;">Install</button>
-    </div>
-
     <div id="gods-eye">👁️ <span id="online-count">0</span> Users Online</div>
     <div id="toast" class="toast"><span id="t-msg"></span></div>
 
-    <!-- Banners -->
     <div id="flash-banner" style="display:none; background:linear-gradient(90deg, #ff00ff, #00f0ff); color:white; text-align:center; padding:10px; font-weight:900; font-size:1rem; letter-spacing:2px; z-index:100; box-shadow: 0 5px 15px rgba(255,0,255,0.4);">
         ⚡ FLASH SALE ACTIVE ⚡ <span id="flash-timer" style="margin-left:10px;"></span>
     </div>
@@ -235,7 +210,7 @@
 
     <div id="sidebar">
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
-        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="https://i.ibb.co/60V0Z7S/icon-512.png" id="sidebar-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover; background:#111;"></div>
+        <div style="text-align:center; margin-top:20px; margin-bottom:30px;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjMDBmMGZmIiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmFlMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNIPC90ZXh0Pjwvc3ZnPg==" id="sidebar-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover; background:#111;"></div>
         
         <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account</span></div>
         <div class="m-item" onclick="openModal('pol-mod'); toggleSidebar();">📜 <span class="tr" data-k="pol">Store Policy</span></div>
@@ -252,7 +227,6 @@
         <div class="m-item" onclick="openModal('import-mod'); toggleSidebar();" style="color:#00f0ff; border-color:#00f0ff;">🌍 <span class="tr" data-k="imp">Global Importer</span></div>
         <div class="m-item" onclick="openModal('srv-mod'); toggleSidebar();" style="color:#ffae00; border-color:#ffae00;">🛠️ <span class="tr" data-k="custSrv">Custom Service</span></div>
         
-        <!-- Contact Section -->
         <div style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.05); border-radius:10px;">
             <b style="color:var(--p); font-size:0.9rem;" class="tr" data-k="contUs">Contact Us</b>
             <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
@@ -281,7 +255,7 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="main-logo" src="https://i.ibb.co/60V0Z7S/icon-512.png" class="logo" onclick="navTo('cats'); handleAdminClick();">
+            <img id="main-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjMDBmMGZmIiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmFlMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNIPC90ZXh0Pjwvc3ZnPg==" class="logo" onclick="navTo('cats'); handleAdminClick();">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
@@ -294,7 +268,7 @@
                 <input type="text" class="hp-hider" tabindex="-1" autocomplete="username">
                 <input type="email" class="hp-hider" tabindex="-1" autocomplete="email">
                 <input type="password" class="hp-hider" tabindex="-1" autocomplete="current-password">
-                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" class="glass tr-ph" data-k="srch" placeholder="Search digital assets... (Secret: ADMINMODEACTIVATE)" oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
+                <input type="text" id="itemFinder" autocomplete="new-password" spellcheck="false" role="presentation" class="glass tr-ph" data-k="srch" placeholder="Search digital assets..." oninput="ren()" style="width:100%; margin-bottom:15px; padding-right:50px;">
             </form>
             <button onclick="stVoiceSearch()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">🎤</button>
         </div>
@@ -302,7 +276,6 @@
         <div id="st-cnt"><div class="grid"><div class="skel-card skeleton"></div><div class="skel-card skeleton"></div></div></div>
     </div>
 
-    <!-- Footer -->
     <div style="text-align:center; padding:30px; font-size:0.85rem; color:gray; margin-top:auto; border-top:1px dashed #333; z-index:1; position:relative; background:transparent;">
         Made by <a href="#" id="f-pers-ig" target="_blank" style="color:var(--p); text-decoration:none; font-weight:bold;">Yessine ❤️</a>
         <br><button class="btn" style="background:#111; border:1px solid #ffae00; color:#ffae00; padding:8px 15px; font-size:0.75rem; margin-top:15px; width:auto; box-shadow:0 0 10px rgba(255,174,0,0.3);" onclick="buyCoffee()">☕ Buy Yessine a Coffee</button>
@@ -310,7 +283,6 @@
 
     <button class="fab-cart" onclick="opnCart();">🛒<div id="c-count" style="position:absolute; top:-5px; right:-5px; background:#fff; color:#000; font-size:0.75rem; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900;">0</div></button>
 
-    <!-- ADMIN SYSTEM POPUP -->
     <button class="admin-fab" id="admin-fab" onclick="toggleAdminMenu()">+</button>
     <div id="admin-menu-popup" class="glass">
         <button class="btn admin-only" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminEditCat(); toggleAdminMenu();">✏️ Edit Categories</button>
@@ -319,7 +291,6 @@
         <button class="btn admin-only" style="margin:0; padding:10px; font-size:0.8rem;" onclick="openAdminCreate('Item')">Add Item</button>
     </div>
 
-    <!-- GOD MODE & MODERATOR DASHBOARD -->
     <div id="admin-page" class="modal">
         <div class="m-cnt" style="max-width:1000px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -342,7 +313,6 @@
                 <div class="admin-tab admin-only" onclick="switchAdminTab('security')" style="color:#ff4d4d; border-color:#ff4d4d;">🚨 Security</div>
             </div>
 
-            <!-- CONTROLS -->
             <div id="adm-ctrl" class="admin-section active admin-only">
                 <div class="glass" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
                     <button class="btn" style="background:#555; color:#fff; flex:1;" onclick="simDevice('ios')">📱 iOS View</button>
@@ -388,10 +358,8 @@
                 <div class="glass"><h3 style="color:#ff4d4d; margin-top:0;">💥 Global Cache Nuke</h3><button class="btn" style="background:#ff4d4d; color:#fff;" onclick="nukeAppCache()">FORCE REFRESH ALL USERS</button></div>
             </div>
 
-            <!-- USERS -->
             <div id="adm-users" class="admin-section admin-only"><div class="glass" style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Wallet</th><th>Spent</th><th>Actions</th></tr></thead><tbody id="a-t-users"></tbody></table></div></div>
             
-            <!-- ORDERS (TRI-STATE) -->
             <div id="adm-orders" class="admin-section mod-allow">
                 <div class="glass" style="margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap;">
                     <button class="order-filter-btn act" onclick="filterOrders('All', this)">All</button>
@@ -405,7 +373,6 @@
                 </div>
             </div>
 
-            <!-- REQUESTS (NEW) -->
             <div id="adm-reqs" class="admin-section mod-allow">
                 <div class="glass" style="border-color:#ffae00; background:rgba(255,174,0,0.05); overflow-x:auto;">
                     <h3 style="color:#ffae00; margin-top:0;">🛠️ Custom Service Requests</h3>
@@ -413,7 +380,6 @@
                 </div>
             </div>
 
-            <!-- FINANCE -->
             <div id="adm-finance" class="admin-section admin-only">
                 <div class="glass" style="border-color:#ffae00; background:rgba(255,174,0,0.05);">
                     <h3 style="color:#ffae00; margin-top:0;">💰 Financial Overview</h3>
@@ -429,7 +395,6 @@
                 </div>
             </div>
 
-            <!-- FLASH SALE -->
             <div id="adm-flash" class="admin-section admin-only">
                 <div class="glass" style="border-color:#00f0ff; background:rgba(0,240,255,0.05);">
                     <h3 style="color:#00f0ff; margin-top:0;">⚡ Master Flash Sale Engine</h3>
@@ -448,7 +413,6 @@
                 </div>
             </div>
 
-            <!-- INFO & CONFIG -->
             <div id="adm-audio" class="admin-section admin-only">
                 <div class="glass">
                     <h3 style="color:#00ff88; margin-top:0;">📱 Store Info (Sidebar & PDF)</h3>
@@ -465,7 +429,6 @@
                 </div>
             </div>
 
-            <!-- PROMOS -->
             <div id="adm-promo" class="admin-section admin-only">
                 <div class="glass" style="margin-bottom:15px;">
                     <h3 style="color:var(--p); margin-top:0;">Create Promotion</h3>
@@ -488,12 +451,10 @@
                 </div>
             </div>
             
-            <!-- SECURITY -->
             <div id="adm-security" class="admin-section admin-only"><div class="glass" style="border-color:#ff4d4d; background:rgba(255,77,77,0.05); overflow-x:auto;"><h3 style="color:#ff4d4d; margin-top:0;">🚨 Active Threat Logs</h3><table class="admin-table"><thead><tr><th>Date</th><th>IP Address</th><th>Email</th><th>Threat</th><th>Reason</th></tr></thead><tbody id="a-t-sec"></tbody></table></div></div>
         </div>
     </div>
     
-    <!-- EDIT CATEGORIES MODAL -->
     <div id="admin-edit-cat-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:#ffae00; margin-top:0;">✏️ Edit Categories</h3>
@@ -510,7 +471,6 @@
         </div>
     </div>
 
-    <!-- CREATE ITEM MODAL (WITH IMGBB DROPZONE) -->
     <div id="create-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:#00ff88; margin-top:0;" id="admin-creation-title">📦 Create Item</h3>
@@ -540,7 +500,6 @@
         </div>
     </div>
     
-    <!-- MASTER EDIT ITEM MODAL (WITH IMGBB DROPZONE) -->
     <div id="edit-item-mod" class="modal">
         <div class="m-cnt">
             <h3 style="color:#ff00ff; margin-top:0;">✏️ Master Edit Item</h3>
@@ -577,7 +536,6 @@
     
     <div id="reorder-mod" class="modal"><div class="m-cnt"><h3 style="color:var(--w); margin-top:0;">↕️ Manage Inventory Order</h3><p style="font-size:0.8rem; color:gray;">Drag items up/down then save.</p><div id="reorder-list" style="max-height:50vh; overflow-y:auto; padding-right:10px;"></div><button class="btn" style="background:var(--w);" id="b-reorder" onclick="saveReorder()">SAVE NEW ORDER</button><button class="btn" style="background:transparent; border:1px solid gray; color:gray;" onclick="closeModal('reorder-mod')">Cancel</button></div></div>
     
-    <!-- ADMIN AUTH MODAL -->
     <div id="admin-auth-modal" class="modal">
         <div class="m-cnt" style="text-align:center;">
             <h2 style="color:#ff00ff;">Admin / Moderator Login</h2>
@@ -589,8 +547,6 @@
             <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button>
         </div>
     </div>
-    
-    <!-- LOGIN / REGISTER MODALS -->
     <div id="log-mod" class="modal">
         <div class="m-cnt">
             <div id="l-step">
@@ -635,17 +591,14 @@
         </div>
     </div>
 
-    <!-- PROFILE MODAL -->
     <div id="prof-mod" class="modal">
         <div class="m-cnt" style="text-align:center;">
             <h3 style="color:var(--p); margin-top:0;">👤 <span class="tr" data-k="pro">My Profile</span></h3>
             <img src="" id="p-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); background:#111; margin:0 auto 10px auto; display:block;">
             <p style="color:gray; font-size:0.9rem; margin-bottom:5px;" id="p-uid"></p>
             
-            <!-- 🔔 PUSH NOTIFICATION REQUEST -->
             <button class="btn" style="background:linear-gradient(45deg, #00f0ff, #00ff88); color:#000; padding:10px; margin-bottom:15px; font-size:0.85rem;" onclick="requestPushPermission()">🔔 Enable Web Notifications</button>
 
-            <!-- Link Socials -->
             <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:15px; text-align:left;">
                 <b style="font-size:0.85rem; color:var(--p);">Link Socials (Faster Checkout)</b>
                 <input type="text" id="prof-ig" placeholder="Instagram (@username)" style="padding:10px; font-size:0.85rem; margin-top:5px;">
@@ -653,7 +606,6 @@
                 <button class="btn" style="padding:10px; font-size:0.8rem;" onclick="saveProfileSocials()">Save Profile</button>
             </div>
 
-            <!-- Affiliate Section -->
             <div style="background:rgba(255,174,0,0.1); border:1px solid #ffae00; padding:15px; border-radius:10px; margin-bottom:15px; text-align:center;">
                 <b style="font-size:0.85rem; color:var(--w);">🤝 Affiliate Link</b>
                 <p style="font-size:0.7rem; color:gray; margin:5px 0;">Share this link. You have <b style="color:#fff;" id="p-ref-count">0</b> sign-ups!</p>
@@ -661,7 +613,6 @@
                 <button class="btn" style="background:#ffae00; color:#000; padding:8px; font-size:0.75rem; margin-top:5px;" onclick="copyRef()">COPY LINK</button>
             </div>
             
-            <!-- Gift Card Redeemer -->
             <div style="background:rgba(255,0,255,0.1); border:1px dashed #ff00ff; padding:15px; border-radius:10px; margin-bottom:15px;">
                 <b style="font-size:0.85rem; color:#ff00ff;">🎁 Redeem Gift Card</b>
                 <div style="display:flex; gap:5px; margin-top:5px;">
@@ -689,7 +640,6 @@
         </div>
     </div>
 
-    <!-- CART MODAL -->
     <div id="cart-mod" class="modal">
         <div class="m-cnt">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -708,7 +658,6 @@
         </div>
     </div>
 
-    <!-- CHECKOUT MODAL -->
     <div id="co-mod" class="modal">
         <div class="m-cnt">
             <div id="co-form">
@@ -718,7 +667,6 @@
                     <span style="color:#ff4d4d; font-size:0.8rem; font-weight:bold;">⚠️ Guest Mode: Please provide your Instagram Username or WhatsApp Number below so we can reach you!</span>
                 </div>
 
-                <!-- 🎯 CHECKOUT CART REVIEW WITH EXTRA BOXES -->
                 <div style="background:rgba(0,0,0,0.3); border:1px solid #333; padding:10px; border-radius:10px; margin-bottom:15px; max-height:200px; overflow-y:auto;" id="co-review-list"></div>
 
                 <div style="background:rgba(0,0,0,0.5); border:1px solid var(--b); padding:15px; border-radius:10px; margin-bottom:15px;">
@@ -749,7 +697,7 @@
                     <div id="pay-reveal" style="text-align:center;">
                         <span style="color:gray; font-size:0.85rem;" id="ui-pay-inst">Transfer to:</span>
                         <b id="ui-d17-in" style="color:var(--w); font-size:1.5rem; letter-spacing:2px; display:block; margin-bottom:10px;">00 000 000</b>
-                        <img id="qr-d17" src="https://i.ibb.co/60V0Z7S/icon-512.png" onerror="this.style.display='none'" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
+                        <img id="qr-d17" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzExMSIgc3Ryb2tlPSIjMDBmMGZmIiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNmZmFlMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNIPC90ZXh0Pjwvc3ZnPg==" onerror="this.style.display='none'" style="width:150px; height:150px; border-radius:10px; margin-bottom:15px; display:none; margin-left:auto; margin-right:auto;">
                         <div id="upload-section-wrap" style="text-align:left; border-top:1px dashed #444; padding-top:15px;">
                             <label style="display:block; font-size:0.85rem; color:var(--w); margin-bottom:5px; font-weight:bold;">1. Enter Transaction ID (Optional):</label>
                             <input type="text" id="co-txid" placeholder="e.g. TXN-987654321" style="margin-bottom: 10px;">
@@ -764,7 +712,6 @@
                 
                 <input type="text" id="coN" placeholder="Full Name" class="tr-ph" data-k="fn" required>
                 
-                <!-- Smart Contact Selection -->
                 <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:10px;">
                     <label style="font-size:0.8rem; color:var(--w); font-weight:bold; display:block; margin-bottom:5px;">Contact Method:</label>
                     <select id="co-contact-method" onchange="updateCheckoutContact()" style="background:#000!important; margin-bottom:5px;">
@@ -776,7 +723,6 @@
 
                 <textarea id="coNts" placeholder="Comments" class="tr-ph" data-k="nts" style="height:70px;"></textarea>
                 
-                <!-- PDF Checkbox -->
                 <label style="display:flex; align-items:center; gap:10px; margin-top:15px; font-size:0.85rem; color:#00ff88; cursor:pointer;">
                     <input type="checkbox" id="dl-pdf" checked style="width:auto; margin:0;"> 
                     <span class="tr" data-k="dlpdf">Download PDF Invoice automatically</span>
@@ -801,7 +747,6 @@
         </div>
     </div>
     
-    <!-- 🎯 INSTANT LOAD EMBEDDED POLICY -->
     <div id="pol-mod" class="modal">
         <div class="m-cnt">
             <button onclick="closeModal('pol-mod')" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✖</button>
@@ -876,7 +821,6 @@
             
             <button class="btn" style="background:var(--p);" onclick="addImportToCart()" id="btn-imp-add">ADD TO CYBERHUB CART</button>
             
-            <!-- ADMIN TOGGLE FOR IMPORTER -->
             <div id="admin-import-toggle" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
                 <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="toggleImporterStatus()">🚨 ADMIN: TOGGLE IMPORTER OFFLINE</button>
             </div>
@@ -889,8 +833,7 @@
     
     <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 <span class="tr" data-k="vip">VIP Rewards</span></h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button></div></div>
 
-</div> <!-- END APP FRAME -->
-    <script>
+</div> <script>
 // 🎯 BILINGUAL DICTIONARY (WITH EMBEDDED POLICY)
 const T = {
     en: { 
@@ -964,7 +907,7 @@ function chkUI() {
         if(role === 'Moderator') {
             el('admin-role-title').innerText = "MODERATOR MODE";
             document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'none');
-            switchAdminTab('orders'); // Force default tab
+            switchAdminTab('orders'); 
         } else {
             el('admin-role-title').innerText = "GOD MODE";
             document.querySelectorAll('.admin-only').forEach(e => e.style.display = '');
@@ -1081,6 +1024,27 @@ function initApp() {
     if(!localStorage.getItem('ch_lng')) { let bLang = navigator.language || navigator.userLanguage; if(bLang.toLowerCase().includes('fr')) { lang = 'fr'; localStorage.setItem('ch_lng', 'fr'); appLang(); } }
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
     
+    // 🌌 INITIALIZE PARTICLES BACKGROUND
+    if(window.particlesJS) {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {"value": 60, "density": {"enable": true, "value_area": 800}},
+                "color": {"value": ["#00f0ff", "#ffae00", "#00ff88", "#ff00ff"]},
+                "shape": {"type": "circle"},
+                "opacity": {"value": 0.6, "random": true, "anim": {"enable": true, "speed": 1, "opacity_min": 0.1, "sync": false}},
+                "size": {"value": 3, "random": true},
+                "line_linked": {"enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.3, "width": 1},
+                "move": {"enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false}
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": true, "mode": "push"}, "resize": true },
+                "modes": { "grab": {"distance": 140, "line_linked": {"opacity": 1}}, "push": {"particles_nb": 3} }
+            },
+            "retina_detect": true
+        });
+    }
+
     const urlParams = new URLSearchParams(window.location.search); 
     if (urlParams.has('cart')) { 
         try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} 
@@ -1255,6 +1219,7 @@ function adminFetchLiveEur() { toast("Syncing with Global Market...", "info"); e
 function renderAdminUsers() { let tbody = el('a-t-users'); tbody.innerHTML = ''; let usersObj = mapSheetToObjects(adminDataCache.users); usersObj.forEach(u => { if(!u.Email) return; tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td>${u['Total Spent']||0} DT</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`; }); }
 async function admUserAction(email, action, val="") { if(action === 'topup') val = prompt("Amount to add (DT):", "10"); if(!val) return; toast("Updating...", "info"); let res = await api('admin_update_user', {adminPass: window.CFG.PASS, email, action, val}); if(res && res.s === 'ok') { toast("Updated!", "success"); openAdminDashboard(); } }
 
+// 🎨 TRI-STATE ORDER SORTING LOGIC
 function filterOrders(statusFilter, btn) {
     document.querySelectorAll('.order-filter-btn').forEach(b => b.classList.remove('act'));
     if(btn) btn.classList.add('act');
@@ -1390,8 +1355,8 @@ async function saveProfileSocials() { if(!user) return; let ig = el('prof-ig').v
 function copyRef() { let r = el('p-ref-code'); r.select(); document.execCommand("copy"); toast("Link Copied!", "info"); }
 
 async function redeemGC() {
-    let c = el('prof-gc-inp').value.toUpperCase().trim(); if(!c || !user) return; toast("Verifying Key...", "info"); let res = await api('redeem_gift_card', {code: c, email: user, ip: userIP});
-    if(res && res.s === 'ok') { toast(`Added ${res.val} DT to Wallet!`, "success"); userWallet += res.val; localStorage.setItem('ch_wal', userWallet); chkUI(); el('prof-gc-inp').value = ""; playChime(); }
+    let c = el('prof-gc-inp').value.toUpperCase().trim(); if(!c || !user) return toast("Verifying Key...", "info"); let res = await api('redeem_gift_card', {code: c, email: user, ip: userIP});
+    if(res && res.s === 'ok') { toast(`Added ${res.val} DT to Wallet!`, "success"); userWallet += res.val; localStorage.setItem('ch_wal', userWallet); chkUI(); el('prof-gc-inp').value = ""; }
     else if(res && res.s === 'used') { toast("Code already redeemed.", "error"); } else { toast("Invalid Code", "error"); }
 }
 
@@ -1488,7 +1453,7 @@ function calcImportPrice() { let amt = parseFloat(el('imp-amt').value); if(isNaN
 function validateImportLink() { let link = el('imp-link').value.trim().toLowerCase(); if(!link) return true; let isFrance = link.includes('.fr') || link.includes('/fr') || link.includes('fr.'); if(!isFrance && link.length > 8) { toast("Link must be from the France (FR) region! Ensure the URL contains '.fr'.", "error"); el('imp-link').style.borderColor = "#ff4d4d"; return false; } el('imp-link').style.borderColor = "var(--b)"; return true; }
 function addImportToCart() { if(db.globalOos) return toast("Importer is offline", "error"); if(!validateImportLink()) return; let link = el('imp-link').value.trim(); if(!link) return toast("Please paste the product/cart link.", "error"); if(tempImportFinal <= 0) return toast("Enter a valid amount in Euros.", "error"); let store = el('imp-store').value; let foreignAmt = el('imp-amt').value; let itemName = `🌍 Import: ${store} [${foreignAmt} €] (Link: ${link})`; let itemId = `IMP-${store.toUpperCase()}-${Math.floor(Math.random()*9000+1000)}`; cart.push({ id: itemId, n: itemName, p: parseFloat(tempImportFinal.toFixed(2)), c: parseFloat(tempImportCost.toFixed(2)), finalPrice: parseFloat(tempImportFinal.toFixed(2)), qty: 1 }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); try{if(db.sObj&&db.sObj.s_add){new Audio(db.sObj.s_add).play()}}catch(e){} el('cart-action-mod').style.display='flex'; el('imp-amt').value = ''; el('imp-link').value = ''; calcImportPrice(); closeModal('import-mod'); }
 
-function buyCoffee() { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: 5.00, finalPrice: 5.00, qty: 1, exReq: false }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); try{if(db.sObj&&db.sObj.s_add){new Audio(db.sObj.s_add).play()}}catch(e){} opnCart(); }
+function buyCoffee() { cart.push({ id: "TIP-001", n: "☕ Admin Coffee Tip", p: 5.00, finalPrice: 5.00, qty: 1, exReq: false }); localStorage.setItem('ch_cart', JSON.stringify(cart)); if(el('c-count')) el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); try{if(db.sObj&&db.sObj.s_add){new Audio(db.sObj.s_add).play()}}catch(e){} el('cart-action-mod').style.display='flex'; }
 
 function addC(eO, p, eN, hasEx, exCount, exTxtStr) { 
     let id = decodeURIComponent(eO); let n = decodeURIComponent(eN); 
