@@ -764,6 +764,7 @@
                 
                 <input type="text" id="coN" placeholder="Full Name" class="tr-ph" data-k="fn" required>
                 
+                <!-- Smart Contact Selection -->
                 <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin-bottom:10px;">
                     <label style="font-size:0.8rem; color:var(--w); font-weight:bold; display:block; margin-bottom:5px;">Contact Method:</label>
                     <select id="co-contact-method" onchange="updateCheckoutContact()" style="background:#000!important; margin-bottom:5px;">
@@ -775,6 +776,7 @@
 
                 <textarea id="coNts" placeholder="Comments" class="tr-ph" data-k="nts" style="height:70px;"></textarea>
                 
+                <!-- PDF Checkbox -->
                 <label style="display:flex; align-items:center; gap:10px; margin-top:15px; font-size:0.85rem; color:#00ff88; cursor:pointer;">
                     <input type="checkbox" id="dl-pdf" checked style="width:auto; margin:0;"> 
                     <span class="tr" data-k="dlpdf">Download PDF Invoice automatically</span>
@@ -888,8 +890,7 @@
     <div id="vip-mod" class="modal"><div class="m-cnt" style="text-align:center;"><h3 style="color:var(--w); margin-top:0;">🏆 <span class="tr" data-k="vip">VIP Rewards</span></h3><div class="glass"><b style="color:#fff;">Your Orders:</b> <br><span style="color:var(--p); font-size:2rem; font-weight:900;" id="vip-ord-cnt">0</span><br><br><b style="color:#fff;">Current Discount:</b> <br><span style="color:#00ff88; font-size:2rem; font-weight:900;" id="vip-disc-pct">0%</span></div><button onclick="closeModal('vip-mod')" style="background:none; border:none; color:gray; font-weight:bold; cursor:pointer; width:100%;" class="tr" data-k="cls">Close</button></div></div>
 
 </div> <!-- END APP FRAME -->
-
-<script>
+    <script>
 // 🎯 BILINGUAL DICTIONARY (WITH EMBEDDED POLICY)
 const T = {
     en: { 
@@ -1041,6 +1042,7 @@ async function submitCustomService() {
 async function fetchSafeIP() { try { let r = await fetch('https://api.ipify.org?format=json'); let d = await r.json(); return d.ip; } catch(e) { return "Guest"; } }
 async function customFetch(url, options = {}) { try { let res = await fetch(url, options); let text = await res.text(); return JSON.parse(text); } catch(e) { return null; } }
 async function api(action, payload = {}) { 
+    // Inject mod credentials if applicable
     if(role === 'Moderator' && user) {
         payload.modEmail = user;
         let d = DB.getSheetByName("Users").getDataRange().getValues();
@@ -1253,7 +1255,6 @@ function adminFetchLiveEur() { toast("Syncing with Global Market...", "info"); e
 function renderAdminUsers() { let tbody = el('a-t-users'); tbody.innerHTML = ''; let usersObj = mapSheetToObjects(adminDataCache.users); usersObj.forEach(u => { if(!u.Email) return; tbody.innerHTML += `<tr><td>${u.Email}</td><td>${u.Name}</td><td>${u.Role}</td><td><select onchange="admUserAction('${u.Email}', 'status', this.value)" style="padding:5px; margin:0; background:#000!important;"><option value="${u.Status}" selected hidden>${u.Status}</option><option value="Active">Active</option><option value="Banned">Banned</option><option value="Frozen">Frozen</option></select></td><td>${u['Wallet Balance (DT)']}</td><td>${u['Total Spent']||0} DT</td><td><button class="btn" style="padding:5px; font-size:0.7rem; margin:0;" onclick="admUserAction('${u.Email}', 'topup')">Top-Up</button></td></tr>`; }); }
 async function admUserAction(email, action, val="") { if(action === 'topup') val = prompt("Amount to add (DT):", "10"); if(!val) return; toast("Updating...", "info"); let res = await api('admin_update_user', {adminPass: window.CFG.PASS, email, action, val}); if(res && res.s === 'ok') { toast("Updated!", "success"); openAdminDashboard(); } }
 
-// 🎨 TRI-STATE ORDER SORTING LOGIC
 function filterOrders(statusFilter, btn) {
     document.querySelectorAll('.order-filter-btn').forEach(b => b.classList.remove('act'));
     if(btn) btn.classList.add('act');
@@ -1390,7 +1391,7 @@ function copyRef() { let r = el('p-ref-code'); r.select(); document.execCommand(
 
 async function redeemGC() {
     let c = el('prof-gc-inp').value.toUpperCase().trim(); if(!c || !user) return; toast("Verifying Key...", "info"); let res = await api('redeem_gift_card', {code: c, email: user, ip: userIP});
-    if(res && res.s === 'ok') { toast(`Added ${res.val} DT to Wallet!`, "success"); userWallet += res.val; localStorage.setItem('ch_wal', userWallet); chkUI(); el('prof-gc-inp').value = ""; }
+    if(res && res.s === 'ok') { toast(`Added ${res.val} DT to Wallet!`, "success"); userWallet += res.val; localStorage.setItem('ch_wal', userWallet); chkUI(); el('prof-gc-inp').value = ""; playChime(); }
     else if(res && res.s === 'used') { toast("Code already redeemed.", "error"); } else { toast("Invalid Code", "error"); }
 }
 
