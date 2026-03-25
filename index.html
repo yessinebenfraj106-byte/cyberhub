@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberHub | Premium Digital</title>
     
-    <link rel="icon" type="image/png" id="fav-icon" href="YOUR_GITHUB_RAW_LOGO_LINK.png">
+    <link rel="icon" type="image/png" id="fav-icon" href="YOUR_GITHUB_LOGO_512.png">
     <meta name="theme-color" content="#050b14">
     <link rel="manifest" href="manifest.json">
     
@@ -34,7 +34,7 @@
             document.documentElement.style.setProperty('--c', themes[ct].c); 
         } catch(e) {}
         
-        // 🔔 FIREBASE CONFIGURATION (Paste your free Firebase keys here later)
+        // 🔔 FIREBASE CONFIGURATION
         const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT.firebaseapp.com", projectId: "YOUR_PROJECT", storageBucket: "YOUR_PROJECT.appspot.com", messagingSenderId: "YOUR_SENDER_ID", appId: "YOUR_APP_ID" };
         try { firebase.initializeApp(firebaseConfig); window.messaging = firebase.messaging(); } catch(e) { console.log("Firebase not configured yet."); }
     </script>
@@ -66,7 +66,6 @@
             transition: background 0.4s; 
         }
         
-        /* 📱 SIMULATOR ENVELOPE FIX */
         #app-frame { position: relative; width: 100%; min-height: 100vh; background: transparent; overflow-x: hidden; overflow-y: auto; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; }
         body.modal-open #app-frame { overflow: hidden; }
         
@@ -124,12 +123,10 @@
         
         .fab-cart { position: fixed; bottom: 25px; right: 25px; background: var(--p); color: #000; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px var(--b); cursor: pointer; z-index: 1000; border: none; }
         
-        /* 🚧 MAINTENANCE BANDS UPGRADE */
         .maint-stripes { position: fixed; z-index: 999999; pointer-events: none; background: repeating-linear-gradient(45deg, #ffae00, #ffae00 30px, #111 30px, #111 60px); display: none; height: 60px; opacity: 0.95; box-shadow: 0 5px 15px rgba(0,0,0,0.5); top: 50%; left: 50%; width: 200vw; line-height: 60px; text-align: center; font-size: 2rem; font-weight: 900; color: #000; letter-spacing: 15px; white-space: nowrap; overflow: hidden; text-shadow: 2px 2px 0px #fff; }
         #stripe-1 { transform: translate(-50%, -50%) rotate(45deg); }
         #stripe-2 { transform: translate(-50%, -50%) rotate(-45deg); }
 
-        /* ADMIN CSS */
         #admin-page { z-index: 100000; padding: 0; }
         .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--b); }
         .admin-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--b); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; font-weight: bold; }
@@ -140,7 +137,6 @@
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid var(--b); text-align: left; }
         .admin-table th { background: rgba(0,240,255,0.1); color: var(--p); }
 
-        /* 🎨 TRI-STATE ORDER FILTERING */
         .order-filter-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; }
         .order-filter-btn.act { background: var(--p); color: #000; font-weight: bold; }
 
@@ -158,7 +154,6 @@
         .eye-icon { position: absolute; right: 15px; top: 22px; cursor: pointer; font-size: 1.2rem; z-index: 10; }
         .edit-badge { position: absolute; top: 10px; right: 10px; background: #ff00ff; color: #fff; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; cursor: pointer; z-index: 5;}
         
-        /* 🎮 CYBERPUNK TERMINAL OVERLAY */
         #terminal-ui { display:none; position:absolute; inset:0; background:rgba(0,0,0,0.95); z-index:200000; flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; font-family:monospace; color:#00ff88; text-shadow:0 0 10px #00ff88; font-size:1.2rem; }
         .term-line { margin: 5px 0; opacity: 0; animation: typeLine 0.5s forwards; }
         @keyframes typeLine { to { opacity: 1; } }
@@ -166,12 +161,10 @@
         .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .badge { background: #ff4d4d; color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; vertical-align: middle; margin-left: 5px; }
         
-        /* 📸 ImgBB Drag and Drop styling */
         .imgbb-dropzone { border: 2px dashed var(--p); padding: 15px; text-align: center; border-radius: 10px; background: rgba(0,240,255,0.05); cursor: pointer; transition: 0.3s; margin-top: 8px; }
         .imgbb-dropzone.dragover { background: rgba(0,240,255,0.2); transform: scale(1.02); }
         .imgbb-dropzone p { margin: 0; font-size: 0.8rem; color: var(--p); font-weight: bold; }
         
-        /* 🛒 Cart Action Modal */
         #cart-action-mod { display:none; position:absolute; inset:0; background:rgba(0,0,0,0.8); z-index:150000; justify-content:center; align-items:flex-end; padding-bottom:50px; }
         .ca-box { background:var(--bg); border:1px solid var(--p); padding:20px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 10px 40px var(--b); animation: slideUp 0.3s forwards; }
         @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -188,7 +181,7 @@
     <div id="terminal-ui"><div id="term-text"></div></div>
     
     <div id="coming-soon-ui" style="display:none; position:absolute; inset:0; background:#050b14; z-index:9999999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
-        <img src="YOUR_GITHUB_RAW_LOGO_LINK.png" style="width:120px; border-radius:50%; margin-bottom:20px; box-shadow: 0 0 30px var(--p);">
+        <img src="YOUR_GITHUB_LOGO_512.png" style="width:120px; border-radius:50%; margin-bottom:20px; box-shadow: 0 0 30px var(--p);">
         <h1 style="color:var(--p); letter-spacing:4px; margin:0; font-weight:900;">COMING SOON</h1>
         <p style="color:gray; font-size:1.1rem; margin-top:10px;" class="tr" data-k="csDesc">We are preparing something amazing.</p>
         <div id="cs-timer" style="font-family:monospace; font-size:3rem; font-weight:900; color:#ffae00; margin:20px 0; text-shadow:0 0 15px rgba(255,174,0,0.5);">00:00:00:00</div>
@@ -209,7 +202,7 @@
     </div>
     <div id="android-pwa-prompt" style="display:none; position:absolute; bottom:0; left:0; width:100%; background:#fff; color:#000; padding:15px; border-radius:15px 15px 0 0; justify-content:space-between; align-items:center; box-shadow:0 -10px 30px rgba(0,0,0,0.5); z-index:9999; box-sizing: border-box;">
         <div style="display:flex; align-items:center; gap:10px;">
-            <img src="YOUR_GITHUB_RAW_LOGO_LINK.png" style="width:40px; height:40px; border-radius:10px;">
+            <img src="YOUR_GITHUB_LOGO_512.png" style="width:40px; height:40px; border-radius:10px;">
             <div style="text-align:left; line-height:1.2;"><b>CyberHub</b><br><span style="font-size:0.75rem; color:gray;">Add to Home screen</span></div>
         </div>
         <button class="btn" style="width:auto; margin:0; padding:8px 15px; background:#00ff88; color:#000;">Install</button>
@@ -228,7 +221,7 @@
     <div id="sidebar">
         <button onclick="toggleSidebar()" style="background:none; border:none; color:#fff; font-size:2rem; position:absolute; top:15px; right:15px; cursor:pointer;">✖</button>
         <div style="text-align:center; margin-top:20px; margin-bottom:30px;">
-            <img src="YOUR_GITHUB_RAW_LOGO_LINK.png" id="sidebar-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover; background:#111;">
+            <img src="YOUR_GITHUB_LOGO_512.png" id="sidebar-avatar" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--p); object-fit: cover; background:#111;">
         </div>
         
         <div class="m-item" onclick="openProf(); toggleSidebar();">👤 <span class="tr" data-k="acc">Account</span></div>
@@ -274,7 +267,7 @@
         </div>
         
         <div style="text-align:center; margin-bottom:20px;">
-            <img id="main-logo" src="YOUR_GITHUB_RAW_LOGO_LINK.png" class="logo" onclick="navTo('cats'); handleAdminClick();">
+            <img id="main-logo" src="YOUR_GITHUB_LOGO_512.png" class="logo" onclick="navTo('cats'); handleAdminClick();">
             <h2 id="ui-store-name" style="color:var(--p); letter-spacing:3px; margin-top:15px; font-weight:800;">STORE</h2>
         </div>
 
@@ -566,12 +559,6 @@
             <button onclick="closeModal('admin-auth-modal')" style="background:none; border:none; color:gray; margin-top:15px; font-weight:bold; cursor:pointer; display:block; width:100%;">Cancel</button>
         </div>
     </div>
-    
-</div> ```
-
-***
-
-**Reply exactly with "Next" to receive Block 3 (The JavaScript Engine) so nothing truncates!**
     <script>
 // 🎯 BILINGUAL DICTIONARY (CLEANED: No secret codes exposed to users!)
 const T = {
@@ -763,6 +750,14 @@ function initApp() {
     if(!localStorage.getItem('ch_lng')) { let bLang = navigator.language || navigator.userLanguage; if(bLang.toLowerCase().includes('fr')) { lang = 'fr'; localStorage.setItem('ch_lng', 'fr'); appLang(); } }
     if(!localStorage.getItem('ch_visited')) { setTimeout(() => { openModal('pol-mod'); localStorage.setItem('ch_visited', '1'); }, 1000); }
     
+    // 🌌 PARTICLES BACKGROUND INIT
+    if(window.particlesJS) {
+        particlesJS("particles-js", {
+            "particles": { "number": {"value": 60, "density": {"enable": true, "value_area": 800}}, "color": {"value": ["#00f0ff", "#ffae00", "#00ff88", "#ff00ff"]}, "shape": {"type": "circle"}, "opacity": {"value": 0.6, "random": true, "anim": {"enable": true, "speed": 1, "opacity_min": 0.1, "sync": false}}, "size": {"value": 3, "random": true}, "line_linked": {"enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.3, "width": 1}, "move": {"enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false} },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": true, "mode": "push"}, "resize": true }, "modes": { "grab": {"distance": 140, "line_linked": {"opacity": 1}}, "push": {"particles_nb": 3} } }, "retina_detect": true
+        });
+    }
+
     const urlParams = new URLSearchParams(window.location.search); 
     if (urlParams.has('cart')) { 
         try { cart = JSON.parse(atob(decodeURIComponent(urlParams.get('cart')))); el('c-count').innerText = cart.reduce((s,i)=>s+(i.qty||1),0); setTimeout(() => openModal('cart-mod'), 1000); } catch(e) {} 
