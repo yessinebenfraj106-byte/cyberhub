@@ -1044,6 +1044,18 @@ document.addEventListener("visibilitychange", () => {
 const el = id => document.getElementById(id); 
 const sEnc = s => encodeURIComponent(s).replace(/'/g,"%27");
 
+function safeHexToRgba(hex, alpha) {
+    if (!hex) return `rgba(0, 240, 255, ${alpha})`; // Fallback to primary CyberBlue
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join(''); // Handle shorthand hex like #fff
+    }
+    let r = parseInt(hex.substring(0, 2), 16) || 0;
+    let g = parseInt(hex.substring(2, 4), 16) || 0;
+    let b = parseInt(hex.substring(4, 6), 16) || 0;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 // ============================================================================
 // 2. CORE UTILITIES & GLOBAL LOADER
 // ============================================================================
@@ -4295,5 +4307,3 @@ document.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>
 </html>
-
-    
